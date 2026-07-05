@@ -1,0 +1,92 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- Pacchetti Scientifici e Formattazione ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{booktabs, graphicx}
+\usepackage[expansion=false]{microtype}
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}
+
+% --- Codifica e Font ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{mathptmx}
+
+% --- Gestione Margini e Layout ---
+\usepackage[includeheadfoot]{geometry}
+\geometry{
+    a4paper,
+    top=3cm,
+    bottom=3cm,
+    left=3.5cm,
+    right=3.5cm,
+}
+
+% --- Gestione Interlinea e Figure ---
+\usepackage{setspace}
+\setstretch{1.3}
+\usepackage[figuresright]{rotating}
+\usepackage[pdftex, hidelinks]{hyperref}
+
+
+\usepackage{subfiles}
+
+% Document metadata
+\title{Riassunto dei capitoli proposti della tesi di laurea.}
+\author{Mattia Cavina}
+\date{05 luglio 2026}
+
+\begin{document}
+\maketitle
+\newpage
+
+% --- Table of Contents ---
+\tableofcontents
+
+% --- Abstract---
+\begin{abstract}
+    la tesi verte sulla progettazione di un nuovo CPQ (Configure, Price, Quote)
+    per l'azienda \textit{Cepi S.p.A.}, con l'obiettivo di sostituire il vecchio programma
+    sviluppato in Microsoft Access.
+\end{abstract}
+
+% --- Situazione As-Is ---
+\section{Situazione As-Is}
+\subsection{Situazione Infrastrutturale Aziendale}
+\subsection{Attuali software utilizzati}
+\subsection{Organizzazione Aziendale e Flussi di lavoro}
+
+% --- Interviste per la raccolta requisiti ---
+\section{Raccolta dei requisiti}
+\subsection{Scelta dei candidati}
+\subsection{Modalità di svolgimento raccolta informazioni}
+\section{Riassunto punti emersi per reparto}
+
+% --- Analisi dei requisiti emersi dalle interviste ---
+\section{Analisi dei requisiti}
+\subsection{Requisiti funzionali}
+\subsection{Requisiti non funzionali}
+
+\subsection{Requisiti futuri shuld-have}
+
+\section{Scelte infrastrutturali}
+\subsection{Scelta dei deployment}
+\subsection{Diagramma dei Deployment}
+\subsection{Scelta dei Componenti}
+\subsubsection{Diagramma dei Componenti}
+
+% --- Progettazione del database ---
+\section{Progettazione del database}
+\subsection{Creazione di un primo modello concettuale}
+\subsubsection{Esportazione Vecchio Db}
+\subsubsection{Creazione regole di denominazione}
+
+\subsection{Ristrutturazione database}
+\subsubsection{Eliminazione ridondanze e normalizzazione}
+\subsubsection{Creazione tabelle di lookup}
+\subsubsection{Aggiunta tabelle non presenti}
+\subsubsection{Creazione tabelle di Back Up}
+
+\subsection{Schema logico}
+\end{document}
