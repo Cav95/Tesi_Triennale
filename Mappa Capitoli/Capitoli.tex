@@ -3,15 +3,18 @@
 % --- Pacchetti Scientifici e Formattazione ---
 \usepackage{amsmath, amssymb, amsfonts, amsthm}
 \usepackage{booktabs, graphicx}
-\usepackage[expansion=false]{microtype}
-\usepackage[document]{ragged2e}
+\usepackage{microtype}
+\usepackage{ragged2e}
 \usepackage{xcolor}
 
 % --- Codifica e Font ---
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[italian]{babel}
-\usepackage{mathptmx}
+\usepackage{newtxtext, newtxmath}
+
+% Gestione degli spazi non interrompibili invisibili (U+00A0)
+\DeclareUnicodeCharacter{00A0}{ }
 
 % --- Gestione Margini e Layout ---
 \usepackage[includeheadfoot]{geometry}
@@ -27,29 +30,30 @@
 \usepackage{setspace}
 \setstretch{1.3}
 \usepackage[figuresright]{rotating}
-\usepackage[pdftex, hidelinks]{hyperref}
-
+\usepackage[hidelinks]{hyperref}
 
 \usepackage{subfiles}
 
 % Document metadata
-\title{Riassunto dei capitoli proposti della tesi di laurea.}
+\title{\textbf{Riassunto dei capitoli proposti della tesi di laurea}}
 \author{Mattia Cavina}
 \date{05 luglio 2026}
 
 \begin{document}
+
 \maketitle
+
+% --- Abstract ---
+\begin{abstract}
+\noindent La tesi verte sulla progettazione di un nuovo CPQ (\textit{Configure, Price, Quote}) per l'azienda \textit{Cepi S.p.A.}, con l'obiettivo di sostituire il vecchio programma sviluppato in Microsoft Access.
+\end{abstract}
+
 \newpage
 
 % --- Table of Contents ---
 \tableofcontents
 
-% --- Abstract---
-\begin{abstract}
-    la tesi verte sulla progettazione di un nuovo CPQ (Configure, Price, Quote)
-    per l'azienda \textit{Cepi S.p.A.}, con l'obiettivo di sostituire il vecchio programma
-    sviluppato in Microsoft Access.
-\end{abstract}
+\newpage
 
 % --- Situazione As-Is ---
 \section{Situazione As-Is}
@@ -61,35 +65,40 @@
 \section{Raccolta dei requisiti}
 \subsection{Scelta dei candidati}
 \subsection{Modalità di svolgimento raccolta informazioni}
-\section{Riassunto punti emersi per reparto}
+\subsection{Riassunto punti emersi per reparto}
 
 % --- Analisi dei requisiti emersi dalle interviste ---
 \section{Analisi dei requisiti}
 \subsection{Requisiti funzionali}
 \subsection{Requisiti non funzionali}
+\subsection{Requisiti futuri should-have}
 
-\subsection{Requisiti futuri shuld-have}
-
-\section{Scelte infrastrutturali}
-\subsection{Indicazioni sulle scelte che seguiranno}
-\subsection{Scelta dei deployment}
+\newpage
+\section{Progettazione dell'architettura}
+\subsection{Preambolo sulle scelte architetturali}
+\subsection{Deployment}
 \subsubsection{Diagramma dei Deployment}
-\subsection{Scelta dei Componenti}
+\subsection{Componenti}
 \subsubsection{Diagramma dei Componenti}
 \subsection{Flussi di lavoro}
 \subsubsection{Diagrammi di sequenza}
 
+\newpage
 
-\section{Scelta degli Obiettivi di Progetto}
+\section{Scelte progettuali}
 \subsection{Scelta modello di sviluppo}
 \subsection{Suddivisione e contenuto dei rilasci}
 \subsection{Timeline di progetto e successivi focus group}
+\subsection{Scelta Framework ORM}
+\subsection{Scelta Framework grafico} % MAUI .NET
+\subsection{Scelta del pattern di progettazione} % MVVM
 
+\newpage
 % --- Progettazione del database ---
 \section{Progettazione del database}
 \subsection{Esportazione Vecchio Db}
 \subsection{Creazione regole di denominazione}
-\subsection{Utilizzo di SSIS per la migrazione dei dati}
+\subsection{Utilizzo di SSIS nel processo di migrazione}
 
 \subsection{Ristrutturazione database}
 \subsubsection{Eliminazione ridondanze e normalizzazione}
@@ -97,36 +106,41 @@
 \subsubsection{Aggiunta tabelle non presenti}
 \subsubsection{Creazione tabelle di Back Up}
 \subsubsection{Scelta di strutture Avanzate come Triggers e Stored Procedure}
+
 \subsection{Schema logico finale}
 \subsection{Popolamento database}
 \subsection{Dati fissi}
 \subsection{Dati fissi da vagliare}
 \subsection{Dati provenienti da altri DB}
 \subsubsection{Scelta dei dati}
-\subsubsection{Query di aggiornamento}
-\subsubsection{Scelta della scadenza di sincronizzazione}
+\subsubsection{Query di sincronizzazione e tempistiche di aggiornamento}
 
-\section{Model dell'applicativo}
-\subsection{Scelta del Framework}
+\newpage
+\section{Model}
 \subsection{Mapping delle classi}
-\subsection{Scelta utilizzo Repository}
-\subsubsection{Interfacce}
-\subsubsection{Creazione delle Classi di Test}
-\subsubsection{Implementazione Repository}
-\subsection{Scelta livello di incapsulamento}
-\subsection{Classi ed Interfacce esposte}
+\subsection{Struttura del package}
+\subsubsection{Classi di Test}
+\subsubsection{Repository}
+\subsubsection{Classi ed Interfacce esposte}
 
+\newpage
 \section{View}
-\subsection{Scelta Framework grafico}%MAUI .NET
-\subsection{Scelta del pattern di progettazione}%MVVM
 \subsection{Utilizzo di Figma per disegno interfacce}
 \subsection{Creazione delle Factory per le View}
 \subsection{Scelta delle classi di viewmodel}
 
-\section{Modulo collegamento view e model}
+\newpage
+\section{Modulo collegamento viewModel e model}
 \subsection{Utilizzo della Dependency Injection}
 \subsubsection{Utilizzo di multi Threading per la gestione dei dati}
 \subsection{Scelta gestione transazione e dei commit}
 \subsection{Utilizzo della Cache in memoria per la gestione di dati fissi}
+
+\newpage
+\section{Modulo configurazione prodotto}
+\subsection{Scopo del modulo}
+\subsection{Focus group individuazione metodologia}
+\subsection{Studio sulla guida alla configurazione}
+\subsection{Query utilizzate per la ricerca}
 
 \end{document}
