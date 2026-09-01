@@ -1,0 +1,50 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+% --- Codifica e Font ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+
+% Scelta del font (Times)
+\usepackage{mathptmx} 
+
+% --- Gestione Margini e Layout (Standard 65-70 caratteri) ---
+\usepackage[includeheadfoot]{geometry}
+\geometry{
+    a4paper,
+    top=3cm,
+    bottom=3cm,
+    left=3.5cm,   % Margine più ampio per la rilegatura
+    right=3.5cm,  % Regolando questi margini si ottengono ~65-70 caratteri
+}
+
+% --- Gestione Righe (32-35 righe per pagina) ---
+\usepackage{setspace}
+\setstretch{1.3} % Interlinea personalizzata per circa 33-34 righe
+
+% --- Gestione Figure e Tavole ---
+\usepackage{graphicx}
+\usepackage[figuresright]{rotating} % Per tavole in A3 o orizzontali
+
+% --- PDF e Hyperlinks ---
+\usepackage[pdftex, hidelinks]{hyperref}
+
+% Document metadata
+\title{Risultato delle interviste}
+\author{Mattia Cavina}
+\date{03 febbraio 2026}
+
+\begin{document}
+Il presente progetto di tesi riguarda la progettazione e implementazione di un nuovo configuratore commerciale per l'azienda Cepi~\cite{Cepi}. 
+Attualmente l'azienda utilizza un programma sviluppato internamente basato su Access, il quale presenta significative limitazioni tecniche e funzionali dopo circa 30 anni di utilizzo. 
+L'analisi si concentra sulla valutazione del sistema attuale, sulla raccolta sistematica dei requisiti attraverso interviste con gli utenti, e sulla progettazione di un nuovo database relazionale.
+Il progetto è stato realizzato in collaborazione con il project manager esterno Claudio Rossi, che ha coordinato l'avanzamento dei lavori e ha contribuito all'implementazione della soluzione.
+\end{document}
