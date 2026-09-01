@@ -1,0 +1,412 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- Pacchetti Scientifici e Formattazione ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{booktabs, graphicx}
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}
+
+% --- Codifica e Font ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{mathptmx}
+
+% --- Gestione Margini e Layout ---
+\usepackage[includeheadfoot]{geometry}
+\geometry{
+    a4paper,
+    top=3cm,
+    bottom=3cm,
+    left=3.5cm,
+    right=3.5cm,
+}
+
+% --- Gestione Interlinea e Figure ---
+\usepackage{setspace}
+\setstretch{1.3}
+\usepackage[figuresright]{rotating}
+\usepackage[pdftex, hidelinks]{hyperref}
+
+% Document metadata
+\title{Analisi dei requisiti}
+\author{Mattia Cavina}
+\date{03 febbraio 2026}
+
+\begin{document}
+
+Le interviste condotte hanno evidenziato una serie di requisiti fondamentali per la progettazione del software.
+Tali requisiti sono stati raccolti, organizzati e categorizzati per facilitare la loro comprensione e implementazione.
+
+\subsection{Tipologie di utenti}
+
+Il software deve essere progettato per gestire diverse tipologie di utenti con esigenze e permessi differenti.
+
+\subsubsection{Amministratore}
+
+L'utente amministratore dispone di tutti i permessi e può eseguire tutte le operazioni all'interno del software:
+\begin{itemize}
+      \item Modifica delle tabelle del database
+      \item Gestione utenti e loro permessi
+      \item Accesso a tutte le funzionalità del software
+      \item Aggiunta e manutenzione delle strutture di macrocodici e prodotti
+      \item Aggiunta e manutenzione dei componenti
+\end{itemize}
+
+\subsubsection{Commerciale}
+
+L'utente commerciale è specializzato nella vendita e si articola in tre categorie:
+
+\begin{itemize}
+      \item \textbf{Commerciale nuovi impianti e ampliamenti:} Responsabile della vendita di macchine senza entrare nei dettagli dei singoli componenti.
+      \item \textbf{Commerciale ricambi:} Responsabile della vendita di ricambi per impianti esistenti. Dispone di una vista più dettagliata dei ricambi e delle macchine.
+      \item \textbf{Agenti e rivenditori:} Hanno accesso limitato alle funzionalità, potendo solo creare offerte e ordini, visualizzare i contratti associati e aggiungere nuovi clienti.
+\end{itemize}
+
+Le funzioni principali per i commerciali includono:
+\begin{itemize}
+      \item Creazione di offerte commerciali per nuovi impianti, ampliamenti e ricambi
+      \item Conversione di offerte in ordini dopo l'accettazione del cliente
+      \item Gestione e modifica dei contratti esistenti
+      \item Accesso a listini prezzi aggiornati e gestione di sconti personalizzati
+      \item Stampa documentale per ufficio tecnico e amministrazione
+      \item Aggiunta di clienti e gestione anagrafe
+      \item Calcolo della potenza e dei consumi di aria compressa in base ai componenti selezionati
+\end{itemize}
+
+\subsubsection{Amministrazione}
+
+L'amministrazione utilizza il software principalmente per:
+\begin{itemize}
+      \item Visualizzazione degli ordini e dati di fatturazione
+      \item Generazione di report di vendita e analisi delle performance commerciali
+      \item Gestione delle anagrafiche clienti e delle condizioni di pagamento
+      \item Esportazione degli ordini al sistema ERP per la fatturazione
+\end{itemize}
+
+\subsubsection{Ufficio project management ed engineering}
+
+L'ufficio project management utilizza il software per:
+\begin{itemize}
+      \item Visualizzazione degli ordini e dei relativi dati e note
+      \item Creazione di contratti tecnici associati a quelli commerciali
+      \item Visualizzazione delle modifiche contrattuali e delle revisioni
+      \item Gestione delle variazioni tecniche e costificazione separata
+\end{itemize}
+
+\subsubsection{Logistica}
+
+La logistica utilizza il software per:
+\begin{itemize}
+      \item Visualizzazione degli ordini e dati di spedizione
+      \item Gestione dello stato di avanzamento delle spedizioni
+      \item Modifica dei dati di spedizione in caso di necessità (Incoterms)
+\end{itemize}
+
+\subsubsection{Visualizzatore}
+
+È previsto un profilo con permessi di sola lettura per visualizzare contratti e dati associati senza possibilità di modifica.
+
+\subsection{Gestione dei contratti}
+
+\subsubsection{Creazione dell'offerta}
+
+\begin{itemize}
+      \item \textbf{Guida strutturata:} Guidare l'utente nella creazione dell'offerta per prevenire errori e omissioni attraverso:
+
+            \begin{itemize}
+                  \item \textbf{Codici univoci:} I codici dei prodotti devono essere univoci tra i diversi software aziendali (Configuratore, Ad-Hoc, Fusion) per evitare errori. Ciò è particolarmente importante per la ricambistica, dove gli utenti utilizzano Ad-Hoc e Fusion per la ricerca dei ricambi e potrebbero copiare i codici. Questo facilita anche la creazione delle offerte con un listino sempre aggiornato.
+
+                  \item \textbf{Gestione delle caratteristiche tecniche:} Implementare un sistema di gestione delle caratteristiche tecniche dei prodotti per facilitare la selezione dei componenti in base alle esigenze del cliente (es. tensione, portata, potenza).
+
+                  \item \textbf{Macrogruppi:} Creazione di macrogruppi di prodotti in base alle macchine (es. Linea pneumatica, Globo, Silsystem). I macrogruppi servono per:
+                        \begin{itemize}
+                              \item Guidare l'utente nella scelta dei componenti principali e degli accessori
+                              \item Applicare regole di compatibilità tra i componenti
+                              \item Facilitare la creazione di offerte standardizzate
+                              \item Abilitare la visualizzazione dei ricambi più comuni per quel macchinario tramite flag dedicati
+                        \end{itemize}
+
+                  \item \textbf{Gestione dei capitoli:} Mantenere la suddivisione in capitoli per organizzare l'offerta, con la possibilità di personalizzarli in base al tipo di impianto o cliente. Gestire i capitoli come sottodistinte per una maggiore flessibilità organizzativa.
+
+                  \item \textbf{Tag e filtri:} Implementare un sistema di tag e filtri per facilitare la ricerca dei prodotti per tipologia di componente.
+
+                  \item \textbf{Doppio percorso operativo:} Creare due modalità distinte per chi gestisce nuove commesse/ampliamenti e chi gestisce solo ricambi, semplificando l'interfaccia per ciascun profilo. Nella ricerca per macchinario è possibile inserire una spunta per ricambi mostrando anche le parti di ricambio per il medesimo macchinario.
+
+                  \item \textbf{Calcoli di montaggio:} Implementare un sistema di calcolo automatico dei costi relativi al montaggio e trasporto in base alle variabili del progetto (peso, volume, destinazione, Incoterms). Questa funzionalità si appoggia sulla gestione delle caratteristiche tecniche dei prodotti ed utilizza dati storici dei montaggi precedenti come base per le stime.
+
+                  \item \textbf{Incoterms:} Data la complessità del sistema degli Incoterms, implementare una selezione guidata per prevenire errori. Sono presenti anche vincoli speciali per clienti UE che vendono fuori dell'Unione.
+
+                  \item \textbf{Gestione della contrattazione:} I commerciali devono poter gestire rincari e sconti in modo flessibile, applicabili su più livelli:
+                        \begin{itemize}
+                              \item Sconto per singolo prodotto
+                              \item Sconto per capitolo
+                              \item Sconto globale sul totale senza manodopera
+                              \item Sconto globale sul totale con manodopera
+                        \end{itemize}
+
+                  \item \textbf{Condizioni di pagamento:} Le condizioni di pagamento possono essere suggerite in base al cliente, mantenendo la possibilità di personalizzarle per offerte specifiche.
+
+                  \item \textbf{Avvisi automatici:} Implementare avvisi automatici per scelte non conformi alle caratteristiche tipiche degli impianti. Tali avvisi devono essere informativi, non bloccanti.
+            \end{itemize}
+
+      \item \textbf{Condizioni standard:} Implementare un sistema di gestione delle condizioni standard per facilitare l'inserimento delle clausole contrattuali più comuni in base al cliente, verificando quanto già presente.
+
+      \item \textbf{Adattamento geografico:} Il software deve adattare automaticamente le condizioni contrattuali in base al paese di destinazione per rispettare le normative locali (es. UL-CSA, condizioni di trasporto specifiche).
+
+      \item \textbf{Stampe personalizzate:} Consentire la personalizzazione delle stampe contrattuali per i vari reparti (Ufficio Tecnico, Amministrazione).
+
+      \item \textbf{Versionamento offerte:} Gestire le revisioni delle offerte (es. Rev. 01, Rev. 02) mantenendo uno storico accessibile per tracciare le modifiche nel tempo.
+\end{itemize}
+
+\subsubsection{Conversione in ordini}
+
+Nel processo di conversione da offerta a ordine, il flusso deve rimanere sostanzialmente invariato, con i seguenti accorgimenti:
+
+\begin{itemize}
+      \item \textbf{Codificazione dell'ordine:} Valutare un'assegnazione di codifica più esaustiva agli ordini in base alla loro natura (es. Nuovo impianto, Ampliamento, Ricambio, Ritiro) per facilitare la gestione organizzativa presso i reparti tecnici.
+
+      \item \textbf{Notifiche automatiche:} Implementare un sistema di notifiche automatiche che avvisi l'amministrazione e il project management della creazione di nuovi ordini fornendo tutte le informazioni necessarie.
+
+      \item \textbf{Integrazione ERP:} Creare un sistema di esportazione verso l'ERP per la fatturazione, con attenzione particolare ai dati esportati per ridurre gli interventi manuali attualmente necessari.
+
+      \item \textbf{Gestione della valuta:} Consentire la scelta della valuta in base alla richiesta del cliente.
+\end{itemize}
+
+\subsubsection{Revisione tecnica}
+
+Un sistema attualmente assente ma fondamentale per la gestione dei contratti è la gestione delle revisioni tecniche.
+Questa revisione crea un contratto parallelo senza obblighi legali che consente di:
+
+\begin{itemize}
+      \item All'ufficio project manager di apportare modifiche tecniche al contratto senza coinvolgere l'ufficio commerciale
+      \item Gestire le variazioni tecniche e costificarle separatamente dal contratto commerciale per valutare il margine di manovra
+      \item Tenere traccia delle modifiche tecniche e delle revisioni effettuate per garantire trasparenza e rintracciabilità
+      \item Assegnare i riferimenti commerciali alle voci contrattuali di riferimento per i controlli doganali
+\end{itemize}
+
+Questa fase è fondamentale per gestire e quantificare le modifiche tecniche che attualmente vengono valutate a consuntivo.
+Una volta apportate le modifiche tecniche si aprono due scenari:
+
+\begin{itemize}
+      \item \textbf{Correzione della vendita:} Il commerciale valuta che le modifiche tecniche hanno un peso economico significativo e può:
+            \begin{itemize}
+                  \item Sottoporre il nuovo contratto al cliente, rendendo il contratto tecnico quello ufficiale
+                  \item Creare una richiesta di assistenza con solo le parti aggiunte al contratto principale per approvazione del cliente
+            \end{itemize}
+
+      \item \textbf{Modifiche non rilevanti:} Se il commerciale valuta che le modifiche tecniche non hanno peso economico significativo, può decidere di non coinvolgere il cliente, mantenendo i due contratti distinti.
+\end{itemize}
+
+\subsection{Gestione dei prodotti}
+
+I prodotti rappresentano uno dei pilastri fondamentali del software in quanto da essi dipendono la creazione dell'offerta e la sua costificazione.
+Per questo motivo devono essere gestiti con accuratezza e precisione.
+
+\subsubsection{Codici prodotto}
+
+I codici dei prodotti devono esistere simultaneamente in tutti e tre i sistemi aziendali (Configuratore, Ad-Hoc, Fusion) per consentire:
+
+\begin{itemize}
+      \item Recupero dei listini da Ad-Hoc dove sono regolarmente mantenuti
+      \item Aggiornamento di disegni e distinte tramite Fusion, propagando gli aggiornamenti ai costi
+      \item Permettere al commerciale di ricercare disegni e caratteristiche tecniche in fase di vendita
+      \item Gestione degli articoli obsoleti tramite Fusion, prevenendo proposte di prodotti discontinuati
+      \item Gestione più accurata della ricambistica mediante codifiche univoche tra i sistemi
+      \item Gestione coerente dei materiali elettrici e pneumatici consigliati in base ai componenti in distinta
+\end{itemize}
+
+Per ottenere questo risultato possono essere adottate le seguenti strategie:
+
+\begin{itemize}
+      \item \textbf{Integrazione del database:} Importare i codici prodotto dal sistema ERP (Ad-Hoc) tramite interrogazione del database SQL Server.
+      \item \textbf{Campi attributo:} Identificare i campi importabili da Ad-Hoc e Fusion per mantenere dati aggiornati (prezzo, giacenza).
+      \item \textbf{Aggiornamento automatico:} Implementare un sistema di aggiornamento automatico dei codici per mantenere listini e caratteristiche sempre attuali.
+\end{itemize}
+
+\subsubsection{Creazione dei codici}
+
+In fase iniziale, è possibile importare tutti i codici esistenti in Ad-Hoc e renderli nascosti tramite flag.
+Quando necessario utilizzarli, completandone i dati anagrafici, si rendono visibili.
+In questo modo, si dispone di un database di codici preesistente da cui partire.
+
+\subsubsection{Selezione dei prodotti}
+
+Per un sistema efficiente, guidare il commerciale nella selezione dei prodotti.
+La selezione potrà avvnire tre modalità, oltre che la ricerca manuale per codice o descrizione:
+\begin{itemize}
+      \item \textbf{Inserimento per codice:} Se il codice è noto, è possibile inserirlo direttamente per recuperare tutte le informazioni associate.
+      \item \textbf{Se il componente è parte di una macchina:} Scegliendo la tipologia di macchina, il sistema propone i componenti principali e gli accessori compatibili, facilitando la
+      scelta anche per chi non conosce i codici specifici. Questa modalità può avvalersi anche di impostazioni pre impostate a monte come 
+      le normative locali.
+      \item \textbf{Ricambi tipici macchina:} Selezionando un macchinario ed un flag dedicato per i ricambi, il sistema propone i ricambi più comuni per quel macchinario,
+      facilitando la ricerca dei ricambi senza dover conoscere i codici specifici.
+\end{itemize}
+Questa ultima modalità sarà attuabile solo importando codici e distinte dell'Erp per ogni componente, in modo da poterli associare ai macchinari e ai ricambi.
+\paragraph{Nota futura:}
+Nelle prime versione i "Macchinari" saranno gestiti come semplici raccolte di componenti , senza che essi vengano direttamente inseriti in offerta.
+In ottica futura, si valuterà la possibilità di inserire i macchinari come voci contrattuali a sé stanti, con un codice dedicato,
+in modo da poterli gestire nel ciclo aziendale in modo più strutturato, con distinte e codifiche dedicate, facilitando anche la gestione dei ricambi e delle parti di consumo.
+\subsubsection{Costificazione}
+
+I prezzi devono essere prelevati da Ad-Hoc per mantenere un listino sempre aggiornato e centralizzato.
+Per prodotti speciali o su misura è necessario prevedere la possibilità di inserire un prezzo manuale.
+
+\subsubsection{Caratteristiche tecniche}
+
+Per acquisire vantaggi nella progettazione tecnica e benefici immediati nei calcoli di potenza e consumi di aria compressa, è fondamentale gestire le caratteristiche tecniche dei prodotti:
+
+\begin{itemize}
+      \item \textit{Meccaniche:} Dimensioni, peso, materiale, colore
+      \item \textit{Elettriche:} Tensione, potenza, frequenza
+      \item \textit{Pneumatiche:} Portata, pressione
+      \item \textit{Volumi:} Volume imballaggio per calcolo trasporto
+      \item \textit{Costi di trasporto e montaggio:} Calcolabili in base alle caratteristiche tecniche
+      \item \textit{Accessori:} Gestione degli accessori consigliati in base alle caratteristiche del prodotto
+\end{itemize}
+
+\subsubsection{Descrizioni prodotto}
+
+Le descrizioni rappresentano uno degli aspetti più critici emersi dalle interviste.
+Attualmente sono redatte per facilitare la ricerca per argomento anteponendo la macromacchina (es. Vibrovaglio - rete in acciaio), ma questo ne compromette la leggibilità nei contratti.
+Si propone un sistema di creazione delle descrizioni simile a quello adottato in Fusion, con una parte standardizzata scelta da un elenco e una parte libera per integrazioni.
+Si valuterà anche di importarle da Fusion in una fase iniziale, poiché generalmente più precise.
+
+\subsubsection{Nazioni e lingue}
+
+Il software deve gestire diverse caratteristiche in base alla nazione di destinazione:
+
+\begin{itemize}
+      \item \textbf{Lingua:} Supporto multilingue per interfaccia utente e documenti generati (Italiano, Inglese, Spagnolo, Tedesco)
+      \item \textbf{Trasporto:} Impostazione standard dei costi per tipo di trasporto in base alla nazione (Nave, Aereo, Terra)
+      \item \textbf{Regolamentazioni:} Suggerimenti o vincoli in base alle normative locali (es. UL-CSA)
+      \item \textbf{Valuta:} Gestione della valuta con aggiornamento automatico tramite API esterna una volta al giorno
+      \item \textbf{Clausole legali:} Adattamento delle note contrattuali in base alle normative locali
+\end{itemize}
+
+\paragraph{Multilingua}
+La gestione delle lingue è un aspetto critico per un software utilizzato in contesti internazionali.
+Il multilingua deve coprire sia l'interfaccia utente che i documenti generati.
+Attualmente le interfacce sono in italiano, i documenti in italiano, inglese, spagnolo e tedesco.
+È necessario implementare un sistema flessibile di gestione delle lingue che consenta di aggiungere nuove lingue senza modifiche al database.
+
+\subsubsection{Anagrafiche clienti e destinatari}
+
+La gestione delle anagrafiche deve preservare i campi attualmente presenti in Access con i seguenti accorgimenti:
+
+\begin{itemize}
+      \item \textbf{Unicità:} Implementare controlli per prevenire la creazione di clienti duplicati mediante P.IVA.
+      \item \textbf{Sedi multiple:} Permettere la gestione di più domicili per lo stesso cliente con indirizzi e contatti distinti.
+      \item \textbf{Tipologia:} Distinguere tra cliente finale e rivenditore.
+      \item \textbf{Destinazione merce:} Gestire indirizzi di destinazione distinti dall'indirizzo cliente per facilitare le spedizioni.
+      \item \textbf{Storico:} Mantenere uno storico dei contratti per ciascun cliente per facilitare la gestione relazionale.
+\end{itemize}
+\subsection{Flusso dei contratti}
+
+Il flusso dei contratti dall'offerta alla distinta tecnica deve procedere come segue:
+
+\begin{enumerate}
+      \item \textbf{Creazione offerta:} A cura del commerciale
+      \item \textbf{Versionamento:} Eventuale versionamento dell'offerta da parte del commerciale
+      \item \textbf{Conversione in ordine:} Dopo l'accettazione da parte del cliente, conversione in ordine e blocco del contratto
+      \item \textbf{Notifiche:} Invio dell'ordine ad amministrazione, progetto management, logistica e produzione
+\end{enumerate}
+
+Una volta ricevuto l'ordine, amministrazione e project management procedono in parallelo:
+
+\paragraph{Fase project management:}
+\begin{enumerate}
+      \item Revisione tecnica dell'ordine
+      \item Creazione del contratto tecnico associato all'ordine con le modifiche necessarie
+      \item Eventuale versionamento del contratto tecnico
+      \item Valutazione commerciale della sostenibilità economica delle modifiche tecniche
+\end{enumerate}
+
+\paragraph{Fase amministrazione:}
+\begin{enumerate}
+      \item Ricezione dell'ordine dal commerciale
+      \item Importazione dell'ordine nel sistema ERP per la fatturazione
+\end{enumerate}
+
+\subsection{Requisiti funzionali prioritari}
+
+A seguito delle interviste, emergono le seguenti priorità di sviluppo:
+
+\begin{itemize}
+      \item \textbf{Affidabilità:} Il software deve essere stabile, riducendo al minimo crash e blocchi in fase contrattuale
+      \item \textbf{Integrazione ERP:} Integrazione con il sistema ERP (Ad-Hoc) per esportazione ordini e ricerca prodotti
+      \item \textbf{Modalità offline:} Implementare una modalità offline per permettere ai commerciali di lavorare in assenza di connessione
+      \item \textbf{Interfaccia intuitiva:} Progettare un'interfaccia user-friendly per ridurre i tempi di apprendimento
+      \item \textbf{Multi-piattaforma:} Predisporre la possibilità di accesso da diverse piattaforme (desktop, mobile)
+      \item \textbf{Viste differenziate:} Personalizzare l'interfaccia in base al ruolo dell'utente
+      \item \textbf{Integrazione CAD:} Collegamento ipertestuale al PLM per recupero disegni tecnici e visualizzazione 3D
+      \item \textbf{Calcoli ingegneristici:} Automatizzare i calcoli pneumatici, elettrici, pesi e volumi
+      \item \textbf{Codifiche sincronizzate:} Sincronizzare codici e anagrafiche tra Configuratore, Ad-Hoc e Fusion
+      \item \textbf{Area di staging:} Predisporre un'area di staging per ordini in attesa di elaborazione
+      \item \textbf{Fase di transizione:} Pianificare un utilizzo parallelo dei sistemi e beta testing con utenti chiave
+\end{itemize}
+
+\subsection{Gestione offline}
+
+Un aspetto emerso con chiarezza è la necessità di un sistema affidabile che consenta di lavorare in assenza di connessione internet.
+Si propone di implementare un sistema che lavori sempre con una copia locale del database, sincronizzandola quando connesso alla rete aziendale.
+Questo approccio evita perdite di connessione in fase contrattuale e riduce le latenze dovute alla VPN.
+
+\subsection{Manutenzione e supporto}
+
+Per garantire la continuità operativa, è necessario prevedere un piano di manutenzione regolare con una persona dedicata agli aggiornamenti dei componenti e dei codici, alla gestione degli utenti e alla risoluzione dei problemi tecnici.
+È importante stabilire un canale di comunicazione diretto con gli utenti per raccogliere feedback e suggerimenti di miglioramento continuo.
+
+\subsection{Evoluzioni future}
+
+In futuro possono essere implementate le seguenti funzionalità avanzate:
+
+\begin{itemize}
+      \item \textbf{Template di impianto:} Integrazione di template per applicazione (es. Linea Pan di Spagna, Linea Biscotti) per facilitare la creazione contrattuali standardizzate
+      \item \textbf{Fogli di calcolo integrati:} Integrazione dei fogli di calcolo esterni per evitare duplicazioni e parametrizzare i costi
+      \item \textbf{Disegni tecnici:} Sistema di integrazione dei disegni basato sui prodotti venduti
+      \item \textbf{Predistinte nell'ERP:} Creazione di predistinte nel sistema ERP basate sugli ordini commerciali
+      \item \textbf{CRM e file sharing:} Integrazione con CRM aziendale e accesso controllato a cartelle di rete
+\end{itemize}
+
+\subsection{Deployment}
+
+L'architettura prevede due modalità di distribuzione:
+
+\subsubsection{In sede aziendale}
+
+In sede il software si connette al database SQL Server aziendale per la gestione centralizzata dei dati.
+Questa configurazione è ideale per gli utenti in sede o in VPN.\@
+Consente un database centralizzato e sempre aggiornato, pur potendo essere soggetta a latenze in caso di connessione VPN instabile.
+
+\subsubsection{Offline locale}
+
+L'utilizzo offline si basa su una copia del database in SQLite tramite Entity Framework Core (EF Core)\cite{EFCore}, che consente un database relazionale locale con buona gestione dei dati e compatibilità con SQL Server per facilitare la sincronizzazione.
+È necessario implementare un sistema di doppia sincronizzazione tra il server centrale e il database locale.
+Questa modalità è ideale per commerciali fuori sede che necessitano di accesso rapido e affidabile senza dipendenza da VPN.
+La sicurezza è garantita tramite dischi criptati e misure di protezione per i dati sensibili.
+
+\subsection{Stack tecnologico}
+
+Per lo sviluppo si propone l'utilizzo di C\# con \@.NET e MAUI per l'interfaccia utente, motivato da:
+
+\begin{itemize}
+      \item \textbf{Integrazione SQL Server:} C\# offre ottime librerie per l'integrazione con database SQL Server
+      \item \textbf{Integrazione con SQL lite:} La libreria Entity Framework Core consente una gestione efficiente dei database relazionali in locale.
+      \item \textbf{Multi-piattaforma:} \@.NET MAUI permette deploymen su Windows, macOS e Linux
+      \item \textbf{Manutenibilità:} Utilizzare tecnologie moderne riduce il debito tecnico e facilita la manutenzione futura
+\end{itemize}
+
+\section{Limiti applicativi}
+Le funzionalità del programma sono ricoducibi ad un programma di CPQ (Configuratore di Preventivi e Quotazioni)
+con gestione dei contratti e delle revisioni tecniche.
+La natura nel sofware non deve andare oltre la gestione dei contratti e delle revisioni tecniche,
+non essendo un software di progettazione tecnica o di gestione della produzione.
+L'azienda in questione sta stidiando contemporanenamente all'implementazione di questo sofware l'addozione di un
+nuovo ERP moderno che gestisca tutte le fasi successive alla vendita.
+è quindi in corso la valutazione dei limiti applicativi del sofware e la decisione di chi sia 
+nel flusso aziendale il Master Data per tutti i dati.
+
+
+
+\end{document}

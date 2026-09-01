@@ -1,0 +1,288 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- Pacchetti Scientifici e Formattazione ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{booktabs, graphicx}
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{mathptmx}
+
+\usepackage[includeheadfoot]{geometry}
+\geometry{
+    a4paper,
+    top=3cm,
+    bottom=3cm,
+    left=3.5cm,
+    right=3.5cm,
+}
+
+\usepackage{setspace}
+\setstretch{1.3}
+\usepackage[figuresright]{rotating}
+\usepackage{float}
+
+\title{Operazioni CRUD}
+\author{Mattia Cavina}
+\date{03 febbraio 2026}
+
+\begin{document}
+\begin{abstract}
+    IL presente documento è volto a definire tutte le operazioni CRUD di base per la funzionalità del database lato software.
+    Questa analisi è volta alla definizione dei metodi ed oggi da generare per l'iterazione del sofware con Data Base.
+    Il documento verrà diviso in base ai ruoli e compiti tratte dalle interviste.
+    L'ordine dei ruoli è in ordine descriscente, partendo dall'andimi fino al visualizzatore. Chi viene prima ha tutti le
+    facolta di eseguire le operazioni di chi viene dopo, ma non viceversa.
+\end{abstract}
+\section{Operazioni Admin}
+\subsection{Tabelle di lookup ``tipi''}
+Le tabelle presenti nel database di lookup "tipi ( es:tipi\_prodotti, tipi\_proprietà ecc \dots) sono da considerarsi , a meno di acsi particolari tabella
+di sola lettura, in quanto sono tabelle che contengono dati che non devono essere modificati o eliminati, ma solo visualizzati e utilizzati per le relazioni con altre tabelle.
+La loro modifica non avrà una intrefaccia dedicata nel software, ma sarà gestita direttamente dal database tramite script SQL , garantendo così l'integrità dei dati e la coerenza del sistema.
+Lato software verranno predisposte delle classi Enum per rappresentare i dati presenti in queste tabelle, facilitando così l'utilizzo ed evitando operazioni di join non necessarie.
+Alle tabelle tipi si aggiungono anche altre tabelle che non verranno gestita da interfaccia come:
+\begin{itemize}
+    \item \textbf{Tabella lingue}
+    \item \textbf{Tabella nazioni}
+    \item \textbf{Tabella tabelle}
+    \item \textbf{Tabella zone}
+\end{itemize}
+\subsection{Operazioni sugli utenti}
+\begin{itemize}
+    \item \textbf{Login:} Permette all'admin di accedere al sistema inserendo le proprie credenziali.
+    \item \textbf{Creazione Utente:} Consente all'admin di creare nuovi account utente, specificando ruolo e permessi.
+    \item \textbf{Modifica Utente:} Permette all'admin di aggiornare le informazioni degli utenti esistenti, come nome, email e ruolo.
+    \item \textbf{Eliminazione Logica Utente:} Consente all'admin di disabilitare un account utente senza eliminarlo fisicamente dal database, mantenendo i dati per eventuali audit.
+    \item \textbf{Visualizzazione Utenti:} Permette all'admin di visualizzare la lista degli utenti registrati, con possibilità di filtrare e ordinare.
+\end{itemize}
+\subsection{Operazioni sui prodotti}
+\subsubsection{Tabella prodotti}
+\begin{itemize}
+    \item \textbf{Creazione Prodotto:} Consente all'admin di aggiungere nuovi prodotti al catalogo, specificando nome, descrizione, prezzo e disponibilità.
+    \item \textbf{Modifica Prodotto:} Permette all'admin di aggiornare le informazioni dei prodotti esistenti, come prezzo, descrizione e disponibilità.
+    \item \textbf{Eliminazione Logica Prodotto:} Consente all'admin di disabilitare un prodotto senza eliminarlo fisicamente dal database, mantenendo i dati per eventuali audit.
+    \item \textbf{Visualizzazione Prodotti:} Permette all'admin di visualizzare la lista dei prodotti disponibili, con possibilità di filtrare e ordinare.
+\end{itemize}
+\subsubsection{Tabella proprietà prodotto}
+\begin{itemize}
+    \item \textbf{Aggiunta proprietà Prodotto:} Consente all'admin di aggiungere nuovi valori alle proprietà dei prodotti tra quelle disponibili.
+    \item \textbf{Rimozione proprietà Prodotto:} Permette all'admin di rimuovere valori dalle proprietà dei prodotti tra quelle disponibili.
+    \item \textbf{Modifica proprietà Prodotto:} Consente all'admin di modificare i valori delle proprietà dei prodotti tra quelle disponibili.
+\end{itemize}
+\subsubsection{Tabella proprietà}
+\begin{itemize}
+    \item \textbf{Creazione :} Consente all'admin di creare nuove proprietà per i prodotti, specificando nome e tipo di dato.
+    \item \textbf{Modifica :} Permette all'admin di aggiornare le informazioni delle proprietà esistenti, come nome e tipo di dato.
+    \item \textbf{Eliminazione Logica:} Consente all'admin di disabilitare una proprietà senza eliminarla fisicamente dal database, mantenendo i dati per eventuali audit.
+    \item \textbf{Visualizzazione:} Permette all'admin di visualizzare la lista delle proprietà disponibili, con possibilità di filtrare e ordinare.
+\end{itemize}
+\subsubsection{Tabella proprieta valori}
+\begin{itemize}
+    \item \textbf{Creazione valori standard di una proprietà:} Consente all'admin di creare nuovi valori predefiniti per una proprietà, specificando il valore e la proprietà associata.
+    \item \textbf{Modifica:} Permette all'admin di aggiornare le informazioni dei valori delle proprietà standard.
+    \item \textbf{Eliminazione logica:} Consente all'admin di disabilitare un valore di una proprietà senza eliminarlo fisicamente dal database, mantenendo i dati per eventuali audit.
+    \item \textbf{Visualizzazione valori predefinii di una proprietà:} Permette all'admin di visualizzare la lista dei valori predefiniti associati a una proprietà, con possibilità di filtrare e ordinare.
+\end{itemize}
+\subsubsection{Tabelle banche e banche\_sedi}
+L'admin avrà facolta di gestire tutte le le tipologie di banche, acnhe quelle interne a differenza degli altri ruoli.
+\begin{itemize}
+    \item \textbf{Creazione banca:} Consente all'admin di aggiungere nuove banche al sistema, specificando nome, indirizzo e contatti.
+    \item \textbf{Modifica banca:} Permette all'admin di aggiornare le informazioni delle banche esistenti, come nome, indirizzo e contatti.
+    \item \textbf{Eliminazione logica banca:} Consente all'admin di disabilitare una banca senza eliminarla fisicamente dal database, mantenendo i dati per eventuali audit.
+    \item \textbf{Visualizzazione banche:} Permette all'admin di visualizzare la lista delle banche disponibili, con possibilità di filtrare e ordinare.
+\end{itemize}
+\subsubsection{Tabelle condizioni e condizioni\_lingue}
+\begin{itemize}
+    \item \textbf{Creazione condizioni di vendita:} Consente all'admin di aggiungere nuove condizioni di vendita al sistema e relativa traduzione, mappata nella tabella condizioni\_lingue.
+    \item \textbf{Modifica condizioni di vendita:} Permette all'admin di aggiornare le informazioni delle condizioni di vendita esistenti.
+    \item \textbf{Eliminazione logica condizioni di vendita:} Consente all'admin di disabilitare una condizione di vendita senza eliminarla fisicamente dal database, mantenendo i dati per eventuali audit.
+    \item \textbf{Visualizzazione condizioni di vendita:} Permette all'admin di visualizzare la lista delle condizioni di vendita disponibili, con possibilità di filtrare e ordinare.
+\end{itemize}
+
+
+\section{Operazioni Commerciali}
+\subsection{Creazione e gestione delle offerte}
+La creazione delle offerte è la parte fondamentale dell'intero programma.
+Le operazioni che verranno elencate di seguito sono in ordine cronologico dalla generazione alla conferma d'ordine.
+Si sottindende per semplicita che nelle operazio di seguito il commerciale
+abbia la facoltà di creare, modificare e visualizzare.
+\subsubsection{Creazione documento}
+\begin{enumerate}
+    \item \textbf{Creazione del primo documento:}
+          \begin{itemize}
+              \item Se il cliente o la destinazione non esiste \(\leftarrow\) \textbf{creazione cliente o destinazione} \(\leftarrow\) aggiunta al documento.
+              \item Il commerciale può editare le informazioni editabili presenti nella tabella documento.
+              \item Se il riferimento esterno non è presente tra quelli già presenti \(\leftarrow\) \textbf{creazione nuovo utente(senza accesso al software)} \(\leftarrow\) aggiunta al documento.
+              \item Compillazione della sezione dedicata alla gestione delle lingue nei documenti \textbf{documenti\_lingue}, questo per avere la mappa delle traduzioni richieste dal cliente.
+          \end{itemize}
+
+    \item \textbf{Ricerca del prodotto:}
+          L'inserimento di una riga, per guidare alla compilazione corretta, può avvenire in tre modi distinti:
+          \begin{itemize}
+              \item Inserimento manuale \(\leftarrow\) compilazione di tutti i campi necessari alla creazione di una riga documento.
+              \item Inserimento tramite macroprodotto \(\leftarrow\) scelta del macroprodotto in base alla descrizione e proprietà \(\leftarrow\) inserimento automatico dei componenenti del macroprodotto \(\leftarrow\) eventuale modifica dei componenti.
+              \item Creazione di un capitolo nella tabella \textbf{tipi\_capitoli} \(\leftarrow\) :
+                    \begin{itemize}
+                        \item Inserimento manuale \(\leftarrow\) compilazione di tutti i campi necessari alla creazione di una riga documento.
+                        \item Inserimento tramite macroprodotto \(\leftarrow\) scelta del macroprodotto in base alla descrizione e proprietà \(\leftarrow\) inserimento automatico dei componenenti del macroprodotto \(\leftarrow\) eventuale modifica dei componenti.
+                    \end{itemize}
+          \end{itemize}
+          Ogni prodotto o macroprodotto verrà poi cercato mediante filtri sulla descrizione e sulle proprietà, per facilitare la ricerca e l'inserimento.
+    \item \textbf{Inserimento riga documento:}
+          A sua volta l'inserimento di un componente comporta:
+          \begin{itemize}
+              \item Se il componente è standard ha già un prezzo associato, quindi l'inserimento è diretto.
+                    In alternativa va inserito manualmente ed eventualmente calcolato da fogli esterni.
+              \item Scelta delle scontische di riga da applicare al singolo componente.
+              \item Modifica, se necessaria della descrizione.
+              \item Inserimento dei dati tecnici richiesti dal cliente, se presenti, come portata.
+                    segnalati come ricambi, quindi
+              \item identificare se il componente è opzionale  o meno, in modo da poterlo calcolare diversamente nel totale dell'offerta.
+          \end{itemize}
+    \item \textbf{Gestione scontistiche:}
+          Una volta completata l'offerta si possono editare le scontische e vedere il totale propostosi al cliente, in modo da poterlo modificare in base alle esigenze.
+    \item \textbf{Calcolo e costificazione del montaggio:} Mediante la sezione dedicata al montaggio è possibile calcolare il costo del montaggio in base a dei parametri
+          inseriti dal commerciale come il numero di tecnici necessari, il numero di giorni di montaggio e la difficoltà del montaggio, in modo da poterlo
+          aggiungere al totale dell'offerta.
+          Il tutto verrà gestito mediante le tabelle \textbf{montaggi} e\textbf{montaggi\_operatori}.
+    \item{\textbf{Gestione di più versioni della stessa offerta:}}
+          Per gestire la pluralità delle offerte è necessario che:
+          \begin{itemize}
+              \item Il commerciale possa revisionare una offerta senza che questa venga sovrascritta, in modo da mantenere la cronologia delle modifiche e delle versioni.
+                    La revisione sarà gestita sulle righe del documento:
+                    \begin{itemize}
+                        \item Se la riga viene aggiornata essa viene duplicata ponendo la data di modifica vecchia nella nuova riga ed aggiornando
+                              la data di modifica della riga vecchia, in modo da mantenere le relazioni.
+                        \item Se la riga viene eliminata essa viene disabilitata, in modo da mantenere la cronologia delle modifiche e delle versioni.
+                        \item Se il componente viene sostituito esso è come se il vecchio venisse eliminato e il nuovo inserito, si mantiene però il numero di posizione.
+                    \end{itemize}
+              \item Il commerciale deve avere la possbilità rispetto a vecchie versioni di riportarle valide in caso di accetazione di una vecchia versione.
+          \end{itemize}
+    \item \textbf{Conferma d'ordine:} Una volta che l'offerta è stata accettata dal cliente, il commerciale può confermare l'ordine, che comporta:
+          \begin{itemize}
+              \item Creazione del documento d'ordine come copia del documento d'offerta, con inserimento dell'id dell'offerta nel campo padre.
+              \item Generazione del numero d'ordine, che sarà univoco e progressivo.
+              \item Aggiornamento dello stato del documento d'offerta a ``accettata''.
+              \item Duplicazione delle righe dell'offerta nell'ordine con eliminazione dei componenti opzionali non accettati dal cliente.
+              \item Inserimento dei dati mancanti a livello di offerta.
+                    Questi dati possono essere:
+                    \begin{itemize}
+                        \item Data di consegna prevista.
+                        \item Modalità di pagamento.
+                        \item Modalità di spedizione.
+                        \item Eventuali note o istruzioni speciali per la produzione o la logistica.
+                    \end{itemize}
+          \end{itemize}
+
+\end{enumerate}
+
+
+\subsection{Tabella banche e banche\_sedi}
+Il commerciale può gestire solo le banche esterne. ovvero quelle dei clienti.
+\begin{itemize}
+    \item \textbf{Creazione:} Consente al commerciale di aggiungere nuove banche esterne al sistema, specificando nome, indirizzo e contatti.
+    \item \textbf{Modifica:} Permette al commerciale di aggiornare le informazioni delle banche esterne esistenti, come nome, indirizzo e contatti.
+    \item \textbf{Eliminazione:} Consente al commerciale di disabilitare una banca esterna senza eliminarla fisicamente dal database, mantenendo i dati per eventuali audit.
+    \item \textbf{Visualizzazione:} Permette al commerciale di visualizzare la lista delle banche esterne disponibili, con possibilità di filtrare e ordinare.
+\end{itemize}
+
+\section{Operazioni Project Manager}
+Il project manager una volta che gli arriva da vagliare un ordine può:
+\begin{itemize}
+    \item Creazione del documento tecnico come copia del documento d'ordine, con inserimento dell'id dell'ordine nel campo padre.
+    \item Duplicazione delle righe dell'ordine nel documento tecnico con eliminazione dei componenti opzionali non accettati dal cliente.
+    \item Correzione dei componenti inseriti dal commerciale, in modo da adattarli alla realtà produttiva.
+    \item Aggiunta o eliminazione di componenti, in modo da adattare l'offerta alla realtà produttiva.
+    \item Correzione dei dati produttivi per la produzione, come tempi di consegna, modalità di spedizione e note per la produzione.
+\end{itemize}
+
+\section{Operazioni Logistica}
+\subsection{Tabella corieri}
+La logistica insieme all'admin ha facolta di gestire i corrieri, in quanto sono una risorsa fondamentale per la gestione delle spedizioni e dei resi.
+Gli altri ruoli non avranno facoltà di getstire questa tabella.
+\begin{itemize}
+    \item \textbf{Creazione:} creazione di nuovi corieri.
+    \item \textbf{Modifica:} modifica dei corieri.
+    \item \textbf{Eliminazione:} eliminazione dei corieri
+    \item \textbf{Visualizzazione:} visualizzazione dei corieri.
+\end{itemize}
+
+\section{Operazioni Visualizzatore}
+Il visualizzatore ha facoltà di visualizzare tutti i documenti, ma non di modificarli, in quanto è un ruolo che serve solo per la consultazione dei dati.
+Il visualizzatore deve poter vedere:
+\begin{itemize}
+    \item \textbf{Documenti:} visualizzazione di tutti i documenti, con possibilità di filtrare e ordinare.
+    \item \textbf{Righe documento:} visualizzazione di tutte le righe dei documenti, con possibilità di filtrare e ordinare.
+\end{itemize}
+il visualizzatore può eseguire operazioni di inserimneto solo con le tabelle:
+\begin{itemize}
+    \item \textbf{Tabella feedback:} il visualizzatore può inserire segnalazioni o feeback sul programma.
+    \item \textbf{Tabella notifiche:} il visualizzatore può inserire segnalazioni o notifiche per gli altri utenti.
+\end{itemize}
+
+\section{Mappatura oggetti nel software}
+Definiti i ruoli e le operazioni è necessario mappare gli oggetti del database con le classi del software,
+in modo da poter implementare le operazioni CRUD in modo efficiente e coerente con la struttura del database.
+\subsection{Enum}
+Le tabelle di lookup ``tipi'' verranno mappate con delle classi Enum, in modo da facilitare l'utilizzo e evitare operazioni di join non necessarie.
+Le tabelle di lookup ``tipi'' sono:
+\begin{itemize}
+    \item \textbf{Tabella lingue}
+    \item \textbf{Tabella nazioni}
+    \item \textbf{Tabella tipi\_causale}
+    \item \textbf{Tabella tipi\_cliente}
+    \item \textbf{Tabella tipi\_contropartita}
+    \item \textbf{Tabella tipi\_imballo}(da valutare)
+    \item \textbf{Tabella tipi\_impianto}(da valutare)
+    \item \textbf{Tabella tipi\_merceologia}(da valutare)
+    \item \textbf{Tabella tipi\_operatore}
+    \item \textbf{Tabella tipi\_resa}
+    \item \textbf{Tabella tipi\_stato\_offerta}
+    \item \textbf{Tabella tipi\_valuta} solo quelle attualmente utilizzate.
+    \item \textbf{Elenco delle Tabelle} Elencare tutte le tabelle con relativo nome e descrizione,
+          in modo da avere una panoramica completa delle tabelle presenti nel database.
+    \item \
+\end{itemize}
+\subsection{Classi}
+Le tabelle principali del database verranno mappate con delle classi, in modo da facilitare l'utilizzo e la gestione dei dati.
+Le tabelle principali del database sono:
+\begin{itemize}
+    \item \textbf{Tabella banche}
+    \item \textbf{Tabella banche\_sedi}
+    \item \textbf{Tabella clienti}
+    \item \textbf{Tabella clienti\_destinazioni}
+    \item \textbf{Tabella condizioni}
+    \item \textbf{Tabella condizioni\_lingue}
+    \item \textbf{Tabella corrieri}
+    \item \textbf{Tabella documenti}
+    \item \textbf{Tabella documenti\_lingue}
+    \item \textbf{Tabella documenti\_righe}
+    \item \textbf{Tabella feedback}
+    \item \textbf{Tabella montaggi}
+    \item \textbf{Tabella montaggi\_operatori}
+    \item \textbf{Tabella notifiche}
+    \item \textbf{Tabella prodotti\_lingue}(Decidere se mappare le sue proprietà direttamente nella classe prodotto o meno)
+    \item \textbf{Tabella prodotti\_proprieta}
+    \item \textbf{Tabella proprieta}(Decidere se fare query solo per recuperare il nome della proprietà o mappare tutte le sue proprietà nella classe)
+    \item \textbf{Tabella proprieta\_valori}
+    \item \textbf{Tabella tipi\_pagamento}
+    \item \textbf{Tabella tipi\_percentuale\_agente}
+    \item \textbf{Tabella tipi\_proprieta}
+    \item \textbf{Tabella tipi\_capitoli}(Decidere se fare query solo per recuperare il nome della proprietà o mappare tutte le sue proprietà nella classe)
+    \item \textbf{Tabella utenti}
+    \item \textbf{Tabella zone}
+    \item \textbf{Tabella tabelle}
+\end{itemize}
+
+\subsection{Tabelle di relazione molti a molti}
+In questa fase proviamo a non mappare le tabelle di relazione molti a molti,
+in quanto sono tabelle che contengono solo le chiavi esterne delle tabelle principali, e non hanno una logica di business propria.
+Questa tabelle sono:
+\begin{itemize}
+    \item \textbf{Tabella prodotti\_composizioni}
+    \item \textbf{Tabella prodotti\_proprieta}
+\end{itemize}
+\end{document}

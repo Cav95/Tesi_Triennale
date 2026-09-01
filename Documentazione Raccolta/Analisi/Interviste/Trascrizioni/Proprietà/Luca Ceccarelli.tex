@@ -1,0 +1,123 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+% Titolo e intestazione
+\title{Luca Ceccarelli}
+\date{29-12-2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Ruolo} 
+Luca Ceccarelli è un socio aziendale con esperienza di più di 10 anni all'interno dell'azienda e si occupa di :
+\begin{itemize}
+    \item Costificazione della prodotti veduti.
+    \item Supervisione delle attività dell'Ufficio Acquisti.
+    \item Gestione dei rapporti con i fornitori chiave.
+    \item Analisi dei costi e margini di vendita.
+    \item Ricerca e sviluppo di nuove soluzioni tecniche per ottimizzare i processi produttivi.
+\end{itemize}
+
+\section{Utilizzo attuale di Access:}
+Luca utilizza Access principalmente per:
+\begin{itemize}
+    \item Verificare il valore monetario delle commesse e delle RA (Richieste Assistenza).
+    \item Aggiornare i prezzi di vendita in base ai costi di acquisto e alle variazioni del mercato.
+    \item Analizzare i costi associati alle vendite per valutare i margini di profitto.
+\end{itemize}
+
+\section{Strumenti commerciali e integrazione (Access vs. Gestionale)}
+È emersa la necessità di valutare l'attuale utilizzo di Microsoft Access rispetto all'integrazione con un sistema gestionale unico.
+
+\begin{itemize}
+    \item \textbf{Vantaggi attuali:} Access è ritenuto estremamente pratico per il lato commerciale. Grazie alla libreria di codici preesistente, permette di redigere offerte, anche complesse, in tempi molto rapidi (circa un'ora). Si sottolinea l'importanza di mantenere questa velocità operativa.
+    \item \textbf{Criticità:} Il limite principale è la separazione tra il ``mondo commerciale'' (Access) e il ``mondo tecnico/amministrativo''. Attualmente i due ambienti non comunicano, costringendo a un lavoro manuale per far combaciare le offerte con la contabilità e la produzione.
+    \item \textbf{Obiettivo:} Trovare una soluzione che unisca i due mondi senza perdere la flessibilità di Access, specialmente nella gestione delle variabili tecniche (es. ``codici silos'') che modulano il prezzo in funzione dell'offerta.
+\end{itemize}
+
+\section{Controllo di gestione e aggiornamento listini}
+Le procedure di controllo sui margini e sui costi avvengono attualmente in due modalità:
+\begin{enumerate}
+    \item \textbf{Analisi a consuntivo (Bilancio):} Si verifica l'andamento annuale. Se i costi aumentano e gli utili scendono, si indaga sulle cause.
+    \item \textbf{Analisi per commessa:} Si verifica la redditività della singola vendita (es. controllo se una valvola stellare è stata venduta sottocosto o se sono stati inseriti troppi pezzi rispetto al preventivato).
+\end{enumerate}
+
+\subsection*{Gestione degli aumenti}
+L'Ufficio Acquisti segnala gli aumenti delle materie prime o dei componenti e si valuta se ribaltare l'aumento sul listino.
+\begin{itemize}
+    \item \textbf{Esempio ``Valvola stellare'':} Esiste una configurazione commerciale standard (es. con calza, flangia a bordino, due flange sotto). Se il costo di produzione passa da un valore ipotetico di 10 a 12/13 (variazione $> 5-10\%$), il sistema dovrebbe generare un \textit{alert} per aggiornare il prezzo di vendita. L'obiettivo è automatizzare questo controllo per non dipendere solo da verifiche manuali.
+\end{itemize}
+
+\section{Automazione dei Preventivi (Superamento di Excel)}
+Attualmente, molti calcoli (es. cubatura silos, metri, spessori) vengono fatti su file Excel esterni per generare il prezzo.
+
+\begin{itemize}
+    \item \textbf{Workflow desiderato:} Si punta a integrare il processo. Partendo da un modello 3D (es. file STL o modello dell'Ufficio Tecnico), il sistema dovrebbe estrapolare una distinta base (anche approssimativa ma funzionale) e ``costificare'' automaticamente l'oggetto.
+    \item \textbf{Sistemi parametrici:} Esistono già piccoli programmi (definiti ``banali'' ma efficaci) per calcolare costi di cavi scaldanti, strutture, mensole e tramogge inserendo parametri base (base, altezza, perimetro, materiale ferro/inox).
+    \item \textbf{Integrazione:} L'obiettivo è integrare questi calcolatori nel sistema centrale. Se cambia il costo base del materiale (es. ferro), il sistema deve aggiornare automaticamente tutti i prezzi derivati, eliminando la necessità di modificare manualmente molteplici file Excel.
+\end{itemize}
+
+\section{Gestione dello storico prezzi e obsolescenza}
+I commerciali mantengono l'accesso a vecchi listini e database per avere ordini di grandezza rapidi quando sono dai clienti (es. \textit{``Quanto costa indicativamente un silos da 100 mc?''}).
+
+\begin{itemize}
+    \item \textbf{Proposta:} Mantenere lo storico per consultazione rapida, ma gestire gli stati degli articoli (come in Fusion):
+    \begin{itemize}
+        \item Articoli non più vendibili $\rightarrow$ stato ``Obsoleto''.
+        \item Prezzi aggiornati $\rightarrow$ nuova revisione.
+        \item Tracciare l'andamento del prezzo nel tempo per ogni componente.
+    \end{itemize}
+\end{itemize}
+
+\section{Razionalizzazione del database: nuovo venduto vs. ricambi}
+Esiste un problema di ``inquinamento'' dei risultati di ricerca. Quando un commerciale cerca una macro-famiglia (es. ``Vibrovaglio'') per un'offerta nuova, non deve visualizzare centinaia di codici di singoli ricambi.
+
+\begin{itemize}
+    \item \textbf{Strategia di naming:} Definire regole rigide per le descrizioni. Attualmente c'è confusione (es. Vibrovaglio, VBV, vaglio).
+    \item \textbf{Separazione viste:}
+    \begin{itemize}
+        \item \textbf{Commerciale (Offerte nuove):} Visualizza solo le macro-voci o i kit principali (es. ``Vibrovaglio'', ``Scarico scarti'').
+        \item \textbf{Post-Vendita (Ricambi):} Ha accesso alla vista dettagliata con tutte le esplosioni e i singoli componenti.
+    \end{itemize}
+    \item \textbf{Voci ``Su Misura'':} Evitare la voce generica ``Su misura''. Creare voci specifiche per famiglia: \textit{``Vibrovaglio - Particolare di ricambio su misura''}. Questo aiuta la tracciabilità statistica.
+\end{itemize}
+
+\section{Gestione RA (Rapporti Assistenza) vs. Impianti}
+Attualmente, la categoria RA include sia la semplice fornitura di ricambi sia interi nuovi impianti (ampliamenti) destinati a clienti già codificati come fornitori.
+
+\begin{itemize}
+    \item \textbf{Soluzione proposta:} Separare nettamente le due casistiche in fase di creazione commessa:
+    \begin{enumerate}
+        \item \textbf{Impianto nuovo / ampliamento:} Anche se per un cliente esistente, deve seguire il flusso degli impianti. Si traccia come ``Ampliamento su impianto esistente'' mantenendo il collegamento alla commessa madre.
+        \item \textbf{Ricambi puri:} Gestiti come RA vera e propria.
+    \end{enumerate}
+    \item Questa distinzione è fondamentale per la tracciabilità tecnica e per la corretta gestione del carico di lavoro tra i reparti.
+\end{itemize}
+
+\section{Strategia di popolamento del database}
+Per evitare di dover caricare massivamente migliaia di codici ricambio che forse non verranno mai usati:
+
+\begin{itemize}
+    \item \textbf{Approccio incrementale:} Il database parte ``leggero''. Quando viene richiesto un prezzo per un ricambio specifico, l'Ufficio Tecnico crea la voce, la costifica e la inserisce a sistema.
+    \item Da quel momento in poi, il codice esiste ed è disponibile per il futuro. Ciò che non viene mai chiesto, non viene caricato, mantenendo il database pulito e gestibile (si stimano 100 codici utili contro 300 teorici).
+\end{itemize}
+
+\end{document}

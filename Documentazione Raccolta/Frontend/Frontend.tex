@@ -1,0 +1,100 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- Pacchetti Scientifici e Formattazione ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{booktabs, graphicx}
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}
+
+% --- Codifica e Font ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{mathptmx}
+
+% --- Gestione Margini e Layout ---
+\usepackage[includeheadfoot]{geometry}
+\geometry{
+    a4paper,
+    top=3cm,
+    bottom=3cm,
+    left=3.5cm,
+    right=3.5cm,
+}
+
+% --- Gestione Interlinea e Figure ---
+\usepackage{setspace}
+\setstretch{1.3}
+\usepackage[figuresright]{rotating}
+\usepackage[pdftex, hidelinks]{hyperref}
+
+% Document metadata
+\title{frontend del configuratore commerciale}
+\author{Mattia Cavina}
+\date{18 giugno 2026}
+
+\begin{document}
+
+\section{Intrduzione}
+Il front end verrà realizzato mediante framework .NET MAUI nativo windows e implementato in 'C\#'.
+La scelta di questo framework è stata dettata dalla necessità di avere un'applicazione integrata con i sistemi Windows,
+ che possa sfruttare al meglio le funzionalità del sistema operativo e garantire una migliore esperienza utente.
+La seconda motivazione è la possibilità di sviluppare un'applicazione cross-platform,
+che possa essere eseguita anche su altri sistemi operativi come macOS e Linux o Android,
+garantendo una maggiore flessibilità e portabilità del software.
+
+\section{Scelte tecnologiche}
+\subsection{Pattern scelto}
+Per l'implementazione del frontend mediante .NET MAUI è stato scelto il pattern MVVM (Model-View-ViewModel).
+Questo pattern consente di separare la logica di presentazione dalla logica di business,
+facilitando la manutenzione e il test del codice.
+La View rappresenta l'interfaccia utente, il ViewModel gestisce la logica di presentazione e il Model
+rappresenta i dati e le regole di business.
+
+\subsection{Framework classi View}
+L'ambiente di sviluppo .NET MAUI mette a disposizione più strade di implementazione delle classi View.
+La prima è quella di utilizzare le classi XAML, che consentono di definire l'interfaccia utente in modo dichiarativo tramite 
+un linguaggio di markup simile a HTML.
+La seconda è quella di utilizzare le classi C\# con framework ".NET Multi-platform App UI (.NET MAUI) Community Toolkit",
+che consentono di definire l'interfaccia utente in modo programmatico.
+La scelta di utilizzare le classi C\# con il toolkit .NET MAUI Community Toolkit
+è stata dettata dalla necessità di avere un maggiore controllo sull'interfaccia utente
+e sulla logica di presentazione riducendo la complessità della gestione dell'interfaccia.
+
+\section{Definizione delle interfacce utente}
+Nella realizzazione del configuratore la scelta delle interfacce utente è il passo
+successivo alla realizzazione dei componenti di getsione dei dati e delle regole di business.
+\subsection{Interfacce utente}
+Seguendo le inteviste e il precedente sofware sono emerse le seguenti interfacce utente:
+\begin{itemize}
+      \item Login
+      \item Menu principale
+      \item Schermata ricerca documenti
+      \item Schermata dettaglio documenti
+      \item Schermata creazione documenti \& modifica (\ Valutare se separare in tre schermate offerta, ordine, tecnica).
+      \item Schermata ricerca clienti
+      \item Schermata dettaglio clienti
+      \item Schermata creazione clienti \& modifica (Solo campi non importati da ERP o Fusion)
+      \item Schermata ricerca elenco prodotti
+      \item Schermata dettaglio prodotti \& modifica (Solo campi non importati da ERP o Fusion)
+      \item Schermata creazione prodotti commerciali (Solo campi non importati da ERP o Fusion)
+      \item Schermata selezione prodotti commerciali da aggiungere al documento
+      \item Schermata creazione distinte prodotti commerciali (Sono i MACROGRUPPI di prodotto) \& modifica.
+      \item Schermata ricerca utenti
+      \item Schermata dettaglio utenti
+      \item Schermata creazione utenti \& modifica
+      \item Schermata gestione notifiche e feedback
+      \item Schermata gestione profilo utente e modifica password
+  \end{itemize}
+  \subsection{Realizzazione delle prime intefacce}
+  Definito l'elenco delle intefacce si è proceduti con il disegnarle almeno nella loro forma base
+  madiante Figma.
+  Dopo averle disegnate si è fatto un focus group con i commerciali di riferimento
+  per raccogliere feedback e suggerimenti.
+  \subsection{Prototipo interattivo}
+      Dopo aver raccolto i feedback si è proceduto con la realizzazione di un prototipo interattivo
+      che permettesse di simulare il flusso di lavoro e le interazioni tra le varie schermate.
+      Il prototipo è stato realizzato direttamente in .NET MAUI e permette di navigare tra le varie schermate
+      e di testare lo spostamento tra le schermate e la visualizzazione dei dati già presenti nel database.
+
+\end{document}

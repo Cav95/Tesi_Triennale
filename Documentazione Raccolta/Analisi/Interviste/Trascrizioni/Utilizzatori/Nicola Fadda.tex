@@ -1,0 +1,167 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+
+\title{Nicholas Fadda}
+\date{23-01-2026}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Ruolo}
+Nicholas Fadda è un Agente esterno Cepi che lavora in Geotech con esperienza di
+circa un anno di collaborazione con l'azienda e si occupa di :
+\begin{itemize}
+      \item Creazione delle offerte Access per conto di clienti della sua zona di
+            competenza.
+      \item Gestione delle relazioni con i clienti.
+      \item Supporto post-vendita e assistenza ai clienti.
+\end{itemize}
+Nicholas oltre ad Access utilizza anche intrenemnate alla sua azienda il software Pipedrive per la gestione dei clienti e delle fasi di avanzamento.
+Nicholas suggerisce che internamente a cepi si utilizzi Hubspot per la gestione dei clienti e dei lead commerciali.
+
+\section{Attuale uso di Access}
+Nicholas utilizza Access per:
+\begin{itemize}
+      \item Creare le offerte per i clienti.
+      \item Creazione delle offerte di assistenza e ampliamenti.
+      \item Aggiunta clienti e gestione anagrafiche.
+      \item Trasfomazione delle offerte in ordini se accettate.
+\end{itemize}
+
+\subsection{Attuale vista dati in Access}
+Nicholas all'interno dell'attuale programma ha la possibilità di vedere:
+\begin{itemize}
+      \item Le offerte create da lui o dal suo referente (Michele Foietta).
+      \item Le richieste di assistenza (RA) create da lui.
+      \item L'anagrafica clienti completa.
+      \item L'elenco articoli completo.
+      \item Le offerte e RA degli altri agenti non sono visibili.
+\end{itemize}
+
+\section{Problemi attuali del sistema}
+Nicholas ha evidenziato i seguenti problemi con l'attuale sistema Access:
+\begin{itemize}
+      \item \textbf{Instabilità e lentezza:} Il sistema Access attuale soffre di blocchi frequenti che costringono al riavvio forzato,
+            specialmente durante operazioni di stampa o salvataggio.
+      \item \textbf{Dipendenza da VPN:} La connessione cade spesso in mobilità (hotspot),
+            causando il crash della connessione e l'impossibilità di operare davanti al cliente in real-time.
+      \item \textbf{Ricerca limitata:} Impossibilità di cercare articoli per codice; la ricerca avviene solo per descrizione che però poco intuitive.
+            Se abbiamo il codice gestionale esatto non esiste una corrispondenza nell'attuale programma.
+            Per ovviare questo problema si utilizzano anche componenti erronei per dare un prezzo.
+      \item \textbf{Mancanza di storico:} Nicholas non ha accesso allo storico globale o a offerte precedenti al 2025. Ciò limita la capacità di replicare offerte passate.
+      \item \textbf{Mono-finestra:} Impossibilità di aprire più offerte contemporaneamente per confrontare o copiare dati.
+
+\end{itemize}
+
+\section{Requisiti funzionali per il nuovo software}
+
+\subsection{Gestione offerte e workflow}
+La gestione delle offerte secondo Nicholas deve prevedere:
+\begin{itemize}
+      \item \textbf{Modulo registrazione cliente:} Attualmente Nicholas usa un modulo creato da lui e Foietta dove scrive i principali dati di un cliente nel primo incontro in modo da essere veloce, ma efficiente. Solo succesivamnte crea un'offerta.
+            Ha espresso la possibilità di impementare un modulo facilmnete editabile per eviatre di creare contrati subito verborsi e lunghi.
+      \item \textbf{Versioning delle offerte:} Necessità di gestire le revisioni \textit{(es. Rev. A, Rev. B)} mantenendo lo stesso numero di offerta base,
+            invece di duplicare il file creando nuovi numeri di offerta. Possibilità quindi di promuovere ad ordine solo una delle versioni.
+      \item \textbf{Struttura per capitoli:} Mantenere e migliorare la suddivisione dell'offerta in capitoli logici \textit{(es. Silos, Trasporto, Automazione)}
+            per chiarezza verso il cliente.
+      \item \textbf{Template per tipo impianto:} Possibilità di creare modelli di offerta predefiniti per tipologie comuni di impianti
+            (es. Pan di spagna , Biscotti , ecc \dots) per velocizzare la creazione e verificare che si è inserito l'occorrente.
+      \item \textbf{Importazione intelligente:} Funzionalità per importare righe da altri documenti/offerte esistenti, selezionando quali voci copiare.
+      \item \textbf{Calcolo installazione:} Modulo per il calcolo automatico dei costi di montaggio basato su variabili
+            (N. tecnici $\times$ N. giorni $\times$ Tariffa giornaliera).
+      \item \textbf{Gestione sconti:} L'attuale sistema di sconti è da mantenere:
+            \begin{itemize}
+                  \item Sconto sul singolo articolo.
+                  \item Sconto sui capitoli.
+                  \item Sconto globale sul materiale.
+                  \item Sconto totale comprensivo di materiale e montaggio.
+                  \item Possibilità di imporre un prezzo.
+            \end{itemize}
+\end{itemize}
+
+\subsection{Catalogo e configurazione prodotto}
+Per una corretta gestione del catalogo e della configurazione prodotto, il sistema deve prevedere:
+\begin{itemize}
+      \item \textbf{Ricerca avanzata:} Ricerca per Codice, Descrizione, Tag e Argomento (Category-based).
+      \item \textbf{Configurazione guidata (Guided Selling):} Selezionando un componente principale \textit{(es. Silos in Trevira)},
+            il sistema deve proporre/flaggare automaticamente gli accessori compatibili \textit{(sonde, valvole)} ed escludere quelli errati.
+      \item \textbf{Standardizzazione codici:} Allineamento tra i codici commerciali e quelli tecnici \textit{(AutoCAD/Ufficio Tecnico)}
+            per evitare discrepanze in fase di ordine e facilitare l'inserimento dei codici precisi.
+      \item \textbf{Descrizioni componenti} Prestare attenzione alle descrizioni degli articoli per renderle più chiare e comprensibili.
+            Attualmente sono presenti delle descrizioni poco chiare.
+      \item \textbf{Standardizzazione:} Richiesta una standardizzazione dei modelli più usati per facilitare le offerte e renderle più simili tra loro.
+\end{itemize}
+
+\subsection{Gestione cliente e CRM (On-Site)}
+Per una gestione efficace del cliente e delle anagrafiche, il sistema deve prevedere:
+\begin{itemize}
+      \item \textbf{Note tecniche permanenti:} Campi dedicati nell'anagrafica impianto per salvare specifiche strutturali
+            (es. altezza soffitto, tipologia muri sandwich/cemento, accessibilità scarico).
+      \item \textbf{Termini commerciali default:} Associazione automatica delle condizioni di pagamento e consegna specifiche per il cliente selezionato.
+      \item \textbf{Origine contatto:} Campo per tracciare la fonte del lead (es. Fiera Sigep, Referral San Cassiano, ecc.).
+\end{itemize}
+
+\subsection{Integrazione e visualizzazione}
+Per migliorare l'integrazione con altri sistemi e la visualizzazione delle informazioni, il sistema deve prevedere:
+\begin{itemize}
+      \item \textbf{Repository disegni/media:} Integrazione (es. OneDrive/Cartelle Server) per mostrare al cliente esempi di realizzazioni,
+            PDF e DWG (senza dati sensibili di altri clienti) direttamente dall'interfaccia.
+      \item \textbf{Tracking commessa:} Visualizzazione semplificata dello stato avanzamento commessa
+            (Project Management $\rightarrow$ Produzione $\rightarrow$ Spedizione) accessibile ai commerciali.
+\end{itemize}
+
+\section{Requisiti tecnici e UX}
+Nicola suggerisce i seguenti requisiti tecnici e di esperienza utente per il nuovo software:
+\begin{itemize}
+      \item \textbf{Modalità offline/sync:} Il software deve permettere di lavorare in locale (offline) durante le visite dai clienti
+            e sincronizzarsi automaticamente con il database centrale una volta ristabilita la connessione VPN.
+      \item \textbf{Multi-finestra:} Possibilità di tenere aperte più schede o finestre di offerte diverse contemporaneamente.
+            Utile la possibilita di un sistema multi-documento \textit{Es: AutoCAD}.
+      \item \textbf{Interfaccia mobile/tablet:} Ottimizzazione per l'uso su tablet (iPad) per la compilazione di dati preliminari e note durante il sopralluogo o in fiera.
+\end{itemize}
+
+\section{Suggerimenti futuri}
+Per miglioramenti futuri anche esterni dal configuratore, Nicholas propone:
+\begin{itemize}
+      \item \textbf{QR Code/NFC per ricambi:} Generazione di QR Code sugli accessori per facilitare la
+            richiesta di ricambi da parte del cliente, con notifica diretta al commerciale di riferimento.
+      \item \textbf{Sconti su singolo articolo:} Possibilità di applicare sconti specifici su righe (es. materiale usato/da fiera)
+            indipendentemente dallo sconto globale.
+      \item \textbf{Unificazione blocchi schema commerciali/tecnici} : Unificare i blocchi AutoCAD di disegno per gli schemi tra gli schemi commerciali e tecnici
+            per evitare discrepanze e facilitare la comunicazione tra reparti.
+            Attualmente si usano blocchi di disegno differenti con simbologie diverse.
+      \item \textbf{Integrazione con CRM esterno:} Collegamento diretto con software CRM esterni (es. Hubspot, Pipedrive)
+            per sincronizzare automaticamente i dati cliente e le offerte create.
+      \item \textbf{Gestione ricambistica:} Implementare delle query che recuperano i possibili ricambi in base al venduto precedente.
+      \item \textbf{Avanzamneto ordine:} Implementare un sistema di avanzamento ordine che permetta di seguire lo stato di avanzamento
+            dell'ordine in tutte le sue fasi (produzione, spedizione, installazione) per dare modo al commerciale di tenere
+            informato il cliente senza interpellare altri reparti. Basta una casella di spunta per ogni fase.
+\end{itemize}
+
+\section{Tempi operativi}
+Nicholas ha detto che per un nuovo assunto il tempo di complizione con
+l'attuale sistema può arrivare anche ad un ora per singola offerta. Con un
+sistema più intuitivo e veloce come quello descritto potrebbe migliorare
+notevolmente i tempi di completamento delle offerte.
+
+\end{document}

@@ -1,0 +1,349 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- Pacchetti Scientifici e Formattazione ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{booktabs, graphicx}
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}
+
+% --- Codifica e Font ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{mathptmx}
+
+% --- Gestione Margini e Layout ---
+\usepackage[includeheadfoot]{geometry}
+\geometry{
+    a4paper,
+    top=3cm,
+    bottom=3cm,
+    left=3.5cm,
+    right=3.5cm,
+}
+
+% --- Gestione Interlinea e Figure ---
+\usepackage{setspace}
+\setstretch{1.3}
+\usepackage[figuresright]{rotating}
+\usepackage{float}
+\usepackage[pdftex, hidelinks]{hyperref}
+% Document metadata
+
+\title{Progettazione database}
+\author{Mattia Cavina}
+\date{03 febbraio 2026}
+
+\begin{document}
+
+\subsection{Importazione del database}
+
+Il database Access attuale è stato convertito e importato direttamente in SQL Server tramite SQL Server Migration Assistant (SSMA)~\cite{SQLServerMigrationAssistant}.
+Le tabelle importate sono state successivamente elaborate tramite SQL Server Integration Services (SSIS)~\cite{SQLServerIntegration} per svuotarle e ricrearne la struttura, ottenendo una base di dati pulita, pronta per il nuovo sistema.
+
+\subsection{Normalizzazione e modifica}
+
+Dopo l'importazione sono state effettuate le modifiche e la normalizzazione del database per adattarlo alle esigenze del nuovo configuratore commerciale.
+
+\subsubsection{Convenzioni di denominazione}
+
+Per garantire coerenza e facilità di comprensione, sono state adottate le seguenti convenzioni:
+
+\begin{itemize}
+    \item Tabelle e campi in minuscolo; nomi composti separati con underscore (es.\ nome\_tabella).
+    \item Nomi dei campi preceduti dal prefisso corrispondente alle prime tre lettere della tabella (es.\ cli\_nome per la tabella clienti).
+    \item Per tabelle con nomi composti da due elementi: la prima lettera della prima parola + le prime due lettere della seconda (es.\ cit\_nome per la tabella clienti\_italia).
+    \item Per tabelle con nomi composti da tre o più elementi: la prima lettera delle prime tre parole (es.\ cee\_nome per clienti\_extra\_europa).
+    \item Chiavi primarie composte da prefisso + id (es.\ cli\_id per la tabella clienti).
+    \item Campi booleani con suffisso \_flag dopo il prefisso (es.\ cli\_flag\_sconto).
+\end{itemize}
+
+\subsubsection{Campi comuni}
+Per facilitare la lettura dei dati e permettere la gestione delle modifiche dei record senza eliminarli ma revisionandoli, si è deciso di aggiungere a tutte le tabelle del database
+i seguenti campi:
+\begin{itemize}
+    \item \textbf{creation\_date} di tipo datetime con default NULL:\ deve essere valorizzata automaticamente con data e ora di creazione del record.
+    \item \textbf{last\_edit\_date} di tipo datetime con default NULL:\ deve essere valorizzata automaticamente con data e ora dell'ultima modifica del record.
+    \item \textbf{creation\_user} di tipo int con default NULL:\ deve essere valorizzato automaticamente con l'ID dell'utente che ha creato il record.
+    \item \textbf{last\_edit\_user} di tipo int con default NULL:\ deve essere valorizzato automaticamente con l'ID dell'utente che ha effettuato l'ultima modifica al record.
+    \item \textbf{deleted} di tipo bit con default 0: indica se un record è stato cancellato (cancellazione logica); questa scelta permette di mantenere lo storico dei dati.
+\end{itemize}
+
+\subsubsection{Normalizzazione}
+Per garantire una maggiore efficienza e coerenza dei dati, si è deciso di normalizzare il database almeno fino alla seconda forma normale (2NF).
+
+\subsection{Non proliferazione tabelle}
+\subsubsection{Scopo}
+Data l'elevato numero di casistiche rilevate nelle interviste e considerando sviluppi futuri non prevedibili, si è deciso di adottare una strategia di non proliferazione delle tabelle.
+Si evita quindi di creare tabelle specifiche per ogni casistica rilevata, preferendo tabelle generiche in grado di contenere più casistiche, in modo da garantire maggiore flessibilità e scalabilità del database.
+\subsubsection{Realizzazione}
+Per realizzare ciò si è predisposto, in determinate tabelle (es.\ dbo.offerte), un campo ``tipo'' e un campo ``padre'': il primo permette di distinguere la casistica del record (es.\ offerta, ordine, distinta tecnica) e il secondo di ricostruire la gerarchia tra i record (es.\ a quale offerta appartiene un ordine).
+Il campo `tipo` è di tipo `int` e, tramite una seconda tabella di lookup (es.\ dbo.tipo\_offerta), è possibile associare a ogni valore del campo `tipo` una descrizione (es. 1 = offerta, 2 = ordine, 3 = distinta tecnica).
+Questa soluzione per quanto possa sembrare meno efficiente in termini di prestazioni, garantisce una maggiore flessibilità e scalabilità del database,
+permettendo di gestire facilmente nuove casistiche senza dover creare nuove tabelle.
+La scelta di adottare questa strategia è stata fatta in particolare per la tabella dbo.offerte dove tramite dei campi attributo possiamo determinare e ricostruire le diverse viste dalla stessa tabella (es: offerta, ordine, distinta tecnica),
+evitando di creare tabelle specifiche per ogni casistica rilevata.
+Questa scelta è poi applicabile anche all'anagrafica clienti, dove, tramite appositi campi attributo, possiamo determinare e ricostruire se un record è contemporaneamente un cliente, un fornitore o una destinazione.
+\subsubsection{Esempio}
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|l|c|l|c|}
+        \hline
+        \textbf{Id} & \textbf{Codice\_ordine} & \textbf{tipo} & \textbf{codice} & \textbf{ID\_padre} \\ \hline
+        1           & OFF14500                & 1             & PRO00001        & null               \\ \hline
+        2           & OFF14500                & 1             & PRO00002        & null               \\ \hline
+        3           & ORD4850                 & 2             & PRO00001        & 1                  \\ \hline
+        4           & ORD4850                 & 2             & PRO00002        & 2                  \\ \hline
+        5           & TEC4850                 & 3             & PRO00001        & 3                  \\ \hline
+        6           & TEC4850                 & 3             & PRO00002        & 4                  \\ \hline
+    \end{tabular}
+    \vspace{0.5cm}
+    \caption{Tabella Ordini}
+\end{table}
+
+\vspace{1cm} % Spazio tra le due tabelle
+
+\begin{table}[h!]
+    \centering
+
+    \begin{tabular}{|c|l|}
+        \hline
+        \textbf{Id} & \textbf{tipo} \\ \hline
+        1           & OFFERTA       \\ \hline
+        2           & ORDINE        \\ \hline
+        3           & TECNICA       \\ \hline
+    \end{tabular}
+    \vspace{0.5cm}
+    \caption{Tabella Decodifica}
+\end{table}
+\subsection{Gestione storico dei dati}
+Per la gestione dello storico dei dati si è scelto di predisporre tabelle di backup che contengano i dati storici, in modo da non appesantire le tabelle principali.
+Questa soluzione è supportata da trigger che spostano automaticamente i dati storici nelle tabelle di backup, garantendo una gestione efficiente dello storico.
+\subsection{Pulizia database importato}
+A seguito dell'importazione del database, è stato necessario effettuare una pulizia delle tabelle, eliminando tabelle e campi non più necessari.
+L'analisi è stata effettuata mediante interviste con gli utenti e tramite l'analisi dei dati, valutando se fossero ancora utilizzati.
+Di seguito sono riportati i passi seguiti per la pulizia del database importato.
+
+
+\subsubsection{Accorpamento tabelle}
+
+\paragraph{Agenti, autori\_offerta}
+Le tabelle degli agenti e degli autori\_offerta potrebbero essere accorpate in un'unica tabella, differenziando i ruoli tramite un attributo.
+Le due tabelle sono molto simili e condividono molti campi, quindi potrebbe essere più efficiente gestirle in un'unica struttura.
+
+\paragraph{lingue\_accessori, lingue\_documenti}
+Sono entrambe tabelle che contengono le lingue disponibili per gli accessori e per i documenti; potrebbero essere accorpate in un'unica tabella per la scelta della lingua, gestendo le traduzioni esternamente al database.
+
+\paragraph{offerte\_dettagli, offerte\_dettagli\_optional, offerte\_ra\_dettagli}
+Queste tabelle sono molto simili e hanno scopi e strutture affini; potrebbero essere accorpate in un'unica tabella con un attributo che indichi se si tratta di un prodotto opzionale.
+
+\paragraph{offerte\_ra, offerte}
+Queste tabelle sono molto simili e condividono molti campi; potrebbero essere accorpate in un'unica tabella, differenziando il tipo di offerta tramite un attributo.
+
+\paragraph{clienti, utilizzatori}
+Queste tabelle condividono dei campi e talvolta il cliente è anche l'utilizzatorefinale.
+Potrebbero essere accorpate in un'unica tabella con un attributo che identifica se è un cliente o cliente finale.
+Importante creare anche un campo padre in cui il cliente finale può essere collegato al cliente, in modo da poter
+gestire le relazioni tra i clienti ed utilizzatori.
+\paragraph{tipi\_causali, tipi\_assistenza}
+Le tabelle hanno il medesimo scopo di gestire le causali di vendita;
+potrebbero essere accorpate in un'unica tabella con un attributo che identifica il tipo di causale.
+
+
+\subsubsection{Eliminazione tabelle}
+Di seguito sono elencate le tabelle che potrebbero essere eliminate in quanto non più necessarie o ridondanti:
+\begin{itemize}
+    \item agenti
+    \item associazioni\_ted
+    \item lingue\_accessori
+    \item lingue\_documenti
+    \item listini
+    \item offerte\_dettagli\_optional
+    \item offerte\_ra
+    \item offerte\_ra\_dettagli
+    \item ordini (Con dovute accortezze.)
+    \item prodotti\_storico\_prezzi
+    \item riferimenti\_esterni
+    \item riferimenti\_interni
+    \item tipi\_cliente
+    \item utilizzatori
+\end{itemize}
+
+\subsection{Tabelle da implementare}
+In base alle interviste, è necessario implementare ulteriori tabelle, tra cui:
+\begin{itemize}
+    \item \textbf{Tabelle dati storici}: tabelle per la gestione dello storico e delle revisioni dei prodotti, in modo da conservare lo storico dei prezzi e delle caratteristiche senza eliminare i prodotti obsoleti.
+          Questa tabella sarà gestita tramite trigger che sposteranno automaticamente i dati obsoleti nella tabella di backup; la ricostruzione avverrà poi tramite query basate sulla data di validità.
+    \item \textbf{Tabelle macro prodotti}: tabella centrale per migliorare la qualità delle offerte.
+          Permette di creare macro-categorie per la compatibilità dei prodotti; scegliendo la macro-categoria verranno suggeriti solo i prodotti compatibili, migliorando la qualità delle offerte e riducendo gli errori.
+          In questa tabella dovranno essere associate anche le proprietà, analogamente ai prodotti, per gestire le proprietà anche a livello di macro-categoria.
+    \item \textbf{Tabella notifiche}: per la gestione delle notifiche, con campi per utente e data, in modo da filtrare le notifiche non lette.
+    \item \textbf{Tabella feedback}: per la raccolta e la gestione dei feedback, con vista amministratore dedicata per l'analisi e il miglioramento del sistema.
+    \item \textbf{Tabella listino merceologico}: permette di applicare sconti o maggiorazioni in base al gruppo merceologico e alla tipologia di prodotto.
+    \item \textbf{Tabella proprietà prodotti}: per gestire le proprietà dei prodotti in modo dinamico e strutturato; sono necessarie tre tabelle in relazione molti a molti.
+          La prima (`tipi\_proprieta`) conterrà le tipologie di proprietà (es. meccaniche, elettriche, pneumatiche, software, ecc.).
+          \begin{table}[h!]
+              \centering
+              \begin{tabular}{|c|l|}
+                  \hline
+                  \textbf{Id} & \textbf{Tipo\_proprieta} \\ \hline
+                  1           & Meccaniche               \\ \hline
+                  2           & Elettriche               \\ \hline
+                  3           & Pneumatiche              \\ \hline
+                  4           & Software                 \\ \hline
+              \end{tabular}
+              \vspace{0.5cm}
+              \caption{Tabella Tipi Proprietà}
+          \end{table}
+          La seconda (`proprieta`) e la relativa tipologia (es. peso, potenza, tensione, ecc.) con una colonna `tipo\_proprieta` per associarla alla tipologia.
+          \begin{table}[h!]
+              \centering
+              \begin{tabular}{|c|l|c|}
+                  \hline
+                  \textbf{Id} & \textbf{Proprieta} & \textbf{Tipo\_proprieta} \\ \hline
+                  1           & Peso               & 1                        \\ \hline
+                  2           & Potenza            & 1                        \\ \hline
+                  3           & Tensione           & 2                        \\ \hline
+                  4           & Portata            & 3                        \\ \hline
+              \end{tabular}
+              \vspace{0.5cm}
+              \caption{Tabella Proprietà}
+          \end{table}
+          La terza (`proprieta\_prodotto`) sarà una tabella di associazione tra prodotti e proprietà in relazione 1 a molti, questa tabella conterrà i campi `prodotto\_id`,
+          `nome\_proprieta\_id` e `valore\_proprieta` per associare ogni prodotto alle sue proprietà specifiche.
+          \begin{table}[H]
+              \centering
+              \begin{tabular}{|c|c|c|}
+                  \hline
+                  \textbf{Prodotto\_id} & \textbf{Nome\_proprieta\_id} & \textbf{Valore\_proprieta} \\ \hline
+                  1                     & 1                            & 100 kg                     \\ \hline
+                  1                     & 2                            & 2000 W                     \\ \hline
+                  2                     & 3                            & 220 V                      \\ \hline
+                  3                     & 4                            & 500 l/min                  \\ \hline
+              \end{tabular}
+              \vspace{0.5cm}
+              \caption{Tabella Proprietà Prodotto}
+              Questa struttura ci permette di aggiungere nuove proprietà dal software senza dover modificare la struttura del database.
+          \end{table}
+    \item \textbf{Tabella capitoli offerte}: tabella per gestire delle sottosezioni all'interno delle offerte, in modo da organizzare meglio le offerte e permettere di gestire meglio le offerte complesse.
+          Questa tabella sarà collegata alla tabella `offerte` tramite una chiave esterna, permettendo di associare più capitoli a un'offerta.
+          L'uso di una tabella ci permette anche di riordinare i capitoli in modo dinamico, senza dover modificare la struttura dell'offerta.
+    \item \textbf{Tabella destinazioni impianto}: tabella dedita a raccogliere tutte le destinazioni di impianto, così da non doverle riscrivere per cliente, utilizzatore o destinazione. Viene così eliminata la destinazione dalla gestione inizialmente pensata nella tabella clienti.
+          La tabella sarà collegata alla tabella `clienti` tramite una chiave esterna, permettendo di associare più destinazioni a un cliente.
+    \item \textbf{Tabella stato offerta}: tabella mancante di lookup per la gestione dello stato di offerta e ordine (es.\ preventivo, in approvazione, approvato, rifiutato; in lavorazione, spedito, consegnato).
+          Questo valore andrà inserito come chiave esterna nella tabella `offerte`, per permettere la gestione dello stato.
+    \item \textbf{Tabelle di lookup}: per la gestione centralizzata delle decodifiche delle foreign key dei campi dediti alla definizione di attributi di una tabella (es. tipologia di offerta, tipologia di cliente, stato dell'offerta, ecc.).
+          L'approccio ci permette di getsire come chiave esterna un intero numero, evitando di dover gestire stringhe e garantendo una maggiore flessibilità e scalabilità del database.
+          Queste tabelle si distinguono per il prefisso ``tipi\_''.
+          Le tabelle necesarie sono:
+          \begin{itemize}
+              \item \textbf{Tipi causali}: per la gestione delle causali di vendita (es. VSS \- vendita, RIT \- reso, ecc.).
+              \item \textbf{Tipi cliente}: per la gestione delle tipologie di cliente(es.\ cliente finale, rivenditore, ecc.).
+              \item \textbf{Tipi documento}: per la gestione delle tipologie di documento (es. offerta, ordine, distinta tecnica).
+              \item \textbf{Tipi imballo}: per la gestione delle tipologie di imballo per le spedizioni (es.\ su gomma, via nave, ecc.).
+              \item \textbf{Tipi impianto}: per la gestione delle tipologie di impianto (es. Bakery, Biscuit, Chocolate,ecc.).
+              \item \textbf{Tipi pagamento}: per la gestione delle tipologie di condizioni di pagamento (es. 30 giorni, 60 giorni, 90 giorni, ecc.).
+              \item \textbf{Tipi percetuale agente}: per la gestione delle tipologie di percentuale agente (es. 1\%, 2\%, 3\%, ecc.).
+              \item \textbf{Tipi proprietà}: per la gestione delle tipologie di proprietà dei prodotti (es. meccaniche, elettriche, pneumatiche, software, ecc.).
+              \item \textbf{Tipi resa}: per la gestione delle tipologie di resa ovvero gli INCOTERMS (es.\ franco fabbrica, franco destino, ecc.).
+              \item \textbf{Tipi stato offerta}: per la gestione delle tipologie di stato dell'offerta e dell'ordine (es.\ preventivo, in approvazione, approvato, rifiutato; in lavorazione, spedito, consegnato).
+              \item \textbf{Tipi vendita}: per la gestione delle tipologie di vendita (es.\ assistenza, ricambi, vendita).
+              \item \textbf{Tipi aree contropartita}: per la gestione delle tipologie di aree contropartita (es. Italia, Europa, Extra Europa).
+          \end{itemize}
+    \item \textbf{Tabella gestione permessi}: tabella contenente l'elenco delle tabelle del database e i permessi per ciascuna di lettura,scrittura e cancellazione, in modo da gestire centralmente i permessi di accesso alle tabelle.
+          Questa tabella sarà collegata alla tabella `utenti` tramite una chiave esterna, permettendo di associare i permessi in base alla tipologia di utente.
+\end{itemize}
+
+\subsection{Seconda Intervista}
+Una volta definita la struttura del database, è stata effettuata una seconda intervista con gli utenti per validare
+la struttura e raccogliere eventuali feedback o modifiche da apportare.
+La prima intervista si è svolta con la CEO dell'azienda che ci ha chiarito i dubbi riguardanti le tabelle non più necessarie e
+ci ha confermato la scelta di adottare una strategia di non proliferazione delle tabelle.
+Una aspettoa ccolto positivamente è la scelta di gestire più tipologie di documenti per fare le valutazioni tecniche post vendita,
+in modo da minimizzare gli errori e migliorare la qualità delle offerte.
+Durante la stessa riunione è definita la roadmap per la realizzazione del software.
+
+\subsubsection{Allineamneto con i commerciali}
+Corretto il database con le modifiche raccolte dalla intervista si è fatto un incontro con il resposnsabile commerciale che
+ci ha appoggiato nelle scelte, rimarcando l'importanza di migliorare la parte di offerte di ricambistica.
+
+L'ultimo incontro si è svolto con due commerciali di riferimento che hanno fatto emergere alcuni dubbi e richieste di modifica come:
+\begin{itemize}
+    \item Possibiltà di dare un titolo all'offerta.
+    \item Gestione degli sconti e rincari non era ottimale nella prima versione , si sono quindi aggiunti i campi necessari.
+    \item Hanno posto l'interrogativo sulla gestione del "Caso speciale", ovvero quando i clienti richiedono prodotti non presenti a catalogo.
+    \item Dall'intrevista è emerso il problema della ricerca dei macrogruppi di riferimento dei prodotti, si è quindi deciso di aggiungere una ulteriore tabella proprieta\_macro\_gruppi per catalogarli meglio.
+    \item Da parte del commerciale addetto ai ricambi è stata avanzata la richeista di un campo per salavre il numero di tiket di assistenza, in modo da poter collegare l'offerta di ricambio al ticket di assistenza e migliorare la tracciabilità delle offerte di ricambio.
+\end{itemize}
+
+\subsection{Definizione tabelle backup}
+La gestione dello storico dei dati verrà fatto mediante tabelle dedicate di backup, ma non sarà necessario tenere traccia di tutte le tabelle,
+ma solo di quelle più importanti e critiche per il funzionamento del sistema.
+L'automatismo di spostamento dei dati obsoleti nelle tabelle di backup sarà gestito tramite trigger,
+in modo da garantire una gestione efficiente dello storico senza appesantire le tabelle principali.
+La scelta del trigger ha un doppio aspetto da un lato permette di gestire in modo automatico lo spostamento dei dati obsoleti,
+dall'altro lato potrebbe sia appesantire le prestazioni che complicare la sincronizazione dei dati che verranno importati da database locali.
+Si è scelto di addottare comunque questa soluzione in quanto semplifica la gestione lato sofware.
+Le tabelle soggette a questa gestione sono:
+\begin{itemize}
+    \item \textbf{Clienti} Tabella dei clienti ed utilizzatori.
+    \item \textbf{Clienti\_destinazioni} Tabella delle destinazioni dei clienti.
+    \item \textbf{Documenti} Tabella dei documenti di offerta,ordini,tecniche.
+    \item \textbf{Documenti\_righe} Tabella delle righe dei documenti.
+    \item \textbf{Montaggi} Tabella dela costificazione dei montaggi.
+    \item \textbf{Prodotti} Tabella dei prodotti.
+    \item \textbf{Prodotti\_composizioni} Tabella delle composizioni dei prodotti, ovvero la loro distinta.
+    \item \textbf{Proprietà\_valori} Tabella dei valori delle proprietà del prodotto.
+\end{itemize}
+
+\subsection{Popolamento delle tabelle}
+Raggiunto un buon grado di completezza, si è proceduto al popolamento delle tabelle con i dati necessari per il funzionamento del sistema.
+
+Come per la costruzione il popolamento è avvenuto tramite SSIS dove si sono creati diversi container per suddividere il lavoro in più fasi,
+partendo dalle tabelle di lookup, passando poi alle tabelle dove i dati sono presi dal vecchio sistema ed infine un container per le tabelle dove presenti i dati fittizzi.
+
+La divisione del lavoro in più container ci ha permesso di gestire meglio il processo di popolamento, oltre che in una fase futura ci permetterà di 
+disabilitare il container di popolamento dei dati fittizzi, in modo da non sovrascrivere i dati reali con quelli fittizzi.
+Per quanto riguarda invece le tabeelle importate verranno controllate in un secondo momento, in modo da eliminare eventuali dati non più necessari o obsoleti,
+e per verificare che i dati siano stati importati correttamente.
+
+\section{Popolamento database con dati reali}
+Raggiunto un buon grado di completezza, si è proceduto al popolamento delle tabelle con i dati reali 
+necessari per il funzionamento del sistema.
+Il popolamento come scelto è avvenuto prendeno i dati dai programmi adibiti a Master Data come ad esempio:
+\begin{itemize}
+    \item \textbf{AD-HOC}: per i dati anagrafici dei clienti, utilizzatori e prodotti.
+    \item \textbf{Fusion}: per i dati tecnici dei prodotti, come le caratteristiche e le proprietà.
+\end{itemize}
+\subsection{Struttura dati aziendale}
+Tutti i dati che necessitiamo risiedono in un unico server aziendale, ma sono gestiti da diversi programmi,
+ ognuno con il proprio database e la propria struttura dati, ma tutti con dtaabse SQL Server.
+  Per poterli importare nel nostro sistema è necessario fare delle query di estrazione dei dati, esse 
+  sono state create facendo reverser engineering dei singoli databse.
+  Una volta capita la struttura dei dati, si è proceduto a creare delle query di estrazione dei dati,
+   in modo da poterli importare nel nostro sistema.
+
+\subsection{Approcio scelto}
+Si è scelto di creare delle stored procedure che ricercano ed eventualmente ricostruiscono i dati in base alle politiche del
+nostro sistema, in modo da avere un controllo maggiore sui dati importati e garantire la coerenza dei dati.
+Le stored procedure sono state scelte in quanto le query di importazioni sono da eseguire in modo automatico e periodico,
+quindi è necessario avere un meccanismo di controllo facilmente gestibile.
+Come per le tabelle anchesse sono integrate nella creazione del database in SSIS.
+
+\subsection{Ordine di creazione}
+Le stored procedure create hanno un ordine di esecuzione ben definito, in quanto alcune dipendono da altre per la creazione dei dati.
+L'ordine di esecuzione è il seguente:
+\begin{enumerate}
+    \item \textbf{sp\_import\_prodotti}: importa i prodotti e le loro caratteristiche.
+    \item \textbf{sp\_import\_distinte\_prodotti}: importa le distinte dei prodotti e le loro caratteristiche.
+    \item \textbf{sp\_import\_proprieta}: importa le proprietà dei prodotti.
+    \item \textbf{sp\_import\_proprieta\_valori}: importa i valori delle proprietà del prodotto.
+\end{enumerate}
+
+Separatamnete:
+\begin{enumerate}
+    \item \textbf{sp\_import\_clienti}: importa i clienti e le loro destinazioni.
+    \item \textbf{sp\_import\_utenti}: importa gli utenti del sistema.
+\end{enumerate}
+\end{document}
+

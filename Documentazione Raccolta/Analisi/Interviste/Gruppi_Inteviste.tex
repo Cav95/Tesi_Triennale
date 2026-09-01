@@ -1,0 +1,115 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}
+
+% Document metadata
+\title{Gruppi Configuratore Commerciale}
+\author{Mattia Cavina}
+\date{10 Dicembre 2025}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    Organizzazione dei gruppi di analisi del configuratore commerciale.
+\end{abstract}
+
+\section{Definizione dei Gruppi}
+\subsection{Proprietà e responsabili reparti}
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Nome}     & \textbf{Ruolo}          \\
+        \hline
+        Sandra Ceccarelli & CEO / Amministrazione   \\
+        \hline
+        Luca Ceccarelli   & CTO / Tecnico           \\
+        \hline
+        Igor Riccardi     & Responsabile Vendite    \\
+        \hline
+        Marco Ricci       & Direttore di Produzione \\
+        \hline
+    \end{tabular}\label{TableOwners}
+    \caption{Elenco dei proprietari e responsabili dei reparti coinvolti nel configuratore commerciale}
+\end{table}
+
+\subsection{Gruppo utilizzatori assidui}
+Di seguito elenco gli utilizzatori che utilizzano ad oggi regolarmente
+l'attuale configuratore commerciale. All'interno dello stesso gruppo saranno
+presenti sia utenti interni che esterni, utenti più o meno abili con gli
+attuali mezzi.
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Nome}     & \textbf{Ruolo}               & \textbf{Anni di esperienza} & \textbf{Frequenza Utilizzo} \\
+        \hline
+        Frida Lega        & Vendita impianti             & \(>10\)                       & Quotidiano                  \\
+        \hline
+        Isacco Barbieri   & Agente                       & \(>10\)                       & Quotidiano                  \\
+        \hline
+        Natalia Danielova & Vendita ricambistica         & \(>5\)                        & Quotidiano                  \\
+        \hline
+        Federico Music    & Amministrazione Ciclo Attivo & \(>3\)                        & Quotidiano                  \\
+        \hline
+    \end{tabular}\label{TableVendorExpert}
+    \caption{Elenco degli utilizzatori assidui con esperienza}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Nome}    & \textbf{Ruolo}       & \textbf{Anni di esperienza} & \textbf{Frequenza Utilizzo} \\
+        \hline
+        Andrea Gorini    & Vendita impianti     & \(<3\)                        & Quotidiano                  \\
+        \hline
+        Alessandro Sassi & Vendita ricambistica & \(<1\)                        & Quotidiano                  \\
+        \hline
+        Nicolas Fadda    & Agente               & \(<1\)                        & Quotidiano                  \\
+        \hline
+    \end{tabular}\label{TableVendorNewest}
+    \caption{Elenco degli utilizzatori assidui con poca esperienza}
+\end{table}
+
+\subsection{Gruppo Non utilizzatori}
+All'interno di questo gruppo sono presenti utenti che non utilizzano
+attualmente il configuratore commerciale, ma che potrebbero trarre beneficio
+dal suo utilizzo o dalla sua nuova versione.
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        Nome             & Ruolo                     & Anni di esperienza & Rapporto col configuratore \\
+        \hline
+        Mattia Maltoni   & Project Engineering       & \(>5\)               & Revisione tecnica          \\
+        \hline
+        Maurizio Alvaro  & Ufficio Tecnico           & \(>5\)               & Consultazione contratti    \\
+        \hline
+        Massimo Dapporti & Ufficio Tecnico Elettrico & \(>10\)              & Consultazione contratti    \\
+        \hline
+        Stefania Benazzi & Logistica                 & \(>10\)              & Consultazione contratti    \\
+        \hline
+    \end{tabular}\label{TableNonVendor}
+    \caption{Elenco degli utenti non utilizzatori del configuratore commerciale}
+\end{table}
+
+\end{document}

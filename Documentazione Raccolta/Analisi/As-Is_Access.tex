@@ -1,0 +1,77 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- Pacchetti Scientifici e Formattazione ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{booktabs, graphicx, hyperref}
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}
+
+% --- Codifica e Font ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{mathptmx}
+
+% --- Gestione Margini e Layout ---
+\usepackage[includeheadfoot]{geometry}
+\geometry{
+    a4paper,
+    top=3cm,
+    bottom=3cm,
+    left=3.5cm,
+    right=3.5cm,
+}
+
+% --- Gestione Interlinea e Figure ---
+\usepackage{setspace}
+\setstretch{1.3}
+\usepackage[figuresright]{rotating}
+\usepackage[pdftex, hidelinks]{hyperref}
+
+% Document metadata
+\title{As-Is Access}
+\author{Mattia Cavina}
+\date{03 febbraio 2026}
+
+\begin{document}
+
+\subsection{Sistema attuale}
+
+L'azienda Cepi~\cite{Cepi} utilizza attualmente un'applicazione sviluppata internamente con frontend e backend in Access per la gestione dei contratti commerciali.
+Il software è stato implementato circa 30 anni fa e ha subito numerosi aggiornamenti e modifiche nel tempo per adattarsi alle esigenze commerciali e all'evoluzione del mercato.
+L'applicazione consente di creare, modificare e gestire i contratti con i clienti, includendo funzionalità quali la gestione degli sconti, la personalizzazione delle offerte e la stampa dei documenti.
+Tuttavia, nonostante le funzionalità implementate, il software presenta significative criticità che ne limitano l'efficienza e l'usabilità, come confermato dalle interviste condotte con gli utenti.
+Tali criticità includono instabilità operativa, mancanza di standardizzazione, codifiche obsolete, difficoltà negli aggiornamenti di prezzo e assenza di integrazione con altri sistemi aziendali.
+Di conseguenza, è indispensabile sviluppare un nuovo configuratore commerciale che affronti tali problematiche e migliori l'esperienza degli utenti, preservando nel contempo le funzionalità essenziali del sistema attuale.
+
+\subsection{Funzionalità attuali da mantenere}
+
+Dalle interviste emerge chiaramente che le funzionalità di utilizzo, riconducibili ai casi d'uso, devono essere preservate integralmente in quanto implementate nel tempo e rispondono alle esigenze dei commerciali.
+Di seguito un elenco delle funzionalità ritenute prioritarie da mantenere nella nuova soluzione:
+
+\begin{itemize}
+    \item \textbf{Divisione per capitoli:} La suddivisione dell'offerta in capitoli (es. ``Dosaggio'', ``Quadri Elettrici'') è fondamentale per l'organizzazione e la chiarezza della documentazione.
+    \item \textbf{Gestione dei sconti:} L'attuale sistema di gestione degli sconti è efficace e deve essere preservato nelle sue funzionalità principali.
+    \item \textbf{Copia delle offerte:} La funzione di duplicazione delle offerte precedenti è molto utile per velocizzare il processo di creazione.
+    \item \textbf{Stampa dei contratti:} I documenti attuali contengono tutte le informazioni necessarie e devono rimanere disponibili.
+    \item \textbf{Conversione in ordini:} Il processo di trasformazione da offerta a ordine deve rimanere sostanzialmente invariato.
+    \item \textbf{Campi presenti:} Tutti i campi attualmente presenti nel software devono essere mantenuti poiché rispondono alle esigenze dei commerciali. Una possibile rimozione dalla visualizzazione (non dal database) sarà valutata in una fase successiva.
+\end{itemize}
+
+\subsection{Criticità del sistema attuale}
+
+Dalle interviste condotte emergono diverse criticità del sistema Access che devono essere affrontate nella nuova soluzione:
+
+\begin{itemize}
+    \item \textbf{Instabilità:} Il software si blocca frequentemente, specialmente durante la stampa o l'aggiunta di righe, costringendo al riavvio dell'applicazione.
+    \item \textbf{Mancanza di standardizzazione:} Molte descrizioni (ad esempio condizioni di pagamento, montaggio) vengono copiate da documenti Word esterni, aumentando il rischio di errori e disallineamenti.
+    \item \textbf{Codifiche obsolete:} I codici attuali non comunicano con il resto dell'azienda (Fusion \cite{Fusion}/Ad Hoc \cite{Ad-Hoc}) e i nomi dei componenti richiedono una revisione completa.
+    \item \textbf{Aggiornamento prezzi:} La funzione ``Aggiorna Prezzi'' esiste ma è rischiosa per voci a prezzo zero o componenti speciali (es. cisterne su misura) che richiedono quotazioni manuali esterne.
+    \item \textbf{Prodotti non aggiornati:} Mancanza di un sistema centralizzato per l'aggiornamento dei listini prezzi e delle caratteristiche dei prodotti.
+    \item \textbf{Assenza di controlli guidati:} Manca un sistema che guidi l'utente nel processo di creazione del contratto per evitare errori o omissioni.
+    \item \textbf{Integrazione limitata:} Il sistema non è integrato con gli altri software aziendali (ERP, CAD), causando duplicazioni di lavoro e potenziali errori.
+    \item \textbf{Duplicazione di dati:} Presenza di clienti o codici duplicati nel sistema, che può portare a confusione e errori nella gestione dei contratti.
+    \item \textbf{Interfaccia obsoleta:} L'interfaccia utente è datata e poco intuitiva, rendendo difficile l'apprendimento e l'utilizzo del sistema.
+\end{itemize}
+
+\end{document}

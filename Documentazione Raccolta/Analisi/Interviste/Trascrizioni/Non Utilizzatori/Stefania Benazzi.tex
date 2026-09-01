@@ -1,0 +1,165 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+
+\title{Stefania Benazzi}
+\date{30-12-2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Ruolo}
+Stefania Benazzi è una responsabile del reparto logistica con esperienza di più di 10 anni all'interno dell'azienda e si occupa di :
+\begin{itemize}
+    \item Coordinamento delle attività di spedizione e ricezione merci.
+    \item Gestione delle relazioni con i fornitori di trasporto e spedizionieri.
+    \item Supervisione della documentazione di trasporto e conformità doganale.
+    \item Ottimizzazione dei processi logistici per migliorare l'efficienza operativa.
+    \item Coordinamento con altri reparti (commerciale, magazzino, produzione) per garantire una gestione fluida delle commesse.
+\end{itemize}
+
+\section{Usi dell'attuale Access:}
+Stefania per quanto indicata come non utilizzatrice di Access , in realtà lo utilizza marginalmente per:
+\begin{itemize}
+    \item Controllare i dati di trasporto e le specifiche richieste per le spedizioni.
+    \item Correzione degli Incoterms e degli indirizzi di spedizione in caso di errori.
+    \item Verifica delle date di consegna previste.
+\end{itemize}
+
+\section{Gestione attuale e flussi di lavoro}
+
+\subsection{Il "File Logistico"}
+L'intero reparto logistica ruota attorno a un file Excel centralizzato che
+raccoglie tutti gli ordini emessi dai commerciali che vanna gestiti all'interno
+del flusso di lavoro aziendale. Le funzioni principali includono:
+\begin{itemize}
+    \item Monitoraggio delle date previste di spedizione.
+    \item Identificazione delle necessità operative: montaggio, programmazione PLC,
+          dimensioni dei silos.
+    \item Gestione dei permessi eccezionali.
+    \item Distribuzione delle informazioni ai reparti specifici (es. montatori, reparto
+          elettrico/PLC).
+\end{itemize}
+A seguito dell'inserimento di un ordine , il reparto logistaca verifica che tutti i documneti utili siano salvati in cartella di rete e procede con la pianificazione delle spedizioni, richiesta permessi.
+\textbf{(Da fari dare il File)}.
+La comunicazione che è stata create una commessa o RA avviene tramite email inviata dal commerciale al reparto logistica alla  mail comune dell'intero reparto.
+
+\subsection{Gestione documentale e cartaceo}
+Nonostante la digitalizzazione, il cartaceo rimane indispensabile nell'attuale
+organizzazione ("Togliere il cartaceo in questo momento in Cepi non è la cosa
+migliore").
+\begin{itemize}
+    \item \textbf{Cartella S: e RA:} I documenti vengono salvati in cartelle di rete specifiche. Le copie tecniche delle RA (Richieste d'Acquisto/Commesse) vengono stampate.
+    \item \textbf{RA Miste:} Per commesse sia meccaniche che elettriche, le copie fisiche vengono duplicate per gestire tempistiche differenti tra i due uffici.
+    \item I contratti vengono scansionati e salvati in formato digitale. Le modifiche ed
+          integrazioni vengono solo fatte sul cartaceo.
+\end{itemize}
+
+\section{Problematiche dati e software (Access vs Ad Hoc)}
+
+\subsection{Discrepanze anagrafiche}
+Esiste una disconnessione tra il database Access (gestionale
+operativo/commerciale) e Ad Hoc (gestionale fiscale/amministrativo).
+\begin{itemize}
+    \item \textbf{Access:} Anagrafiche spesso non aggiornate , serve tenere traccia dei cambiamenti e revisioni.
+    \item \textbf{Ad Hoc:} Contiene l'anagrafica fiscale corretta (Sede Legale), ma spesso le sedi operative o di spedizione sono imprecise.
+    \item \textbf{Indirizzi multipli:} Necessità di distinguere sempre tre entità: Intestatario (Fiscale), Utilizzatore (Fisico), Destinatario Merce (Logistico).
+\end{itemize}
+
+\subsection{Errori commerciali e input dati}
+\begin{itemize}
+    \item  \textbf{Errore nella creazione:}I commerciali tendono a duplicare vecchie RA portandosi dietro errori pregressi. Attualmente, il controllo viene effettuato manualmente dal reparto spedizioni/logistica a valle del processo, causando inefficienze.
+    \item \textbf{Mancazione di informazioni:} Le informazioni di trasporto quasi sempre assenti o incomplete (Incoterms, tipologia imballo, peso, volume).
+\end{itemize}
+
+\subsection{Azioni su Access eseguite da Logistica}
+\begin{itemize}
+    \item  \textbf{Destinazioni:}Viene corretto l'indirizzo di spedizione se errato.
+    \item \textbf{Causali:} Vengono corrette le causali.
+    \item \textbf{Dati di trasporto:} Vengono inseriti i dati mancanti relativi a peso, volume, imballo, Incoterms.
+\end{itemize}
+
+\section{Spedizioni Internazionali e Dogana}
+
+\subsection{Associazione tecnico-commerciale (Packing List)}
+Vi è una criticità nella creazione della \textit{Packing List} per le dogane,
+specialmente extra-UE (es. Argentina).
+\begin{itemize}
+    \item \textbf{Macro-codici:} I commerciali vendono "macro-codici" (es. un impianto completo), ma la dogana richiede il dettaglio specifico per ogni pallet.
+    \item \textbf{Problema:} La logistica deve associare manualmente le singole voci contrattuali alla distinta tecnica ai colli fisici, poiché il sistema non esplode automaticamente i macro-codici nelle loro componenti fisiche distribuite su più pallet.
+    \item \textbf{Soluzione attuale:} Associare manualmente le voci dati i pallet fisici preparati dagli spedizionieri. Il problema si ripercuote alle dogane.
+    \item \textbf{Problemi legati alla soluzione attuale:} L'associazione manuale fatta da UT distinta-contratto può essere errata, di coseguenza anche l'associazione fatta dagli spedizionieri pallet-distinta può essere errata.
+    \item \textbf{Richiesta:} Il nuovo sistema gestionale dovrebbe permettere di collegare automaticamente le voci commerciali con quelle tecniche e facilitare il collegamneto coi pallet fisici, riducendo il rischio di errori manuali.
+    \item \textbf{Gestione codici:} Necessità che Ad-hoc e il configuratore abbiano i medesimi codici articolo.
+\end{itemize} 
+
+\subsection{Gestione della vendita e modifiche:}
+IL metodo attuale è focalizzato sulla vendita rapida  in fase contrattuale , ma non tiene conto delle modifiche successive che spesso avvengono in fase di progettazione e realizzazione dell'impianto. Questo comporta:
+\begin{itemize}
+    \item \textbf{Voci vendute:} In fase di realizzazione vengono aggiunte o modificate voci , in fase di associazione pallet-distinta tecnica-commerciale queste modifiche non sono tracciate e possono portare a discrepanze.
+    \item \textbf{Modifica contratto:} Non è semplice modificare il contratto una volta firmato , questo porta a dover gestire eccezioni e variazioni in modo non strutturato.
+    \item \textbf{Richiesta:} Il nuovo sistema dovrebbe guidare il commerciale in una vendita più simile alla realizzazione senza intaccare la rapidità , in questo modo si ridurrebbero le discrepanze tra voci vendute e voci realizzate.
+    \item \textbf{Tracciabilità modifiche:} Il sistema dovrebbe permettere di tracciare facilmente le revisioni apportate alle voci vendute durante tutto il ciclo di vita dell'ordine.
+\end{itemize}
+
+\subsection{Vincoli normativi e alert}
+Il sistema attuale manca di \textit{alert} automatici per vincoli specifici per
+paese:
+\begin{itemize}
+    \item \textbf{Incoterms:} Necessità di definire correttamente la resa (DAP, DDP, FCA, ecc.) che determina costi e responsabilità.
+    \item \textbf{ISPM 15 e Fumigazione:} Alcuni paesi (Brasile, Australia, Turchia) richiedono certificati specifici per il legno dei pallet, oltre alla marchiatura standard.
+    \item \textbf{Materiali Proibiti:} Esempio di ancoranti chimici vietati in determinati paesi. Queste informazioni dovrebbero emergere automaticamente all'inserimento dell'ordine.
+\end{itemize}
+
+\section{Requisiti per il nuovo sistema gestionale}
+
+\subsection{Storicizzazione del dato}
+Il nuovo sistema deve prevedere la storicizzazione delle anagrafiche (come già
+fa Ad Hoc ma non Access):
+\begin{itemize}
+    \item Se un cliente cambia sede o partita IVA, i documenti storici (es. DDT di anni
+          passati) devono mantenere i dati validi all'epoca dell'emissione.
+    \item Introduzione di \textbf{date di obsolescenza} per articoli e sedi.
+\end{itemize}
+
+\subsection{Adozione nuovo sistema:}
+Per il successo del nuovo sistema, l'impostazione deve essere
+\textit{top-down}:
+\begin{itemize}
+    \item \textbf{Regole Fisse:} Non permettere agli utenti di popolare il database liberamente. Le procedure devono essere definite a monte da un team ristretto per evitare il caos ("Più persone popolano... più casino").
+    \item \textbf{Vincoli all'Ingresso:} I campi chiave (Incoterms, indirizzi, tipologia imballo) devono essere vincolati (menu a tendina) per guidare il commerciale ed evitare errori di digitazione o concettuali.
+    \item \textbf{Formazione:} Necessità di formazione specifica per i commerciali sull'uso corretto del sistema e l'importanza di inserire dati accurati.
+    \item \textbf{Controlli Automatici:} Implementare controlli automatici che verifichino la completezza e correttezza dei dati inseriti prima di permettere il salvataggio dell'ordine.
+    \item \textbf{Guida alla Vendita:} Il sistema dovrebbe guidare il commerciale attraverso il processo di vendita, suggerendo opzioni e avvisando di potenziali errori o omissioni.
+\end{itemize}
+
+\subsection{Integrazione ideale con altri reparti}
+L'obiettivo è un sistema dove:
+\begin{enumerate}
+    \item L'inserimento dell'ordine genera alert automatici (montaggi, permessi, vincoli
+          doganali).
+    \item La distinta tecnica e commerciale sono linkate (Rif CC) fin dalla
+          progettazione.
+    \item Il magazzino lavora su dati digitali che confluiscono direttamente nei
+          documenti di trasporto senza trascrizioni manuali.
+\end{enumerate}
+
+\end{document}

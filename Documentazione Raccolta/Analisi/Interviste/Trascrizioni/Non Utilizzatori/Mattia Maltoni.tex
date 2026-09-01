@@ -1,0 +1,116 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+
+\title{Mattia Maltoni}
+\date{11-12-2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Ruolo}
+Mattia Maltoni è un ingegnere di progetto con esperienza di circa 3 anni
+all'interno dell'azienda e si occupa di :
+\begin{itemize}
+    \item Progettazione e gestione di impianti industriali.
+    \item Collaborazione con il reparto commerciale per la definizione delle specifiche
+          tecniche.
+    \item Supervisione della fase di installazione e messa in servizio degli impianti.
+    \item Coordinamento con i fornitori e gestione delle risorse tecniche.
+    \item Assistenza tecnica post-vendita e supporto ai clienti.
+\end{itemize}
+
+\section{Contatto con l'attuale programma:}
+Mattia non utilizza ne consulta Access per le sue attività lavorative. Il
+contatto con il prodotto dei commerciali avviene tramite documenti cartacei ed
+eventualmente scansionati. Il contratto viene consultato dall'ufficio project
+manager per:
+\begin{itemize}
+    \item Definire il venduto e le specifiche tecniche.
+    \item Revisionare con note tecniche il contratto commerciale. Se non presenti
+          infomazioni fondamnetali per la progettazione richiedono chiarimenti ai
+          commerciali.
+    \item Prendere i contatti con i clienti per quanto riguarda le specifiche tecniche e
+          le conferme dei preliminari di progetto.
+\end{itemize}
+
+\section{Gestione temporale e monitoraggio}
+Il sistema deve permettere un controllo granulare delle date per identificare
+colli di bottiglia e garantire il rispetto delle consegne.
+
+\begin{itemize}
+    \item \textbf{Allineamento date emissione/stampa:}
+          Il sistema deve registrare e confrontare:
+          \begin{itemize}
+              \item \textit{Data emissione ordine:} Data di conferma da parte del cliente.
+              \item \textit{Data stampa/presa in carico:} Data di effettiva ricezione interna.
+          \end{itemize}
+          Il software deve evidenziare automaticamente eventuali discrepanze temporali (ritardi) tra queste due date.
+
+    \item \textbf{Pianificazione a ritroso (Back-Scheduling):}
+          Partendo dalla \textit{Data evasione} (spedizione prevista) o \textit{Start-up impianto}, il sistema deve calcolare le milestone intermedie per assicurare che tutte le parti siano processate nei tempi corretti.
+\end{itemize}
+
+\section{Digitalizzazione}
+Eliminazione del supporto cartaceo e delle annotazioni manuali non tracciabili.
+
+\begin{itemize}
+    \item \textbf{Transizione digitale:} Tutti i campi, le note e le variazioni devono essere compilabili esclusivamente via software.
+    \item \textbf{Log delle modifiche:} Ogni variazione ai dati di commessa deve essere storicizzata. Il sistema deve rispondere ai requisiti di tracciabilità:
+          \begin{itemize}
+              \item \textit{Chi} ha effettuato la modifica.
+              \item \textit{Quando} è stata effettuata (timestamp).
+              \item \textit{Cosa} è stato modificato (valore precedente vs valore attuale).
+          \end{itemize}
+    \item \textbf{Accessibilità orizzontale:} I dati aggiornati devono essere visibili in tempo reale a tutti gli utenti con i relativi permessi, eliminando le versioni obsolete stampate su carta.
+\end{itemize}
+
+\section{Workflow, Stati e Notifiche}
+Automazione del flusso di lavoro tra i reparti (Commerciale, Impianti, UT ,
+UTE).
+
+\begin{itemize} 
+    \item \textbf{Gestione degli stati:} Il software deve distinguere chiaramente lo stato di avanzamento, ad esempio:
+          \begin{enumerate}
+              \item \textit{Pre-inserimento} (Bozza/Commerciale).
+              \item \textit{Inserito in Impianti} (Validato tecnicamente).
+          \end{enumerate}
+    \item \textbf{Sistema di Alerting:} Al passaggio di stato in "Inserito in Impianti", il sistema deve inviare una notifica automatica (email/alert in-app) ai reparti a valle (es. Reparto Elettrico/UTIE) per segnalare la disponibilità della commessa, sostituendo il passaggio fisico del fascicolo.
+\end{itemize}
+
+\section{Anagrafica Compilatore}
+\begin{itemize}
+    \item \textbf{Attribuzione responsabilità:} Deve essere presente un campo "Compilato da" autocompilato con l'utente loggato.
+    \item \textbf{Flessibilità:} Il campo deve rimanere editabile per gestire casi di delega o correzione dell'assegnatario.
+\end{itemize}
+
+\section{Verifica Tecnica (Contratto vs Schema)}
+Modulo dedicato alla gestione delle discrepanze tra il venduto e l'eseguito
+tecnico.
+
+\begin{itemize}
+    \item \textbf{Log variazioni tecniche (Contratto tecnico):}
+          Il software deve includere una sezione specifica (sostitutiva di file Word/note esterne) per registrare le differenze tra il contratto commerciale e lo schema P\&ID (es. numero valvole, componentistica extra).
+    \item \textbf{Obiettivo di integrazione:}
+          Creare un flusso dove le modifiche allo schema tecnico aggiornino le specifiche di commessa, mantenendo allineati i dati economici e tecnici.
+\end{itemize}
+
+\end{document}

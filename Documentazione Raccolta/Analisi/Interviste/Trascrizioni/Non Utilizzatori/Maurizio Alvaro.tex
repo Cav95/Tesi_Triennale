@@ -1,0 +1,110 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+
+\title{Maurizio Alvaro}
+\date{07-01-2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Ruolo}
+Maurizio Alvaro è un ingegnere di progetto con esperienza di più di 10 anni
+all'interno dell'azienda e si occupa di :
+\begin{itemize}
+    \item Progettazione meccanica di macchine industriali.
+    \item Creazione di disegni tecnici e specifiche costruttive.
+    \item Collaborazione con il reparto Project Management per la definizione delle
+          specifiche tecniche.
+\end{itemize}
+
+\section{Contatto con l'attuale programma}
+Maurizio non utilizza ne consulta Access per le sue attività lavorative. Il
+contatto con il prodotto dei commerciali avviene tramite documenti cartacei ed
+eventualmente scansionati. Il contratto viene consultato dall'uffio tecnico per
+:
+\begin{itemize}
+    \item Definire il venduto e le specifiche tecniche.
+    \item Verificare le revisioni e le modifiche apportate post-vendita dai PE.
+    \item Verificare il luogo di montaggio per:
+          \begin{itemize}
+              \item Richiedere verifiche tecniche di specifiche macchine \textit{(es. Globosilo
+                        esterni in ambienti sismici)}
+              \item Definire le specifiche di trasporto.
+              \item Verificare se non esistono delle limitazione particolari all'utilizzo di
+                    determinati componenti.
+          \end{itemize}
+    \item Verificare le condizioni di montaggio e installazione.
+\end{itemize}
+
+\section{Proposte di miglioramento}
+\subsection{Approccio "macro-codici"}
+\begin{itemize}
+    \item Creazione di codici "contenitore" (macro-codici) utilizzati in fase di vendita
+          (es. TVB generico).
+    \item La distinta base di vendita è completa al 90\%.
+    \item L'Ufficio Tecnico interviene successivamente per "riempire" i codici con i
+          disegni specifici e i dettagli costruttivi.
+\end{itemize}
+
+\subsection{Approccio "standardizzazione a catalogo"}
+\begin{itemize}
+    \item Spinta verso una maggiore standardizzazione delle macchine (creazione di un
+          vero catalogo interno).
+    \item Utilizzo di codici già esistenti e definiti per macchine standard (es. TVB
+          standard, stellari taglie 1000/1500/2000), riducendo la necessità di
+          personalizzazioni continue.
+    \item \textbf{Vantaggio:} Il codice di vendita corrisponde già a quello di realizzazione; riduce il carico di lavoro dell'Ufficio Tecnico e minimizza gli errori.
+    \item \textbf{Gestione "Fuori Standard":} Proposta di separare nettamente la gestione dello standard (flusso automatico) dal "su misura" (gestito da un reparto dedicato).
+\end{itemize}
+
+\section{Transizione digitale e gestione documentale}
+È emersa una discrepanza tra le esigenze logistiche e quelle tecniche riguardo al supporto (cartaceo vs digitale).
+
+\begin{itemize}
+    \item \textbf{Problematica attuale:} L'uso di copie cartacee multiple (Vendite, Ufficio Tecnico, Elettrico) porta a perdita di informazioni e note disallineate.
+    \item \textbf{Esigenza ufficio tecnico:} Necessità di passare a un sistema digitale centralizzato.
+    \item \textbf{Vantaggio del digitale:} Tutti visualizzano lo stesso documento aggiornato; le modifiche sono visibili in tempo reale a tutti i reparti, evitando errori dovuti a versioni obsolete.
+\end{itemize}
+
+\section{Gestione delle revisioni e contratti}
+\begin{itemize} 
+    \item \textbf{Integrazione modifiche:} Le revisioni tecniche post-vendita devono essere integrate nel contratto digitale o in una "copia tecnica" speculare.
+    \item \textbf{Vincoli Legali:} Il contratto di vendita firmato (e sdoganato) non può essere modificato liberamente; pertanto, serve un documento parallelo per le specifiche tecniche aggiornate senza alterare l'accordo commerciale originale.
+    \item \textbf{Tracciabilità:} Ogni modifica deve essere tracciata con data, autore e descrizione della variazione per garantire trasparenza e responsabilità.
+    \item \textbf{Accessibilità:} Tutti i reparti coinvolti (Commerciale, Ufficio Tecnico, Logistica) devono avere accesso alle versioni aggiornate dei documenti rilevanti.
+    \item \textbf{Revisione contrattuale:} Necessità di implementare un sistema che consenta di riproporre contratto tecnico al cliente divenendo quello ufficiale.
+\end{itemize}
+
+\section{Prossimi passi suggeriti}
+\begin{enumerate}
+    \item \textbf{Analisi Statistica:} Utilizzare i dati per identificare le macchine più vendute (Best Sellers).
+    \item \textbf{Definizione Standard:} Concentrare gli sforzi di standardizzazione sui "Best Sellers" per creare codici univoci a catalogo.
+    \item \textbf{Flusso Dati:} Definire se il flusso sarà "Riempimento Macro-codici" o "Selezione da Catalogo" (l'orientamento tecnico è per la seconda).
+\end{enumerate}
+
+\section{Gestione documentale attuale}
+Attualmente, la gestione documentale avviene principalmente in formato cartaceo
+, ma l'ufficio tecnico con le utlime modifiche dei flussi di lavoro non
+consulta più quasi il contratto. L'analisi attuale è fatta dall'ufficio PE che
+consulta il contratto cartaceo per le delineare specifiche tecniche.
+
+\end{document}

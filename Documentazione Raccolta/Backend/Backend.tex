@@ -1,0 +1,146 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- Pacchetti Scientifici e Formattazione ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{booktabs, graphicx}
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}
+
+% --- Codifica e Font ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{mathptmx}
+
+% --- Gestione Margini e Layout ---
+\usepackage[includeheadfoot]{geometry}
+\geometry{
+    a4paper,
+    top=3cm,
+    bottom=3cm,
+    left=3.5cm,
+    right=3.5cm,
+}
+
+% --- Gestione Interlinea e Figure ---
+\usepackage{setspace}
+\setstretch{1.3}
+\usepackage[figuresright]{rotating}
+\usepackage{float}
+\usepackage[pdftex, hidelinks]{hyperref}
+% Document metadata
+
+\title{Progettazione backend}
+\author{Mattia Cavina}
+\date{03 febbraio 2026}
+
+\begin{document}
+\maketitle
+\section{Scelta del Framework}
+Dopo una analisi sui vari framwork disponibili in C\# che potessero essere adatti al nostro progetto,
+abbiamo deciso di utilizzare \text{Entity Framework Core} per la gestione del database.
+La connesisione al database è gestita da una classe Factory che si occupa di
+creare la connesisone e restituire un oggetto \text{DbConnection} che viene utilizzato per la gestione delle chiamate al database.
+\section{Pro e Contro della Scelta}
+\subsection{Pro}
+\begin{itemize}
+    \item \textbf{Integrazione con .NET}: Entity Framework Core è progettato per integrarsi perfettamente con l'ecosistema .NET, facilitando lo sviluppo di applicazioni backend.
+    \item \textbf{Supporto per LINQ}: Permette di utilizzare LINQ (Language Integrated Query) per scrivere query in modo più intuitivo e leggibile.
+    \item \textbf{Migrations}: Offre un sistema di migrazioni che semplifica la gestione delle modifiche al database nel tempo.
+    \item \textbf{Cross-platform}: Essendo basato su .NET Core, è compatibile con diverse piattaforme, inclusi Windows, Linux e macOS.
+    \item \textbf{Mappa oggetti-relazionale}: Facilita la mappatura tra le classi C\# e le tabelle del database, riducendo la quantità di codice boilerplate necessario.
+\end{itemize}
+\subsection{Contro}
+\begin{itemize}
+    \item \textbf{Performance}: In alcuni scenari, Entity Framework Core può essere meno performante rispetto a soluzioni più leggere o a query SQL scritte manualmente.
+    \item \textbf{Curva di apprendimento}: Per chi non ha familiarità con i concetti di ORM (Object-Relational Mapping), potrebbe esserci una curva di apprendimento iniziale.
+    \item \textbf{Controllo limitato}: A volte, l'astrazione offerta da Entity Framework Core può limitare il controllo sulle query generate, rendendo difficile ottimizzare le prestazioni in casi complessi.
+    \item \textbf{Overhead}: L'uso di un ORM può introdurre un overhead aggiuntivo rispetto a soluzioni più dirette, soprattutto in applicazioni ad alte prestazioni.
+\end{itemize}
+\subsection{Soluzioni ai Contro}
+Per mitigare i contro di Entity Framework Core, abbiamo adottato alcune strategie:
+\begin{itemize}
+    \item \textbf{Ottimizzazione delle query}: Utilizziamo strumenti di profiling per identificare e ottimizzare le query lente, e in alcuni casi scriviamo query SQL personalizzate quando necessario.
+    \item \textbf{Utilizzo di caching}: Implementiamo meccanismi di caching per ridurre il numero di chiamate al database e migliorare le prestazioni complessive dell'applicazione.
+\end{itemize}
+Queste soluzioni verranno implemenatte al bisogno durante lo sviluppo del progetto, garantendo un equilibrio tra facilità d'uso e prestazioni.
+\section{Struttura}
+La parte del backend verrà sviluppata in un modulo separato esponendo un'API RESTful che consente al frontend di interagire con il database.
+La gestione delle query verrà incampusalta in metodi di DAO dedicati che si occuperanno di eseguire le operazioni CRUD (Create, Read, Update, Delete) sui dati.
+Questo incapsulamneto permetterà l'ottimizzazione delle query e la gestione centralizzata delle operazioni sul database, facilitando la manutenzione e
+l'evoluzione del codice nel tempo.
+\subsection{Gestione della Sicurezza dei Dati}
+La sicurezza dei dati verrà garantita  attravreso un isolamento dei degli oggetti.
+Le classi di accesso ai dati creati dall ORM saranno utilizzati esclusivamente per la gestione delle query e non esposti direttamente al frontend.
+Al frontend verranno esposti solo oggetti di trasferimento dati (DTO) che contengono solo le informazioni necessarie per l'interazione con l'utente,
+evitando di esporre dettagli sensibili o strutture interne del database.
+
+\section{Implementazione della mappatura}
+Per mappare gli oggetti del database generati automaticamente mediante \.NET in clssi di dominio, utilizzeremo la libreria Mapster.
+Mapster è una libreria di mappatura leggera e ad alte prestazioni che consente di mappare facilmente tra oggetti di diversi tipi,
+come ad esempio tra entità del database e DTO (Data Transfer Objects).
+Utilizzando Mapster, possiamo definire le regole di mappatura in modo semplice e flessibile,
+consentendo una conversione efficiente tra le classi generate da Entity Framework Core e le classi di dominio utilizzate nel nostro backend.
+Questa conversione è resa possibile mediante la classe \text(MapsterConfig), implemetazione della interfaccia \text(IRegister) di Mapster,
+che definisce le regole di mappatura tra le classi generate e le classi di dominio.
+Possiamo quindi configurare la profondità della mappatura per gestire correttamente le relazioni tra le entità, evitando problemi di loop infiniti o di prestazioni.
+
+\section{Creazione delle Interfacce di Accesso ai Dati}
+Si è scelto di creare dei Repository divisi per "Argomento" (ad esempio, un repository per la gestione degli utenti, uno per la gestione dei prodotti, ecc.)
+che si occuperanno di incapsulare le operazioni di accesso ai dati.
+Questi reposytory sono stati generati dopo un paio di classi di test per verificare la correttezza delle query e
+l'efficacia della mappatura tra le classi generate da Entity Framework Core e le classi di dominio. Queste ultime sono state provate mediante unit test
+per garantire la correttezza delle operazioni di accesso ai dati e la coerenza tra le classi generate e le classi di dominio.
+Le interfacce generate sono:
+\begin{itemize}
+    \item \text{IBankRepository}: per la gestione delle operazioni relative alle banche.
+    \item \text{ICustomerRepository}: per la gestione delle operazioni relative ai clienti
+    \item \text{IDocumentRepository}: per la gestione delle operazioni relative ai documenti, inclusa la gestione delle righe dei documenti,
+    il loro versionamento e la gestione della promozione dei documenti da offerta a ordine.
+    \item \text{ILanguageRepository}: per la gestione delle operazioni relative alle lingue supportate dall'applicazione.
+    \item \text{ILookupRepository}: per la gestione delle operazioni relative alle tabelle di lookup, che contengono dati di riferimento utilizzati in diverse parti dell'applicazione.
+    Le operazioni all'interno saranno di sola lettura, in quanto queste tabelle vengono gestite direttamente dagli amministratori del database e non devono essere modificate dall'applicazione.
+    \item \text{IMessageRepository}: per la gestione delle operazioni relative ai messaggi,ovvero notifiche e feedback che vengono inviati agli utenti in risposta a determinate azioni o eventi all'interno dell'applicazione.
+    \item \text{IMountingRepository}: per la gestione delle operazioni relative ai montaggi degli impianti, inclusa la gestione degli operatori coinvolti.
+    \item \text{IParagraphRepository}: per la gestione delle operazioni relative ai paragrafi, che rappresentano le sezioni o i blocchi di testo all'interno dei documenti.
+    \item \text{IProductRepository}: per la gestione delle operazioni relative ai prodotti, inclusa la gestione delle loro distinte basi.
+    \item \text{IPropertyRepository}: per la gestione delle operazioni relative alle proprietà, che rappresentano le caratteristiche o gli attributi dei prodotti.
+    \item \text{ISellConditionRepository}: per la gestione delle operazioni relative alle condizioni di vendita, che rappresentano le regole o i criteri applicati alle offerte e agli ordini.
+    \item \text{IShipperRepository}: per la gestione delle operazioni relative ai spedizionieri.
+    \item \text{IStaticRepository}: per la gestione delle operazioni relative ai dati statici, che rappresentano informazioni di riferimento che non cambiano frequentemente,
+    come ad esempio Nazioni, Zone Geografiche, ecc.
+    \item \text{IUserRepository}: per la gestione delle operazioni relative agli utenti, inclusa la gestione dei loro ruoli e permessi all'interno dell'applicazione.
+\end{itemize}
+
+\subsection{Impletazione Repository}
+I repository sopra citati sono stati sviluppati con un sistema test-driven,
+creando prima i test per verificare la correttezza delle operazioni di accesso ai dati e
+la coerenza tra le classi generate da Entity Framework Core e le classi di dominio, e successivamente implementando i metodi necessari per far passare i test.
+Questa metodologia ha permesso di garantire la qualità del codice e la correttezza
+delle operazioni di accesso ai dati fin dalle prime fasi dello sviluppo,
+riducendo il rischio di bug e problemi di coerenza tra le classi generate e le classi di dominio.
+Dato la continua eveluzione del progetto avere una suite di test ben definita ci ha permesso di implementare nuove funzionalità
+e modificare quelle esistenti con maggiore sicurezza.
+Nel corso dello sviluppo delle operazioni CRUD si è reso necessario implmentare già in questa fase le tabelle di backup
+per garatire il recupero dei dati storici.
+
+\section{Tabelle Backup}
+Le tabelle di backup non sono per tutte le tabelle del database, ma solo per quelle significative come 
+ad esempio la tabelle dei prodotti o dei ducumenti, che rappresentano le entità principali del nostro sistema
+e che subiscono frequenti modifiche.
+Esse sono state pensate con una logica ben definita:
+\begin{itemize}
+    \item \textbf{Struttura simile alla tabella originale}: Le tabelle di backup hanno una struttura simile a quella delle tabelle originali, con l'aggiunta di campi per tracciare la data e l'ora della modifica, l'utente che ha effettuato la modifica e un campo per indicare se la riga è stata eliminata o meno.
+    \item \textbf{Gestione delle modifiche}: Ad ogni operazione di update sulla tabella originale, scatta un trigger befor update che copia la riga
+    originale nella tabella di backup, mantenendo traccia delle modifiche effettuate e permettendo di recuperare lo stato precedente dei dati in caso di errori o necessità di analisi storiche.
+    \item \textbf{Recupero dei dati storici}: In caso di necessità, è possibile recuperare i dati storici tramite l'id della riga ed ordinarle per "LastEditDate" per ottenere la cronologia delle modifiche effettuate su quella riga specifica.
+    \item \textbf{Restore dei dati}: In caso di errori o modifiche indesiderate, è possibile utilizzare le tabelle di backup
+    per ripristinare i dati allo stato precedente, garantendo la sicurezza e l'integrità dei dati nel tempo.
+    Verrà comunque incremetata la data di ultima modifica per tenere traccia del momento in cui è stato effettuato il restore
+    e dell'utente che ha effettuato l'operazione.
+\end{itemize}
+\subsection{Trigger}
+I trigger come le tabelle di backup sono stati gestiti inserendoli nel codice di SSIS per garantire la loro creazione automatica durante la fase di deploy del database.
+In questo modo, ogni volta che viene effettuato un deploy del database, i trigger vengono creati automaticamente, garantendo la corretta gestione delle modifiche e
+il tracciamento delle operazioni sui dati fin dalle prime fasi di utilizzo del sistema.
+\end{document}

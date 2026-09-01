@@ -1,0 +1,137 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+\title{Andrea Gorini}
+\date{02-02-2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Ruolo}
+Andrea Gorini è un commerciale con esperienza di circa 3 anni all'interno
+dell'azienda e si occupa di :
+\begin{itemize}
+    \item Creazione delle offerte all'interno di Access per conto di altri commerciali.
+    \item Creazione di preventivi di commesse , ampliamenti o assistenze.
+\end{itemize}
+
+\section{Operazioni comuni}
+Le operazioni più comuni svolte da Andrea all'interno dell'applicativo
+includono:
+\begin{itemize}
+    \item Creazione delle offerte per nuovi impianti.
+    \item Creazione delle offerte per ampliamenti di impianti esistenti.
+    \item Creazione degli ordini qualvolta volta un'offerta viene accettata.
+    \item Nella creazione delle offerte ricerca e copia di vecchie offerte simili.
+\end{itemize}
+\section{Situazione Attuale}
+
+\subsection{Flusso di lavoro attuale:}
+L'attuale flusso di lavoro per la creazione delle offerte prevede:
+\begin{enumerate}
+    \item Creazione di uno schema fuzionale in AutoCAD per definire i componenti
+          necessari.
+    \item Ricerca di un'offerta simile all'interno del database Access.
+    \item Copia dell'offerta esistente e modifica dei dettagli specifici per il nuovo
+          cliente.
+    \item Aggiunta di componenti specifici basati sullo schema AutoCAD.
+    \item Revisione e stampa dell'offerta per l'invio al cliente.
+    \item Conversione dell'offerta in ordine una volta accettata dal cliente.
+    \item Stampa dei documenti per Ufficio Tecnico e Amministrazione.
+\end{enumerate}
+
+\subsection{Criticità dell'attuale sistema}
+\begin{itemize}
+    \item \textbf{Instabilità:} Il software si blocca frequentemente , specialmente durante la stampa o l'aggiunta di righe, costringendo al riavvio.
+    \item \textbf{Mancanza di standardizzazione:} Molte descrizioni \textit{(es. condizioni di pagamento, montaggio)} vengono copiate e incollate da file Word esterni,
+          aumentando il rischio di errori o disallineamenti.
+    \item \textbf{Codifiche obsolete:} I codici attuali "non parlano" con il resto dell'azienda (Fusion/Ad Hoc) e i nomi dei componenti necessitano di una revisione completa.
+    \item \textbf{Aggiornamento prezzi:} La funzione "Aggiorna Prezzi" esiste ma è rischiosa per voci a prezzo zero o componenti speciali \textit{(es. cisterne su misura)}
+          che richiedono quotazioni manuali esterne.
+\end{itemize}
+
+\subsection{Funzionalità da mantenere}
+Andrea sottolinea l'importanza di mantenere alcune funzionalità chiave:
+\begin{itemize}
+    \item \textbf{Divisione in capito:} La suddivisione dell'offerta in capitoli (es. "Dosaggio", "Quadri Elettrici") è fondamentale per l'organizzazione e la chiarezza.
+    \item \textbf{Gestione sconti:} L'attuale sistema di gestione degli sconti è efficace e deve essere preservato.
+    \item \textbf{Personalizzazione:} La possibilità di modificare manualmente sconti e condizioni è essenziale per adattarsi alle esigenze specifiche di ogni cliente.
+    \item \textbf{Ricerca offerte:} La funzione di ricerca e copia di offerte esistenti è molto utile per velocizzare il processo di creazione.
+    \item \textbf{Stampe contratti:} L'attaule contratto ha tutte le informazioni necessarie e deve essere mantenuto.
+\end{itemize}
+
+\section{Requisiti fuzionali emersi}
+
+\subsection{Funzionalità principali}
+Nell'intervista sono emersi i seguenti requisiti funzionali chiave:
+\begin{itemize}
+    \item \textbf{Modalità offline:} Requisito critico. Il commerciale deve poter lavorare in assenza di connessione \textit{(es. scantinati, aerei)} con sincronizzazione automatica al ripristino della rete.
+    \item \textbf{Versioning delle offerte:} Necessità di gestire le revisioni (R1, R2, R3) mantenendo invariato il numero di offerta principale per migliorare la rintracciabilità del progetto. Un cliente potrebbe avere in trattaiva più ampliamenti e
+          se per ogni ampliamento si hanno numri di offerta diversi si ha una porpagazione di numeri difficile da gestire.
+    \item \textbf{Inserimento a blocchi/capitoli:} Possibilità di inserire nuovi capitoli o blocchi di componenti tra voci già esistenti (es. inserire un dosaggio tra la voce 4 e la 5) senza dover rifare l'offerta.
+    \item \textbf{Gestione prezzi flessibile:} Mantenere l'aggiornamento massivo dei prezzi qual'ora si renda necessaria , ma permettere l'editabilità manuale (sconti strategici, validità offerta, accordi specifici).
+    \item \textbf{Possibilità di aggiugere capitoli in modo ordinato:} Attualmente tutte le aggiunte sono fatte in coda all'offerta ,
+          Andrea suggerisce di poter scegliere in che punto dell'offerta inserire un nuovo capitolo.
+\end{itemize} 
+
+\subsection{User experience (UX) e guidata}
+Per supportare i profili Junior e ridurre gli errori:
+\begin{itemize}
+    \item \textbf{Macro-categorie guidate:} Implementazione di "wizard" di selezione. Esempio: Selezionando "Globo", il sistema deve proporre in automatico gli accessori correlati
+          \textit{(es. filtri, portelli antiscoppio, ecc.)} per evitare dimenticanze (che causano perdite economiche).
+    \item \textbf{Menu a tendina standard:} Sostituzione del copia-incolla con tendine precompilate per condizioni commerciali, montaggi , pagamneti ecc.
+          Mantenere la possibilità di editarli manualmente se necessario.
+    \item \textbf{Ricerca per tag:} Utile l'inserimeto di tag per le ricerche , Andrea suggerisce però di rimanere "semplici" per evitare di complicare ulteriormente la ricerca.
+    \item \textbf{Importazione dati cliente:} Mantenere la possibilità di importare le codizioni di vendita direttamente dall'anagrafica clienti per evitare ridondanze.
+          Serve mantenere la possibilità di editarle manualmente se necessario.
+    \item \textbf{Template offerte:} Andrea sconsiglia l'addozione di template rigidi per le offerte in quanto ogni cliente ha esigenze diverse.
+          Meglio mantenere un'offerta flessibile e personalizzabile, ma guidando l'utente con le funzionalità sopra descritte.
+\end{itemize}
+
+\subsection{Integrazione e flussi aziendali}
+La nuova soluzione deve integrarsi con i reparti interni:
+\begin{itemize}
+    \item \textbf{Codifica univoca:} Il nuovo software deve utilizzare codici allineati con l'ERP (Ad Hoc) e l'Ufficio Tecnico (Fusion/Solidworks).
+    \item \textbf{Evoluzione tecnica post-vendita:} L'Ufficio Tecnico (PM/PE) dovrebbe poter accedere all'offerta trasformata in ordine per apportare modifiche tecniche (distinta tecnica vs distinta commerciale) e tracciare le variazioni di costo/componenti.
+    \item \textbf{Stampe differenziate:} Generazione automatica di documenti distinti per Amministrazione e Ufficio Tecnico senza dover ripetere la procedura di stampa.
+          Attuamente il commerciale deve stampare il contratto in due modalità differenti a seconda del reparto di destinazione.
+\end{itemize}
+
+\section{Sviluppi futuri}
+Andrea identifica due possibili sviluppi futuri che al momento non sono
+prioritari:
+\begin{itemize}
+    \item \textbf{Integrazione calcoli Excel:} Possibilità futura di lanciare fogli di calcolo (es. dimensionamento quadri elettrici) direttamente dal software e importarne il risultato.
+    \item \textbf{Integrazione disegni (CAD):} Possibilità di legare l'offerta a schemi o layout semplificati, ma considerata una funzione avanzata per fasi successive.
+\end{itemize}
+
+\section{Strategia di rilascio}
+L'intervistato consiglia vivamente di:
+\begin{enumerate}
+    \item Rilasciare una prima versione che replichi le funzioni attuali ma con maggiore
+          stabilità e UX migliorata ("Partire Basic").
+    \item Far testare il software a utenti "propositivi" (es. Thomas e Andrea stesso)
+          prima del rilascio globale.
+    \item Implementare le funzioni avanzate (integrazione Excel/CAD) solo dopo che la
+          base è consolidata.
+\end{enumerate}
+
+\end{document}

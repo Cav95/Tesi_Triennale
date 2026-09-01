@@ -1,0 +1,229 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+% Titolo e intestazione
+\title{Federico Music}
+\date{20-01-2026}
+
+
+\begin{document}
+\maketitle
+
+\paragraph{Nota:}
+L'intervista è stata fatta in collaborazione di Giada Schiumarini
+amministrativa con ruoli di analisi aziendali.
+
+\section{Ruolo}
+Federico Music è un amministrativo con esperienza di circa 2 anni all'interno
+dell'azienda e si occupa di :
+\begin{itemize}
+      \item Esportazione degli Ordini da Access al gestionale Ad-Hoc.
+      \item Controllo della correttezza dei dati esportati.
+      \item Fatturazione delle commesse.
+      \item Gestione delle note di credito.
+      \item Gestione delle scadenze di pagamento.
+\end{itemize}
+
+\section{Situazione attuale}
+
+\subsection{Attuale utilizzo di Access}
+Federico utilizza Access per:
+\begin{itemize}
+      \item Esportare gli ordini creati dai commerciali verso il gestionale Ad-Hoc.
+      \item Verificare i dati di pagamento e le scadenze.
+      \item Controllare la correttezza dei dati inseriti nei vari campi che verranno
+            esportati.
+\end{itemize}
+
+\subsection{Attuale flusso di lavoro}
+L'attuale flusso di lavor di Federico parte dalla conferma d'ordine da parte
+dei commerciali e si articola in:
+\begin{itemize}
+      \item I commerciali inseriscono le conferme d'ordine in un sistema SharePoint/Access
+            (definito "Cassetto").
+      \item L'amministrazione consulta il sistema due volte al giorno (8:00 e 13:30) per
+            processare le nuove richieste.
+      \item Controllo manuale delle conferme, delle condizioni di pagamento e dei dati
+            doganali prima della validazione.
+      \item Validazione in Access.
+      \item Generazione automatica di un file Excel/CSV di esportazione da Access.
+      \item Importazione manuale/guidata nel gestionale ERP "Ad-Hoc".
+\end{itemize}
+
+\subsection{Controlli Attuali}
+Attualmente Federico effettua i seguenti controlli manuali in Access:
+\begin{itemize}
+      \item Controllo delle note di credito.
+      \item Controllo delle scadenze di pagamento.
+      \item Controllo dello stato impianti per bloccare spedizioni in caso di mancati
+            pagamenti.
+      \item Controlli di compliance \textit{(es. sanzioni, VIES, origine merce, ecc.)}.
+\end{itemize}
+
+\subsection{Funzionalità da mantenere}
+Nell'attuale programma Access ci sono alcune funzionalità o campi dati da
+mantenere:
+\begin{itemize}
+      \item \textbf{Campo tipologia offerta:} Distinzione tra commesse nuove e RA (Richieste
+            Assistenza), RA di amplimento , RA ricambi , ecc.
+      \item \textbf{Esportazione dati ad Ad-Hoc:} Funzionalità di esportazione dati verso il gestionale
+            ERP Ad-Hoc.
+      \item \textbf{Mantenere possibilità di modifica manuale:} Alcuni campi devono rimanere editabili per l'amministrazione come i pagamneti.
+\end{itemize}
+
+\section{Requisiti funzionali}
+
+\subsection{Gestione ordini e commesse}
+La gestione delle commesse e degli ordini deve prevedere:
+\begin{itemize}
+      \item \textbf{Distinzione RA vs commesse:} Necessità di distinguere chiaramente tra:
+            \begin{itemize}
+                  \item \textit{Commesse:} Vendita nuovi impianti.
+                  \item \textit{RA (Richieste Assistenza):} Ricambi, ampliamenti, manutenzioni.
+            \end{itemize}
+      \item \textbf{Categorizzazione RA:} Implementazione di un campo obbligatorio per specificare la tipologia (lista di circa 10-13 voci, es: \textit{Ampliamento, Componenti, Manutenzione, Garanzia, ecc.}) per facilitare il routing verso l'Ufficio Tecnico.
+      \item \textbf{Numerazione:}
+            \begin{itemize}
+                  \item Il numero documento, fondamentale per la gestione amministrativa , deve essere
+                        univoco. Attualmente corrisponde al numero commessa per quanto riguarda le
+                        commesse e al numero della RA per quanto riguarda gli ordini successivi dello
+                        stesso impianto.
+                  \item Possibilità di generare il numero progressivo direttamente nel nuovo
+                        applicativo e passarlo ad Ad Hoc, evitando discrepanze.
+            \end{itemize}
+      \item \textbf{Stato "Cassetto":} Mantenimento di un'area di "staging" (conferme in attesa di processazione amministrativa). Valutare se integrarla all'interno dell'applicativo o mantenerla separata.
+\end{itemize}
+
+\subsection{Gestione pagamenti e fatturazione}
+La gestione dei pagamenti e della fatturazione deve prevedere:
+\begin{itemize}
+      \item \textbf{Template condizioni di pagamento:} Pre-impostazione di template standard \textit{(es. 30\% ordine, 30\% merce pronta)}, ma con \textbf{totale editabilità} da parte dell'utente per gestire eccezioni.
+      \item \textbf{Dati fattura:} Necessità di riportare in fattura riferimenti specifici:
+            \begin{itemize}
+                  \item Numero ordine cliente.
+                  \item Numero ordine interno.
+                  \item \textbf{Numero ordine cliente} (Dato critico spesso mancante, da rendere campo esplicito).
+                  \item Riferimento DDT.
+            \end{itemize}
+\end{itemize}
+
+\subsection{Alert e controlli amministrativi}
+Per un supporto proattivo all'amministrazione, il sistema deve prevedere:
+\begin{itemize}
+      \item \textbf{Controlli geografici/sanzioni:} Sistema di \textit{alert} automatico basato sulla nazione selezionata (es. Russia, Bielorussia, Cuba)
+            per segnalare embarghi o necessità di certificazioni (es. AIFEC, Dual Use).
+      \item \textbf{Origine merce:} Segnalazione di potenziali conflitti di origine merce (es. prodotti \textit{Made in USA} verso paesi sanzionati).
+      \item \textbf{Validazione VIES:} Verifica validità Partite IVA (specie per UE).
+\end{itemize}
+
+\section{Struttura dati e anagrafiche}
+
+\subsection{Avvio fase amministrativa}
+L'avvio della fase amministrativa deve essere subordinata alla conferma
+d'ordine del cliente da parte del commerciale. Sono da gestire due casi:
+\begin{itemize}
+      \item \textbf{Ordine confermato dal cliente:} Il commerciale riceve esplicita conferma dal cliente,
+            conferma l'ordine e l'amministrazione può procedere.
+      \item \textbf{Ordine non confermato dal cliente:} In assenza di conferma scritta dal cliente il commerciale può mandare avanti l'ordine per iniziare a processarlo.
+            In questo caso l'amministrazione deve essere avvisata che l'ordine non è stato confermato, ma verrà ultimato una volta confermato.
+\end{itemize}
+
+\subsection{Anagrafica clienti (livelli)}
+Il sistema deve gestire una struttura a tre livelli per ogni commessa,
+risolvendo l'attuale duplicazione dei clienti in Access:
+\begin{enumerate}
+      \item \textbf{Cliente (Buyer):} Intestatario fattura/contratto \textit{(es. Rivenditore)}.
+      \item \textbf{Utilizzatore (End User):} Soggetto giuridico che usa l'impianto (fondamentale per certificati Dual Use).
+      \item \textbf{Destinazione impianto:} Luogo fisico di consegna/montaggio (può differire dalla sede legale dell'utilizzatore).
+\end{enumerate}
+Da tenere in cosiderazione che i tre livello possano essere coincidenti
+(es. Cliente che è anche utilizzatore e luogo di consegna).
+
+\subsection{Attributi Aggiuntivi}
+Alcuni attributi aggiuntivi sono fondamentali per la corretta gestione
+amministrativa:
+\begin{itemize}
+      \item \textbf{Settore merceologico (Industry):} Campo per tracciare l'uso finale dell'impianto (es. \textit{Bakery, Pizza, Gelato}) legato alla commessa e non solo al cliente.
+      \item \textbf{Lingua documenti:} La lingua dei documenti non deve dipendere rigidamente dal paese, ma essere un attributo selezionabile (es. Cliente Romeno che richiede documentazione in Italiano).
+\end{itemize}
+
+\section{Integrazioni e Codifiche}
+
+\subsection{Integrazione con Ad-Hoc (ERP)}
+L'integrazione con il gestionale Ad-Hoc deve prevedere:
+\begin{itemize}
+      \item \textbf{Sincronizzazione clienti:} Importazione univoca dei codici clienti da Ad-Hoc per evitare duplicati.
+      \item \textbf{Codici articolo:}
+            \begin{itemize}
+                  \item \textit{Attuale:} Uso di codice generico "FM"("Fuori Magazzino" in quanto non esiste una corrispondenza univoca).
+                  \item \textit{Desiderata:} Passaggio a codici strutturati (livello 1 distinta base) condivisi con l'Ufficio Tecnico, mantenendo però la flessibilità di modificare la descrizione in fattura per il cliente
+                        (che spesso vuole descrizioni generiche tipo "Soffiante" e non codici tecnici). Faciliterebbe la costificazione , la tracciabilità e l'analisi dei dati.
+            \end{itemize}
+      \item \textbf{Causali contabili:}
+            \begin{itemize}
+                  \item \textbf{ORCAN:} Vendita con installazione (Cantiere).
+                  \item \textbf{ORCVE:} Vendita pura o con installazione minima.
+            \end{itemize}
+\end{itemize}
+\subsection{Campi fondamentali}
+Per l'amministrazione sono fondamentali i seguenti campi:
+\begin{itemize}
+      \item Dati del Cliente \textit{(Ragione Sociale, Indirizzo, Partita IVA, \dots)}. (Da
+            verificare meglio con i reparti commerciali)
+      \item Numero Ordine Cliente.
+      \item Numero Ordine Interno (commessa o RA). Corrisponde al numero documento in
+            Ad-Hoc ed è unico per ogni ordine. \textit{(Si può rendere UNIQUE con il
+                  codice)}.
+      \item Partita IVA Cliente.
+      \item Tipologia di vendita , se commessa nuova o RA e sua volta RA di che tipo
+            \textit{(es. ampliamento, ricambi, manutenzione , ritiro , \dots)}. Da questa
+            ne potrebbe dirivare il codice dell'ordine \textit{(es. COMM , VSS , RIT,
+                  \dots)}.
+      \item Condizioni di Pagamento , possono essere preimpostate associate a certi
+            clienti. Prestare attenzione alle casistiche:
+            \begin{itemize}
+                  \item Pagamento a stati di avanzamento \textit{(es. 30\% anticipo, 40\% merce pronta,
+                              30\% a collaudo)}.
+                  \item Pagamento a 30/60/90 giorni data fattura.
+                  \item Pagamento a 30/60/90 in date prestabilite \textit{(es. 30 di maggio)}.
+            \end{itemize}
+      \item Data Consegna Stimata.
+      \item Valuta.
+      \item Nazione di destinazione , con relative regole di compliance.
+      \item Luogo esatto di consegna.
+      \item Causali contabili \textit{ORCAN} o \textit{ORCVE}.
+      \item Codice Articolo esistenti in Ad-Hoc, la descrizione deve essere editabile.
+            Possibilità così di esportare con codici standard ma descrizioni
+            personalizzate.
+      \item Lingua Documenti , legata al singolo cliente.
+      \item Tipologia di produzione del cliente (es. \textit{Bakery, Pizza, Gelato}).
+\end{itemize} 
+
+\section{Note operative per la transizione}
+Federico fornisce le seguenti indicazioni operative per la transizione al nuovo
+sistema:
+\begin{itemize}
+      \item L'amministrazione è favorevole a un periodo di utilizzo parallelo (nuovo
+            software + Access) per testare i flussi.
+      \item La modifica manuale dei dati \textit{(es. descrizioni in fattura, condizioni di
+                  pagamento speciali)} rimane una necessità operativa inderogabile per Federico.
+\end{itemize}
+
+\end{document}

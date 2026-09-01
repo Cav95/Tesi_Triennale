@@ -1,0 +1,73 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+% Document metadata
+\title{Gruppi Configuratore Commerciale}
+\author{Mattia Cavina}
+\date{10 Dicembre 2025}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    Domande da porre ai gruppi di analisi del configuratore commerciale.
+\end{abstract}
+
+\section{Introduzione}
+Stiamo cercando di sviluppare un nuovo configuratore commerciale per migliorare
+l'efficienza e l'usabilità rispetto all'attuale soluzione basata su Access.
+Abbiamo identificato due gruppi principali di utenti per l'analisi del
+configuratore commerciale: utilizzatori assidui e non utilizzatori.
+
+\section{Domande per i Gruppi di Analisi}
+\subsection{Domande per entrambi i gruppi}
+\begin{itemize}
+    \item Anni di esperienza del tuo ruolo?
+    \item Cosa ti aspetti dal nuovo configuratore commerciale e dai nuovi contratti?
+    \item Quali sono le funzionalità attuali più importanti per te?
+    \item Hai suggerimenti per future funzionalità da includere?
+    \item Suggerimenti per facilitare l'adozione del nuovo configuratore?
+\end{itemize}\label{GenericQuestions}
+
+\subsection{Domande per utilizzatori assidui}
+\begin{itemize}
+    \item Quali utilizzi fai dell'attuale programma Access?
+    \item Mostrami un esempio di come utilizzi il configuratore commerciale.
+    \item Quali sono le funzionalità che usi più frequentemente?
+    \item Quali sono le funzionalità che trovi meno utili o difficili da usare?
+    \item Quali sono le principali difficoltà che incontri nell'uso quotidiano?
+    \item Quali operazioni pensi che richiedano più tempo o passaggi rispetto alle
+          procedure che vorresti adottare?
+    \item Puoi descrivere la procedura che hai in mente?
+\end{itemize}\label{VendorQuestions}
+
+\subsection{Domande per non utilizzatori}
+\begin{itemize}
+    \item Come utilizzi attualmente i contratti commerciali nel tuo ruolo?
+    \item Come ti approcci con il reparto vendite?
+    \item Nel tuo ruolo hai bisogno di utilizzare direttamente il configuratore
+          commerciale?
+    \item Raccontami come ti approcci alla gestione dei contratti dopo che arrivano nel
+          tuo reparto.
+    \item Suggerimenti per facilitare l'adozione del nuovo configuratore?
+\end{itemize}\label{NonVendorQuestions}
+
+\end{document}

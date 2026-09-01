@@ -1,0 +1,1122 @@
+\documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{listings}
+\usepackage{xcolor} % Per colori personalizzati
+\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
+
+\lstdefinelanguage{SQL}{
+  morekeywords={SELECT,FROM,WHERE,AND,OR,INSERT,INTO,VALUES,UPDATE,SET,DELETE,CREATE,TABLE,PRIMARY,KEY,FOREIGN,NOT,NULL,JOIN,INNER,LEFT,RIGHT,ON,AS,ORDER,BY,GROUP,HAVING,DISTINCT},
+  sensitive=false,
+  morecomment=[l]{--},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+}
+
+\lstset{
+  language=SQL,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{darkgreen}\itshape,
+  stringstyle=\color{red},
+  %backgroundcolor=\color{black!5},
+  %frame=single,
+  breaklines=true,
+  showstringspaces=false
+}
+
+\title{Pulizia finale del database}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    In questo documento vengono presentati i risultati della pulizia finale del database,
+    con l'elenco delle tabelle che sono state mantenute, eliminate o modificate, e le motivazioni alla base di queste decisioni.
+\end{abstract}
+\section{Tabelle risultati della pulizia finale}
+
+\subsection{Agenti}(Eliminare gestita con tabella utenti)
+Diventa la tabella utenti, l'unione con la tabella utenti va fatta tenendo conto di avere anche un campo per identificare la tipologia di utente (agente, cliente, ecc.).
+\begin{lstlisting}
+
+    CREATE TABLE [dbo].[agenti] (
+    [age_id]         INT            IDENTITY (1, 1) NOT NULL,
+    [age_nome]       NVARCHAR (40)  NULL,
+    [age_indirizzo]  NVARCHAR (150) NULL,
+    [age_cap]        NVARCHAR (5)   NULL,
+    [age_citta]      NVARCHAR (25)  NULL,
+    [age_provincia]  NVARCHAR (2)   NULL,
+    [age_zona]       NVARCHAR (20)  NULL,
+    [age_telefono]   NVARCHAR (15)  NULL,
+    [creation_date]  DATETIME       NULL,
+    [creation_user]  INT            NULL,
+    [last_edit_date] DATETIME       NULL,
+    [last_edit_user] INT            NULL,
+    [deleted]        BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [Agente$PrimaryKey] PRIMARY KEY CLUSTERED ([age_id] ASC)
+); 
+\end{lstlisting}
+
+
+\subsection{autori\_offerte}(Diventa la tabella utenti)
+Tabella che raccoglie tutti i possibili autori delle offerte di vendita, attualmente sostituibile con una tabella degli utenti.
+La tabelle deve avere un campo per identificare il ruolo dell'utente (agente, cliente, ecc.),
+in modo da poter gestire mediante questa tabella sia gli agenti che, all'interno delle offerte, gli autori, i riferimenti interni ed esterni, ecc.
+La tabella utenti può essere popolata anche da contatti che non usano direttamnete il software, ma che possono essere utilizzati come riferimento per le offerte.
+\begin{lstlisting}
+    CREATE TABLE [dbo].[autori_offerte] (
+    [aof_id]         INT             IDENTITY (1, 1) NOT NULL,
+    [aof_nome]       NVARCHAR (60)   NULL,
+    [aof_sigla]      NVARCHAR (3)    NULL,
+    [aof_firma]      VARBINARY (MAX) NULL,
+    [creation_date]  DATETIME        NULL,
+    [creation_user]  INT             NULL,
+    [last_edit_date] DATETIME        NULL,
+    [last_edit_user] INT             NULL,
+    [deleted]        BIT             DEFAULT ((0)) NULL,
+    CONSTRAINT [autori_offerte$PrimaryKey] PRIMARY KEY CLUSTERED ([aof_id] ASC),
+    CONSTRAINT [SSMA_CC$autori_offerte$aof_sigla$disallow_zero_length] CHECK (len([aof_sigla])>(0)),
+    CONSTRAINT [SSMA_CC$autori_offerte$aof_nome$disallow_zero_length] CHECK (len([aof_nome])>(0))
+);
+\end{lstlisting}
+
+
+\subsection{banche\_appoggio}
+Tabella che raccoglie le banche di appoggio utilizzate dall'azienda per le vendite.
+\begin{lstlisting}
+
+CREATE TABLE [dbo].[banche_appoggio] (
+    [bap_id]             INT            IDENTITY (1, 1) NOT NULL,
+    [bap_sigla]          NVARCHAR (20)  NULL,
+    [bap_agenzia]        NVARCHAR (100) NULL,
+    [bap_abi]            NVARCHAR (50)  NULL,
+    [bap_cab]            NVARCHAR (50)  NULL,
+    [bap_conto_corrente] NVARCHAR (50)  NULL,
+    [bap_iban]           NVARCHAR (50)  NULL,
+    [creation_date]      DATETIME       NULL,
+    [creation_user]      INT            NULL,
+    [last_edit_date]     DATETIME       NULL,
+    [last_edit_user]     INT            NULL,
+    [deleted]            BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [banche_appoggio$PrimaryKey] PRIMARY KEY CLUSTERED ([bap_id] ASC),
+    CONSTRAINT [SSMA_CC$banche_appoggio$bap_agenzia$disallow_zero_length] CHECK (len([bap_agenzia])>(0)),
+    CONSTRAINT [SSMA_CC$banche_appoggio$bap_abi$disallow_zero_length] CHECK (len([bap_abi])>(0)),
+    CONSTRAINT [SSMA_CC$banche_appoggio$bap_conto_corrente$disallow_zero_length] CHECK (len([bap_conto_corrente])>(0)),
+    CONSTRAINT [SSMA_CC$banche_appoggio$bap_sigla$disallow_zero_length] CHECK (len([bap_sigla])>(0)),
+    CONSTRAINT [SSMA_CC$banche_appoggio$bap_iban$disallow_zero_length] CHECK (len([bap_iban])>(0)),
+    CONSTRAINT [SSMA_CC$banche_appoggio$bap_cab$disallow_zero_length] CHECK (len([bap_cab])>(0))
+);
+\end{lstlisting}
+
+\subsection{categorie\_utilizzatori}(Rinominare in destinazione\_uso)
+Tabella con le tipologie di destinazioni d'uso degli impianti (es.: bakery, pizza, ecc.).
+Si potrebbe rinominare in ``destinazione\_uso'' per essere più chiaro.
+Inserire un controllo per non avere categorie con lo stesso nome, in modo da evitare confusione e errori di inserimento.
+\begin{lstlisting}
+    CREATE TABLE [dbo].[categorie_utilizzatori] (
+    [cut_id]         INT           IDENTITY (1, 1) NOT NULL,
+    [cut_categoria]  NVARCHAR (30) NULL,
+    [creation_date]  DATETIME      NULL,
+    [creation_user]  INT           NULL,
+    [last_edit_date] DATETIME      NULL,
+    [last_edit_user] INT           NULL,
+    [deleted]        BIT           DEFAULT ((0)) NULL,
+    CONSTRAINT [categorie_utilizzatori$PrimaryKey] PRIMARY KEY CLUSTERED ([cut_id] ASC),
+    CONSTRAINT [SSMA_CC$categorie_utilizzatori$cut_categoria$disallow_zero_length] CHECK (len([cut_categoria])>(0))
+);
+
+\end{lstlisting}
+
+
+\subsection{causali}(Rinnominate in tipi\_causali)
+Tabella con le causali di vendita dei prodotti (es.: commessa, assistenza, ritiro, ecc.).
+In particolare si gestiscono le sigle come VSS, COMM, RIT, ecc.
+\begin{lstlisting}
+
+    CREATE TABLE [dbo].[causali] (
+    [cau_id]          INT            IDENTITY (1, 1) NOT NULL,
+    [cau_sigla]       NVARCHAR (10)  NULL,
+    [cau_descrizione] NVARCHAR (255) NULL,
+    [creation_date]   DATETIME       NULL,
+    [creation_user]   INT            NULL,
+    [last_edit_date]  DATETIME       NULL,
+    [last_edit_user]  INT            NULL,
+    [deleted]         BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [causali$PrimaryKey] PRIMARY KEY CLUSTERED ([cau_id] ASC),
+    CONSTRAINT [SSMA_CC$causali$cau_descrizione$disallow_zero_length] CHECK (len([cau_descrizione])>(0)),
+    CONSTRAINT [SSMA_CC$causali$cau_sigla$disallow_zero_length] CHECK (len([cau_sigla])>(0))
+);
+
+\end{lstlisting}
+\subsection{clienti}
+Tabella dei clienti dell'azienda con relative proprietà e condizioni di vendita.
+Questa tabella si può utilizzare con opportune proprietà per gestire utilizzatori e destinazioni.
+Aggiungere il tipo lingua del cliente.
+\begin{lstlisting}
+
+    CREATE TABLE [dbo].[clienti] (
+    [cli_id]                                 INT             IDENTITY (1, 1) NOT NULL,
+    [cli_codice_adhoc]                       NVARCHAR (15)   NULL,
+    [cli_contatto]                           NVARCHAR (100)  NULL,
+    [cli_posizione]                          NVARCHAR (150)  NULL,
+    [cli_indirizzo]                          NVARCHAR (80)   NULL,
+    [cli_cap]                                NVARCHAR (10)   NULL,
+    [cli_citta]                              NVARCHAR (50)   NULL,
+    [cli_provincia]                          NVARCHAR (15)   NULL,
+    [cli_zona]                               INT             DEFAULT ((1000)) NULL,
+    [cli_nazione]                            INT             DEFAULT ((1000)) NULL,
+    [cli_telefono]                           NVARCHAR (24)   NULL,
+    [cli_fax]                                NVARCHAR (24)   NULL,
+    [cli_partita_iva]                        NVARCHAR (50)   NULL, /*Campo fondamentale per l'unicita del cliente*/
+    [cli_banca]                              NVARCHAR (80)   NULL,
+    [cli_banca_agenzia]                      NVARCHAR (80)   NULL,
+    [cli_banca_indirizzo]                    NVARCHAR (80)   NULL,
+    [cli_banca_abi]                          NVARCHAR (5)    NULL,
+    [cli_banca_cab]                          NVARCHAR (5)    NULL,
+    [cli_sconto]                             FLOAT (53)      DEFAULT ((0)) NOT NULL,
+    [cli_sconto_2]                           FLOAT (53)      DEFAULT ((0)) NOT NULL,
+    [cli_tipo_valuta]                        NVARCHAR (12)   NULL,
+    [cli_percentuale_decurtazione_trasporto] FLOAT (53)      DEFAULT ((0)) NULL,
+    [cli_percentuale_decurtazione_montaggio] FLOAT (53)      DEFAULT ((0)) NULL,
+    [cli_termini_consegna]                   NVARCHAR (MAX)  NULL,
+    [cli_resa]                               NVARCHAR (MAX)  NULL,
+    [cli_pagamento]                          NVARCHAR (MAX)  NULL,
+    [cli_imballo]                            NVARCHAR (MAX)  NULL,
+    [cli_corriere]                           NVARCHAR (MAX)  NULL,
+    [cli_montaggio]                          NVARCHAR (MAX)  NULL,
+    [cli_garanzia]                           NVARCHAR (MAX)  NULL,
+    [cli_condizioni_aggiuntive]              NVARCHAR (MAX)  NULL,
+    [cli_monofase]                           NVARCHAR (50)   DEFAULT ((220)) NULL,
+    [cli_trifase]                            NVARCHAR (50)   DEFAULT ((380)) NULL,
+    [cli_frequenza]                          NVARCHAR (50)   DEFAULT ((50)) NULL,
+    [cli_email]                              NVARCHAR (50)   NULL,
+    [cli_contatto_cellulare]                 NVARCHAR (50)   NULL,
+    /*Puo essere una tabella tipo_contrapartita*/
+    [cli_flag_contropartita_italia]          BIT             DEFAULT ((0)) NULL,
+    [cli_flag_contropartita_europa]          BIT             DEFAULT ((0)) NULL,
+    [cli_flag_contropartita_extra_europa]    BIT             DEFAULT ((0)) NULL,
+    /*---*/
+    [cli_riferimento_interno]                INT             DEFAULT ((0)) NULL,/*da tabella utenti*/
+    [cli_riferimento_esterno]                INT             DEFAULT ((0)) NULL,/*da tabella utenti*/
+    [cli_tipo]                               NVARCHAR (4)    DEFAULT ('COMM') NULL,/*Eliminare*/
+    [cli_logo_cliente_sigla]                 VARBINARY (MAX) NULL,/*Serve per il logo nell'offerta*/
+    [cli_flag_rischio_cliente]               BIT             DEFAULT ((0)) NULL,
+    [cli_stringa_pagamento_rischio]          NVARCHAR (255)  NULL,
+    [cli_nome_societa]                       NVARCHAR (85)   NULL,
+    [cli_ex_nome_soc]                        NVARCHAR (255)  NULL, /*eliminare */
+    [cli_short_name]                         NVARCHAR (15)   NOT NULL,
+    [creation_date]                          DATETIME        NULL,
+    [creation_user]                          INT             NULL,
+    [last_edit_date]                         DATETIME        NULL,
+    [last_edit_user]                         INT             NULL,
+    [deleted]                                BIT             DEFAULT ((0)) NULL,
+    CONSTRAINT [clienti$PrimaryKey] PRIMARY KEY CLUSTERED ([cli_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{condizioni}
+Condizioni di vendita aggiuntive delle offerte definite in fase contrattuale, la tabella raccoglie le standard proponibili.
+Si possono mantenere, ma è necessario gestire le lingue in modo più efficace tramite attributi
+e un campo padre per la ricostruzione, in modo da permettere
+l'aggiunta di nuove lingue senza dover modificare la struttura della tabella.
+
+\begin{lstlisting}
+    CREATE TABLE [dbo].[condizioni] (
+    [con_id]                   INT            IDENTITY (1, 1) NOT NULL,
+    [con_descrizione_italiano] NVARCHAR (MAX) NULL,
+    [con_descrizione_inglese]  NVARCHAR (MAX) NULL,
+    [con_descrizione_francese] NVARCHAR (MAX) NULL,
+    [con_descrizione_tedesco]  NVARCHAR (MAX) NULL,
+    [con_descrizione_spagnolo] NVARCHAR (MAX) NULL,
+    [creation_date]            DATETIME       NULL,
+    [creation_user]            INT            NULL,
+    [last_edit_date]           DATETIME       NULL,
+    [last_edit_user]           INT            NULL,
+    [deleted]                  BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [condizioni$PrimaryKey] PRIMARY KEY CLUSTERED ([con_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{corrieri}
+Tabella dei corrieri utilizzabili per la spedizione.
+\begin{lstlisting}
+    CREATE TABLE [dbo].[corrieri] (
+    [cor_id]                  INT            IDENTITY (1, 1) NOT NULL,
+    [con_sigla]               NVARCHAR (50)  NULL,
+    [con_nome]                NVARCHAR (50)  NULL,
+    [con_condizioni_consegna] NVARCHAR (255) NULL,
+    [con_note]                NTEXT          NULL,
+    [creation_date]           DATETIME       NULL,
+    [creation_user]           INT            NULL,
+    [last_edit_date]          DATETIME       NULL,
+    [last_edit_user]          INT            NULL,
+    [deleted]                 BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [corrieri$PrimaryKey] PRIMARY KEY CLUSTERED ([cor_id] ASC)
+);
+
+\end{lstlisting}
+
+\subsection{lingue\_accessori}(Eliminare)
+Tabella probabilmente da eliminare; contiene le lingue degli accessori, ma non è chiaro se e come vengono utilizzati.
+\begin{lstlisting}
+ CREATE TABLE [dbo].[lingue_accessori] (
+    [lin_id]         INT           IDENTITY (1, 1) NOT NULL,
+    [lin_sigla]      NVARCHAR (4)  NULL,
+    [lin_lingua]     NVARCHAR (50) NULL,
+    [creation_date]  DATETIME      NULL,
+    [creation_user]  INT           NULL,
+    [last_edit_date] DATETIME      NULL,
+    [last_edit_user] INT           NULL,
+    [deleted]        BIT           DEFAULT ((0)) NULL,
+    CONSTRAINT [lingue_accessori$PrimaryKey] PRIMARY KEY CLUSTERED ([lin_id] ASC)
+);
+
+\end{lstlisting}
+
+\subsection{lingue\_documenti}(Eliminare)
+Tabella probabilmente da eliminare, contiene delle traduzioni per alcuni campi dei documenti di vendita.
+Valutare se gestire all'interno del programma le traduzioni al posto del database,
+in modo da avere più flessibilità e non dover modificare la struttura del database per aggiungere nuove lingue o campi da tradurre.
+\begin{lstlisting}
+CREATE TABLE [dbo].[lingue_documenti] (
+    [ldo_id]                  INT            IDENTITY (1, 1) NOT NULL,
+    [ldo_lingua]              INT            NOT NULL,
+    [ldo_documento]           NVARCHAR (255) NOT NULL,
+    [ldo_segue_pagina]        NVARCHAR (255) NULL,
+    [ldo_segue]               NVARCHAR (255) NULL,
+    [ldo_costi_trasporto]     NVARCHAR (255) NULL,
+    [ldo_costi_montaggio]     NVARCHAR (255) NULL,
+    [ldo_riferimento_offerta] NVARCHAR (255) NULL,
+    [creation_date]           DATETIME       NULL,
+    [creation_user]           INT            NULL,
+    [last_edit_date]          DATETIME       NULL,
+    [last_edit_user]          INT            NULL,
+    [deleted]                 BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [lingue_documenti$PrimaryKey] PRIMARY KEY CLUSTERED ([ldo_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{listini}(Eliminare)
+Tabella con i prezzi dei prodotti, attualmente è richiamata in join con la tabella dei prodotti.
+Il listino potrebbe essere eliminato e i prezzi dei prodotti inseriti direttamente nella tabella dei prodotti,
+ma è necessario verificare se non ci sono controindicazioni.
+I prezzi stessi richiamati dal listini dell'ERP.\@
+\begin{lstlisting}
+CREATE TABLE [dbo].[listini] (
+    [lis_id]                   INT           IDENTITY (1, 1) NOT NULL,
+    [lis_prodotto]             NVARCHAR (15) NULL,
+    [lis_data_variazione]      DATETIME      NULL,
+    [lis_prezzo_articolo_euro] FLOAT (53)    DEFAULT ((0)) NULL,
+    [creation_date]            DATETIME      NULL,
+    [creation_user]            INT           NULL,
+    [last_edit_date]           DATETIME      NULL,
+    [last_edit_user]           INT           NULL,
+    [deleted]                  BIT           DEFAULT ((0)) NULL,
+    CONSTRAINT [PK_listini] PRIMARY KEY CLUSTERED ([lis_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{montaggi} (O mantenerla come storico o come una funzione sul programma)
+Tabella con la costificazione del montaggio per offerta; all'interno ci sono tutti i valori per stimare il costo approssimativo.
+Viene usata come storico dei dati considerati per il montaggio; da questi si calcola il prezzo.
+\begin{lstlisting}
+CREATE TABLE [dbo].[montaggi] (
+    [mon_id]                   INT      IDENTITY (1, 1) NOT NULL,
+    [mon_offerta]              INT      DEFAULT ((0)) NOT NULL,
+    [mon_est_std]              REAL     DEFAULT ((45)) NULL,
+    [mon_est_spe]              REAL     DEFAULT ((55)) NULL,
+    [mon_est_pro]              REAL     DEFAULT ((65)) NULL,
+    [mon_est_sup]              REAL     DEFAULT ((75)) NULL,
+    [mon_flag_vitto]           BIT      DEFAULT ((1)) NULL,
+    [mon_vitto_std]            REAL     DEFAULT ((90)) NULL,
+    [mon_vitto_spe]            REAL     DEFAULT ((105)) NULL,
+    [mon_trasporto]            REAL     NULL,
+    [mon_giorni_1]             INT      DEFAULT ((7)) NULL,
+    [mon_giorni_2]             INT      DEFAULT ((7)) NULL,
+    [mon_giorni_3]             INT      DEFAULT ((7)) NULL,
+    [mon_giorni_4]             INT      DEFAULT ((7)) NULL,
+    [mon_ripartizione]         REAL     DEFAULT ((0.33)) NULL,
+    [mon_comp_1]               INT      DEFAULT ((1)) NULL,
+    [mon_comp_2]               INT      DEFAULT ((1)) NULL,
+    [mon_comp_3]               INT      DEFAULT ((1)) NULL,
+    [mon_comp_4]               INT      DEFAULT ((1)) NULL,
+    [mon_percentuale_impianto] INT      NULL,
+    [mon_valore]               REAL     NULL,
+    [creation_date]            DATETIME NULL,
+    [creation_user]            INT      NULL,
+    [last_edit_date]           DATETIME NULL,
+    [last_edit_user]           INT      NULL,
+    [deleted]                  BIT      DEFAULT ((0)) NULL,
+    CONSTRAINT [montaggi$PrimaryKey] PRIMARY KEY CLUSTERED ([mon_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{nazioni}
+Tabella delle nazioni utilizzate per le offerte, contiene anche la contropartita da utilizzare in caso di spedizione all'estero.
+Attualmente non contiene le proprietà legabili alle nazioni, ma è fondamentale aggiungerle per creare alert o blocchi in caso di prodotti
+non conformi alle normative del paese di destinazione.
+Aggiungere codice ISO della nazione preso da internet (API?).
+Campo per la contropartita da utilizzare in caso di spedizione all'estero.
+Importare nella tabella clienti.
+Essendo il cliente, utilizzatore e destinazioni nella stessa tabella, possiamo ricostruire le contropartite dell'ordine.
+\begin{lstlisting}
+CREATE TABLE [dbo].[nazioni] (
+    [naz_id]            INT            IDENTITY (1, 1) NOT NULL,
+    [naz_nazione]       NVARCHAR (255) NULL,
+    [naz_sigla]         NVARCHAR (4)   NULL,
+    [naz_info]          NVARCHAR (255) NULL,
+    [naz_contropartita] NVARCHAR (255) DEFAULT ('NULLA') NULL,
+    [creation_date]     DATETIME       NULL,
+    [creation_user]     INT            NULL,
+    [last_edit_date]    DATETIME       NULL,
+    [last_edit_user]    INT            NULL,
+    [deleted]           BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [nazioni$PrimaryKey] PRIMARY KEY CLUSTERED ([naz_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{offerte}
+Tabella principale del database, contiene tutte le offerte di vendita dell'azienda, con tutte le proprietà e condizioni di vendita
+specifiche per ogni offerta.
+Alcuni degli attuali campi possono essere richiamati da altre tabelle.
+\begin{lstlisting}
+CREATE TABLE [dbo].[offerte] (
+    [off_id]                                     INT             IDENTITY (1, 1) NOT NULL,
+    [off_cliente]                                INT             DEFAULT ((0)) NULL,
+    [off_autore]                                 INT             DEFAULT ((0)) NULL,
+    [off_agente]                                 INT             DEFAULT ((0)) NULL,
+    [off_data]                                   DATETIME        DEFAULT (CONVERT([datetime],CONVERT([varchar],getdate(),(1)),(1))) NULL,
+    [off_riferimento_utilizzatore]               NVARCHAR (255)  NULL,
+    [off_spese_trasporto]                        FLOAT (53)      DEFAULT ((0)) NULL,
+    [off_spese_montaggio]                        FLOAT (53)      DEFAULT ((0)) NULL,
+    [off_valuta_offerta]                         NVARCHAR (15)   NULL,
+    [off_cambio]                                 FLOAT (53)      DEFAULT ((1)) NULL,
+    [off_euro]                                   INT             DEFAULT ((14)) NULL,
+    [off_pagamento]                              INT             NULL,
+    [off_sconto_1]                               FLOAT (53)      DEFAULT ((0)) NULL, /*sconto sull'offerta senza montaggio*/
+    [off_sconto_2]                               FLOAT (53)      DEFAULT ((0)) NULL,/*rincaro nascosto sull'offerta senza montaggio*/
+    [off_sconto_aggiuntivo]                      FLOAT (53)      DEFAULT ((0)) NULL,/*sconto sull'intera commessa comprensivo di montaggio*/
+    [off_note]                                   NVARCHAR (MAX)  NULL,
+    [off_termini_consegna]                       NVARCHAR (MAX)  NULL,
+    [off_resa]                                   NVARCHAR (MAX)  NULL,
+    [off_tipo_resa]                              INT             DEFAULT ((0)) NULL,
+    [off_pagamento_descrizione]                  NVARCHAR (MAX)  NULL,
+    [off_imballo]                                NVARCHAR (MAX)  NULL,
+    [off_corriere]                               NVARCHAR (MAX)  NULL,
+    [off_montaggio]                              NVARCHAR (MAX)  NULL,
+    [off_garanzia]                               NVARCHAR (MAX)  NULL,
+    [off_condizioni]                             NVARCHAR (MAX)  NULL,
+    [off_volt_monofase]                          SMALLINT        DEFAULT ((220)) NULL,/*eliminare legabile al utilizzatore*/
+    [off_hz_monofase]                            SMALLINT        DEFAULT ((50)) NULL,/*eliminare legabile al utilizzatore*/
+    [off_volt_trifase]                           SMALLINT        DEFAULT ((380)) NULL,/*eliminare legabile al utilizzatore*/
+    [off_hz_trifase]                             SMALLINT        DEFAULT ((50)) NULL,/*eliminare legabile al utilizzatore*/
+    [off_data_consegna]                          DATETIME        NULL,
+    [off_validita_offerta]                       SMALLINT        DEFAULT ((0)) NULL,
+    [off_incidenzaquadro]                        TINYINT         DEFAULT ((0)) NULL,/*eliminare*/
+    [off_ordine]                                 INT             DEFAULT ((0)) NULL,
+    [off_epilogo]                                NVARCHAR (MAX)  NULL,
+    [off_destinatario_fax]                       NVARCHAR (100)  NULL,/*Utente a cui inviare al cliente (all'attenzione di)*/
+    [off_schema_allegato]                        VARBINARY (MAX) NULL,/*eliminare*/
+    [off_schema_allegato_2]                      VARBINARY (MAX) NULL,/*eliminare*/
+    [off_schema_allegato_3]                      VARBINARY (MAX) NULL,/*eliminare*/
+    [off_riferimenti_macchina]                   NVARCHAR (255)  NULL,/*eliminare*/
+    [off_descrizione_macchina]                   NVARCHAR (MAX)  NULL,/*eliminare*/
+    [off_modello_macchina]                       NVARCHAR (50)   NULL,/*eliminare*/
+    [off_anno_costruzione_macchina]              INT             DEFAULT ((0)) NULL,/*eliminare*/
+    [off_fattura_evasione]                       NVARCHAR (100)  NULL,
+    [off_importo_evaso]                          FLOAT (53)      DEFAULT ((0)) NULL,
+    [off_tipo_percentuale]                       INT             DEFAULT ((1)) NULL,
+    [off_banca]                                  INT             DEFAULT ((5)) NULL,/*legabile alla banca di appoggio*/
+    [off_pagamento_descrizione_per_fatture]      NVARCHAR (MAX)  NULL,
+    [off_flag_offerta_in_valuta]                 BIT             DEFAULT ((0)) NULL,
+    [off_riferimento_commerciale]                NVARCHAR (50)   NULL,
+    [off_esclusione]                             NVARCHAR (MAX)  NULL,
+    [off_direttiva_atex]                         NVARCHAR (MAX)  NULL,/*eliminare legabile al utilizzatore*/
+    [off_norme_sanitarie]                        NVARCHAR (MAX)  NULL,/*eliminare legabile al utilizzatore*/
+    [off_flag_visualizza_descrizione_aggiuntiva] BIT             DEFAULT ((0)) NULL,/*eliminare gestibile da software*/
+    [off_db_provenienza]                         NVARCHAR (25)   DEFAULT ('principale') NULL,
+    [off_titolo]                                 NVARCHAR (MAX)  NULL,
+    [off_riferimento_causale]                    NVARCHAR (3)    NULL,
+    [off_flag_causale]                           BIT             DEFAULT ((0)) NULL,
+    [off_riferimento_ordine_cliente]             NVARCHAR (50)   NULL,
+    [off_valore_sconto_0_agente]                 FLOAT (53)      DEFAULT ((0)) NULL,/*eliminare*/
+    [off_valore_sconto_1_agente]                 FLOAT (53)      DEFAULT ((0)) NULL,/*eliminare*/
+    [off_valore_sconto_2_agente]                 FLOAT (53)      DEFAULT ((0)) NULL,/*eliminare*/
+    [off_valore_sconto_3_agente]                 FLOAT (53)      DEFAULT ((0)) NULL,/*eliminare*/
+    [off_verifica_capitolo]                      FLOAT (53)      NULL,/*Eliminare*/
+    [off_rif_1090]                               NVARCHAR (255)  DEFAULT ('-') NULL,
+    [off_flag_offerta_calda]                     BIT             DEFAULT ((0)) NULL,
+    [off_flag_non_importare_hubspot]             BIT             DEFAULT ((0)) NULL,/*eliminare*/
+    [creation_date]                              DATETIME        NULL,
+    [creation_user]                              INT             NULL,
+    [last_edit_date]                             DATETIME        NULL,
+    [last_edit_user]                             INT             NULL,
+    [deleted]                                    BIT             DEFAULT ((0)) NULL,
+    CONSTRAINT [PK_offerte] PRIMARY KEY CLUSTERED ([off_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{offerte\_dettagli}(Valutare se rinnominare in distinte\_offerte)
+Tabella per costruire l'effettiva distinta dei prodotti dell'offerta, contiene tutte le proprietà di un prodotto,
+ma che dovranno essere richiamate dalla tabella dei prodotti,
+in modo da evitare ridondanze e incongruenze nei dati.
+La gestione dei capitoli può essere fatta tramite un campo specifico senza creare una tabella dedicata.
+\begin{lstlisting}
+CREATE TABLE [dbo].[offerte_dettagli] (
+    [ode_id]                                       INT            IDENTITY (1, 1) NOT NULL,
+    [ode_prodotto]                                 NVARCHAR (15)  NULL,
+    [ode_posizione]                                SMALLINT       DEFAULT ((0)) NULL,
+    [ode_prezzo_unitario_euro]                     REAL           DEFAULT ((0)) NULL,
+    [ode_prezzo_unitario]                          MONEY          DEFAULT ((0)) NULL,/*eliminare*/
+    [ode_quantita]                                 FLOAT (53)     DEFAULT ((0)) NULL,
+    [ode_volume]                                   FLOAT (53)     DEFAULT ((0)) NULL,/*eliminare recuperabile dal prodotto , dare la possibilita di aggiungere un jolly alla tabella prodotti*/
+    [ode_altezza]                                  FLOAT (53)     DEFAULT ((0)) NULL,/*eliminare recuperabile dal prodotto*/
+    [ode_profondita]                               FLOAT (53)     DEFAULT ((0)) NULL,/*eliminare recuperabile dal prodotto*/
+    [ode_diametro]                                 FLOAT (53)     DEFAULT ((0)) NULL,/*eliminare recuperabile dal prodotto*/
+    [ode_lunghezza]                                FLOAT (53)     DEFAULT ((0)) NULL,/*eliminare recuperabile dal prodotto*/
+    [ode_portata]                                  FLOAT (53)     DEFAULT ((0)) NULL,/*eliminare recuperabile dal prodotto*/
+    [ode_potenza_installata]                       FLOAT (53)     DEFAULT ((0)) NULL,/*eliminare recuperabile dal prodotto*/
+    [ode_costo_quadro_unitario_euro]               FLOAT (53)     DEFAULT ((0)) NULL,/*eliminare recuperabile dal prodotto*/
+    [ode_costo_quadro_unitario]                    FLOAT (53)     DEFAULT ((0)) NULL,/*eliminare recuperabile dal prodotto*/
+    [ode_costo_quadro_unitario_non_collegato_euro] FLOAT (53)     DEFAULT ((0)) NULL,/*eliminare recuperabile dal prodotto*/
+    [ode_costo_quadro_unitario_non_collegato]      FLOAT (53)     DEFAULT ((0)) NULL,/*eliminare recuperabile dal prodotto*/
+    [ode_note]                                     NVARCHAR (20)  NULL,
+    [ode_causale]                                  INT            DEFAULT ((0)) NULL,/*eliminare*/
+    [ode_comm]                                     NVARCHAR (15)  NULL,/*eliminare*/
+    [ode_nuovo_nome_prodotto]                      NVARCHAR (MAX) NULL,/*eliminare*/
+    [ode_descrizione_aggiuntiva_no_stampa]         NVARCHAR (MAX) NULL,/*Commenti interni commerciali*/
+    [ode_descrizione_aggiuntiva_si_stampa]         NVARCHAR (MAX) NULL,/*Commenti esterni per il cliente*/
+    [ode_titolo_riga]                              NVARCHAR (MAX) NULL,/*eliminare serviva per gestire i capitoli*/
+    [ode_sub_totale_offerta]                       FLOAT (53)     NULL,/*eliminare gestibile con la tabella dei capitoli*/
+    [ode_tipo]                                     NVARCHAR (3)   DEFAULT ((1)) NULL,
+    [perc_ode_tipo]                                INT            DEFAULT ((0)) NULL,
+    [ode_flag_visualizza_capitolo]                 BIT            DEFAULT ((0)) NULL,/*eliminare*/
+    [ode_sub_totale_offerta_listino]               REAL           NULL,/*eliminare*/
+    [creation_date]                                DATETIME       NULL,
+    [creation_user]                                INT            NULL,
+    [last_edit_date]                               DATETIME       NULL,
+    [last_edit_user]                               INT            NULL,
+    [deleted]                                      BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [PK_offerte_dettagli] PRIMARY KEY CLUSTERED ([ode_id] ASC),
+    CONSTRAINT [SSMA_CC$offerte_dettagli$ode_descrizione_aggiuntiva_no_stampa$disallow_zero_length] CHECK (len([ode_descrizione_aggiuntiva_no_stampa])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_dettagli$ode_comm$disallow_zero_length] CHECK (len([ode_comm])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_dettagli$ode_descrizione_aggiuntiva_si_stampa$disallow_zero_length] CHECK (len([ode_descrizione_aggiuntiva_si_stampa])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_dettagli$ode_prodotto$disallow_zero_length] CHECK (len([ode_prodotto])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_dettagli$ode_note$disallow_zero_length] CHECK (len([ode_note])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_dettagli$ode_nuovo_nome_prodotto$disallow_zero_length] CHECK (len([ode_nuovo_nome_prodotto])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_dettagli$ode_tipo$disallow_zero_length] CHECK (len([ode_tipo])>(0))
+);
+\end{lstlisting}
+
+\subsection{offerte\_dettagli\_optional}(eliminare)
+Tabella per costruire la distinta dei prodotti opzionali dell'offerta,
+ovvero i prodotti non inclusi come prezzo nell'offerta che si propongono in più.
+La tabella è da eliminare e gestire con la tabella dei offerte\_dettagli.
+\begin{lstlisting}
+CREATE TABLE [dbo].[offerte_dettagli_optional] (
+    [odo_id]                                       INT            IDENTITY (1, 1) NOT NULL,
+    [odo_prodotto]                                 INT            NULL,
+    [odo_posizione]                                INT            DEFAULT ((0)) NULL,
+    [odo_prezzo_unitario_euro]                     FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_prezzo_unitario]                          FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_quantita]                                 FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_volume]                                   FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_altezza]                                  FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_profondita]                               FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_diametro]                                 FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_lunghezza]                                FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_portata]                                  FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_potenza_installata]                       FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_costo_quadro_unitario_euro]               FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_costo_quadro_unitario]                    FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_costo_quadro_unitario_non_collegato_euro] FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_costo_quadro_unitario_non_collegato]      FLOAT (53)     DEFAULT ((0)) NULL,
+    [odo_note]                                     NVARCHAR (20)  NULL,
+    [odo_nuovo_nome_prodotto]                      NVARCHAR (MAX) NULL,
+    [odo_causale]                                  INT            DEFAULT ((0)) NULL,
+    [odo_comm]                                     NVARCHAR (15)  NULL,
+    [odo_data_evasione_parziale]                   DATETIME       NULL,
+    [odo_descrizione_aggiuntiva_no_stampa]         NVARCHAR (MAX) NULL,
+    [odo_descrizione_aggiuntiva_si_stampa]         NVARCHAR (MAX) NULL,
+    [odo_titolo_riga]                              NVARCHAR (MAX) NULL,
+    [odo_subtotale_offerta]                        FLOAT (53)     NULL,
+    [odo_tipo]                                     NVARCHAR (3)   DEFAULT ((1)) NULL,
+    [odo_percentuale_tipo]                         INT            DEFAULT ((0)) NULL,
+    [odo_flag_visualizza_capitolo]                 BIT            DEFAULT ((0)) NULL,
+    [odo_subtotale_offerta_listino]                FLOAT (53)     NULL,
+    [creation_date]                                DATETIME       NULL,
+    [creation_user]                                INT            NULL,
+    [last_edit_date]                               DATETIME       NULL,
+    [last_edit_user]                               INT            NULL,
+    [deleted]                                      BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [PK_offerte_dettagli_optional] PRIMARY KEY CLUSTERED ([odo_id] ASC),
+    CONSTRAINT [SSMA_CC$offerte_dettagli_optional$odo_comm$disallow_zero_length] CHECK (len([odo_comm])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_dettagli_optional$odo_tipo$disallow_zero_length] CHECK (len([odo_tipo])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_dettagli_optional$odo_nuovo_nome_prodotto$disallow_zero_length] CHECK (len([odo_nuovo_nome_prodotto])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_dettagli_optional$odo_note$disallow_zero_length] CHECK (len([odo_note])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_dettagli_optional$odo_descrizione_aggiuntiva_no_stampa$disallow_zero_length] CHECK (len([odo_descrizione_aggiuntiva_no_stampa])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_dettagli_optional$odo_descrizione_aggiuntiva_si_stampa$disallow_zero_length] CHECK (len([odo_descrizione_aggiuntiva_si_stampa])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_dettagli_optional$odo_prodotto$disallow_zero_length] CHECK (len([odo_prodotto])>(0))
+);
+\end{lstlisting}
+
+\subsection{offerte\_ra}(eliminare)
+Tabella principale del database, contiene tutte le offerte delle richieste di assistenza di vendita dell'azienda,
+con tutte le proprietà e condizioni di vendita specifiche per ogni offerta.
+Alcuni degli attuali campi possono essere richiamati da altre tabelle.
+Tabella da cancellare.
+
+\begin{lstlisting}
+CREATE TABLE [dbo].[offerte_ra] (
+    [ora_id]                        INT             IDENTITY (1, 1) NOT NULL,
+    [ora_cliente]                   INT             DEFAULT ((0)) NULL,
+    [ora_autore]                    SMALLINT        DEFAULT ((0)) NULL,
+    [ora_agente]                    SMALLINT        DEFAULT ((0)) NULL,
+    [ora_data]                      DATETIME        DEFAULT (CONVERT([datetime],CONVERT([varchar],getdate(),(1)),(1))) NULL,
+    [ora_riferimento_utilizzatore]  NVARCHAR (10)   NULL,
+    [ora_spese_trasporto]           REAL            DEFAULT ((0)) NULL,
+    [ora_spese_montaggio]           REAL            DEFAULT ((0)) NULL,
+    [ora_valuta_offerta]            NVARCHAR (15)   NULL,
+    [ora_cambio]                    FLOAT (53)      DEFAULT ((1)) NULL,
+    [ora_euro]                      INT             DEFAULT ((0)) NULL,
+    [ora_pagamento]                 INT             DEFAULT ((0)) NULL,
+    [ora_sconto_1]                  FLOAT (53)      DEFAULT ((0)) NULL,
+    [ora_sconto_2]                  FLOAT (53)      DEFAULT ((0)) NULL,
+    [ora_sconto_aggiuntivo]         FLOAT (53)      DEFAULT ((0)) NULL,
+    [ora_note]                      NVARCHAR (MAX)  NULL,
+    [ora_termini_consegna]          NVARCHAR (MAX)  NULL,
+    [ora_resa]                      NVARCHAR (MAX)  NULL,
+    [ora_pagamento_descrizione]     NVARCHAR (MAX)  NULL,
+    [ora_imballo]                   NVARCHAR (MAX)  NULL,
+    [ora_corriere]                  NVARCHAR (MAX)  NULL,
+    [ora_montaggio]                 NVARCHAR (MAX)  NULL,
+    [ora_garanzia]                  NVARCHAR (MAX)  NULL,
+    [ora_condizioni]                NVARCHAR (MAX)  NULL,
+    [ora_monofase_volt]             SMALLINT        DEFAULT ((220)) NULL,
+    [ora_monofase_hz]               SMALLINT        DEFAULT ((50)) NULL,
+    [ora_trifase_volt]              SMALLINT        DEFAULT ((380)) NULL,
+    [ora_trifase_hz]                SMALLINT        DEFAULT ((50)) NULL,
+    [ora_data_consegna]             DATETIME        NULL,
+    [ora_validita]                  SMALLINT        DEFAULT ((0)) NULL,
+    [ora_incidenza_quadro]          TINYINT         DEFAULT ((0)) NULL,
+    [ora_ordine]                    INT             DEFAULT ((0)) NULL,
+    [ora_epilogo]                   NVARCHAR (MAX)  NULL,
+    [ora_destinatario_fax]          NVARCHAR (100)  NULL,
+    [ora_schema_allegato]           VARBINARY (MAX) NULL,
+    [ora_schema_allegato_2]         VARBINARY (MAX) NULL,
+    [ora_schema_allegato_3]         VARBINARY (MAX) NULL,
+    [ora_riferimenti_macchina]      NVARCHAR (255)  NULL,
+    [ora_descrizione_macchina]      NVARCHAR (MAX)  NULL,
+    [ora_modello_macchina]          NVARCHAR (50)   NULL,
+    [ora_anno_costruzione_macchina] INT             DEFAULT ((0)) NULL,
+    [ora_fattura_evasione]          NVARCHAR (100)  NULL,
+    [ora_importo_evaso]             INT             DEFAULT ((0)) NULL,
+    [ora_tipo_percentuale]          INT             DEFAULT ((1)) NULL,
+    [ora_banca]                     INT             DEFAULT ((0)) NULL,
+    [ora_pagamento_per_fatture]     NVARCHAR (MAX)  NULL,
+    [ora_riferimento_commessa]      NVARCHAR (50)   NULL,
+    [creation_date]                 DATETIME        NULL,
+    [creation_user]                 INT             NULL,
+    [last_edit_date]                DATETIME        NULL,
+    [last_edit_user]                INT             NULL,
+    [deleted]                       BIT             DEFAULT ((0)) NULL,
+    CONSTRAINT [offerte_ra$PrimaryKey] PRIMARY KEY CLUSTERED ([ora_id] ASC),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_condizioni$disallow_zero_length] CHECK (len([ora_condizioni])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_valuta_offerta$disallow_zero_length] CHECK (len([ora_valuta_offerta])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_riferimento_commessa$disallow_zero_length] CHECK (len([ora_riferimento_commessa])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_termini_consegna$disallow_zero_length] CHECK (len([ora_termini_consegna])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_riferimenti_macchina$disallow_zero_length] CHECK (len([ora_riferimenti_macchina])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_riferimento_utilizzatore$disallow_zero_length] CHECK (len([ora_riferimento_utilizzatore])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_resa$disallow_zero_length] CHECK (len([ora_resa])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_pagamento_per_fatture$disallow_zero_length] CHECK (len([ora_pagamento_per_fatture])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_pagamento$disallow_zero_length] CHECK (len([ora_pagamento])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_modello_macchina$disallow_zero_length] CHECK (len([ora_modello_macchina])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_note$disallow_zero_length] CHECK (len([ora_note])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_montaggio$disallow_zero_length] CHECK (len([ora_montaggio])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_imballo$disallow_zero_length] CHECK (len([ora_imballo])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_garanzia$disallow_zero_length] CHECK (len([ora_garanzia])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_epilogo$disallow_zero_length] CHECK (len([ora_epilogo])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_fattura_evasione$disallow_zero_length] CHECK (len([ora_fattura_evasione])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_destinatario_fax$disallow_zero_length] CHECK (len([ora_destinatario_fax])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_descrizione_macchina$disallow_zero_length] CHECK (len([ora_descrizione_macchina])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra$ora_corriere$disallow_zero_length] CHECK (len([ora_corriere])>(0))
+);
+
+
+\end{lstlisting}
+
+\subsection{offerte\_ra\_dettagli}(eliminare)
+Tabella per costruire l'effettiva distinta dei prodotti dell'offerta delle richieste di assistenza.
+La tabella è da eliminare e gestire con la tabella dei offerte\_dettagli.
+\begin{lstlisting}
+CREATE TABLE [dbo].[offerte_ra_dettagli] (
+    [ore_id]                           INT            IDENTITY (1, 1) NOT NULL,
+    [ore_offerta]                      INT            DEFAULT ((0)) NOT NULL,
+    [ore_prodotto]                     NVARCHAR (20)  NULL,
+    [ore_posizione]                    TINYINT        DEFAULT ((0)) NULL,
+    [ore_prezzo_unitario_euro]         REAL           DEFAULT ((0)) NULL,
+    [ore_prezzo_unitario]              MONEY          DEFAULT ((0)) NULL,
+    [ore_quantita]                     FLOAT (53)     DEFAULT ((0)) NULL,
+    [ore_volume]                       FLOAT (53)     DEFAULT ((0)) NULL,
+    [ore_altezza]                      FLOAT (53)     DEFAULT ((0)) NULL,
+    [ore_profondita]                   FLOAT (53)     DEFAULT ((0)) NULL,
+    [ore_diametro]                     FLOAT (53)     DEFAULT ((0)) NULL,
+    [ore_lunghezza]                    FLOAT (53)     DEFAULT ((0)) NULL,
+    [ore_portata]                      FLOAT (53)     DEFAULT ((0)) NULL,
+    [ore_potenza_installata]           FLOAT (53)     DEFAULT ((0)) NULL,
+    [ore_cos_quadro_unit_euro]         REAL           DEFAULT ((0)) NULL,
+    [ore_cos_quadro_unit]              FLOAT (53)     DEFAULT ((0)) NULL,
+    [ore_cos_quadro_unit_noncoll_euro] REAL           DEFAULT ((0)) NULL,
+    [ore_cos_quadro_unit_noncoll]      FLOAT (53)     DEFAULT ((0)) NULL,
+    [ore_note]                         NVARCHAR (20)  NULL,
+    [ore_causale]                      INT            DEFAULT ((0)) NULL,
+    [ore_comm]                         NVARCHAR (15)  NULL,
+    [ore_nuovo_nome_prodotto]          NVARCHAR (MAX) NULL,
+    [creation_date]                    DATETIME       NULL,
+    [creation_user]                    INT            NULL,
+    [last_edit_date]                   DATETIME       NULL,
+    [last_edit_user]                   INT            NULL,
+    [deleted]                          BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [PK_offerte_ra_dettagli] PRIMARY KEY CLUSTERED ([ore_id] ASC),
+    CONSTRAINT [SSMA_CC$offerte_ra_dettagli$ore_note$disallow_zero_length] CHECK (len([ore_note])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra_dettagli$ore_nuovo_nome_prodotto$disallow_zero_length] CHECK (len([ore_nuovo_nome_prodotto])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra_dettagli$ore_prodotto$disallow_zero_length] CHECK (len([ore_prodotto])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_ra_dettagli$ore_comm$disallow_zero_length] CHECK (len([ore_comm])>(0))
+);
+
+
+\end{lstlisting}
+
+\subsection{offerte\_titoli}
+Titolo offerta, utilizzato per gestire i capitoli dell'offerta, in modo da poter gestire più titoli e sottotitoli all'interno di un'offerta.
+\begin{lstlisting}
+CREATE TABLE [dbo].[offerte_titoli] (
+    [oti_id]                 INT            IDENTITY (1, 1) NOT NULL,
+    [oti_offerta]            INT            DEFAULT ((0)) NOT NULL,
+    [oti_testo]              NVARCHAR (MAX) NULL,
+    [oti_prima_di_posizione] INT            DEFAULT ((0)) NULL,
+    [oti_subtotale_libero]   NVARCHAR (50)  NULL,
+    [creation_date]          DATETIME       NULL,
+    [creation_user]          INT            NULL,
+    [last_edit_date]         DATETIME       NULL,
+    [last_edit_user]         INT            NULL,
+    [deleted]                BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [offerte_titoli$PrimaryKey] PRIMARY KEY CLUSTERED ([oti_id] ASC),
+    CONSTRAINT [SSMA_CC$offerte_titoli$oti_testo$disallow_zero_length] CHECK (len([oti_testo])>(0)),
+    CONSTRAINT [SSMA_CC$offerte_titoli$oti_subtotale_libero$disallow_zero_length] CHECK (len([oti_subtotale_libero])>(0))
+);
+\end{lstlisting}
+
+\subsection{ordini}
+(Gestita nella tabella offerte, eliminare. Fare attenzione ai campi specifici degli ordini, valutare se spostarli in una tabella dedicata o gestirli con campi specifici nella tabella offerte)
+Tabella di traduzione delle offerte in ordini; recupera le informazioni dell'offerta tramite join e
+contiene le proprietà specifiche della destinazione dell'impianto.
+Queste ultime recuperabili dalla tabella dei clienti dove la destinazione può essere
+collegata al cliente o essere esso stesso la destinazione.
+\begin{lstlisting}
+CREATE TABLE [dbo].[ordini] (
+    [ord_id]                             INT            IDENTITY (1, 1) NOT NULL,
+    [ord_subordine]                      INT            DEFAULT ('A2') NULL,
+    [ord_offerta]                        INT            DEFAULT ((0)) NULL,
+    [ord_data]                           DATETIME       NULL,
+    [ord_cliente_adhoc]                  NVARCHAR (7)   DEFAULT ('0000000') NULL,
+    [ord_pagamento_adhoc]                SMALLINT       DEFAULT ((0)) NULL,
+    [ord_preventivo_produzione]          INT            DEFAULT ((0)) NULL,
+    [ord_spedizioniere]                  SMALLINT       DEFAULT ((0)) NULL, /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione]                   NVARCHAR (100) NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione_indirizzo]         NVARCHAR (60)  NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione_zona]              NVARCHAR (50)  NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione_cap]               NVARCHAR (10)  NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione_citta]             NVARCHAR (50)  NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione_provincia]         NVARCHAR (15)  NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione_nazione]           NVARCHAR (255) NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione_telefono]          NVARCHAR (50)  NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione_fax]               NVARCHAR (50)  NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione_2_ragione_sociale] NVARCHAR (100) NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione_2_indirizzo]       NVARCHAR (255) NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione_2_telefono]        NVARCHAR (50)  NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_destinazione_2_fax]             NVARCHAR (50)  NULL,   /*eliminare recuperabile dalla tabella destinazione?*/
+    [ord_commessa]                       INT            DEFAULT ((0)) NULL,
+    [Note UT]                            NVARCHAR (MAX) NULL,
+    /*Dati produzione - amministrativi fare tabella?*/   
+    [ord_etichetta]                      NVARCHAR (MAX) NULL,
+    [ord_data_consegna]                  NVARCHAR (255) NULL,
+    [ord_data_contratto]                 DATETIME       NULL,
+    [ord_data_iscrizione]                DATETIME       NULL,
+    [ord_data_tecnico]                   DATETIME       NULL,
+    [ord_data_prog]                      DATETIME       NULL,
+    [ord_data_produzione]                DATETIME       NULL,
+    [ord_data_spedizione]                DATETIME       NULL,
+    [ord_data_magazzino]                 DATETIME       NULL,
+    [ord_corriere]                       INT            DEFAULT ((0)) NULL,
+    [ord_tipo_imballo]                   INT            DEFAULT ((1)) NULL,
+    [ord_tipo_resa]                      INT            DEFAULT ((0)) NULL,
+    [ord_note_intervento]                NVARCHAR (MAX) NULL,
+    [ord_tipo_assistenza]                INT            DEFAULT ((0)) NULL,
+    [ord_pervenuto_a]                    NVARCHAR (60)  NULL,
+    [ord_nominativo_richiedente]         NVARCHAR (100) NULL,
+    [ord_data_cartella]                  DATETIME       NULL,
+    [ord_data_evasione]                  DATETIME       NULL,
+    [ord_tipo_assistenza_descrizione]    NVARCHAR (50)  NULL,
+    [ord_commerciale_riferimento]        NVARCHAR (50)  NULL,
+    [ord_destinazione_rag_soc]           NVARCHAR (100) NULL,
+    [ord_flag_manuale_uso_manutenzione]  BIT            DEFAULT ((0)) NULL,
+    [ord_flag_centraline_wp]             BIT            DEFAULT ((0)) NULL,
+    [ord_flag_supervisore]               BIT            DEFAULT ((0)) NULL,
+    [ord_flag_etichette]                 BIT            DEFAULT ((0)) NULL,
+    [ord_lingua_manuale]                 INT            DEFAULT ((0)) NULL,
+    [ord_lingua_centraline]              INT            DEFAULT ((0)) NULL,
+    [ord_lingua_supervisore]             INT            DEFAULT ((0)) NULL,
+    [ord_lingua_etichette]               INT            DEFAULT ((0)) NULL,
+    [ord_data_prevista_consegna_manuale] DATETIME       NULL,
+    [ord_data_consegna_manuale]          DATETIME       NULL,
+    [ord_note_manuale]                   NVARCHAR (MAX) NULL,
+    [ord_etichette_cepi_altre]           NVARCHAR (MAX) NULL,
+    [ord_flag_dichiarazione_dogana]      BIT            DEFAULT ((0)) NULL,
+    [ord_flag_esporta_adhoc]             BIT            DEFAULT ((0)) NULL,
+    [ord_riferimento_ordine_cliente]     NVARCHAR (50)  NULL,
+    [ord_causale]                        INT            DEFAULT ((0)) NULL,
+    /*---*/
+    [creation_date]                      DATETIME       NULL,
+    [creation_user]                      INT            NULL,
+    [last_edit_date]                     DATETIME       NULL,
+    [last_edit_user]                     INT            NULL,
+    [deleted]                            BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [PK_ordini] PRIMARY KEY CLUSTERED ([ord_id] ASC),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_fax$disallow_zero_length] CHECK (len([ord_destinazione_fax])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_cap$disallow_zero_length] CHECK (len([ord_destinazione_cap])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_citta$disallow_zero_length] CHECK (len([ord_destinazione_citta])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_indirizzo$disallow_zero_length] CHECK (len([ord_destinazione_indirizzo])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_nazione$disallow_zero_length] CHECK (len([ord_destinazione_nazione])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_provincia$disallow_zero_length] CHECK (len([ord_destinazione_provincia])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_zona$disallow_zero_length] CHECK (len([ord_destinazione_zona])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione$disallow_zero_length] CHECK (len([ord_destinazione])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_telefono$disallow_zero_length] CHECK (len([ord_destinazione_telefono])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_rag_soc$disallow_zero_length] CHECK (len([ord_destinazione_rag_soc])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_2_fax$disallow_zero_length] CHECK (len([ord_destinazione_2_fax])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_2_indirizzo$disallow_zero_length] CHECK (len([ord_destinazione_2_indirizzo])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_2_ragione_sociale$disallow_zero_length] CHECK (len([ord_destinazione_2_ragione_sociale])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_destinazione_2_telefono$disallow_zero_length] CHECK (len([ord_destinazione_2_telefono])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_etichetta$disallow_zero_length] CHECK (len([ord_etichetta])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_etichette_cepi_altre$disallow_zero_length] CHECK (len([ord_etichette_cepi_altre])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_cliente_adhoc$disallow_zero_length] CHECK (len([ord_cliente_adhoc])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_commerciale_riferimento$disallow_zero_length] CHECK (len([ord_commerciale_riferimento])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_nominativo_richiedente$disallow_zero_length] CHECK (len([ord_nominativo_richiedente])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_note_intervento$disallow_zero_length] CHECK (len([ord_note_intervento])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$Note UT$disallow_zero_length] CHECK (len([Note UT])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_note_manuale$disallow_zero_length] CHECK (len([ord_note_manuale])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_riferimento_ordine_cliente$disallow_zero_length] CHECK (len([ord_riferimento_ordine_cliente])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_subordine$disallow_zero_length] CHECK (len([ord_subordine])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_tipo_assistenza_descrizione$disallow_zero_length] CHECK (len([ord_tipo_assistenza_descrizione])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_pervenuto_a$disallow_zero_length] CHECK (len([ord_pervenuto_a])>(0)),
+    CONSTRAINT [SSMA_CC$ordini$ord_data_consegna$disallow_zero_length] CHECK (len([ord_data_consegna])>(0))
+);
+\end{lstlisting}
+
+\subsection{pagamenti}(tipo\_pagamento) gestire le lingue
+Tabella delle condizioni di pagamento standard, che vengono richiamate nelle offerte.
+La gestione può essere la medesima della tabella condizioni per quanto riguarda le traduzioni.
+\begin{lstlisting}
+CREATE TABLE [dbo].[pagamenti] (
+    [pag_id]          INT            IDENTITY (1, 1) NOT NULL,
+    [pag_descrizione] NVARCHAR (255) NULL,
+    [creation_date]   DATETIME       NULL,
+    [creation_user]   INT            NULL,
+    [last_edit_date]  DATETIME       NULL,
+    [last_edit_user]  INT            NULL,
+    [deleted]         BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [Pagamento$PrimaryKey] PRIMARY KEY CLUSTERED ([pag_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{prodotti}
+Tabella che contiene tutti i prodotti vendibili dall'azienda; all'interno ci sono tutte le proprietà dello stesso prodotto,
+in modo da poter essere richiamate dalle offerte e dagli ordini, evitando ridondanze e incongruenze nei dati.
+Da aggiungere un campo di visibilità in modo da avere la possibilità di importare dal gestionale i prodotti
+senza renderli disponibili prima di averli configurati correttamente, e senza doverli eliminare se non più vendibili.
+\begin{lstlisting}
+CREATE TABLE [dbo].[prodotti] (
+    [pro_id]                              INT            IDENTITY (1, 1) NOT NULL,
+    /*eliminare e gestire i nomi con una tabella delle descrizioni*/
+    [pro_nome_italia]                     NVARCHAR (80)  NULL,
+    [pro_nome_inglese]                    NVARCHAR (80)  NULL,
+    [pro_nome_francese]                   NVARCHAR (80)  NULL,
+    [pro_nome_tedesco]                    NVARCHAR (80)  NULL,
+    [pro_nome_spagnolo]                   NVARCHAR (80)  NULL,
+    [pro_nome_portoghese]                 NVARCHAR (80)  NULL,
+    [pro_nome_jolly]                      NVARCHAR (80)  NULL,
+        /*--*/
+    [pro_note_italia]                     NVARCHAR (MAX) NULL,
+    /*Gestibile con traduzioni automatiche (descrizione supplementare)*/
+    [pro_note_inglese]                    NVARCHAR (MAX) NULL,
+    [pro_note_francese]                   NVARCHAR (MAX) NULL,
+    [pro_note_tedesco]                    NVARCHAR (MAX) NULL,
+    [pro_note_spagnolo]                   NVARCHAR (MAX) NULL,
+    [pro_note_portoghese]                 NVARCHAR (MAX) NULL,
+    [pro_note_jolly]                      NVARCHAR (MAX) NULL,
+    /*--*/
+    [pro_prezzo]                          FLOAT (53)     DEFAULT ((0)) NOT NULL,
+    [pro_prezzo_euro]                     FLOAT (53)     DEFAULT ((0)) NULL,    /*eliminare*/
+    /*Valutare se creare una tabella delle proprieta ricostruibile con l'id del codice*/
+    [pro_potenza_installata]              FLOAT (53)     DEFAULT ((0)) NULL,
+    [pro_aria_compressa]                  FLOAT (53)     DEFAULT ((0)) NULL,
+    [pro_volume_imballo]                  FLOAT (53)     DEFAULT ((0)) NULL,
+    [pro_peso_a_vuoto]                    FLOAT (53)     DEFAULT ((0)) NULL,
+    [pro_volume]                          FLOAT (53)     DEFAULT ((0)) NULL,
+    [pro_altezza]                         FLOAT (53)     DEFAULT ((0)) NULL,
+    [pro_profondita]                      FLOAT (53)     DEFAULT ((0)) NULL,
+    [pro_diametro]                        FLOAT (53)     DEFAULT ((0)) NULL,
+    [pro_lunghezza]                       FLOAT (53)     DEFAULT ((0)) NULL,
+    [pro_portata]                         FLOAT (53)     DEFAULT ((0)) NULL,
+    /*--*/
+    [pro_costo_quadro_euro]               FLOAT (53)     DEFAULT ((0)) NULL,    /*eliminare*/
+    [pro_costo_quadro]                    FLOAT (53)     DEFAULT ((0)) NOT NULL,    /*eliminare*/
+    [pro_costo_quadro_non_collegato_euro] FLOAT (53)     DEFAULT ((0)) NULL,    /*eliminare*/
+    [pro_costo_quadro_non_collegato]      FLOAT (53)     DEFAULT ((0)) NOT NULL,    /*eliminare*/
+    /*Gestibile con traduzioni automatiche*/
+    [pro_descrizione_manuale_ita]         NVARCHAR (MAX) NULL, 
+    [pro_descrizione_manuale_fra]         NVARCHAR (MAX) NULL,
+    [pro_descrizione_manuale_ing]         NVARCHAR (MAX) NULL,
+    [pro_descrizione_manuale_ted]         NVARCHAR (MAX) NULL,
+    [pro_descrizione_manuale_spa]         NVARCHAR (MAX) NULL,
+    /*--*/
+    [pro_prezzo_euro_ex]                  FLOAT (53)     DEFAULT ((0)) NULL,/*eliminare?*/
+    [pro_tipo]                            INT            DEFAULT ((1)) NULL,
+    [perc_tipo]                           INT            DEFAULT ((0)) NULL,
+    [creation_date]                       DATETIME       NULL,
+    [creation_user]                       INT            NULL,
+    [last_edit_date]                      DATETIME       NULL,
+    [last_edit_user]                      INT            NULL,
+    [deleted]                             BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [prodotti$PrimaryKey] PRIMARY KEY CLUSTERED ([pro_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{prodotti\_storico\_prezzi} (Eliminare)
+Tabella di gestione dello storico dei prezzi,
+non più necessaria utilizzando i trigger per gestire le revisioni dei prodotti e le tabella di backup.
+Da eliminare.
+\begin{lstlisting}
+CREATE TABLE [dbo].[prodotti_storico_prezzi] (
+    [psp_id]                       INT            IDENTITY (1, 1) NOT NULL,
+    [psp_prodotto]                 INT            NOT NULL,
+    [psp_data_obsolescenza_prezzo] DATETIME       NOT NULL,
+    [psp_pl_euro_ex]               FLOAT (53)     NULL,
+    [psp_volume]                   INT            NULL,
+    [psp_campo_2]                  INT            NULL,
+    [psp_campo_3]                  INT            NULL,
+    [psp_campo_4]                  FLOAT (53)     NULL,
+    [psp_campo_5]                  INT            NULL,
+    [psp_campo_6]                  NVARCHAR (255) NULL,
+    [creation_date]                DATETIME       NULL,
+    [creation_user]                INT            NULL,
+    [last_edit_date]               DATETIME       NULL,
+    [last_edit_user]               INT            NULL,
+    [deleted]                      BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [prodotti_storico_prezzi$PrimaryKey] PRIMARY KEY CLUSTERED ([psp_id] ASC),
+    CONSTRAINT [UQ_prodotti_storico_prezzi_prodotto_data] UNIQUE NONCLUSTERED ([psp_prodotto] ASC, [psp_data_obsolescenza_prezzo] ASC)
+);
+\end{lstlisting}
+
+\subsection{riferimenti\_esterni} (gestita da campo nella tabella clienti, eliminare)
+Tabella utilizzata per gestire gli eventuali riferimenti esterni all'azienda come nome del contatto, indirizzo, ecc \dots
+Può essere gestita tramite la tabella dei clienti,
+ma è stata creata per avere una gestione più semplice e
+veloce dei riferimenti esterni, senza dover creare un cliente ad hoc per ogni riferimento esterno.
+\begin{lstlisting}
+CREATE TABLE [dbo].[riferimenti_esterni] (
+    [res_id]              SMALLINT       IDENTITY (1, 1) NOT NULL,
+    [res_nome]            NVARCHAR (50)  NULL,
+    [res_indirizzo]       NVARCHAR (150) NULL,
+    [res_cap]             NVARCHAR (5)   NULL,
+    [res_citta]           NVARCHAR (25)  NULL,
+    [res_provincia]       NVARCHAR (2)   NULL,
+    [res_zona]            NVARCHAR (20)  NULL,
+    [res_telefono]        NVARCHAR (15)  NULL,
+    [res_reparto]         NVARCHAR (255) NULL,
+    [res_flag_sconto]     BIT            DEFAULT ((0)) NULL,
+    [res_sconto_1]        INT            DEFAULT ((0)) NULL,
+    [res_sconto_2]        INT            DEFAULT ((0)) NULL,
+    [res_sconto_3]        INT            DEFAULT ((0)) NULL,
+    [res_piu_percentuale] FLOAT (53)     DEFAULT ((0)) NULL,
+    [res_listino]         INT            DEFAULT ((1000)) NULL,
+    [res_tipo]            NVARCHAR (255) NULL,
+    [creation_date]       DATETIME       NULL,
+    [creation_user]       INT            NULL,
+    [last_edit_date]      DATETIME       NULL,
+    [last_edit_user]      INT            NULL,
+    [deleted]             BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [riferimenti_esterni$PrimaryKey] PRIMARY KEY CLUSTERED ([res_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{riferimenti\_interni} (gestita da campo nella tabella clienti)
+Tabella utilizzata per gestire gli eventuali riferimenti interni dei commerciali,
+usata per gestire quando un commerciale fa un'offerta per conto di un altro.
+Può essere gestita tramite la tabella degli utenti.
+Da eliminare.
+\begin{lstlisting}
+CREATE TABLE [dbo].[riferimenti_interni] (
+    [rin_id]         INT            IDENTITY (1, 1) NOT NULL,
+    [rin_nome]       NVARCHAR (40)  NULL,
+    [rin_indirizzo]  NVARCHAR (150) NULL,
+    [rin_cap]        NVARCHAR (5)   NULL,
+    [rin_citta]      NVARCHAR (25)  NULL,
+    [rin_provincia]  NVARCHAR (2)   NULL,
+    [rin_zona]       NVARCHAR (20)  NULL,
+    [rin_telefono]   NVARCHAR (15)  NULL,
+    [rin_reparto]    NVARCHAR (255) NULL,
+    [creation_date]  DATETIME       NULL,
+    [creation_user]  INT            NULL,
+    [last_edit_date] DATETIME       NULL,
+    [last_edit_user] INT            NULL,
+    [deleted]        BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [riferimenti_interni$PrimaryKey] PRIMARY KEY CLUSTERED ([rin_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{tipi\_assistenza}(Rinnominare in  tipi\_vendita)
+Tabella con le causali del tipo di assistenza,
+utilizzata per gestire i tipi di causali di assistenza come noleggio,ricambi,riparazione, ecc \dots
+La tabella è utilizzata per scopi statistici.
+\begin{lstlisting}
+CREATE TABLE [dbo].[tipi_assistenza] (
+    [tas_id]         INT            IDENTITY (1, 1) NOT NULL,
+    [tas_assistenza] NVARCHAR (50)  NULL,
+    [tas_altro]      NVARCHAR (255) NULL,
+    [creation_date]  DATETIME       NULL,
+    [creation_user]  INT            NULL,
+    [last_edit_date] DATETIME       NULL,
+    [last_edit_user] INT            NULL,
+    [deleted]        BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [tipi_assistenza$PrimaryKey] PRIMARY KEY CLUSTERED ([tas_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{tipi\_cliente} (Eliminare)
+Tabella non trovata in Access da verificare.
+\begin{lstlisting}
+CREATE TABLE [dbo].[tipi_cliente] (
+    [tcl_id]          INT            IDENTITY (1, 1) NOT NULL,
+    [tcl_descrizione] NVARCHAR (100) NULL,
+    [tcl_note]        NTEXT          NULL,
+    [creation_date]   DATETIME       NULL,
+    [creation_user]   INT            NULL,
+    [last_edit_date]  DATETIME       NULL,
+    [last_edit_user]  INT            NULL,
+    [deleted]         BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [PK_tipi_cliente] PRIMARY KEY CLUSTERED ([tcl_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{tipi\_imballo}
+Tabella creata per gestire la modalità di imballo della merce,
+utilizzata per gestire i tipi di imballo come scatola via area, scatola via DHL, ecc.
+\begin{lstlisting}
+CREATE TABLE [dbo].[tipi_imballo] (
+    [tim_id]         INT            IDENTITY (1, 1) NOT NULL,
+    [tim_imballo]    NVARCHAR (50)  NULL,
+    [tim_altro]      NVARCHAR (255) NULL,
+    [creation_date]  DATETIME       NULL,
+    [creation_user]  INT            NULL,
+    [last_edit_date] DATETIME       NULL,
+    [last_edit_user] INT            NULL,
+    [deleted]        BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [tipi_imballo$PrimaryKey] PRIMARY KEY CLUSTERED ([tim_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{tipi\_percentuale\_agente}
+Tabella utilizzata per gestire le tipologie di percentuale che un agente può avere sulla vendita.
+Dare la possibilità di editarla nella tabella offerta.
+\begin{lstlisting}
+CREATE TABLE [dbo].[tipi_percentuale_agente] (
+    [tpa_id]          INT            IDENTITY (1, 1) NOT NULL,
+    [tpa_tipo]        NVARCHAR (50)  NULL,
+    [tpa_descrizione] NVARCHAR (255) NULL,
+    [creation_date]   DATETIME       NULL,
+    [creation_user]   INT            NULL,
+    [last_edit_date]  DATETIME       NULL,
+    [last_edit_user]  INT            NULL,
+    [deleted]         BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [tipi_percentuale_agente$PrimaryKey] PRIMARY KEY CLUSTERED ([tpa_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{tipi\_resa}
+Tabella utilizzata per gestire gli INCOTERMS di resa della merce; utilizzata per gestire i tipi di resa come FCA, FOB, ecc.
+\begin{lstlisting}
+CREATE TABLE [dbo].[tipi_resa] (
+    [tre_id]         INT            IDENTITY (1, 1) NOT NULL,
+    [tre_resa]       NVARCHAR (50)  NULL,
+    [tre_altro]      NVARCHAR (255) NULL,
+    [creation_date]  DATETIME       NULL,
+    [creation_user]  INT            NULL,
+    [last_edit_date] DATETIME       NULL,
+    [last_edit_user] INT            NULL,
+    [deleted]        BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [tipi_resa$PrimaryKey] PRIMARY KEY CLUSTERED ([tre_id] ASC)
+);
+\end{lstlisting}
+
+\subsection{utilizzatori}(Eliminare - gestita nella tabella clienti)
+Tabella utilizzata per gestire gli utilizzatori dell'impianto.
+Contiene le stesse informazioni dei clienti, potrebbe essere accorpata alla tabella dei clienti.
+\begin{lstlisting}
+CREATE TABLE [dbo].[utilizzatori] (
+    [uti_id]           INT            IDENTITY (1, 1) NOT NULL,
+    [uti_nome_societa] NVARCHAR (100) NULL,
+    [uti_contatto]     NVARCHAR (30)  NULL,
+    [uti_posizione]    NVARCHAR (30)  NULL,
+    [uti_indirizzo]    NVARCHAR (80)  NULL,
+    [uti_cap]          NVARCHAR (10)  NULL,
+    [uti_citta]        NVARCHAR (50)  NULL,
+    [uti_provincia]    NVARCHAR (15)  NULL,
+    [uti_zona]         INT            DEFAULT ((1000)) NULL,
+    [uti_nazione]      INT            DEFAULT ((1000)) NULL,
+    [uti_telefono]     NVARCHAR (24)  NULL,
+    [uti_fax]          NVARCHAR (24)  NULL,
+    [uti_categoria]    INT            DEFAULT ((1)) NULL,
+    [uti_partita_iva]  NVARCHAR (50)  NULL,
+    [creation_date]    DATETIME       NULL,
+    [creation_user]    INT            NULL,
+    [last_edit_date]   DATETIME       NULL,
+    [last_edit_user]   INT            NULL,
+    [deleted]          BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [PK_utilizzatori] PRIMARY KEY CLUSTERED ([uti_id] ASC),
+    CONSTRAINT [SSMA_CC$utilizzatori$uti_telefono$disallow_zero_length] CHECK (len([uti_telefono])>(0)),
+    CONSTRAINT [SSMA_CC$utilizzatori$uti_contatto$disallow_zero_length] CHECK (len([uti_contatto])>(0)),
+    CONSTRAINT [SSMA_CC$utilizzatori$uti_fax$disallow_zero_length] CHECK (len([uti_fax])>(0)),
+    CONSTRAINT [SSMA_CC$utilizzatori$uti_indirizzo$disallow_zero_length] CHECK (len([uti_indirizzo])>(0)),
+    CONSTRAINT [SSMA_CC$utilizzatori$uti_nome_societa$disallow_zero_length] CHECK (len([uti_nome_societa])>(0)),
+    CONSTRAINT [SSMA_CC$utilizzatori$uti_partita_iva$disallow_zero_length] CHECK (len([uti_partita_iva])>(0)),
+    CONSTRAINT [SSMA_CC$utilizzatori$uti_cap$disallow_zero_length] CHECK (len([uti_cap])>(0)),
+    CONSTRAINT [SSMA_CC$utilizzatori$uti_posizione$disallow_zero_length] CHECK (len([uti_posizione])>(0)),
+    CONSTRAINT [SSMA_CC$utilizzatori$uti_provincia$disallow_zero_length] CHECK (len([uti_provincia])>(0)),
+    CONSTRAINT [SSMA_CC$utilizzatori$uti_citta$disallow_zero_length] CHECK (len([uti_citta])>(0))
+);
+\end{lstlisting}
+
+\subsection{zone}
+Tabella utilizzata per gestire le zone geografiche di pertinenza degli utenti esempio Africa del Nord, Europa, ecc \dots
+\begin{lstlisting}
+CREATE TABLE [dbo].[zone] (
+    [zon_id]           INT            IDENTITY (1, 1) NOT NULL,
+    [zon_descrizione]  NVARCHAR (255) NULL,
+    [zon_sigla]        NVARCHAR (4)   NULL,
+    [zon_informazioni] NVARCHAR (255) NULL,
+    [creation_date]    DATETIME       NULL,
+    [creation_user]    INT            NULL,
+    [last_edit_date]   DATETIME       NULL,
+    [last_edit_user]   INT            NULL,
+    [deleted]          BIT            DEFAULT ((0)) NULL,
+    CONSTRAINT [Zone$PrimaryKey] PRIMARY KEY CLUSTERED ([zon_id] ASC)
+);
+\end{lstlisting}
+
+\end{document}
