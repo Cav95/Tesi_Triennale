@@ -25,6 +25,9 @@
 \acrodef{PLM}{product lifecycle management}
 \acrodef{vm}[VM]{Virtual Machine}
 \acrodef{SSIS}{SQL Server Integration Services}
+\acrodef{Cepi}{Cepi S.p.a.}
+\acrodef{ETO}{Engineering To Order}
+\acrodef{SRP}{single-principal responsability}
 
 \mainlinespacing{1.241} % line spacing in mainmatter, comment to default (1)
 
@@ -52,22 +55,29 @@ Optional. Max a few lines.
 \chapter{Introduzione}
 \label{chap:introduction}
 %----------------------------------------------------------------------------------------
+Il progetto di tesi è volto alla progettazione ex-novo del programma di vendita dell'azienda \ac{Cepi}, 
+azienda con una produzione di tipo \ac{ETO}.
+La tipologia di produzione \ac{ETO} ha portato ad un profondo studio della situazione odierna , delle sue esigenge attuali
+e future tenendo aperte le possibilità di apliamenti.
+Per far fronte a tutte le particolarità aziendali si è proceduto ad una selezione di figure chiave , per mansione o ruolo ,che potessero
+dare una visione dei bisogni del proprio o con altri reparti.
+La fase di analisi tramite interviste e demo dell'attaule mezzo utilizzato ha fatto emergere nuove necessità 
+architteturali da affrontare come il cross-platform, l'utilizzo offline del db e la necessità di costrurire offerte in modo più agile.
+L'analisi inoltre ha sottolineato come il programma non debba solo sostituire l'attuale sistema, ma debba inserirsi in un contesto
+di rinnovamento più ampio coordinadosi con altri sistemi aziendali e i relativi db in ottica "\ac{SRP}"
+eleggendo dei master data per ogni aspetto aziendale. Il \ac{SRP} ha plasmato notevolmente la costruzione del database ricreando, dove possibile,
+le strutture dei database esistenti da cui si necessitava recuperare i dati mediante reverse Engineering.
+L'intero sistema è stato pensato per appoggiarsi all'infrastruttura esistente aziendale, come SQLServer,
+ma studiando delle logiche di flessibilità e ampliamento dinamico.
+Si è cercato e scelto inoltre un Framework per la parte grafica che potesse
+soddisfare il cross-platform essendo esso nella richieste avanzate.
+Le interfacce , disegnate mediante Figma %vedere se citarlo% 
+sono state pensate in ottica mobile first per rendere l'utilizzo agile da dispositivi mobili.
+%Introduzione e abstract verso la fine
 
-Write your intro here.
-\sidenote{Add sidenotes in this way. They are named after the author of the thesis}
 
-You can use acronyms that your defined previously,
-such as \ac{CPQ}.
-%
-If you use acronyms twice,
-they will be written in full only once
-(indeed, you can mention the \ac{IoT} now without it being fully explained).
-%
-In some cases, you may need a plural form of the acronym.
-%
-For instance,
-that you are discussing \acp{vm},
-you may need both \ac{vm} and \acp{vm}.
+%Write your intro here.
+%\sidenote{Add sidenotes in this way. They are named after the author of the thesis}
 
 \paragraph{Structure of the Thesis}
 
