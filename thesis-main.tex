@@ -1,0 +1,112 @@
+\documentclass[12pt,a4paper,openright,twoside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage{disi-thesis}
+\usepackage{code-lstlistings}
+\usepackage{notes}
+\usepackage{shortcuts}
+\usepackage{acronym}
+
+\school{\unibo}
+\programme{Corso di Laurea in Ingegneria e Scienze Informatiche}
+\title{Progettazione di un configuratore di vendite}
+\author{Cavina Mattia}
+\date{\today}
+\subject{Basi di dati}
+\supervisor{Prof.sa Annalisa Franco}
+%\cosupervisor{Dott. CoSupervisor 1}
+%\morecosupervisor{Dott. CoSupervisor 2}
+\session{III}
+\academicyear{2025-2026}
+
+% Definition of acronyms
+\acrodef{CPQ}{configure, price, quote}
+\acrodef{ERP}{enterprise resource planning}
+\acrodef{CRM}{customer relationship management}
+\acrodef{PLM}{product lifecycle management}
+\acrodef{vm}[VM]{Virtual Machine}
+\acrodef{SSIS}{SQL Server Integration Services}
+
+\mainlinespacing{1.241} % line spacing in mainmatter, comment to default (1)
+
+\begin{document}
+
+\frontmatter\frontispiece
+
+\begin{abstract}	
+Max 2000 characters, strict.
+\end{abstract}
+
+\begin{dedication} % this is optional
+Optional. Max a few lines.
+\end{dedication}
+
+%----------------------------------------------------------------------------------------
+\tableofcontents   
+\listoffigures     % (optional) comment if empty
+\lstlistoflistings % (optional) comment if empty
+%----------------------------------------------------------------------------------------
+
+\mainmatter
+
+%----------------------------------------------------------------------------------------
+\chapter{Introduction}
+\label{chap:introduction}
+%----------------------------------------------------------------------------------------
+
+Write your intro here.
+\sidenote{Add sidenotes in this way. They are named after the author of the thesis}
+
+You can use acronyms that your defined previously,
+such as \ac{CPQ}.
+%
+If you use acronyms twice,
+they will be written in full only once
+(indeed, you can mention the \ac{IoT} now without it being fully explained).
+%
+In some cases, you may need a plural form of the acronym.
+%
+For instance,
+that you are discussing \acp{vm},
+you may need both \ac{vm} and \acp{vm}.
+
+\paragraph{Structure of the Thesis}
+
+\note{At the end, describe the structure of the paper}
+
+\chapter{State of the art}
+
+I suggest referencing stuff as follows: \cref{fig:random-image} or \Cref{fig:random-image}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.8\linewidth]{figures/random-image.pdf}
+    \caption{Some random image}
+    \label{fig:random-image}
+\end{figure}
+
+\section{Some cool topic}
+
+\chapter{Contribution}
+
+You may also put some code snippet (which is NOT float by default), eg: \cref{lst:random-code}.
+
+\lstinputlisting[float,language=Java,label={lst:random-code}]{listings/HelloWorld.java}
+
+\section{Fancy formulas here}
+
+%----------------------------------------------------------------------------------------
+% BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\backmatter
+
+\nocite{*} % Remove this as soon as you have the first citation
+
+\bibliographystyle{alpha}
+\bibliography{bibliography}
+
+\begin{acknowledgements} % this is optional
+Optional. Max 1 page.
+\end{acknowledgements}
+
+\end{document}

@@ -26,9 +26,7 @@
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl
-*.bbl-SAVE-ERROR
 *.bcf
-*.bcf-SAVE-ERROR
 *.blg
 *-blx.aux
 *-blx.bib
@@ -41,8 +39,6 @@
 *.synctex.gz
 *.synctex.gz(busy)
 *.pdfsync
-*.rubbercache
-rubber.cache
 
 ## Build tool directories for auxiliary files
 # latexrun
@@ -59,9 +55,6 @@ acs-*.bib
 # amsthm
 *.thm
 
-# attachfile2
-*.atfi
-
 # beamer
 *.nav
 *.pre
@@ -70,15 +63,9 @@ acs-*.bib
 
 # changes
 *.soc
-*.loc
 
 # comment
 *.cut
-
-# context
-*.tuc
-*.tui
-*.tuo
 
 # cprotect
 *.cpt
@@ -119,11 +106,8 @@ acs-*.bib
 *.acn
 *.acr
 *.glg
-*.glg-abr
 *.glo
-*.glo-abr
 *.gls
-*.gls-abr
 *.glsdefs
 *.lzo
 *.lzs
@@ -154,9 +138,6 @@ acs-*.bib
 *.trc
 *.xref
 
-# hypdoc
-*.hd
-
 # hyperref
 *.brf
 
@@ -165,9 +146,6 @@ acs-*.bib
 # TODO Uncomment the next line if you use knitr and want to ignore its generated tikz files
 # *.tikz
 *-tikzDictionary
-
-# latexindent will create succesive backup files by default
-#*.bak*
 
 # listings
 *.lol
@@ -191,7 +169,6 @@ acs-*.bib
 
 # minted
 _minted*
-*.data.minted
 *.pyg
 
 # morewrites
@@ -218,10 +195,6 @@ _minted*
 
 # scrwfile
 *.wrt
-
-# spelling
-*.spell.bad
-*.spell.txt
 
 # svg
 svg-inkscape/
@@ -287,9 +260,6 @@ TSWLatexianTemp*
 # WinEdt
 *.bak
 *.sav
-
-# latexindent.pl
-*.bak[0-9]*
 
 # Texpad
 .texpadtmp
