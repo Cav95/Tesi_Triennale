@@ -1,34 +1,43 @@
-\documentclass[12pt,a4paper,openright,twoside]{book}
-\usepackage[utf8]{inputenc}
-\usepackage{disi-thesis}
-\usepackage{code-lstlistings}
-\usepackage{notes}
-\usepackage{shortcuts}
-\usepackage{acronym}
-
-% !TeX root = ../../thesis-main.tex
-
-% Definition of acronyms
-\acrodef{CPQ}{configure, price, quote}
-\acrodef{ERP}{enterprise resource planning}
-\acrodef{CRM}{customer relationship management}
-\acrodef{PLM}{product lifecycle management}
-\acrodef{vm}[VM]{Virtual Machine}
-\acrodef{SSIS}{SQL Server Integration Services}
-\acrodef{Cepi}{Cepi S.p.a.}
-\acrodef{ETO}{Engineering To Order}
-\acrodef{SRP}{single-principal responsability}
-
-\mainlinespacing{1.241} % line spacing in mainmatter, comment to default (1)
-
-\begin{document}
-
-%\section{Situazione As-Is}
+% Capitoli/1-As-Is/AsIs.tex
 \chapter{Situazione As-Is}
+\section{Premessa}
+La situazione infrastrutturale aziendale è stata studiata dal sottoscritto nel corso del tirocinio formativo.
+La raccolta dei dati è stata svolta mediante interviste e studio degli attuali sistemi informatici.
+Nelle sezioni che seguono introdurrò brevemente l'As-Is.
+
 \section{Situazione Infrastrutturale Aziendale}
+L'azienda \ac{Cepi} ha un'infrastruttura informatica che si appoggia su server
+fisici allocati internamente all'azienda stessa e gestiti mediante Active Directory.
+I server sono a loro volta virtualizzati per gestire separatamente le memorie in base alla finalità e alla sicurezza interna.
+Ogni reparto ha accesso alla propria porzione di server dove gestisce in autonomia i contenuti.
+All'interno poi di un server dedicato è presente il motore di database \ac{SQLServer}, in cui
+sono gestiti i principali database dei programmi, quali:
+\begin{itemize}
+    \item \textbf{AD\-hoc\cite{Ad-Hoc}:} l'\ac{ERP} aziendale, ovvero il programma che gestisce le attività aziendali come gli approvvigionamenti e la movimentazione dei prodotti, 
+    le vendite, le fatturazioni nonché i cicli produttivi.
+    \item \textbf{Fusion\cite{Fusion}:} il \ac{PLM} aziendale, programma volto alla gestione dei prodotti meccanici dalla loro creazione all'archiviazione dei disegni con relative distinte dei componenti,
+    fino al loro versionamento o alla fine della produzione.
+    \item \textbf{BOMBconfine:} database ponte tra i database esterni e quello dell'\ac{ERP}; all'interno sono presenti tabelle di frontiera che il gestionale usa per importare i dati,
+    attualmente utilizzato esclusivamente da Fusion.
+\end{itemize}
+
 \section{Attuali software utilizzati}
+Nel capitolo precedente abbiamo fatto cenno ai database e ai relativi programmi che gestiscono quanto concerne l'\ac{ERP}
+e il \ac{PLM}.
+Per quanto riguarda le vendite, punto focale dell'intervento richiesto, l'azienda utilizza attualmente
+un'applicazione sviluppata internamente
+con frontend e backend in Access, programma della suite Microsoft Office.
+Il software è stato implementato circa 30 anni fa ed ha subito numerosi aggiornamenti e
+modifiche nel tempo per adattarsi alle esigenze commerciali e all'evoluzione del
+mercato. L'applicazione consente di creare, modificare e gestire i contratti con i
+clienti, includendo funzionalità quali la gestione degli sconti, la personalizzazione
+delle offerte e la stampa dei documenti. Tuttavia, nonostante le funzionalità implementate,
+il software presenta significative criticità che ne limitano l'efficienza e
+l'usabilità, come confermato dalle interviste condotte con gli utenti. Tali criticità
+includono instabilità operativa, mancanza di standardizzazione, codifiche obsolete,
+difficoltà negli aggiornamenti di prezzo e assenza di integrazione con altri sistemi
+aziendali. Di conseguenza, è indispensabile sviluppare un nuovo configuratore
+commerciale che affronti tali problematiche e migliori l'esperienza degli utenti,
+preservando nel contempo le funzionalità essenziali del sistema attuale.
+
 \section{Organizzazione Aziendale e Flussi di lavoro}
-
-
-
-\end{document}
