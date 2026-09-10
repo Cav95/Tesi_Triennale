@@ -89,24 +89,96 @@ dovendo coprire in modo esustivo almeno il core progetto.
 
 \chapter{State of the art}
 
-I suggest referencing stuff as follows: \cref{fig:random-image} or \Cref{fig:random-image}
+\section{Situazione As-Is}
+\subsection{Situazione Infrastrutturale Aziendale}
+\subsection{Attuali software utilizzati}
+\subsection{Organizzazione Aziendale e Flussi di lavoro}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=.8\linewidth]{figures/random-image.pdf}
-    \caption{Some random image}
-    \label{fig:random-image}
-\end{figure}
+% --- Interviste per la raccolta requisiti ---
+% \subfile{./DocumentazioneRaccolta/Analisi/Raccolta_Requisiti.tex}
+\section{Raccolta dei requisiti}
+\subsection{Scelta dei candidati}
+\subsection{Modalità di svolgimento raccolta informazioni}
+\subsection{Riassunto punti emersi per reparto}
 
-\section{Some cool topic}
+% --- Analisi dei requisiti emersi dalle interviste ---
+%\subfile{./DocumentazioneRaccolta/Analisi/Analisi_Requisiti.tex}
+\section{Analisi dei requisiti}
+\subsection{Requisiti funzionali}
+\subsection{Requisiti non funzionali}
+\subsection{Requisiti futuri should-have}
 
-\chapter{Contribution}
+\newpage
+\section{Progettazione dell'architettura}
+\subsection{Preambolo sulle scelte architetturali}
+\subsection{Deployment}
+\subsubsection{Diagramma dei Deployment}
+\subsection{Componenti}
+\subsubsection{Diagramma dei Componenti}
+\subsection{Flussi di lavoro}
+\subsubsection{Diagrammi di sequenza}
 
-You may also put some code snippet (which is NOT float by default), eg: \cref{lst:random-code}.
+\newpage
 
-\lstinputlisting[float,language=Java,label={lst:random-code}]{listings/HelloWorld.java}
+\section{Scelte progettuali}
+\subsection{Scelta modello di sviluppo}
+\subsection{Suddivisione e contenuto dei rilasci}
+\subsection{Timeline di progetto e successivi focus group}
+\subsection{Scelta Framework ORM}
+\subsection{Scelta Framework grafico} % MAUI .NET
+\subsection{Scelta del pattern di progettazione} % MVVM
 
-\section{Fancy formulas here}
+\newpage
+% --- Progettazione del database ---
+%\subfile{./DocumentazioneRaccolta/Database/Progettazione_database.tex}
+\section{Progettazione del database}
+\subsection{Esportazione Vecchio Db}
+\subsection{Creazione regole di denominazione}
+\subsection{Utilizzo di SSIS nel processo di migrazione}
+
+\subsection{Ristrutturazione database}
+\subsubsection{Eliminazione ridondanze e normalizzazione}
+\subsubsection{Creazione tabelle di lookup}
+\subsubsection{Aggiunta tabelle non presenti}
+\subsubsection{Creazione tabelle di Back Up}
+\subsubsection{Scelta di strutture Avanzate come Triggers e Stored Procedure}
+
+\subsection{Schema logico finale}
+\subsection{Popolamento database}
+\subsection{Dati fissi}
+\subsection{Dati fissi da vagliare}
+\subsection{Dati provenienti da altri DB}
+\subsubsection{Scelta dei dati}
+\subsubsection{Query di sincronizzazione e tempistiche di aggiornamento}
+
+% --- Creazione Model e View ---
+% \input{Documentazione Raccolta/Backend/Backend.tex}
+% \input{Documentazione Raccolta/Frontend/Frontend.tex}
+\newpage
+\section{Creazione Model}
+\subsection{Mapping delle classi}
+\subsection{Struttura del package}
+\subsubsection{Classi di Test}
+\subsubsection{Repository}
+\subsubsection{Classi ed Interfacce esposte}
+
+\section{Creazione View}
+\subsection{Utilizzo di Figma per disegno interfacce}
+\subsection{Creazione delle Factory per le View}
+\subsection{Scelta delle classi di viewmodel}
+
+\section{Modulo constroller}
+\subsection{Utilizzo della Dependency Injection}
+\subsubsection{Utilizzo di multi Threading per la gestione dei dati}
+\subsection{Scelta gestione transazione e dei commit}
+\subsection{Utilizzo della Cache in memoria per la gestione di dati fissi}
+
+\newpage
+\section{Modulo configurazione prodotto}
+\subsection{Scopo del modulo}
+\subsection{Focus group individuazione metodologia}
+\subsection{Studio sulla guida alla configurazione}
+\subsection{Query utilizzate per la ricerca}
 
 %----------------------------------------------------------------------------------------
 % BIBLIOGRAPHY
@@ -117,7 +189,7 @@ You may also put some code snippet (which is NOT float by default), eg: \cref{ls
 \nocite{*} % Remove this as soon as you have the first citation
 
 \bibliographystyle{alpha}
-\bibliography{bibliography}
+\bibliography{./Reference/references.bib}
 
 \begin{acknowledgements} % this is optional
 Optional. Max 1 page.
