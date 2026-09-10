@@ -83,102 +83,96 @@ dovendo coprire in modo esustivo almeno il core progetto.
 %Write your intro here.
 %\sidenote{Add sidenotes in this way. They are named after the author of the thesis}
 
-\paragraph{Structure of the Thesis}
+%\paragraph{Structure of the Thesis}
 
-\note{At the end, describe the structure of the paper}
+%\note{At the end, describe the structure of the paper}
 
-\chapter{State of the art}
+%\chapter{State of the art}
 
-\section{Situazione As-Is}
-\subsection{Situazione Infrastrutturale Aziendale}
-\subsection{Attuali software utilizzati}
-\subsection{Organizzazione Aziendale e Flussi di lavoro}
+\chapter{Situazione As-Is}
+\section{Situazione Infrastrutturale Aziendale}
+\section{Attuali software utilizzati}
+\section{Organizzazione Aziendale e Flussi di lavoro}
 
 % --- Interviste per la raccolta requisiti ---
 % \subfile{./DocumentazioneRaccolta/Analisi/Raccolta_Requisiti.tex}
-\section{Raccolta dei requisiti}
-\subsection{Scelta dei candidati}
-\subsection{Modalità di svolgimento raccolta informazioni}
-\subsection{Riassunto punti emersi per reparto}
+\chapter{Raccolta dei requisiti}
+\section{Scelta dei candidati}
+\section{Modalità di svolgimento raccolta informazioni}
+\section{Riassunto punti emersi per reparto}
 
 % --- Analisi dei requisiti emersi dalle interviste ---
 %\subfile{./DocumentazioneRaccolta/Analisi/Analisi_Requisiti.tex}
-\section{Analisi dei requisiti}
-\subsection{Requisiti funzionali}
-\subsection{Requisiti non funzionali}
-\subsection{Requisiti futuri should-have}
+\chapter{Analisi dei requisiti}
+\section{Requisiti funzionali}
+\section{Requisiti non funzionali}
+\section{Requisiti futuri should-have}
 
-\newpage
-\section{Progettazione dell'architettura}
-\subsection{Preambolo sulle scelte architetturali}
-\subsection{Deployment}
-\subsubsection{Diagramma dei Deployment}
-\subsection{Componenti}
-\subsubsection{Diagramma dei Componenti}
-\subsection{Flussi di lavoro}
-\subsubsection{Diagrammi di sequenza}
+\chapter{Progettazione dell'architettura}
+\section{Preambolo sulle scelte architetturali}
+\section{Deployment}
+\subsection{Diagramma dei Deployment}
+\section{Componenti}
+\subsection{Diagramma dei Componenti}
+\section{Flussi di lavoro}
+\subsection{Diagrammi di sequenza}
 
-\newpage
+\chapter{Scelte progettuali}
+\section{Scelta modello di sviluppo}
+\section{Suddivisione e contenuto dei rilasci}
+\section{Timeline di progetto e successivi focus group}
+\section{Scelta Framework ORM}
+\section{Scelta Framework grafico} % MAUI .NET
+\section{Scelta del pattern di progettazione} % MVVM
 
-\section{Scelte progettuali}
-\subsection{Scelta modello di sviluppo}
-\subsection{Suddivisione e contenuto dei rilasci}
-\subsection{Timeline di progetto e successivi focus group}
-\subsection{Scelta Framework ORM}
-\subsection{Scelta Framework grafico} % MAUI .NET
-\subsection{Scelta del pattern di progettazione} % MVVM
-
-\newpage
 % --- Progettazione del database ---
 %\subfile{./DocumentazioneRaccolta/Database/Progettazione_database.tex}
-\section{Progettazione del database}
-\subsection{Esportazione Vecchio Db}
-\subsection{Creazione regole di denominazione}
-\subsection{Utilizzo di SSIS nel processo di migrazione}
+\chapter{Progettazione del database}
+\section{Esportazione Vecchio Db}
+\section{Creazione regole di denominazione}
+\section{Utilizzo di SSIS nel processo di migrazione}
 
-\subsection{Ristrutturazione database}
-\subsubsection{Eliminazione ridondanze e normalizzazione}
-\subsubsection{Creazione tabelle di lookup}
-\subsubsection{Aggiunta tabelle non presenti}
-\subsubsection{Creazione tabelle di Back Up}
-\subsubsection{Scelta di strutture Avanzate come Triggers e Stored Procedure}
+\section{Ristrutturazione database}
+\subsection{Eliminazione ridondanze e normalizzazione}
+\subsection{Creazione tabelle di lookup}
+\subsection{Aggiunta tabelle non presenti}
+\subsection{Creazione tabelle di Back Up}
+\subsection{Scelta di strutture Avanzate come Triggers e Stored Procedure}
 
-\subsection{Schema logico finale}
-\subsection{Popolamento database}
-\subsection{Dati fissi}
-\subsection{Dati fissi da vagliare}
-\subsection{Dati provenienti da altri DB}
-\subsubsection{Scelta dei dati}
-\subsubsection{Query di sincronizzazione e tempistiche di aggiornamento}
+\section{Schema logico finale}
+\section{Popolamento database}
+\section{Dati fissi}
+\section{Dati fissi da vagliare}
+\section{Dati provenienti da altri DB}
+\subsection{Scelta dei dati}
+\subsection{Query di sincronizzazione e tempistiche di aggiornamento}
 
 % --- Creazione Model e View ---
 % \input{Documentazione Raccolta/Backend/Backend.tex}
 % \input{Documentazione Raccolta/Frontend/Frontend.tex}
-\newpage
-\section{Creazione Model}
-\subsection{Mapping delle classi}
-\subsection{Struttura del package}
-\subsubsection{Classi di Test}
-\subsubsection{Repository}
-\subsubsection{Classi ed Interfacce esposte}
+\chapter{Creazione Model}
+\section{Mapping delle classi}
+\section{Struttura del package}
+\subsection{Classi di Test}
+\subsection{Repository}
+\subsection{Classi ed Interfacce esposte}
 
-\section{Creazione View}
-\subsection{Utilizzo di Figma per disegno interfacce}
-\subsection{Creazione delle Factory per le View}
-\subsection{Scelta delle classi di viewmodel}
+\chapter{Creazione View}
+\section{Utilizzo di Figma per disegno interfacce}
+\section{Creazione delle Factory per le View}
+\section{Scelta delle classi di viewmodel}
 
-\section{Modulo constroller}
-\subsection{Utilizzo della Dependency Injection}
-\subsubsection{Utilizzo di multi Threading per la gestione dei dati}
-\subsection{Scelta gestione transazione e dei commit}
-\subsection{Utilizzo della Cache in memoria per la gestione di dati fissi}
+\chapter{Modulo constroller}
+\section{Utilizzo della Dependency Injection}
+\subsection{Utilizzo di multi Threading per la gestione dei dati}
+\section{Scelta gestione transazione e dei commit}
+\section{Utilizzo della Cache in memoria per la gestione di dati fissi}
 
-\newpage
-\section{Modulo configurazione prodotto}
-\subsection{Scopo del modulo}
-\subsection{Focus group individuazione metodologia}
-\subsection{Studio sulla guida alla configurazione}
-\subsection{Query utilizzate per la ricerca}
+\chapter{Modulo configurazione prodotto}
+\section{Scopo del modulo}
+\section{Focus group individuazione metodologia}
+\section{Studio sulla guida alla configurazione}
+\section{Query utilizzate per la ricerca}
 
 %----------------------------------------------------------------------------------------
 % BIBLIOGRAPHY
