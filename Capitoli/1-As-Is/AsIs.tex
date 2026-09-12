@@ -6,14 +6,14 @@ La raccolta dei dati è stata svolta mediante interviste e studio degli attuali 
 Nelle sezioni che seguono introdurrò brevemente l'As-Is.
 
 \section{Situazione Infrastrutturale Aziendale}
-L'azienda \ac{Cepi} ha un'infrastruttura informatica che si appoggia su server
-fisici allocati internamente all'azienda stessa e gestiti mediante Active Directory.
-I server sono a loro volta virtualizzati per gestire separatamente le memorie in base alla finalità e alla sicurezza interna.
-Ogni reparto ha accesso alla propria porzione di server dove gestisce in autonomia i contenuti.
-All'interno poi di un server dedicato è presente il motore di database \ac{SQLServer}, in cui
-sono gestiti i principali database dei programmi, quali:
+L'infrastruttura informatica aziendale si appoggia su server fisici allocati internamente gestiti mediante Active Directory.
+I server sono a loro volta virtualizzati in server per gestire separatamente le memorie in base alla finalità per
+garatire isolamento delle informazioni e permessi di acecsso.
+Ogni reparto a sua volta, ha accesso a determinatiserver dove gestisce in autonomia i propri contenuti.
+I database dei principali programmi sono gestiti all'interno di un server dedicato dove all'inetrno è installato un motore 
+\ac{SQLServer}, i priciplai database aziendali sono:
 \begin{itemize}
-    \item \textbf{AD\-hoc\cite{Ad-Hoc}:} l'\ac{ERP} aziendale, ovvero il programma che gestisce le attività aziendali come gli approvvigionamenti e la movimentazione dei prodotti, 
+    \item \textbf{AD\-hoc\cite{Ad-Hoc}:} l'\ac{ERP} aziendale, programma che gestisce le attività aziendali come gli approvvigionamenti e la movimentazione dei prodotti, 
     le vendite, le fatturazioni nonché i cicli produttivi.
     \item \textbf{Fusion\cite{Fusion}:} il \ac{PLM} aziendale, programma volto alla gestione dei prodotti meccanici dalla loro creazione all'archiviazione dei disegni con relative distinte dei componenti,
     fino al loro versionamento o alla fine della produzione.
@@ -39,6 +39,9 @@ difficoltà negli aggiornamenti di prezzo e assenza di integrazione con altri si
 aziendali. Di conseguenza, è indispensabile sviluppare un nuovo configuratore
 commerciale che affronti tali problematiche e migliori l'esperienza degli utenti,
 preservando nel contempo le funzionalità essenziali del sistema attuale.
+Il programma Access è stato fondamentale in questi anni per l'utilizzo in zone offline.
+Questa funzionalità è stata favorita dalla natura del programma stesso, dove racchiude in un solo file databasee frontend,
+copiando in locale il file e sincronizzandolo una volta tornato in sede.
 
 \section{Organizzazione Aziendale e Flussi di lavoro}
 Il flusso lavorativo è risultato non essere un aspetto secondario nello sviluppo richiesto.
@@ -53,6 +56,11 @@ Esso si deve interporre tra il reparto Commerciale, addetti alle vendite,
  i dati di destinazione e organizza preventivamente le spedizioni sulla base del venduto.
  Per via del sistema obsoleto utilizzato ed il debito tecnico accumulato negli anni, l'attaule sistema è isolato
  rispetto ai sistemi utilizzati dal resto dell'azienda. Quest'ultimo punto è uno dei punti così detti \textit{Must Have} da risolvere 
- intergrando il programma nell'ecosistema infomatico oltre che gestendo i flussi comunicativi mediante notifiche tra i diversi ambiti.
-
+ intergrando il programma nell'ecosistema infomatico sia unificando codici e prodotti che creando un flusso di notifiche tra i vari ambiti.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.9\linewidth]{figures/Order flow.png}
+    \caption{Schema degli stati di una offerta commerciale}
+    \label{fig:Flusso di un contratto}
+\end{figure}
  %Aggiungere immagine con flusso di lavoro
