@@ -66,7 +66,7 @@ architteturali da affrontare come il cross-platform, l'utilizzo offline del db e
 L'analisi inoltre ha sottolineato come il programma non debba solo sostituire l'attuale sistema, ma debba inserirsi in un contesto
 di rinnovamento più ampio coordinadosi con altri sistemi aziendali e i relativi db in ottica "\ac{SRP}"
 eleggendo dei master data per ogni aspetto aziendale. Il \ac{SRP} ha plasmato notevolmente la costruzione del database ricreando, dove possibile,
-le strutture dei database esistenti da cui si necessitava recuperare i dati mediante reverse Engineering.
+le strutture dei database esistenti da cui si necessitava recuperare i dati mediante reverse Engineering.\cref{section:importdata}
 L'intero sistema è stato pensato per appoggiarsi all'infrastruttura esistente aziendale, come SQLServer,
 ma studiando delle logiche di flessibilità e ampliamento dinamico.
 Si è cercato e scelto inoltre un Framework per la parte grafica che potesse
@@ -141,6 +141,7 @@ dovendo coprire in modo esustivo almeno il core progetto.
 \section{Dati fissi}
 \section{Dati fissi da vagliare}
 \section{Dati provenienti da altri DB}
+\label{section:importdata}
 \subsection{Scelta dei dati}
 \subsection{Query di sincronizzazione e tempistiche di aggiornamento}
 
