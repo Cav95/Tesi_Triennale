@@ -70,7 +70,8 @@ Questo approccio ha consentito di raccogliere quanti più requisiti possibili, o
 
 \section{Riassunto punti emersi}
 In questa sezione elencherò i principali punti emersi dagli incontri che hanno portato ad una analisi dei requisiti.
-\subsection{Funzionalità da mantenere}
+\subsection{Punti emersi rispetto all'attuale sistema}
+\subsubsection{Funzionalità da mantenere}
 Nelle interviste raccolte sono mersi una serie di funzionalità dell'attiule sistema 
 dove la loro esistenza è imprescendibili in uno sviluppo futuro.
 Tali funionalità sono:
@@ -82,10 +83,10 @@ Tali funionalità sono:
     \item I campi attualmente presenti se concorrono alla stampa del contratto, sono da mnatenere.
     \item La creazione attuale dei PDF dal contratto digitale è da mantenere, da mantenere anche la stampa multiligua.
 \end{itemize}
-\subsection{Criticità emerse}
+\subsubsection{Criticità emerse}
 Attraverso le dimostrazioni di utilizzo si è raccolto una elenco di 
 criticità da attenzionare nello sviluppo per evitare di ripresentino come:
-\begin{itemize}
+\begin{itemize
     \item Descrizioni e valori dicerti campi sono importate copiandole da file esterni, come Excel.
     \item L'attaule sistema si blocca, specialemente in condizioni di concorrenza quando più utenti scrivono sulla stessa tabella.
     \item I prodotti a listino non sono manuntenuti centralmente, non essendoci un legame con
@@ -94,4 +95,33 @@ criticità da attenzionare nello sviluppo per evitare di ripresentino come:
     da regole imposte dai reparti tecnici semplificando all'osso la compilazione da parte Commerciale.
     \item Mancanza di gestione dei valori duplicati e controlli sulle chiavi porta a creare clienti e prodotti duplicati.
 \end{itemize}
+\subsection{Richeste rispetto ad un futuro sistema}
+\subsubsection{Gestione ruoli e permessi}
+Raccogliendo informazioni da più figure, con diversi ruoli è emerso come attualmente non 
+sono gestiti i ruoli con relative viste sul database ne specifici permessi.
+Si è richiesto quindi di attribuire agli utenti dei ruoli che corrispoderanno a livelli di viste e permessi
+sulle informazioni contenute nel programma stesso.
+I ruoli individuati sono:
+\begin{itemize}
+    \item Admin con visione sul'intero sistema, con possibiltà esclusiva di modifica ad alcune tabelle fondamentali.
+    \item Commerciali interni che possono gestire nell'interezza clienti e contratti.
+    \item Commerciali esterni all'azienda, esempio agenti a partita IVA, possono vedere solo i propri clienti e contratti.
+    \item Amministrazione contabile, può modificare i dati contabili dei clienti ed esportare le voci contrattuali all'ERP per una gestione fiscale della vendita.
+    \item Project Manager degli impianti con possibilità di revisionare una vopia tecnica della vendita, in modo da intergrare il non venduto o internamente trsnettere ai reparti tecnici contratti tecnicamente corretti.
+    \item Visualizzatore senza permessi di srittura, ma solo possibilità di consultare i contratti stipulati.
+\end{itemize}
+\subsubsection{Gestione dei contratti}
+Nella creazione dei contrati, core del progetto, si sviluppa il vero salto di qualità.
+Ho attenzionato molto questa parte ed ho raccolto delle richieste che possono,anche in fase di primo rilascio
+dare al richiedente un sistema più ottimale.
+\subsubsection{Univocità delle offerte}
+Attualmente ad ogni offerta viene asseganto un valore progressivo, ma in caso di più versioni proposte al cliente vengono staccati
+più codici perdendo la traccia delle modifiche e dell'offerta di partenza,
+Si è richiesto, per far fronte a questo problema di generare delle versioni di una offerte, ovvero con lo stesso codice 
+seriale in caso di versione, ma mantenere in un campo semparato il numero di versione.
+All'interno di questo sistema si incastona anche la possibilità di copiare anche gli item della prima nella successiva versione per poi apportare delle modifiche.
+Ogni offerta o versione che si potrà essere revisonata singolarmente, ed in caso di accettazione di una 
+devono decadere le altre proproste.
+Questo sistema richiesto fa mantenere traccia dello sviluppo di una contrattazione.
+
 
