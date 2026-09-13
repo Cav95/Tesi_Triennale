@@ -3,24 +3,27 @@
 \label{chap:AsIs}
 \section{Premessa}
 La situazione infrastrutturale aziendale è stata studiata dal sottoscritto nel corso del tirocinio formativo.
-La raccolta dei dati è stata svolta mediante interviste e studio degli attuale sistema informatico.
+La raccolta dei dati è stata svolta mediante interviste e studio dell'attuale sistema informatico.
 Nelle sezioni che seguono introdurrò brevemente l'As-Is.
 
 \section{Situazione infrastrutturale aziendale}
-L'infrastruttura informatica aziendale si appoggia su server fisici allocati internamente gestiti mediante Active Directory.
-I server sono a loro volta virtualizzati in server per gestire separatamente le memorie in base alla finalità per
-garatire isolamento delle informazioni e permessi di acecsso.
-Ogni reparto a sua volta, ha accesso a determinatiserver dove gestisce in autonomia i propri contenuti.
-I database dei principali programmi sono gestiti all'interno di un server dedicato dove all'interno è installato un motore 
-\ac{SQLServer}, i principali database aziendali sono:
+L'infrastruttura informatica aziendale si appoggia su server fisici allocati internamente e gestiti mediante Active Directory.
+I server fisici sono, a loro volta virtualizzati per gestire separatamente le memorie in base alla finalità
+garantendo isolamento delle informazioni e permessi di accesso.
+Ogni reparto ha accesso a determinati server dove gestisce in autonomia i propri contenuti.
+I database dei principali programmi sono gestiti all'interno di un server dedicato dove è installato un motore 
+\ac{SQLServer}.
+I principali database aziendali sono:
 \begin{itemize}
     \item \textbf{AD\-hoc\cite{Ad-Hoc}:} l'\ac{ERP} aziendale, programma che gestisce le attività aziendali come gli approvvigionamenti e la movimentazione dei prodotti, 
     le vendite, le fatturazioni nonché i cicli produttivi.
-    \item \textbf{Fusion\cite{Fusion}:} il \ac{PLM} aziendale, programma volto alla gestione dei prodotti meccanici dalla loro creazione
-    all'archiviazione dei disegni con relative distinte dei componenti,fino al loro versionamento o alla fine della produzione.
-    \item \textbf{BOMBconfine:} database ponte tra i database esterni e quello dell'\ac{ERP}; all'interno sono presenti tabelle
-    di frontiera che il gestionale usa per importare i dati, attualmente utilizzato esclusivamente da Fusion.
+    \item \textbf{Fusion\cite{Fusion}:} il \ac{PLM} aziendale, programma volto alla gestione dei prodotti meccanici, dalla loro creazione
+    all'archiviazione dei disegni con relative distinte dei componenti.
+    Altre funzioni applicate sui prodotti sono la gestione delle revisioni o versionamenti, ed infine la loro fine produzione.
+    \item \textbf{BOMBconfine:} database ponte tra i database esterni e quello dell'\ac{ERP}. All'interno sono presenti tabelle
+    di frontiera scritte da programmi esterni e che il gestionale usa per importare i dati.
 \end{itemize}
+La sicurezza aziendale è sostenuta da \ac{NAT} e Firewall che impediscono l'accesso dall'esterno se non tramite \ac{VPN}. % fare acronimi
 
 \section{Attuali software utilizzati}
 Nel capitolo precedente abbiamo fatto cenno ai database e ai relativi programmi che gestiscono quanto concerne l'\ac{ERP}
