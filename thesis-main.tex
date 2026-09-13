@@ -31,10 +31,10 @@
 \acrodef{DB}{database}
 
 \hypersetup{
-  colorlinks=true,
-  urlcolor=blue,
-  linkcolor=cyan,
-  citecolor=red
+    colorlinks=true,
+    urlcolor=blue,
+    linkcolor=cyan,
+    citecolor=red
 }
 
 \mainlinespacing{1.241} % line spacing in mainmatter, comment to default (1)
@@ -47,13 +47,13 @@
 Max 2000 characters, strict.
 \end{abstract}
 
-\begin{dedication} % this is optional
-Optional. Max a few lines.
-\end{dedication}
+%\begin{dedication} % this is optional
+%Optional. Max a few lines.
+%\end{dedication}
 
 %----------------------------------------------------------------------------------------
-\tableofcontents  
-\listoffigures   % (optional) comment if empty
+\tableofcontents   
+\listoffigures     % (optional) comment if empty
 %\lstlistoflistings % (optional) comment if empty
 %----------------------------------------------------------------------------------------
 
@@ -69,25 +69,25 @@ La tipologia di produzione \ac{ETO} ha portato ad un profondo studio della situa
 e future tenendo aperte le possibilità di ampliamenti.
 Il lavoro di analisi ha comportato un sostanziale lavoro di programmazione e racccolta dati per coprire nel modo più
 ampio i bisogni aziendali.
-L'analisi è stata condotta inizialmente attraverso una selezione di figure chiave scelte per mansione o/e ruolo, che potessero
+L'analisi è stata condotta inizialmente attraverso la selezione di figure chiave scelte per mansione o/e ruolo, che potessero
 dare una visione dei bisogni del proprio o altrui reparto e successivamente sottoponendoli ad interviste.
 Sono state condotte 14 interviste, di cui 8 in modalità vis a vis, mentre le restanti 6 attraverso la dimostrazione
  dell'attuale applicativo utilizzato.
-Il risultato delle interviste condotte, ha fatto emergere attuali e nuove necessità architteturali da affrontare come il cross-platform,
- l'utilizzo offline del database e la necessità di costrurire offerte in modo più agile e strutturato.
+Il risultato delle interviste condotte, ha fatto emergere attuali e nuove necessità architteturali da affrontare 
+come il cross-platform, l'utilizzo offline del database e la necessità di costrurire offerte in modo più agile e strutturato.
 Questa prima fase ha inoltre sottolineato come il progetto non debba solo sostituire l'attuale sistema,
- ma debba inserirsi in un contesto di rinnovamento più ampio coordinadosi con altri programmi aziendali e i relativi db in ottica "\ac{SRP}"
-eleggendo dei master data che siano i soli resposabili della cerazione di certi dati.
+ ma debba inserirsi in un contesto di rinnovamento più ampio, coordinadosi con altri programmi aziendali e relativi db in ottica "\ac{SRP}"
+eleggendo dei master data che siano i soli resposabili della creazione di certi dati.
 Il \ac{SRP} ha plasmato notevolmente la costruzione del database ricreando, dove possibile,
 le strutture pre esistenti da cui si necessitava recuperare i dati mediante reverse Engineering.\cref{section:importdata}
 L'intero sistema è stato pensato per appoggiarsi all'infrastruttura esistente aziendale, come SQLServer\cite{SQLServer},
-ma studiando delle logiche di flessibilità e ampliamento dinamico studiando accuratamnete le relazioni tra le tabelle.
-Si è cercato e scelto inoltre un Framework per la parte grafica che potesse
-soddisfare il cross-platform essendo esso nella richieste avanzate.
+ma studiando delle logiche di flessibilità e ampliamento dinamico studiando accuratamente le relazioni tra le tabelle.
+Si è reso necessario cercare e scegliere inoltre un framework per la parte grafica che potesse soddisfare il cross-platform
+ essendo esso nelle richieste avanzate
 La costruzione delle interfacce grafiche è stata supportata da sito Figma che ha permesso una progettazione %vedere se citarlo% 
-in ottica mobile first.
-Le scelta accurata dei Framework e le strutture dati nella fase iniziale ha pesato molto nella ricerca e progettazione
-per garantire al richiedente un sistema che non rischiasse ne il debito tecnico ne un sistema che precludesse sviluppi futuri.
+in ottica mobile first.\ref{chap:View}
+Le scelta accurata dei framework e le strutture dati nella fase iniziale ha pesato molto, in termini di tempo e progettazione,
+per garantire al richiedente un sistema che non rischiasse ne il debito tecnico, ne la preclusione a sviluppi futuri.
 La pianificazione dei primi test con gli utenti, dei rilasci delle demo e del metodo di progettazione sono
 state cruciali per dettare tempi e priorità degli item dovendo coprire in modo esaustivo almeno il core progetto.
 
@@ -107,11 +107,13 @@ state cruciali per dettare tempi e priorità degli item dovendo coprire in modo 
 % --- Analisi dei requisiti emersi dalle interviste ---
 %\subfile{./DocumentazioneRaccolta/Analisi/Analisi_Requisiti.tex}
 \chapter{Analisi dei requisiti}
+\label{chap:AnalisiRequisiti}
 \section{Requisiti funzionali}
 \section{Requisiti non funzionali}
 \section{Requisiti futuri should-have}
 
 \chapter{Progettazione dell'architettura}
+\label{chap:architettura}
 \section{Preambolo sulle scelte architetturali}
 \section{Deployment}
 \subsection{Diagramma dei Deployment}
@@ -121,6 +123,7 @@ state cruciali per dettare tempi e priorità degli item dovendo coprire in modo 
 \subsection{Diagrammi di sequenza}
 
 \chapter{Scelte progettuali}
+\label{chap:ScelteProgettuali}
 \section{Scelta modello di sviluppo}
 \section{Suddivisione e contenuto dei rilasci}
 \section{Timeline di progetto e successivi focus group}
@@ -131,6 +134,7 @@ state cruciali per dettare tempi e priorità degli item dovendo coprire in modo 
 % --- Progettazione del database ---
 %\subfile{./DocumentazioneRaccolta/Database/Progettazione_database.tex}
 \chapter{Progettazione del database}
+\label{chap:Database}
 \section{Esportazione Vecchio Db}
 \section{Creazione regole di denominazione}
 \section{Utilizzo di SSIS nel processo di migrazione}
@@ -155,6 +159,7 @@ state cruciali per dettare tempi e priorità degli item dovendo coprire in modo 
 % \input{Documentazione Raccolta/Backend/Backend.tex}
 % \input{Documentazione Raccolta/Frontend/Frontend.tex}
 \chapter{Creazione Model}
+\label{chap:Model}
 \section{Mapping delle classi}
 \section{Struttura del package}
 \subsection{Classi di Test}
@@ -162,17 +167,20 @@ state cruciali per dettare tempi e priorità degli item dovendo coprire in modo 
 \subsection{Classi ed Interfacce esposte}
 
 \chapter{Creazione View}
+\label{chap:View}
 \section{Utilizzo di Figma per disegno interfacce}
 \section{Creazione delle Factory per le View}
 \section{Scelta delle classi di viewmodel}
 
 \chapter{Modulo controller}
+\label{chap:Controller}
 \section{Utilizzo della Dependency Injection}
 \subsection{Utilizzo di multi Threading per la gestione dei dati}
 \section{Scelta gestione transazione e dei commit}
 \section{Utilizzo della Cache in memoria per la gestione di dati fissi}
 
 \chapter{Modulo configurazione prodotto}
+\label{chap:Configurazione}
 \section{Scopo del modulo}
 \section{Focus group individuazione metodologia}
 \section{Studio sulla guida alla configurazione}
