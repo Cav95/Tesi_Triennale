@@ -10,17 +10,17 @@ Nelle sezioni che seguono introdurrò brevemente l'As-Is.
 L'infrastruttura informatica aziendale si appoggia su server fisici allocati internamente e gestiti mediante Active Directory.
 I server fisici sono, a loro volta virtualizzati per gestire separatamente le memorie in base alla finalità
 garantendo isolamento delle informazioni e permessi di accesso.
-Ogni reparto ha accesso a determinati server dove gestisce in autonomia i propri contenuti.
+Ogni reparto ha accesso a determinati server virtuali in cui gestisce in autonomia i propri contenuti.
 I database dei principali programmi sono gestiti all'interno di un server dedicato dove è installato un motore 
-\ac{SQLServer}.
+SQL Server \cite{SQLServer}.
 I principali database aziendali sono:
 \begin{itemize}
-    \item \textbf{AD\-hoc\cite{Ad-Hoc}:} l'\ac{ERP} aziendale, programma che gestisce le attività aziendali come gli approvvigionamenti e la movimentazione dei prodotti, 
+    \item \textbf{Ad\-Hoc\cite{Ad-Hoc}:} l'\ac{ERP} aziendale, programma che gestisce le attività aziendali come gli approvvigionamenti e la movimentazione dei prodotti, 
     le vendite, le fatturazioni nonché i cicli produttivi.
     \item \textbf{Fusion\cite{Fusion}:} il \ac{PLM} aziendale, programma volto alla gestione dei prodotti meccanici, dalla loro creazione
     all'archiviazione dei disegni con relative distinte dei componenti.
     Altre funzioni applicate sui prodotti sono la gestione delle revisioni o versionamenti, ed infine la loro fine produzione.
-    \item \textbf{BOMBconfine:} database ponte tra i database esterni e quello dell'\ac{ERP}. All'interno sono presenti tabelle
+    \item \textbf{BombConfine:} database ponte tra i database esterni e quello dell'\ac{ERP}. All'interno sono presenti tabelle
     di frontiera scritte da programmi esterni e che il gestionale usa per importare i dati.
 \end{itemize}
 La sicurezza aziendale è sostenuta da \ac{NAT} e Firewall che impediscono l'accesso dall'esterno se non tramite \ac{VPN}. % fare acronimi
@@ -29,8 +29,8 @@ La sicurezza aziendale è sostenuta da \ac{NAT} e Firewall che impediscono l'acc
 Nel capitolo precedente abbiamo fatto cenno ai database ed ai relativi programmi che gestiscono quanto concerne l'\ac{ERP}
 e il \ac{PLM}.
 Per quanto riguarda le vendite, punto focale dell'intervento richiesto, l'azienda utilizza attualmente
-un'applicazione sviluppata internamente. L'attuale sistema sviluppato in Access,programma della suite Microsoft Office,
-comprende al suo interno sia il frontend e backend. 
+un'applicazione sviluppata internamente. L'attuale sistema sviluppato in Access, programma della suite Microsoft Office,
+comprende al suo interno sia il frontend che il backend. 
 Il software è stato implementato circa 30 anni fa ed ha subito numerosi aggiornamenti e
 modifiche nel tempo per adattarsi alle esigenze commerciali e all'evoluzione del
 mercato. L'applicazione consente di creare, modificare e gestire i contratti con i
@@ -66,7 +66,7 @@ L'integrazione nell'ecosistema infomatico passa prima di tutto dall'unificazione
  un flusso di notifiche tra i vari ambiti.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=.9\linewidth]{figures/Order flow.png}
+    \includegraphics[width=1.3\linewidth, angle=90]{figures/Order flow.png}
     \caption{Schema degli stati di una offerta commerciale}
     \label{fig:Flusso di un contratto}
 \end{figure}

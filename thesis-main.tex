@@ -65,23 +65,23 @@ Max 2000 characters, strict.
 \chapter{Introduzione}
 \label{chap:introduction}
 %----------------------------------------------------------------------------------------
-Il progetto di tesi è volto alla progettazione ex-novo del programma di vendita dell'azienda \ac{Cepi}, 
+Il progetto di tesi è volto alla progettazione ex-novo del programma di vendita dell'azienda Cepi S.p.a. , 
 azienda con una produzione di tipo \ac{ETO} specializzato nella progettazione di impianti di stoccaggio custom.
 La tipologia di produzione \ac{ETO} ha portato ad un profondo studio della situazione odierna, delle sue esigenge attuali
 e future tenendo aperte le possibilità di ampliamenti.
-Il lavoro di analisi ha comportato un sostanziale lavoro di programmazione e racccolta dati per coprire nel modo più
+L'analisi ha comportato un sostanziale lavoro di programmazione e racccolta dati per coprire nel modo più
 ampio i bisogni aziendali.
-L'analisi è stata condotta inizialmente attraverso la selezione di figure chiave scelte per mansione o/e ruolo, che potessero
+Questa prima fase è stata condotta inizialmente attraverso la selezione di figure chiave scelte per mansione o/e ruolo, che potessero
 dare una visione dei bisogni del proprio o altrui reparto e successivamente sottoponendoli ad interviste.
 Sono state condotte 14 interviste, di cui 8 in modalità vis a vis, mentre le restanti 6 attraverso la dimostrazione
  dell'attuale applicativo utilizzato.
 Il risultato delle interviste condotte, ha fatto emergere attuali e nuove necessità architteturali da affrontare 
 come il cross-platform, l'utilizzo offline del database e la necessità di costrurire offerte in modo più agile e strutturato.
 Questa prima fase ha inoltre sottolineato come il progetto non debba solo sostituire l'attuale sistema,
- ma debba inserirsi in un contesto di rinnovamento più ampio, coordinadosi con altri programmi aziendali e relativi db in ottica "\ac{SRP}"
+ ma debba inserirsi in un contesto di rinnovamento più ampio, coordinadosi con altri programmi aziendali e relativi database in ottica "\ac{SRP}"
 eleggendo dei master data che siano i soli resposabili della creazione di certi dati.
 Il \ac{SRP} ha plasmato notevolmente la costruzione del database ricreando, dove possibile,
-le strutture pre esistenti da cui si necessitava recuperare i dati mediante reverse Engineering. \cref{section:importdata}
+le strutture pre esistenti da cui si necessitava recuperare i dati mediante reverse engineering. \cref{section:importdata}
 L'intero sistema è stato pensato per appoggiarsi all'infrastruttura esistente aziendale, come SQLServer\cite{SQLServer},
 ma studiando delle logiche di flessibilità e ampliamento dinamico studiando accuratamente le relazioni tra le tabelle.
 Si è reso necessario cercare e scegliere inoltre un framework per la parte grafica che potesse soddisfare il cross-platform
