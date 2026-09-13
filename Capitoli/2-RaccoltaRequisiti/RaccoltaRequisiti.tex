@@ -70,26 +70,27 @@ Questo approccio ha consentito di raccogliere quanti più requisiti possibili, o
 
 \section{Riassunto punti emersi}
 In questa sezione elencherò i principali punti emersi dagli incontri che hanno portato ad una analisi dei requisiti.
-\subsection{Utilizzatori abituali:}
-Intervistado gli utilizzatori abituali sono emersi i limiti dell'attuale programma come la lentezza,
-la non gestione della concorrenza ed i limiti di memoria del sistema.
-Per far fronte al limite della grandezza del database ogni hanno si duplica il file e si svuotano delle tabelle,
-rendendo lo storico difficilmente accessibile.
-Si è richiesta anche la possibiltà di utilizzo del sistema mediante tablet per favorirne l'uso in situazioni più
-dinamiche quali fiere di settore.
-Tra i vantaggi del vecchio sistema è emerso come la funzionalità offline è di prioritaria utilità, in quanto in
-situazione senza rete deve essere possibile generare comunque offerte.
-
-L'attuale sistema non impedisce univocità degli item nelle tabelle, portando a volte a clienti o offerte duplicate in
-quanto sono stati tolti i controlli e le chiavi importate per migliorare la velocità di utilizzo.
-
-Una delle richieste più avanzate è stata una semplificazione delle ricerca dei componenti da offrire, dove possibile, legando 
-anche i disegni tecnici già presenti in altri sistemi come il \ac{PLM}.
-
-Oltre alle richieste sopra si sono raccolte anche tutte le tabelle del databse attualmente utilizzate, capendo essercene di
-ormai in disuso che sporcano l'attuaule sistema o alcune accorpabili perchè funzionalmente simili.
-\subsection{Utilizzatori saltuari:}
-
-\subsection{Non utilizzatori:}
-
+\subsection{Funzionalità da mantenere}
+Nelle interviste raccolte sono mersi una serie di funzionalità dell'attiule sistema 
+dove la loro esistenza è imprescendibili in uno sviluppo futuro.
+Tali funionalità sono:
+\begin{itemize}
+    \item Mantenimento dell'attuale gestione delle scontische, attualmente è a cascata dando la possibilità al venditore di attuarle dalla singola voce, al capitolo,
+    fino al complessivo dell'offerta stessa.
+    \item Possibiltà di rendere delle parti dell'offerta opzonali, non incluse nel conto finale, ma in un calcolo seperato con le aggiunte.
+    \item Mantenimento della gestione dei capitoli contrattuali, raggruppando voci simili, dando la possibilità di conti parziali per zone.
+    \item I campi attualmente presenti se concorrono alla stampa del contratto, sono da mnatenere.
+    \item La creazione attuale dei PDF dal contratto digitale è da mantenere, da mantenere anche la stampa multiligua.
+\end{itemize}
+\subsection{Criticità emerse}
+Attraverso le dimostrazioni di utilizzo si è raccolto una elenco di 
+criticità da attenzionare nello sviluppo per evitare di ripresentino come:
+\begin{itemize}
+    \item Descrizioni e valori dicerti campi sono importate copiandole da file esterni, come Excel.
+    \item L'attaule sistema si blocca, specialemente in condizioni di concorrenza quando più utenti scrivono sulla stessa tabella.
+    \item I prodotti a listino non sono manuntenuti centralmente, non essendoci un legame con
+            gli altri sistemi in caso di obsolescenza di un Item da parte dei reparti tecnici l'aggiornamento non si propaga ad Access.
+    \item Mancanza di linee guida nella composizione delle offerte porta i commerciali ad errori nella composizione. Si è avanzata l'ipotesi di un configuratore delle offerte guidate
+    da regole imposte dai reparti tecnici semplificando all'osso la compilazione da parte Commerciale.
+\end{itemize}
 
