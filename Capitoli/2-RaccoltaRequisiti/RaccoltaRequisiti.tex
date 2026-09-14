@@ -71,35 +71,31 @@ Questo approccio ha consentito di raccogliere quanti più requisiti possibili, o
 
 \section{Riassunto punti emersi}
 In questa sezione elencherò i principali punti emersi dagli incontri che hanno portato ad una analisi dei requisiti.
-\subsection{Punti emersi rispetto all'attuale sistema}
+\subsection{Rispetto all'attuale sistema}
 \subsubsection{Funzionalità da mantenere}
-Nelle interviste raccolte sono mersi una serie di funzionalità dell'attiule sistema 
-dove la loro esistenza è imprescendibili in uno sviluppo futuro.
+Nelle interviste raccolte sono stati sottolineati una serie di funzionalità da mantenere.
 Tali funionalità sono:
 \begin{itemize}
-    \item Mantenimento dell'attuale gestione delle scontische, attualmente è a cascata dando la possibilità al venditore di attuarle dalla singola voce, al capitolo,
-    fino al complessivo dell'offerta stessa.
-    \item Possibiltà di rendere delle parti dell'offerta opzonali, non incluse nel conto finale, ma in un calcolo seperato con le aggiunte.
-    \item Mantenimento della gestione dei capitoli contrattuali, raggruppando voci simili, dando la possibilità di conti parziali per zone.
-    \item I campi attualmente presenti se concorrono alla stampa del contratto, sono da mnatenere.
-    \item La creazione attuale dei PDF dal contratto digitale è da mantenere, da mantenere anche la stampa multiligua.
+    \item Gestione delle scontische a cascata. Attualmente si ha la possibilità di inserirle in più punti, ovvero nella singola voce, nel capitolo,
+    o dell'offerta stessa.
+    \item Gestire all'interno delle voci o capitoli opzionali che non concorrono al prezzo offerto, ma ad uno opzionale.
+    \item Gestione di porzioni di contratto raggruppati in capitoli.
+    \item I campi del database che attualmente concorrono alla stampa del contratto, sono da mnatenere.
+    \item Mantenimento di una reportistica formato PDF del contratto digitale. Da gestire, come ora, il multiligua nel report.
+    \item Possibilità di esportare all'\ac{ERP} le voci contrattuali dell'ordine.
 \end{itemize}
 \subsubsection{Criticità emerse}
-Attraverso le dimostrazioni di utilizzo si è raccolto una elenco di 
-criticità da attenzionare nello sviluppo per evitare di ripresentino come:
+Mediante le dimostrazioni di utilizzo si è potuto raccogliere le 
+criticità da attenzionare per evitare di ripresentino, come:
 \begin{itemize}
-    \item Descrizioni e valori dicerti campi sono importate copiandole da file esterni, come Excel.
-    \item L'attaule sistema si blocca, specialemente in condizioni di concorrenza quando più utenti scrivono sulla stessa tabella.
-    \item I prodotti a listino non sono manuntenuti centralmente, non essendoci un legame con
-            gli altri sistemi in caso di obsolescenza di un Item da parte dei reparti tecnici l'aggiornamento non si propaga ad Access.
-    \item Mancanza di linee guida nella composizione delle offerte porta i commerciali ad errori nella composizione. Si è avanzata l'ipotesi di un configuratore delle offerte guidate
-    da regole imposte dai reparti tecnici semplificando all'osso la compilazione da parte Commerciale.
+    \item L'attaule sistema si blocca, specialemente in condizioni di concorrenza se più utenti utilizzano in contemporanea il file.
+    \item Non è presente una gestione centralizzata dei listini ed l'aggiornamento dei codici, attualmente si gestisce un file Excel manualmente.
+    \item Mancanza di linee guida nella compilazione delle offerte. Si è avanzata l'ipotesi di un configuratore di prodotto che aiuti l'utente.
     \item Mancanza di gestione dei valori duplicati e controlli sulle chiavi porta a creare clienti e prodotti duplicati.
 \end{itemize}
-\subsection{Richeste rispetto ad un futuro sistema}
+\subsection{Richeste avanzate}
 \subsubsection{Gestione ruoli e permessi}
-Raccogliendo informazioni da più figure, con diversi ruoli è emerso come attualmente non 
-sono gestiti i ruoli con relative viste sul database ne specifici permessi.
+La scelta di coprire quanti più reparti ha fatto emergere la necessità di gestire i ruoli nell'applicativo.
 Si è richiesto quindi di attribuire agli utenti dei ruoli che corrispoderanno a livelli di viste e permessi
 sulle informazioni contenute nel programma stesso.
 I ruoli individuati sono:
@@ -107,20 +103,20 @@ I ruoli individuati sono:
     \item Admin con visione sul'intero sistema, con possibiltà esclusiva di modifica ad alcune tabelle fondamentali.
     \item Commerciali interni che possono gestire nell'interezza clienti e contratti.
     \item Commerciali esterni all'azienda, esempio agenti a partita IVA, possono vedere solo i propri clienti e contratti.
-    \item Amministrazione contabile, può modificare i dati contabili dei clienti ed esportare le voci contrattuali all'ERP per una gestione fiscale della vendita.
+    \item Amministrazione contabile, può modificare i dati contabili dei clienti. Questo ruolo può altresi esportare le voci contrattuali all'\ac{ERP} per gestire la fiscalità.
     \item Project Manager degli impianti con possibilità di revisionare una vopia tecnica della vendita, in modo da intergrare il non venduto o internamente trsnettere ai reparti tecnici contratti tecnicamente corretti.
     \item Visualizzatore senza permessi di srittura, ma solo possibilità di consultare i contratti stipulati.
 \end{itemize}
 \subsubsection{Gestione dei contratti}
-Nella creazione dei contrati, core del progetto, si sviluppa il vero salto di qualità.
-Ho attenzionato molto questa parte ed ho raccolto delle richieste che possono,anche in fase di primo rilascio
+Nella creazione dei contratti, core del progetto, si svilupperà il vero salto di qualità.
+Ho attenzionato molto questa parte ed ho raccolto delle richieste che possono, anche in fase di primo rilascio,
 dare al richiedente un sistema più ottimale.
-\subsubsection{Univocità delle offerte}
-Attualmente ad ogni offerta viene asseganto un valore progressivo, ma in caso di più versioni proposte al cliente vengono staccati
-più codici perdendo la traccia delle modifiche e dell'offerta di partenza,
-Si è richiesto, per far fronte a questo problema di generare delle versioni di una offerte, ovvero con lo stesso codice 
-seriale in caso di versione, ma mantenere in un campo semparato il numero di versione.
-All'interno di questo sistema si incastona anche la possibilità di copiare anche gli item della prima nella successiva versione per poi apportare delle modifiche.
-Ogni offerta o versione che si potrà essere revisonata singolarmente, ed in caso di accettazione di una 
-devono decadere le altre proproste.
-Questo sistema richiesto favorisce il mantenimento dello sviluppo di una contrattazione.
+Tali migliorie sono:
+\begin{itemize}
+    \item Attaulmente non sono gestisti storici dei dati, si è quindi richiesto una gestione dello storico delle modifiche.
+    \item Possibilità di gestire più versioni di uno stesso contratto legati dal medesimo codice progressivo.
+    In caso di approvazione serve far decadere le versioni non approvati.
+    \item Importare dal \ac{PLM} dati tecnici dei prodotti per eseguire conti utili alla contrattazione (Es: Potenza elettrica totale consumata).
+    \item Gestione degli stati di vanzamento di un progetto e relative notifiche.
+    \item Revisione tecnica del venduto in modo da dare la possibilità di proporre all'occorenza integrazioni contrattuali.
+\end{itemize}
