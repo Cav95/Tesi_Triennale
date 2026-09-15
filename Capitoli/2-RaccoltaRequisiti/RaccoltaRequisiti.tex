@@ -91,28 +91,27 @@ criticità da attenzionare, come:
 \end{itemize}
 \subsection{Richeste avanzate}
 \subsubsection{Gestione ruoli e permessi}
-La scelta di coprire quanti più reparti ha fatto emergere la necessità di gestire i ruoli nell'applicativo.
-Si è richiesto quindi di attribuire agli utenti dei ruoli che corrispoderanno a livelli di viste e permessi
-sulle informazioni contenute nel programma stesso.
+La scelta di coprire quanti più reparti possibili ha fatto emergere la mancanza di gestione dei ruoli.
+Si è richiesto quindi di attribuire ad ogni utente un ruolo, a sua volta ognuno di essi avrà viste e permessi dedicati.
 I ruoli individuati sono:
 \begin{itemize}
     \item Admin con visione sul'intero sistema, con possibiltà esclusiva di modifica ad alcune tabelle fondamentali.
     \item Commerciali interni che possono gestire nell'interezza clienti e contratti.
     \item Commerciali esterni all'azienda, esempio agenti a partita IVA, possono vedere solo i propri clienti e contratti.
     \item Amministrazione contabile, può modificare i dati contabili dei clienti. Questo ruolo può altresi esportare le voci contrattuali all'\ac{ERP} per gestire la fiscalità.
-    \item Project Manager degli impianti con possibilità di revisionare una vopia tecnica della vendita, in modo da intergrare il non venduto o internamente trsnettere ai reparti tecnici contratti tecnicamente corretti.
-    \item Visualizzatore senza permessi di srittura, ma solo possibilità di consultare i contratti stipulati.
+    \item Project Manager con copito di revisionare tecnicamente il contratto. Questo copito è volto alla gestione a monte dell'invenduto.
+    \item Visualizzatore senza permessi di scrittura.
 \end{itemize}
 \subsubsection{Gestione dei contratti}
-Nella creazione dei contratti, core del progetto, si svilupperà il vero salto di qualità.
-Ho attenzionato molto questa parte ed ho raccolto delle richieste che possono, anche in fase di primo rilascio,
-dare al richiedente un sistema più ottimale.
-Tali migliorie sono:
+Nella creazione dei contratti, core del progetto, si dovrà sviluppare il vero salto di qualità.
+Nelle interviste si è cercato di raccogliere richieste che, anche in fase di primo rilascio,
+potessero dare al richiedente un sistema più ottimale.
+Tali richieste sono:
 \begin{itemize}
-    \item Attaulmente non sono gestisti storici dei dati, si è quindi richiesto una gestione dello storico delle modifiche.
-    \item Possibilità di gestire più versioni di uno stesso contratto legati dal medesimo codice progressivo.
+    \item Gestione storico dei dati in caso di modifica.
+    \item Gestione di più versioni di uno stesso contratto legati dal medesimo codice progressivo.
     In caso di approvazione serve far decadere le versioni non approvati.
-    \item Importare dal \ac{PLM} dati tecnici dei prodotti per eseguire calcoli utili alla contrattazione (Es: Potenza elettrica totale consumata).
+    \item Importazione dal \ac{PLM} di dati tecnici dei prodotti. Questi dati sono utili nei calcoli utili alla contrattazione (Es: Potenza elettrica totale consumata).
     \item Gestione degli stati di vanzamento di un progetto e relative notifiche.
     \item Revisione tecnica del venduto in modo da dare la possibilità di proporre all'occorenza integrazioni contrattuali.
 \end{itemize}
