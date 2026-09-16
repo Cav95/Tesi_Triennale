@@ -19,7 +19,7 @@ All'interno dell'azienda è presente un solo dominio \ac{AD} a \ac{IP} statici,
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/Deployment.png}
-    \caption{Schema degli stati di una offerta commerciale}
+    \caption{Diagramma dei deployment}
     \label{fig:Diagramma dei Deployment}
 \end{figure}
 \section{Package}
@@ -42,7 +42,7 @@ Si è scelto di racchiudere tutte le factory e le costanti relativi alla view in
 Questa scelta è stata detta dalla possibilità di riutilizzare questo componente in moduli o programmi alternativi.
 La libreria si appoggia a sua volta al package NutGet "Comunity Toolkit Maui"  che racchiude tutte le funzioni per diseganre i compoenenti view.
 Normalmente le interfacce MAUI sono scritte mediante codice Markdown, ma attraverso questo package si è potuto scriverle in C#.
-\subsection{Modulo Configuratore}
+\subsection{Modulo Main Configuratore}
 Questo package è il principale che utilizza al suo interno i precedenti.
 In questo package vengono gestiti tutti gli aspetti relattivi alla view come:
 \begin{itemize}
@@ -52,6 +52,19 @@ In questo package vengono gestiti tutti gli aspetti relattivi alla view come:
     \item Mediante la classe MauiProgram.cs gestione della Dependency Injection.
     \item In fase di avvio scarica in cache dati dal database fissi, come tabelle di lookup.
 \end{itemize}
-\subsection{Diagramma dei Package}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/DiagramnaPackage.png}
+    \caption{Diagramma dei package}
+    \label{fig:Diagramma dei package}
+\end{figure}
 \section{Flussi di lavoro}
-\subsection{Diagrammi di sequenza}
+Osservando i requisiti si è notato che il flusso di un contratto andava rivisto.
+L'inserimento della revisione tecnica ha permesso una semplificazione dei flussi a valle.
+Determinare tali flussi è fondamentale nel progettare gli automatismi dovuti alle notifiche intra reparto.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/New Order flow.png.png}
+    \caption{Nuovo diagramma degli stati di un contratto}
+    \label{fig:Nuovo diagramma degli stati di un contratto.}
+\end{figure}
