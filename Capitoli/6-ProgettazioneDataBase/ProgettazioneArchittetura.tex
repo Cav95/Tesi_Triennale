@@ -22,7 +22,7 @@ All'interno dell'azienda è presente un solo dominio \ac{AD} a \ac{IP} statici,
     \caption{Schema degli stati di una offerta commerciale}
     \label{fig:Diagramma dei Deployment}
 \end{figure}
-\section{Componenti}
+\section{Package}
 Lo sviluppo dell'applicativo ha richiesto una disivisione del progetto in tre Package con compiti ben distinti.
 \subsection{Interfaccia al database}
 Il package di interfaccia al database ha il compito di gestire tutti gli aspetti legati a quest'ultimo.
@@ -35,9 +35,13 @@ Il package si occupa di:
     Questa suite di test è risultata fondamentale per far fronte all'evoluzione del database nel corso dell'implementazione.
     \item Esporre al di fuori del package solo file neutri che non possano agire direttamente sul database.
 \end{itemize}
+Questo modulo si appoggia a sua volta al pacchett NuGet \ac{MEF}\cite{MEF}, per quanto riguarda l'iterazione col database,
+ed il package "Mapster"\cite{Mapster} per la mappature delle entity in \ac{DTO}.
 \subsection{Libreria di componenti View}
 Si è scelto di racchiudere tutte le factory e le costanti relativi alla view in un package dedicato.
 Questa scelta è stata detta dalla possibilità di riutilizzare questo componente in moduli o programmi alternativi.
+La libreria si appoggia a sua volta al package NutGet "Comunity Toolkit Maui"  che racchiude tutte le funzioni per diseganre i compoenenti view.
+Normalmente le interfacce MAUI sono scritte mediante codice Markdown, ma attraverso questo package si è potuto scriverle in C#.
 \subsection{Modulo Configuratore}
 Questo package è il principale che utilizza al suo interno i precedenti.
 In questo package vengono gestiti tutti gli aspetti relattivi alla view come:
@@ -48,6 +52,6 @@ In questo package vengono gestiti tutti gli aspetti relattivi alla view come:
     \item Mediante la classe MauiProgram.cs gestione della Dependency Injection.
     \item In fase di avvio scarica in cache dati dal database fissi, come tabelle di lookup.
 \end{itemize}
-\subsection{Diagramma dei Componenti}
+\subsection{Diagramma dei Package}
 \section{Flussi di lavoro}
 \subsection{Diagrammi di sequenza}
