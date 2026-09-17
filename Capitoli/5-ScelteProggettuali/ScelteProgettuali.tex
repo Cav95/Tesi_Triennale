@@ -1,0 +1,65 @@
+\chapter{Scelte progettuali}
+\label{chap:ScelteProgettuali}
+\section{Scelta modello di sviluppo}
+La scelta del modello di progettazione è ricaduta in un modello agile.
+Questa scelta è statq dettata principalmente dalla necessità di avere in breve tempo un prototipo
+da testare con il richiedente.
+La progettazione è stata suportata dalla creazione di Unit Test.
+I test sono stati fondamentaliper poter validare il codice,
+in particolare a fronte di aggiornamneti della struttura database.
+Nel corso dell'implementazione, soprattuto della view, si è spesso seguito un pattern tipico del modello ovvero:
+\begin{enumerate}
+    \item Creazione del prototipo della funzione.
+    \item Creazione della view di riferimento.
+    \item Test e validazione da parte di un utente scelto.
+    \item Rifattorizzazione codice se necessario.
+\end{enumerate}
+La rifattorizzazione del codice è stata affrontata con regolarità per seguire il principio\ac{DRY},
+ favorendo aggiornamneti più agili a fronte di manuntezione di parti di codice.
+\section{Suddivisione e contenuto dei rilasci}
+La definizione delle tempististiche di rilascio è stata
+supportata da un figura di Project Management messomi a disposizione.
+Nel primo rilascio concordato sono compresi solo i requisiti che potessero almeno emulare gli attuali.
+In questo rilascio, con consegna stimata gennaio 2027, sono presenti le seguenti funzionalità:
+\begin{itemize}
+    \item Gestione utenti e permessi.
+    \item Anagrafica clienti.
+    \item Creazione delle offerte.
+    \item Versioning offerte.
+    \item Creazione ordini.
+    \item Import ed export dati, da e verso altri database.
+    \item Creazione reportistica.
+    \item Gestione multiligua interfaccia applicativa.
+    \item Prototipo mobile.
+    \item Modulo di configurazione prodotto.
+\end{itemize}
+Si è scelto di non includere la funzionalità offline
+in quanto essa necessita di un database centrale stabile.
+La funzione offline verrà implementata nel secondo rilascio quando il software sarà in produzione.
+Nel secondo rilascio saranno presenti quindi;
+\begin{itemize}
+    \item Gestione revisione tecnica e differenze con contratto firmato.
+    \item Inserimento calcoli automatici sulla base delle caratteristiche del venduto (ES: potenza elettrica totale assorbita).
+    \item Gestione multi-valuta per ordini internazionali.
+    \item Apertura disegni .pdf dal server del \ac{PLM}.
+    \item Report avanzati.
+    \item Implementazione database locale con logiche di sincronizzazione.
+\end{itemize}
+Le tempistiche di questo rilascio saranno stabite al
+termine dei test del primo.
+\section{Scelta Framework ORM}
+All'interno della sezione \ref{chap:architettura} ho citato la scelta del framework \ac{MEF}.
+Questo framework ha permesso di mappare le tabelle mediante la tecnica \ac{ORM}.
+Questa tecnica consiste nel mappare ogn tabella del database in una classe 
+e gestire tutti i legami mediante una classe context.
+\Ac{ORM} ha permesso, mediante script powershell e connessione al database, 
+di ricreare in modo dinamico tutte le entity a fronte di cambiamenti del database.
+Tale approccio può essere definito database first, in quanto la progettazione avviene principalmente sul database, 
+il software successivamente.
+Le query mediante il framework \ac{MEF} sono state scritte tramite \ac{LINQ} che ha permesso di scriverle in linguaggio C#.
+Queste funzioni sono inoltre utilizzabili anche con SQLite in ottica di offline.
+All'interno degli aspetti negativi era presente la lentezza in grandi volumi dovuti alla traduzione del codice in query.
+Si è valutato, in caso si presentino di ottimizare il database mediante indici in prima battuta
+ e successivamente ottimizzando le songole query.
+\section{Scelta Framework grafico} % MAUI .NET
+\section{Scelta del pattern di progettazione} % MVVM
