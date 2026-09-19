@@ -65,5 +65,38 @@ Si è valutato, in caso si presentino di ottimizare il database mediante indici 
  \lstinputlisting[language=CSharp, caption={Esempio di query LINQ}]{listings/LINQ-example.cs}
 
 \section{Scelta Framework grafico} % MAUI .NET
-
+La scelta del framework relativo alla view utente era, come da requisiti, vincolata alla portabilità ed all'esecuzione offline.
+La decisione era quindi ricaduta su due scelte principali ovvero:
+\begin{itemize}
+    \item Front end web based, con utilizzo di htlm, css, javascript e mediante api interrogare il database centrale.
+    \item Utilizzo del Framework MAUI, nativamemente cross-platform ed integrato perfettamente con Backend.
+\end{itemize}
+La scelta dell'utilizzare una interfaccia web, utile per avere view che si addattano a dispositivi diversi,
+ è stata bocciata principalmente per due motivi.
+La difficoltà principale era l'utilizzo in locale. In assenza di connessione tutti i file ed il database locale devono essere presenti sul dispositivo stesso.
+Questa caratterista rende difficoltoso gestire gli aggiornamenti.
+Il secondo motivo è l'utilizzo di più linguaggi di programmazione che non massimizzano l'esperienza acquisita con altri moduli.
+In ottica di ridurre la tempistica nell'avere un primo test con gli utenti essa era considerata un malus.
+Il framework MAUI di .NET sopperisce ad entrambi i problemi.
+Il programma è fisicamente installato sui dispositivi ed il loro aggiornamneto
+ può essere gestito centralmente  all'intreno di uno store Microsoft.
+ Essendo esso in base .NET e, mediante il framework "Comunity Toolkit Maui", le interfacce sono scritti in base C#.
 \section{Scelta del pattern di progettazione} % MVVM
+Insieme all'utilizzo di MAUI è suggerito da Microsoft il pattern \ac{MVVM}.
+Il modello MVVM consente di separare in modo pulito la logica di business e presentazione 
+di un'applicazione dalla relativa interfaccia utente.
+La gestione di una separazione netta tra la logica dell'applicazione e 
+l'interfaccia utente consente di risolvere numerosi problemi di sviluppo e semplifica il test, 
+la gestione e l'evoluzione di un'applicazione. Può anche migliorare significativamente le opportunità 
+di riutilizzo del codice e consente agli sviluppatori e ai progettisti dell'interfaccia utente di collaborare 
+più facilmente durante lo sviluppo delle rispettive parti di un'app.\cite{MVVM}
+Il modello \ac{MVVM} è composto da tre elementi fonamentali che interagiscono come segue:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/mvvm-pattern.png}
+    \caption{Diagramma funzionamento MVVM}
+    \label{fig:Diagramma funzionamento MVVM.}
+\end{figure}
+Questa modello, separando la logica della view da qeulla di bussiness,
+ha permesso di protitipare le interfacce nei primi rilasci e in futuro riprogettarle
+ migliorando l'accessibilità e \ac{UX}.
