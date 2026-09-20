@@ -1,5 +1,4 @@
-\chapter{Progettazione dell'architettura}
-\label{chap:architettura}
+\chapter{Progettazione dell'architettura}\label{chap:architettura}
 \section{Preambolo sulle scelte architetturali}
 Le scelte archittetturali sono state dettate principalmente dalle tecnologie già in essere aziendali,
 e in seconda battuta dalle richieste avanzate negli incontri.
@@ -34,7 +33,7 @@ Il package si occupa di:
     Questa suite di test è risultata fondamentale per far fronte all'evoluzione del database nel corso dell'implementazione.
     \item Esporre al di fuori del package solo file neutri che non possano agire direttamente sul database.
 \end{itemize}
-Questo modulo si appoggia a sua volta al pacchett NuGet \ac{MEF}\cite{MEF}, per quanto riguarda l'interazione col database,
+Questo modulo si appoggia a sua volta al pacchett NuGet \ac{EF Core}\cite{MEF}, per quanto riguarda l'interazione col database,
 ed il package "Mapster"\cite{Mapster} per la mappature delle entity in \ac{DTO}.
 \subsection{Libreria di componenti View}
 Si è scelto di racchiudere tutte le factory e le costanti relativi alla view in un package dedicato.
@@ -54,8 +53,7 @@ In questo package vengono gestiti tutti gli aspetti relattivi alla view come:
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/DiagramnaPackage.png}
-    \caption{Diagramma dei package}
-    \label{fig:Diagramma dei package}
+    \caption{Diagramma dei package}\label{fig:Diagramma dei package}
 \end{figure}
 \section{Flussi di lavoro}
 Osservando i requisiti si è notato che il flusso di un contratto andava rivisto.
