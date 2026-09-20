@@ -4,7 +4,7 @@ Le scelte archittetturali sono state dettate principalmente dalle tecnologie gi�
 e in seconda battuta dalle richieste avanzate negli incontri.
 Prendendo per assodato l'utilizzo di SQLServer si sono cercati dei framework
 per l'interazione con il database che potessero supportare anche un database locale come SQLite\cite{SQLite}.
-La scelta è ricaduta sull'architettura .NET\cite{DotNet} su base "C\#" e, in quanto dell'ecosistema Microsoft, è perfettamente integrata col SQL Server.
+La scelta è ricaduta sull'architettura .NET\cite{DotNet} su base ``C\#'' e, in quanto dell'ecosistema Microsoft, è perfettamente integrata col SQL Server.
 Tale framework supporta il multi piattaforma ed ha una Comunity che lo aggiorna cotinuamente. Questi due punti sono fondamenali
 per far fronte ai futuri debiti tecnici.
 Selezionato quest'ultimo la scelta della View è ricaduta sempre in un framework .NET ovvero MAUI\cite{MAUI}.
@@ -12,9 +12,9 @@ MAUI è nativamente multipiattaforma in quanto, in fase di compilazione, genera 
 \section{Deployment}
 Il sistema è stato progettato per essere eseguito in locale e mediante connessione \ac{TCP} si interroga il database.
 All'interno dell'azienda è presente un solo dominio \ac{AD} a \ac{IP} statici,
- questa caratteristica facilita la connessione al database se si è in sede.
- Chi accede esternamente, mediante \ac{VPN}, può stabilire una connessione rientrando nel dominio come sopra.
- In assenza di connessione, verificata tramite ping, si accede alla tabelle locali che una volta ristabilita la connesione vengono sincronizzate. 
+questa caratteristica facilita la connessione al database se si è in sede.
+Chi accede esternamente, mediante \ac{VPN}, può stabilire una connessione rientrando nel dominio come sopra.
+In assenza di connessione, verificata tramite ping, si accede alla tabelle locali che una volta ristabilita la connesione vengono sincronizzate.
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/Deployment.png}
@@ -28,18 +28,18 @@ Il package si occupa di:
 \begin{itemize}
     \item Gestire connesione al database.
     \item Raccogliere e mappare in file neutri le entity corrispondenti alle tabelle database.
-    \item Implementare tutte le operazioni "CRUD".
+    \item Implementare tutte le operazioni ``CRUD''.
     \item Testare mediante classi di test le operazioni precedenti.
-    Questa suite di test è risultata fondamentale per far fronte all'evoluzione del database nel corso dell'implementazione.
+          Questa suite di test è risultata fondamentale per far fronte all'evoluzione del database nel corso dell'implementazione.
     \item Esporre al di fuori del package solo file neutri che non possano agire direttamente sul database.
 \end{itemize}
 Questo modulo si appoggia a sua volta al pacchett NuGet \ac{EF Core}\cite{MEF}, per quanto riguarda l'interazione col database,
-ed il package "Mapster"\cite{Mapster} per la mappature delle entity in \ac{DTO}.
+ed il package ``Mapster''\cite{Mapster} per la mappature delle entity in \ac{DTO}.
 \subsection{Libreria di componenti View}
 Si è scelto di racchiudere tutte le factory e le costanti relativi alla view in un package dedicato.
 Questa scelta è stata detta dalla possibilità di riutilizzare questo componente in moduli o programmi alternativi.
-La libreria si appoggia a sua volta al package NutGet "Comunity Toolkit Maui"  che racchiude tutte le funzioni per diseganre i compoenenti view.
-Normalmente le interfacce MAUI sono scritte mediante codice Markdown, ma attraverso questo package si è potuto scriverle in "C\#".
+La libreria si appoggia a sua volta al package NutGet ``Comunity Toolkit Maui''  che racchiude tutte le funzioni per diseganre i compoenenti view.
+Normalmente le interfacce MAUI sono scritte mediante codice Markdown, ma attraverso questo package si è potuto scriverle in ``C\#''.
 \subsection{Modulo Main Configuratore}
 Questo package è il principale che utilizza al suo interno i precedenti.
 In questo package vengono gestiti tutti gli aspetti relattivi alla view come:
