@@ -1,4 +1,4 @@
-\chapter{Raccolta dei requisiti}
+\chapter{Raccolta dei requisiti}\label{chap:Raccolta Requisiti}
 \section{Scelta dei candidati}
 La raccolta requisiti si è svolta mediante la selezione di figure aziendali con distinti ruoli ed esperienza.
 Queste figure selezionate sono state poi sottoposte ad una intervista sia in modalità vis a vis,
@@ -51,7 +51,7 @@ Questa modalità, ha consentito di fare da guida per le interviste successive.
 
 \section{Modalità di svolgimento interviste}
 Le interviste, come esplicato in precedenza, si sono svolte singolarmente sia in presenza che da remoto.
-Con permesso degli interlocutori, esse sono state registrate, anche solo l'audio, per poi essere rielaborate e 
+Con il permesso degli interlocutori sono state registrate, anche solo l'audio, per poi essere rielaborate e 
 trascritte.
 La scelta di utilizzare la modalità fisica o da remoto è stata dettata dalla necessità.
 Per gli utilizzatori abituali si è reso necessario registrare visivamente come utilizzano l'attuale applicativo.
@@ -66,17 +66,17 @@ Con il progredire delle interviste, è stato adottato un approccio più flessibi
 i risultati delle intervste in previsione delle successive.
 Questa modalità ha consentito di ricavare i requisiti fondamentali ordinati per importanza.
 
-\section{Riassunto punti emersi}
+\section{Risultati interviste condotte}
 \subsection{Rispetto all'attuale sistema}
 \subsubsection{Funzionalità da mantenere}
-Nelle interviste raccolte sono stati sottolineati una serie di funzionalità da mantenere.
-Tali funionalità sono:
+Dalle interviste condotte, è emersa l'importanza di mantenere una serie di funzionalità,
+quali:
 \begin{itemize}
-    \item Gestione delle scontische a cascata. Attualmente si ha la possibilità di inserirle in più punti, ovvero nella singola voce, nel capitolo,
-    o dell'offerta stessa.
-    \item Gestire all'interno delle voci o capitoli opzionali che non concorrono al prezzo offerto, ma ad uno opzionale.
-    \item Gestione di porzioni di contratto raggruppati in capitoli.
-    \item I campi del database che attualmente concorrono ai report, sono da mnatenere.
+    \item Suddivisione del contratto in capitoli che raggruppano porzioni di esso.
+    \item Gestione delle scontistiche a cascata, ovvero la possibilità di inserirle rispetto 
+    alla singola voce contrattuale, nel capitolo, o dell'offerta stessa.
+    \item Gestione di voci o capitoli opzionali, che non concorrono al prezzo offerto, ma ad uno opzionale.   
+    \item I campi del database che attualmente concorrono alla creazione dei report, sono da mantenere.
     \item Creazione reportistica formato PDF del contratto digitale. Da gestire, come ora, il multiligua del report stesso.
     \item Esportazione all'\ac{ERP} delle voci contrattuali presenti nell'ordine.
 \end{itemize}
@@ -85,35 +85,39 @@ Mediante le dimostrazioni di utilizzo si è potuto raccogliere le
 criticità da attenzionare, come:
 \begin{itemize}
     \item Blocchi frequenti in condizione di concorrenza. Se più utenti utilizzano in contemporanea il file si generano deadlock.
-    \item Non è presente una gestione centralizzata dei listini ed l'aggiornamento dei codici, attualmente si gestisce esternamente tramite file Excel.
-    \item Mancanza di linee guida nella compilazione delle offerte. Si è avanzata l'ipotesi di un configuratore di prodotto che aiuti l'utente.
-    \item Mancanza di gestione dei valori duplicati e controlli sulle chiavi porta a creare clienti e prodotti duplicati.
+    \item Non è presente una gestione centralizzata dei listini e l'aggiornamento dei codici. 
+    Attualmente si gestisce esternamente tramite file Excel.
+    \item Mancanza di linee guida nella compilazione delle offerte.
+    Si è avanzata l'ipotesi di un configuratore di prodotto che aiuti l'utente.
+    \item Mancanza di gestione dei valori duplicati e controlli sulle foreign key porta a creare clienti e prodotti duplicati.
 \end{itemize}
 \subsection{Richeste avanzate}
 \subsubsection{Gestione ruoli e permessi}
-La scelta di coprire quanti più reparti possibili ha fatto emergere la mancanza di gestione dei ruoli.
-Si è richiesto quindi di attribuire ad ogni utente un ruolo, a sua volta ognuno di essi avrà viste e permessi dedicati.
+La scelta di coprire quanti più reparti possibili, ha fatto emergere la mancanza di gestione dei ruoli.
+Si è richiesto quindi di attribuire ad ogni utente un ruolo, a sua volta ognuno di essi avrà viste sul database e permessi dedicati.
 I ruoli individuati sono:
 \begin{itemize}
-    \item Admin con visione sul'intero sistema, con possibiltà esclusiva di modifica ad alcune tabelle fondamentali.
-    \item Commerciali interni che possono gestire nell'interezza clienti e contratti.
+    \item Admin con visione sull'intero sistema, con possibiltà esclusiva di modifica ad alcune tabelle fondamentali.
+    \item Commerciali interni che possono gestire totalmente i clienti e contratti.
     \item Commerciali esterni all'azienda, esempio agenti a partita IVA, possono vedere solo i propri clienti e contratti.
-    \item Amministrazione contabile, può modificare i dati contabili dei clienti. Questo ruolo può altresi esportare le voci contrattuali all'\ac{ERP} per gestire la fiscalità.
-    \item Project Manager con copito di revisionare tecnicamente il contratto. Questo copito è volto alla gestione a monte dell'invenduto.
+    \item Amministrazione contabile, può modificare i dati contabili dei clienti.
+    Questo ruolo può altresi esportare le voci contrattuali all'\ac{ERP} per gestire la fiscalità.
+    \item Project Manager con compito di revisionare tecnicamente il contratto.
+    Questo compito è volto alla gestione a monte dell'invenduto.
     \item Visualizzatore senza permessi di scrittura.
 \end{itemize}
 \subsubsection{Gestione dei contratti}
 Nella creazione dei contratti, core del progetto, si dovrà sviluppare il vero salto di qualità.
-Nelle interviste si è cercato di raccogliere richieste che, anche dai primi rilasci,
+Nelle interviste si è cercato di raccogliere le richieste che, anche dai primi rilasci,
 potessero dare al richiedente un sistema più ottimale.
 Tali richieste sono:
 \begin{itemize}
     \item Gestione storico dei dati in caso di modifica.
     \item Gestione di più versioni di uno stesso contratto legati dal medesimo codice progressivo.
-    In caso di approvazione serve far decadere le versioni non approvati.
-    \item Importazione dal \ac{PLM} di dati tecnici dei prodotti. Questi dati sono utili nei
+    In caso di approvazione serve far decadere le versioni non approvate.
+    \item Importazione dal \ac{PLM} di dati tecnici dei prodotti. Questi dati sono fondamentali nei
      calcoli utili alla contrattazione (Es: Potenza elettrica totale consumata).
-    \item Gestione degli stati di vanzamento di un progetto e relative notifiche.
+    \item Gestione degli stati di avanzamento di un progetto e relative notifiche.
     \item Revisione tecnica del venduto in modo da dare la possibilità di proporre
-     all'occorenza integrazioni contrattuali.
+     all'occorrenza integrazioni contrattuali.
 \end{itemize}
