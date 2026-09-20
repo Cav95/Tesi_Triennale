@@ -1,5 +1,4 @@
-\chapter{Scelte progettuali}
-\label{chap:ScelteProgettuali}
+\chapter{Scelte progettuali}\label{chap:ScelteProgettuali}
 \section{Scelta modello di sviluppo}
 La scelta del modello di progettazione è ricaduta in un modello agile.
 Questa scelta è statq dettata principalmente dalla necessità di avere in breve tempo un prototipo
@@ -39,7 +38,7 @@ La funzione offline verrà implementata nel secondo rilascio quando il software 
 Nel secondo rilascio saranno presenti quindi;
 \begin{itemize}
     \item Gestione revisione tecnica e differenze con contratto firmato.
-    \item Inserimento calcoli automatici sulla base delle caratteristiche del venduto (ES: potenza elettrica totale assorbita).
+    \item Inserimento calcoli automatici sulla base delle caratteristiche del venduto (ES:potenza elettrica totale assorbita).
     \item Gestione multi-valuta per ordini internazionali.
     \item Apertura disegni .pdf dal server del \ac{PLM}.
     \item Report avanzati.
@@ -48,7 +47,7 @@ Nel secondo rilascio saranno presenti quindi;
 Le tempistiche di questo rilascio saranno stabite al
 termine dei test del primo.
 \section{Scelta Framework ORM}
-All'interno della sezione \ref{chap:architettura} ho citato la scelta del framework \ac{MEF}.
+All'interno della sezione\ref{chap:architettura} ho citato la scelta del framework \ac{EF Core}.
 Questo framework ha permesso di mappare le tabelle mediante la tecnica \ac{ORM}.
 Questa tecnica consiste nel mappare ogn tabella del database in una classe 
 e gestire tutti i legami mediante una classe context.
@@ -56,7 +55,7 @@ e gestire tutti i legami mediante una classe context.
 di ricreare in modo dinamico tutte le entity a fronte di cambiamenti del database.
 Tale approccio può essere definito database first, in quanto la progettazione avviene principalmente sul database, 
 il software successivamente.
-Le query mediante il framework \ac{MEF} sono state scritte tramite \ac{LINQ} che ha permesso di scriverle in linguaggio C#.
+Le query mediante il framework \ac{EF Core} sono state scritte tramite \ac{LINQ} che ha permesso di scriverle in linguaggio "C\#".
 Queste funzioni sono inoltre utilizzabili anche con SQLite in ottica di offline.
 All'interno degli aspetti negativi era presente la lentezza in grandi volumi dovuti alla traduzione del codice in query.
 Si è valutato, in caso si presentino di ottimizare il database mediante indici in prima battuta
@@ -80,7 +79,7 @@ In ottica di ridurre la tempistica nell'avere un primo test con gli utenti essa 
 Il framework MAUI di .NET sopperisce ad entrambi i problemi.
 Il programma è fisicamente installato sui dispositivi ed il loro aggiornamneto
  può essere gestito centralmente  all'intreno di uno store Microsoft.
- Essendo esso in base .NET e, mediante il framework "Comunity Toolkit Maui", le interfacce sono scritti in base C#.
+ Essendo esso in base .NET e, mediante il framework "Comunity Toolkit Maui", le interfacce sono scritti in base "C\#".
 \section{Scelta del pattern di progettazione} % MVVM
 Insieme all'utilizzo di MAUI è suggerito da Microsoft il pattern \ac{MVVM}.
 Il modello MVVM consente di separare in modo pulito la logica di business e presentazione 
@@ -94,8 +93,7 @@ Il modello \ac{MVVM} è composto da tre elementi fonamentali che interagiscono c
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/mvvm-pattern.png}
-    \caption{Diagramma funzionamento MVVM}
-    \label{fig:Diagramma funzionamento MVVM.}
+    \caption{Diagramma funzionamento MVVM}\label{fig:Diagramma funzionamento MVVM.}
 \end{figure}
 Questa modello, separando la logica della view da qeulla di bussiness,
 ha permesso di protitipare le interfacce nei primi rilasci e in futuro riprogettarle

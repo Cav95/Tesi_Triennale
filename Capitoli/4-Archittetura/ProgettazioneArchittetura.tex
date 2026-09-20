@@ -4,11 +4,11 @@
 Le scelte archittetturali sono state dettate principalmente dalle tecnologie già in essere aziendali,
 e in seconda battuta dalle richieste avanzate negli incontri.
 Prendendo per assodato l'utilizzo di SQLServer si sono cercati dei framework
-per l'interazione con il database che potessero supportare anche un database locale come SQLite \cite{SQLite}.
-La scelta è ricaduta sull'architettura .NET \cite{DotNet} su base C# e, in quanto dell'ecosistema Microsoft, è perfettamente integrata col SQL Server.
+per l'interazione con il database che potessero supportare anche un database locale come SQLite\cite{SQLite}.
+La scelta è ricaduta sull'architettura .NET\cite{DotNet} su base "C\#" e, in quanto dell'ecosistema Microsoft, è perfettamente integrata col SQL Server.
 Tale framework supporta il multi piattaforma ed ha una Comunity che lo aggiorna cotinuamente. Questi due punti sono fondamenali
 per far fronte ai futuri debiti tecnici.
-Selezionato quest'ultimo la scelta della View è ricaduta sempre in un framework .NET ovvero MAUI \cite{MAUI}.
+Selezionato quest'ultimo la scelta della View è ricaduta sempre in un framework .NET ovvero MAUI\cite{MAUI}.
 MAUI è nativamente multipiattaforma in quanto, in fase di compilazione, genera i nativi sia per desktop che mobile.
 \section{Deployment}
 Il sistema è stato progettato per essere eseguito in locale e mediante connessione \ac{TCP} si interroga il database.
@@ -19,8 +19,7 @@ All'interno dell'azienda è presente un solo dominio \ac{AD} a \ac{IP} statici,
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/Deployment.png}
-    \caption{Diagramma dei deployment}
-    \label{fig:Diagramma dei Deployment}
+    \caption{Diagramma dei deployment}\label{fig:Diagramma dei Deployment}
 \end{figure}
 \section{Package}
 Lo sviluppo dell'applicativo ha richiesto una disivisione del progetto in tre Package con compiti ben distinti.
@@ -35,13 +34,13 @@ Il package si occupa di:
     Questa suite di test è risultata fondamentale per far fronte all'evoluzione del database nel corso dell'implementazione.
     \item Esporre al di fuori del package solo file neutri che non possano agire direttamente sul database.
 \end{itemize}
-Questo modulo si appoggia a sua volta al pacchett NuGet \ac{MEF}\cite{MEF}, per quanto riguarda l'iterazione col database,
+Questo modulo si appoggia a sua volta al pacchett NuGet \ac{MEF}\cite{MEF}, per quanto riguarda l'interazione col database,
 ed il package "Mapster"\cite{Mapster} per la mappature delle entity in \ac{DTO}.
 \subsection{Libreria di componenti View}
 Si è scelto di racchiudere tutte le factory e le costanti relativi alla view in un package dedicato.
 Questa scelta è stata detta dalla possibilità di riutilizzare questo componente in moduli o programmi alternativi.
 La libreria si appoggia a sua volta al package NutGet "Comunity Toolkit Maui"  che racchiude tutte le funzioni per diseganre i compoenenti view.
-Normalmente le interfacce MAUI sono scritte mediante codice Markdown, ma attraverso questo package si è potuto scriverle in C#.
+Normalmente le interfacce MAUI sono scritte mediante codice Markdown, ma attraverso questo package si è potuto scriverle in "C\#".
 \subsection{Modulo Main Configuratore}
 Questo package è il principale che utilizza al suo interno i precedenti.
 In questo package vengono gestiti tutti gli aspetti relattivi alla view come:
@@ -65,6 +64,5 @@ Determinare tali flussi è fondamentale nel progettare gli automatismi dovuti al
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/New Order flow.png}
-    \caption{Nuovo diagramma degli stati di un contratto}
-    \label{fig:Nuovo diagramma degli stati di un contratto.}
+    \caption{Nuovo diagramma degli stati di un contratto}\label{fig:Nuovo diagramma degli stati di un contratto.}
 \end{figure}

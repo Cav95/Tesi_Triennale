@@ -6,6 +6,7 @@
 \usepackage{shortcuts}
 \usepackage{acronym}
 \usepackage{float}
+\usepackage{comment}
 
 \school{\unibo}
 \programme{Corso di Laurea in Ingegneria e Scienze Informatiche}
@@ -17,7 +18,7 @@
 %\cosupervisor{Dott. CoSupervisor 1}
 %\morecosupervisor{Dott. CoSupervisor 2}
 \session{III}
-\academicyear{2025-2026}
+\academicyear{2025\-2026}
 
 % Definition of acronyms
 \acrodef{CPQ}{configure, price, quote}
@@ -72,8 +73,7 @@ Max 2000 characters, strict.
 \mainmatter
 
 %----------------------------------------------------------------------------------------
-\chapter{Introduzione}
-\label{chap:introduction}
+\chapter{Introduzione}\label{chap:introduction}
 %----------------------------------------------------------------------------------------
 Il progetto di tesi è volto alla progettazione ex-novo del programma di vendita dell'azienda Cepi S.p.a. , 
 azienda con una produzione di tipo \ac{ETO} specializzato nella progettazione di impianti di stoccaggio custom.
@@ -91,7 +91,7 @@ Questa prima fase ha inoltre sottolineato come il progetto non debba solo sostit
  ma debba inserirsi in un contesto di rinnovamento più ampio, coordinadosi con altri programmi aziendali e relativi database in ottica "\ac{SRP}"
 eleggendo dei master data che siano i soli resposabili della creazione di certi dati.
 Il \ac{SRP} ha plasmato notevolmente la costruzione del database ricreando, dove possibile,
-le strutture pre esistenti da cui si necessitava recuperare i dati mediante reverse engineering. \cref{section:importdata}
+le strutture pre esistenti da cui si necessitava recuperare i dati mediante reverse engineering.\cref{section:importdata}
 L'intero sistema è stato pensato per appoggiarsi all'infrastruttura esistente aziendale, come SQLServer\cite{SQLServer},
 ma studiando delle logiche di flessibilità e ampliamento dinamico studiando accuratamente le relazioni tra le tabelle.
 Si è reso necessario cercare e scegliere inoltre un framework per la parte grafica che potesse soddisfare il cross-platform
@@ -117,12 +117,11 @@ state cruciali per dettare tempi e priorità degli item dovendo coprire in modo 
 
 \input{Capitoli/2-RaccoltaRequisiti/RaccoltaRequisiti.tex}
 
-% --- Analisi dei requisiti emersi dalle interviste ---
-%\subfile{./DocumentazioneRaccolta/Analisi/Analisi_Requisiti.tex}
 \input{Capitoli/3-AnalisiRequisiti/AnalisiREquisiti.tex}
 
 
-%\input{Capitoli/4-Archittetura/ProgettazioneArchittetura.tex}
+\input{Capitoli/4-Archittetura/ProgettazioneArchittetura.tex}
+\begin{comment}
 \chapter{Progettazione dell'architettura}
 \label{chap:architettura}
 \section{Preambolo sulle scelte architetturali}
@@ -132,7 +131,10 @@ state cruciali per dettare tempi e priorità degli item dovendo coprire in modo 
 \subsection{Diagramma dei Componenti}
 \section{Flussi di lavoro}
 \subsection{Diagrammi di sequenza}
+\end{comment}
 
+\input{Capitoli/5-ScelteProggettuali/ScelteProgettuali.tex}
+\begin{comment}
 \chapter{Scelte progettuali}
 \label{chap:ScelteProgettuali}
 \section{Scelta modello di sviluppo}
@@ -141,12 +143,12 @@ state cruciali per dettare tempi e priorità degli item dovendo coprire in modo 
 \section{Scelta Framework ORM}
 \section{Scelta Framework grafico} % MAUI .NET
 \section{Scelta del pattern di progettazione} % MVVM
-
+    
+\end{comment}
 
 % --- Progettazione del database ---
 %\subfile{./DocumentazioneRaccolta/Database/Progettazione_database.tex}
-\chapter{Progettazione del database}
-\label{chap:Database}
+\chapter{Progettazione del database}\label{chap:Database}
 \section{Esportazione Vecchio Db}
 \section{Creazione regole di denominazione}
 \section{Utilizzo di SSIS nel processo di migrazione}
@@ -162,37 +164,32 @@ state cruciali per dettare tempi e priorità degli item dovendo coprire in modo 
 \section{Popolamento database}
 \section{Dati fissi}
 \section{Dati fissi da vagliare}
-\section{Dati provenienti da altri DB}
-\label{section:importdata}
+\section{Dati provenienti da altri DB}\label{section:importdata}
 \subsection{Scelta dei dati}
 \subsection{Query di sincronizzazione e tempistiche di aggiornamento}
 
 % --- Creazione Model e View ---
 % \input{Documentazione Raccolta/Backend/Backend.tex}
 % \input{Documentazione Raccolta/Frontend/Frontend.tex}
-\chapter{Creazione Model}
-\label{chap:Model}
+\chapter{Creazione Model}\label{chap:Model}
 \section{Mapping delle classi}
 \section{Struttura del package}
 \subsection{Classi di Test}
 \subsection{Repository}
 \subsection{Classi ed Interfacce esposte}
 
-\chapter{Creazione View}
-\label{chap:View}
+\chapter{Creazione View}\label{chap:View}
 \section{Utilizzo di Figma per disegno interfacce}
 \section{Creazione delle Factory per le View}
 \section{Scelta delle classi di viewmodel}
 
-\chapter{Modulo controller}
-\label{chap:Controller}
+\chapter{Modulo controller}\label{chap:Controller}
 \section{Utilizzo della Dependency Injection}
 \subsection{Utilizzo di multi Threading per la gestione dei dati}
 \section{Scelta gestione transazione e dei commit}
 \section{Utilizzo della Cache in memoria per la gestione di dati fissi}
 
-\chapter{Modulo configurazione prodotto}
-\label{chap:Configurazione}
+\chapter{Modulo configurazione prodotto}\label{chap:Configurazione}
 \section{Scopo del modulo}
 \section{Focus group individuazione metodologia}
 \section{Studio sulla guida alla configurazione}
