@@ -1,24 +1,26 @@
 \chapter{Scelte progettuali}\label{chap:ScelteProgettuali}
 \section{Scelta modello di sviluppo}
-La scelta del modello di progettazione è ricaduta in un modello agile.
-Questa scelta è statq dettata principalmente dalla necessità di avere in breve tempo un prototipo
-da testare con il richiedente.
-La progettazione è stata suportata dalla creazione di Unit Test.
-I test sono stati fondamentaliper poter validare il codice,
-in particolare a fronte di aggiornamneti della struttura database.
-Nel corso dell'implementazione, soprattuto della view, si è spesso seguito un pattern tipico del modello ovvero:
+La scelta del modello progettuale è dipesa dalla necessità di prototipare e testare le funzioni
+nell'arco dello sviluppo con i richiedenti.
+La scelta è stata quindi di addottare un modello agile,
+supportato dalla creazione e test dei prototipi di funzioni.
+La progettazione è stata, soprattutto per il backend, test driven.
+Tutte le funzioni con il database sono state testate da apposite Unit Test che ne validassero il comportamento.
+I test sono stati fondamentali durante le fasi di aggiornamneti della struttura database.
+La view non è stata supportata da test, ma prototipata e validata da utenti scelti.
+Per quest'ultima si è seguito il pattern:
 \begin{enumerate}
     \item Creazione del prototipo della funzione.
     \item Creazione della view di riferimento.
     \item Test e validazione da parte di un utente scelto.
     \item Rifattorizzazione codice se necessario.
 \end{enumerate}
-La rifattorizzazione del codice è stata affrontata con regolarità per seguire il principio\ac{DRY},
-favorendo aggiornamneti più agili a fronte di manuntezione di parti di codice.
+La rifattorizzazione del codice è stata affrontata con regolarità seguendo il principio\ac{DRY}.
+Nel seguire il principio si sono create più factory unificando quanto più possibile il codice comune.
 \section{Suddivisione e contenuto dei rilasci}
-La definizione delle tempististiche di rilascio è stata
-supportata da un figura di Project Management messomi a disposizione.
-Nel primo rilascio concordato sono compresi solo i requisiti che potessero almeno emulare gli attuali.
+Le tempististiche dei rilasci sono state
+decise insieme ad un Project Management aziendale messomi a disposizione.
+Nel primo rilascio sono compresi almeno tutti i requisiti già presenti nel precedete applicativo.
 In questo rilascio, con consegna stimata gennaio 2027, sono presenti le seguenti funzionalità:
 \begin{itemize}
     \item Gestione utenti e permessi.
@@ -32,10 +34,11 @@ In questo rilascio, con consegna stimata gennaio 2027, sono presenti le seguenti
     \item Prototipo mobile.
     \item Modulo di configurazione prodotto.
 \end{itemize}
-Si è scelto di non includere la funzionalità offline
+Si è scelto di non includere la funzionalità offline,
 in quanto essa necessita di un database centrale stabile.
-La funzione offline verrà implementata nel secondo rilascio quando il software sarà in produzione.
-Nel secondo rilascio saranno presenti quindi;
+La funzionalità offline verrà implementata nel secondo rilascio.
+In questa fase si stima vere il software sarà in produzione con un database pressochè stabile.
+Nel secondo rilascio saranno presenti quindi:
 \begin{itemize}
     \item Gestione revisione tecnica e differenze con contratto firmato.
     \item Inserimento calcoli automatici sulla base delle caratteristiche del venduto (ES:potenza elettrica totale assorbita).
@@ -44,8 +47,6 @@ Nel secondo rilascio saranno presenti quindi;
     \item Report avanzati.
     \item Implementazione database locale con logiche di sincronizzazione.
 \end{itemize}
-Le tempistiche di questo rilascio saranno stabite al
-termine dei test del primo.
 \section{Scelta Framework ORM}
 All'interno della sezione\ref{chap:architettura} ho citato la scelta del framework \ac{EF Core}.
 Questo framework ha permesso di mappare le tabelle mediante la tecnica \ac{ORM}.
@@ -64,15 +65,16 @@ e successivamente ottimizzando le songole query.
 \lstinputlisting[language=CSharp, caption={Esempio di query LINQ}]{listings/LINQ-example.cs}
 
 \section{Scelta Framework grafico} % MAUI .NET
-La scelta del framework relativo alla view utente era, come da requisiti, vincolata alla portabilità ed all'esecuzione offline.
-La decisione era quindi ricaduta su due scelte principali ovvero:
+Il framework grafico scelto doveva soddisfare il requisito della portabiltà e dell'offline.
+Le scelte vagliate sono state:
 \begin{itemize}
     \item Front end web based, con utilizzo di htlm, css, javascript e mediante api interrogare il database centrale.
     \item Utilizzo del Framework MAUI, nativamemente cross-platform ed integrato perfettamente con Backend.
 \end{itemize}
-La scelta dell'utilizzare una interfaccia web, utile per avere view che si addattano a dispositivi diversi,
-è stata bocciata principalmente per due motivi.
-La difficoltà principale era l'utilizzo in locale. In assenza di connessione tutti i file ed il database locale devono essere presenti sul dispositivo stesso.
+L'interfaccia web, utile per avere view che si addattano a dispositivi diversi,
+presentavano delle criticità.
+La difficoltà principale risiedeva nell'utilizzo in locale.
+In assenza di connessione tutti i file ed il database locale devono essere presenti sul dispositivo stesso.
 Questa caratterista rende difficoltoso gestire gli aggiornamenti.
 Il secondo motivo è l'utilizzo di più linguaggi di programmazione che non massimizzano l'esperienza acquisita con altri moduli.
 In ottica di ridurre la tempistica nell'avere un primo test con gli utenti essa era considerata un malus.
