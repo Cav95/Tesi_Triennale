@@ -1,54 +1,69 @@
 \chapter{Progettazione dell'architettura}\label{chap:architettura}
 \section{Preambolo sulle scelte architetturali}
-Le scelte archittetturali sono state dettate principalmente dalle tecnologie già in essere aziendali,
-e in seconda battuta dalle richieste avanzate negli incontri.
-Prendendo per assodato l'utilizzo di SQLServer si sono cercati dei framework
-per l'interazione con il database che potessero supportare anche un database locale come SQLite\cite{SQLite}.
-La scelta è ricaduta sull'architettura .NET\cite{DotNet} su base ``C\#'' e, in quanto dell'ecosistema Microsoft, è perfettamente integrata col SQL Server.
-Tale framework supporta il multi piattaforma ed ha una Comunity che lo aggiorna cotinuamente. Questi due punti sono fondamenali
-per far fronte ai futuri debiti tecnici.
-Selezionato quest'ultimo la scelta della View è ricaduta sempre in un framework .NET ovvero MAUI\cite{MAUI}.
+Le scelte archittetturali sono dipese in primo luogo dall'infrastruttura aziendale,
+e successivamente dalle richieste avanzate negli incontri.
+L'utilizzo di SQLServer, per il punti prima, è stato preso come base di tutte le scelte successive.
+Da questo caposaldo si sono cercati dei framework che interagissero sia con SQLServer che,
+ in ottica di offline, SQLite.\cite{SQLite}.
+La scelta è ricaduta sull'architettura .NET\cite{DotNet} su base ``C\#'' che, in quanto dell'ecosistema Microsoft,
+ è perfettamente integrata con i database.
+Tale framework ha due pregi fondamentali per evitare i futuri debiti tecnici, ovvero:
+\begin{itemize}
+    \item supporta nativamente il multi piattaforma.
+    \item ha una Community che lo aggiorna e supporta continuamente.
+\end{itemize}
+Selezionato questo package, si è scelto di proseguire con l'ambiente .NRT anche per la View.
+La scelta è quindi ricaduta sul framework MAUI\cite{MAUI}.
 MAUI è nativamente multipiattaforma in quanto, in fase di compilazione, genera i nativi sia per desktop che mobile.
+I componenti della view sono anch'essi adattati alla piattaforma di esecuzione.
 \section{Deployment}
-Il sistema è stato progettato per essere eseguito in locale e mediante connessione \ac{TCP} si interroga il database.
-All'interno dell'azienda è presente un solo dominio \ac{AD} a \ac{IP} statici,
-questa caratteristica facilita la connessione al database se si è in sede.
-Chi accede esternamente, mediante \ac{VPN}, può stabilire una connessione rientrando nel dominio come sopra.
-In assenza di connessione, verificata tramite ping, si accede alla tabelle locali che una volta ristabilita la connesione vengono sincronizzate.
+La scelta degli ambienti di sviluppo prima citati, ha poratato alla creazione di un sistema che verrà 
+installato ed eseguito in locale nelle singole workstation.
+All'interno dell'azienda è presente un dominio \ac{AD} dove ogni Oggetto \ac{AD ha un }\ac{IP} statico,
+La connessione al database, risiedente in un server all'interdo del dominio, avviene dunque mediante protocollo \ac{TCP}.
+Si è valutato per chi accede dall'esterno del dominio di utilizza la \ac{VPN},
+stabilendo una connessione virtuale come essere all'interno.
+In assenza di connessione, verificabile tramite ping, si accede al database locale.
+Una volta che si è ristabilita la connesione avviene la sincronizzazione con il database centrale.
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/Deployment.png}
     \caption{Diagramma dei deployment}\label{fig:Diagramma dei Deployment}
 \end{figure}
 \section{Package}
-Lo sviluppo dell'applicativo ha richiesto una disivisione del progetto in tre Package con compiti ben distinti.
+La progettazione dell'applicativo ha portato a suddividerlo in tre Package con compiti ben distinti.
 \subsection{Interfaccia al database}
-Il package di interfaccia al database ha il compito di gestire tutti gli aspetti legati a quest'ultimo.
-Il package si occupa di:
+Il package di interfaccia al database ha il compito di gestire tutti gli aspetti legati a quest'ultimo, come:
 \begin{itemize}
-    \item Gestire connesione al database.
-    \item Raccogliere e mappare in file neutri le entity corrispondenti alle tabelle database.
+    \item Gestire connesioni ai database.
+    \item Gestione delle transazioni.
+    \item Conversione, medinte \ac{ORM}, delle tabelle database in entity.
+    \item Mappare entity in file neutri, proteggendo il database.
     \item Implementare tutte le operazioni ``CRUD''.
     \item Testare mediante classi di test le operazioni precedenti.
           Questa suite di test è risultata fondamentale per far fronte all'evoluzione del database nel corso dell'implementazione.
-    \item Esporre al di fuori del package solo file neutri che non possano agire direttamente sul database.
+    \item Esporre al di fuori del package solo file neutri e classe di manager del database.
 \end{itemize}
-Questo modulo si appoggia a sua volta al pacchett NuGet \ac{EF Core}\cite{MEF}, per quanto riguarda l'interazione col database,
+Questo modulo si appoggia a sua volta al pacchetto NuGet \ac{EF Core}\cite{MEF}, per quanto riguarda l'interazione col database,
 ed il package ``Mapster''\cite{Mapster} per la mappature delle entity in \ac{DTO}.
 \subsection{Libreria di componenti View}
-Si è scelto di racchiudere tutte le factory e le costanti relativi alla view in un package dedicato.
-Questa scelta è stata detta dalla possibilità di riutilizzare questo componente in moduli o programmi alternativi.
-La libreria si appoggia a sua volta al package NutGet ``Comunity Toolkit Maui''  che racchiude tutte le funzioni per diseganre i compoenenti view.
-Normalmente le interfacce MAUI sono scritte mediante codice Markdown, ma attraverso questo package si è potuto scriverle in ``C\#''.
-\subsection{Modulo Main Configuratore}
-Questo package è il principale che utilizza al suo interno i precedenti.
-In questo package vengono gestiti tutti gli aspetti relattivi alla view come:
+Si è scelto di racchiudere le fatory degli elementi grafici, e delle costanti del dimensionamento delle stesse,
+ in un package dedicato.
+Il package è stato concepito a sé stante per favorire un suo impiego in altre applicazioni future.
+La libreria si appoggia a sua volta al package NutGet ``Comunity Toolkit Maui''  dedicato al disegno dei compoenenti view MAUI.
+Normalmente le interfacce MAUI sono scritte mediante codice XAML\cite{XAML},
+ ma attraverso questo package si è potuto scriverle in ``C\#''.
+\subsection{Modulo Main e View}
+Il package principale ed il main del progetto è quello cge racchiude la gestione MAUI e di conseguenza delle interfacce grafiche.
+Gli aspetti gestiti all'interno sono:
 \begin{itemize}
-    \item Creazione interfacce
-    \item Gestione delle interfacce mediante ViewModel che hanno il compito di aggiornarle in risposta ad eventi.
-    \item Gestione della navigazione e dei permessi, escludendo dalla view ciò che non può essere fatto.
+    \item Creazione interfacce grafiche.
+    \item Traduzione a compile time della conversione di codice "C\#" in XAML.
+    \item Gestione delle interfacce mediante ViewModel , che a loro volta tramite observable modificano la view in risposta ad eventi.
+    \item Gestione della navigazione tra le schermate.
+    \item Gestione dei permessi, mostrando solo i comandi che competono al ruolo dell'utente.
     \item Mediante la classe MauiProgram.cs gestione della Dependency Injection.
-    \item In fase di avvio scarica in cache dati dal database fissi, come tabelle di lookup.
+    \item In fase di avvio creazione di una cache in RAM di dati immutabili durante la sessione, come tabelle di lookup.
 \end{itemize}
 \begin{figure}[h]
     \centering
@@ -56,9 +71,10 @@ In questo package vengono gestiti tutti gli aspetti relattivi alla view come:
     \caption{Diagramma dei package}\label{fig:Diagramma dei package}
 \end{figure}
 \section{Flussi di lavoro}
-Osservando i requisiti si è notato che il flusso di un contratto andava rivisto.
-L'inserimento della revisione tecnica ha permesso una semplificazione dei flussi a valle.
-Determinare tali flussi è fondamentale nel progettare gli automatismi dovuti alle notifiche intra reparto.
+Osservando i requisiti si sono osservate delle problematiche relative all'attuale flusso aziendale del contratto.
+Si è quindi studiato di inserire una revisione tecnica, da parte di un utente specializzato, del venduto.
+Tale inserimento semplifica i flussi e facilita i reparti successivi.
+Determinare tali flussi è fondamentale nel progettare gli automatismi a cui sono soggettele notifiche intra reparto.
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/New Order flow.png}
