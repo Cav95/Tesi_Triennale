@@ -1,14 +1,21 @@
 \chapter{Progettazione dell'architettura}\label{chap:architettura}
 \section{Preambolo sulle scelte architetturali}
-Le scelte archittetturali sono state dettate principalmente dalle tecnologie già in essere aziendali,
-e in seconda battuta dalle richieste avanzate negli incontri.
-Prendendo per assodato l'utilizzo di SQLServer si sono cercati dei framework
-per l'interazione con il database che potessero supportare anche un database locale come SQLite\cite{SQLite}.
-La scelta è ricaduta sull'architettura .NET\cite{DotNet} su base ``C\#'' e, in quanto dell'ecosistema Microsoft, è perfettamente integrata col SQL Server.
-Tale framework supporta il multi piattaforma ed ha una Comunity che lo aggiorna cotinuamente. Questi due punti sono fondamenali
-per far fronte ai futuri debiti tecnici.
-Selezionato quest'ultimo la scelta della View è ricaduta sempre in un framework .NET ovvero MAUI\cite{MAUI}.
+Le scelte archittetturali sono dipese in primo luogo dall'infrastruttura aziendale,
+e successivamente dalle richieste avanzate negli incontri.
+L'utilizzo di SQLServer, per il punti prima, è stato preso come base di tutte le scelte successive.
+Da questo caposaldo si sono cercati dei framework che interagissero sia con SQLServer che,
+ in ottica di offline, SQLite.\cite{SQLite}.
+La scelta è ricaduta sull'architettura .NET\cite{DotNet} su base ``C\#'' che, in quanto dell'ecosistema Microsoft,
+ è perfettamente integrata con i database.
+Tale framework ha due pregi fondamentali per evitare i futuri debiti tecnici, ovvero:
+\begin{itemize}
+    \item supporta nativamente il multi piattaforma.
+    \item ha una Community che lo aggiorna e supporta continuamente.
+\end{itemize}
+Selezionato questo package, si è scelto di proseguire con l'ambiente .NRT anche per la View.
+La scelta è quindi ricaduta sul framework MAUI\cite{MAUI}.
 MAUI è nativamente multipiattaforma in quanto, in fase di compilazione, genera i nativi sia per desktop che mobile.
+I componenti della view sono anch'essi adattati alla piattaforma di esecuzione.
 \section{Deployment}
 Il sistema è stato progettato per essere eseguito in locale e mediante connessione \ac{TCP} si interroga il database.
 All'interno dell'azienda è presente un solo dominio \ac{AD} a \ac{IP} statici,
