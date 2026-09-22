@@ -1,0 +1,125 @@
+\chapter{Progettazione del database}\label{chap:Database}
+\section{Esportazione Vecchio Db}
+La creazione della nuova base di dati è partita dall'esportazione e studio dell'attuale database Access.
+L'esportazione è avvenuta per mezzo di \ac{SSMA},
+che ha permesso di esportare solo la struttura esistente in SQL Server.
+Una volta ricostruita la struttura, essa ha subito un processo di ristrutturazione
+che ha portato ad avere un database più leggibile, manuntenibile e performante.
+\section{Denominazione tabelle e campi}
+Il primo processo di ristrutturazione è stata la creazione delle
+ regole di denominazione per le tabelle e le colonne.
+Le regole addotatte sono state:
+\begin{itemize}
+    \item Campi delle tabelle in minuscolo, separati da underscore, ad esempio: \textit{nome\_campo}.
+    \item Ad ogni campo viene apportato il prefisso di appartenenza alla tabella, ad esempio: \textit{prefTabella\_nome\_campo}.
+    Questa modifica rende ogni campo univoco e facilmente identificabile in caso di join tra tabelle.
+    \item Le chiavi primarie di ogni tabella sono degli indici progressivi, rendendo unica ogni riga.
+    Il campo segue il pattern \textit{prefTabella\_id}.
+\end{itemize}
+Nelle tabelle sono stati aggiunti dei campi di audit,
+ come la data e l'utente di creazione e di modifica come la data
+  e l'utente che ha effettuato l'operazione.
+Infine, sempre come campo comune a tutte le tabelle, 
+è stato aggiunto il campo boolean \textit{deleted} per la gestione della cancellazione logica.
+Questi campi comuni sono stati pensati per essere di supporto nella gestione dei dati, permettendo
+la gestione dei backup e delle modifiche senza cancellare mai fisicamente i dati.
+\section{Utilizzo di SSIS nel processo di migrazione}
+Il processi successivi di modifica e popolamento del database sono stati gestiti tramite \ac{SSIS}.
+Questo strumento permette la creazione, anche mediante interfaccia grafica, di pacchetti di query
+eseguiti secondo un flusso preimpostato.
+Si è quindi creato un primo flusso di query che in ordine:
+\begin{enumerate}
+    \item Crea se non esiste il database.
+    \item Se presenti le tabelle, le elimina.
+    \item Crea le tabelle seguendo un ordine consono alle foreignkey.
+    \item Popola le tabelle di lookup.
+    \item Popola le tabelle con dati del vecchio database.
+    \item Popola le tabelle restanti con dati di test.
+\end{enumerate}
+Questo flusso ha permesso una continua ristrutturazione del database,
+ permettendo di testare le modifiche con facilità.
+Nelle fasi più avanzate, al flusso prima citato sono state aggiunte le operazioni per la gestione dei backup,
+e per la gestione della sincronizzazione dei dati provenienti da altri database.
+\section{Ristrutturazione database}
+\subsection{Eliminazione ridondanze e normalizzazione}
+La fase di studio dell'attuale database ha portato alla luce diverse ridondanze e dati non normalizzati.
+All'interno erano presenti più tabella con lo stesso contesto di utilizzo o tabelle non utilizzate.
+Si è quindi proceduto all'eliminazione di tali tabelle ed alla normalizzazione delle restanti in seconda forma normale.
+Un altra modifica sostanziale è stata l'unificazione di tabelle similari in una unica tabella, discriminate mediante campo tipo proveveniente da un lookup.
+Un esempio di questo contesto sono le tabelle \textit{Offerta} e \textit{Ordine}, dove una è la diretta evoluzione della precedente.
+Le due tabelle sono state unite sotto il cappello della tabella \textit{Documenti}, discriminata da un campo lookup che ne identifica il tipo.
+In queste tabelle in particolare era importante tenere traccia del legame Padre\-Figlio, si è aggiunto quindi un campo \text{doc\_documento_padre} che, mediante
+chiave importata, permettessa mediante auto join di ricostruire il legame.
+Il metodo così pensato, in ottica di ampliamento, permette la gestione di ulteriori
+tipologie di documenti senza cambiare la struttura.
+\subsection{Creazione tabelle di lookup}
+L'estendibilità del database mediante le dipologie associate alle tabelle passa dalla creazione di tabelle di lookup.
+Queste tabelle sono considerate fisse, e non possono essere modificate dall'utente finale,
+ma solo da un amministratore tramite query.
+Tali tabelle con al di più un campo descrizione, rendono la gestione dei dati più semplice,
+potendo filtrare su di essi.
+Un vantagio, a livello di software, è il poterle richiamare internamente mediante classi di enumerazione,
+ rendendo il codice più leggibile e manutenibile.
+
+\subsection{Aggiunta tabelle non presenti}
+\subsubsection{Gestione dei prodotti}
+Il databse originale gestiva i prodotti come oggetti atomici, senza la possibilità di gestire le loro componenti.
+Si è quindi deciso di creare un auto join n ad n della tabella \textit{Prodotti}.
+Tale auto join a livello di logico è stato realizzato con la tabella \textit{Prodotti_composizioni}
+che aggiunge, oltre alle chiavi
+dei prodotti, anche il quantitativo della riga stessa.
+Questo sistema, e mediante appositi flag e query, ha permesso una ricerca approfondita dei ricambi di un prodotto.
+Questo sistema ed appositi lookup ha inoltre permesso la costruzione del modulo
+ \ac{CPQ} per la configurazione dei prodotti.\ref{chap:Configurazione}.
+ %Aggiungere immagine
+\subsubsection{Tabelle gestione lingue}
+Si è deciso di aggiungere delle apposite tabelle per la gestione delle traduzioni di campi del database.
+Le tabelle predisposte contengono al loro interno la chiave della tabella di riferimento,
+il campo da tradotto e la chiave importata dalla tabella delle \textit{lingue}.
+Quest'ultima tabella non era presente nella soluzione di partenza.
+La gestione così pensata permette di estendere le traduzioni a più lingue senza modificare la struttura del database.
+Si è anche aggiunta una apposita tabella per gestire le traduzioni nelle reportistiche dei documenti.
+Questa tabella mappa le tipologie di reportistica richiedibili dal cliente con le apposite lingue concordate.
+Capita infatti di avere ad esempio manuali in lingua inglese, ma etichette sui macchinari con la lingua del luogo.
+%Aggiungere immagine
+\subsubsection{Creazione tabelle di Back Up}
+La scelta delle tabelle soggette a back up è stata a lungo pensata.
+Si è scelto di gestire solo un ristretto numero di essenziali tabelle,
+ come ad esempio le tabelle dei documenti e dei prodotti, delle righe dei documenti o dei prodotti.
+La gestione non è stata capillare per evitare di appesantire il database con tabelle di back up non necessarie.
+Una volta decise queste ultime, si è proceduto alla creazione di tabelle di back up,
+ con la stessa struttura delle tabelle originali.
+Il popolamento avviene mediante dei trigger che scattano ad ogni operazione di Update.
+Tramite query e il campo di audit \textit{data_modifica} si è quindi in grado di ricostruire
+ lo storico dei dati, e di ripristinare eventuali errori.
+ \subsubsection{Tabelle di Utilità}
+ Nel database sono state incluse delle tabelle di utilità, che non hanno un legame diretto con le altre tabelle,
+ ma saranno utilizzate per la gestione e manutenzione del database.
+ Queste tabelle sono:
+ \begin{itemize}
+    \item \textit{Tabelle}, questa tabella mappa per ogni tabella del database il livello di ruolo necessario per ogni operazione CRUD.
+    Tramite apposito look up ad ogni utente è associato un ruolo, corrispondente al livello in ordine decrescente per importanza.
+    Si ha quindi 0 per l'Admin e il 6 per il visualizzatore.
+    \item \textit{Parametri}, questa tabella contiene solo la versione del database. Questo dato permette
+    di verificare se presenti aggiornamenti del database locale prima dell'avvio del sistema.
+    \item \textit{Query}, questa tabella raccoglie le query necessarie per aggiornare la struttura del database
+    locale con quella in remoto.
+ \end{itemize}
+\subsection{Importazione dei dati e Stored Procedure}\label{section:importdata}
+Come da analisi, è stato richiesto di prelevare e sincronizzare alcuni dati da altri database.
+Prima della costruzione delle vere e proprie query di sincronizzazione, si sono
+studiate le tabelle di provenienza per ricostruire una ambiente similare facilitando la costruzione delle query.
+In particolare, dal database Fusion, si è ricostruita la struttura di asseganzione dinamica delle proprietà ad un prodotto.
+Tale struttura, ponendo la cardinalità n ad n tra prodotti e proprietà,
+ permette l'assegnazione e la creazione di nuove proprietà senza modificare la struttura del database.
+ Alla tabella \text{Proprietà} è associata la tabella \textit{Proprietà\_valori} per la gestione dei valori standard.
+ %Immagine struttura Fusion
+ Una volta ricostruite le strutture si sono create le seguenti Stored Procedure:
+ \begin{itemize}
+    \item Da \ac{ERP}, import ed aggiornamento anagrafiche prodotto.
+    \item Da \ac{ERP}, import delle distinte prodotto.
+    \item Da \ac{PLM}, import ed aggiornamento delle proprietà prodotto.
+ \end{itemize}
+ Tali stored procedure hanno al loro interno dei controlli che agiscono solo
+ quando si verifica una discrepanza.
+ Una volta in produzione verranno schedulate giornalmente.
