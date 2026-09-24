@@ -123,8 +123,7 @@ studiate le tabelle di provenienza per ricostruire una ambiente similare facilit
 In particolare, dal database Fusion, si è ricostruita la struttura di asseganzione dinamica delle proprietà ad un prodotto.
 Tale struttura, ponendo la cardinalità n ad n tra prodotti e proprietà,
  permette l'assegnazione e la creazione di nuove proprietà senza modificare la struttura del database.
- Alla tabella \text{Proprietà} è associata la tabella \textit{Proprietà\_valori} per la gestione dei valori standard.
- %Immagine struttura Fusion
+ Alla tabella \text{Proprietà} è associata la tabella \textit{Proprietà\_valori} per la gestione dei valori standard.\ref{fig:ER_Prodotti}
  Una volta ricostruite le strutture si sono create le seguenti Stored Procedure:
  \begin{itemize}
     \item Da \ac{ERP}, import ed aggiornamento anagrafiche prodotto.
@@ -133,4 +132,6 @@ Tale struttura, ponendo la cardinalità n ad n tra prodotti e proprietà,
  \end{itemize}
  Tali stored procedure hanno al loro interno dei controlli che agiscono solo
  quando si verifica una discrepanza.
- Una volta in produzione verranno schedulate giornalmente.
+ Oltre a ciò saranno da prevedere altre Storeqd Procedure  di import per la gestione di altri dati,
+ tali dati sono ad esempio i clienti, tassi di cambio, ecc.
+ Una volta in produzione verranno schedulate giornalmente garantendo la sincronizzazione dei dati.
