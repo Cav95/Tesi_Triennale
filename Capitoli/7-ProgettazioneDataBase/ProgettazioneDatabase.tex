@@ -63,15 +63,20 @@ Un vantagio, a livello di software, è il poterle richiamare internamente median
 
 \subsection{Aggiunta tabelle non presenti}
 \subsubsection{Gestione dei prodotti}
-Il databse originale gestiva i prodotti come oggetti atomici, senza la possibilità di gestire le loro componenti.
-Si è quindi deciso di creare un auto join n ad n della tabella \textit{Prodotti}.
-Tale auto join a livello di logico è stato realizzato con la tabella \textit{Prodotti_composizioni}
-che aggiunge, oltre alle chiavi
+Il database originale gestiva i prodotti come oggetti atomici, senza la possibilità di gestire i loro componenti.
+Si è quindi deciso di gestire le distinte, si posta la tabella \textit{Prodotti} in auto join con cardinalità n ad n .
+Tale relazione a livello di schema logico è stata realizzata mediante la tabella \textit{Prodotti_composizioni}.
+La tabella in questione aggiunge, oltre alle chiavi
 dei prodotti, anche il quantitativo della riga stessa.
-Questo sistema, e mediante appositi flag e query, ha permesso una ricerca approfondita dei ricambi di un prodotto.
-Questo sistema ed appositi lookup ha inoltre permesso la costruzione del modulo
- \ac{CPQ} per la configurazione dei prodotti.\ref{chap:Configurazione}.
+La gestione così pensata permette di effettuare ricerche approfondite sui ricambi di un  determinato prodotto.
+Questo sistema, insieme ad appositi lookup, ha inoltre permesso la costruzione del modulo
+ \ac{CPQ} per la configurazione di prodotto.\ref{chap:Configurazione}.
  %Aggiungere immagine
+ \begin{figure}[h]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/ER_PRODOTTI.png}
+    \caption{Schema \ac{ER} dei prodotti}\label{fig:ER_Prodotti}
+\end{figure}
 \subsubsection{Tabelle gestione lingue}
 Si è deciso di aggiungere delle apposite tabelle per la gestione delle traduzioni di campi del database.
 Le tabelle predisposte contengono al loro interno la chiave della tabella di riferimento,
@@ -82,15 +87,21 @@ Si è anche aggiunta una apposita tabella per gestire le traduzioni nelle report
 Questa tabella mappa le tipologie di reportistica richiedibili dal cliente con le apposite lingue concordate.
 Capita infatti di avere ad esempio manuali in lingua inglese, ma etichette sui macchinari con la lingua del luogo.
 %Aggiungere immagine
+ \begin{figure}[h]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/ER_LINGUE.png}
+    \caption{Schema \ac{ER} delle lingue}\label{fig:ER_Lingue}
+\end{figure}
 \subsubsection{Creazione tabelle di Back Up}
-La scelta delle tabelle soggette a back up è stata a lungo pensata.
 Si è scelto di gestire solo un ristretto numero di essenziali tabelle,
  come ad esempio le tabelle dei documenti e dei prodotti, delle righe dei documenti o dei prodotti.
-La gestione non è stata capillare per evitare di appesantire il database con tabelle di back up non necessarie.
-Una volta decise queste ultime, si è proceduto alla creazione di tabelle di back up,
- con la stessa struttura delle tabelle originali.
-Il popolamento avviene mediante dei trigger che scattano ad ogni operazione di Update.
-Tramite query e il campo di audit \textit{data_modifica} si è quindi in grado di ricostruire
+La gestione non è stata capillare su tutte le tabelle. Le tabelle di back up sono state create solo per
+le tabelle più critiche.
+ Questo approccio serve a evitare di appesantire il database con tabelle e dati non necessari.
+Le tabelle di back up sono state create
+ con la stessa struttura delle tabelle originali, ma senza vincoli per permettere di salvare più modifiche della stessa tupla.
+Il popolamento avviene mediante dei trigger, essi scattano ad ogni operazione di Update eseguita sulla tabella originale.
+Tramite query ed il campo di audit \textit{data_modifica} si è quindi in grado di ricostruire
  lo storico dei dati, e di ripristinare eventuali errori.
  \subsubsection{Tabelle di Utilità}
  Nel database sono state incluse delle tabelle di utilità, che non hanno un legame diretto con le altre tabelle,
