@@ -23,7 +23,8 @@ Altra caratteristica fondamentale di MAUI è la possibilità di scrivere le inte
  è stato reso possibile mediante pacchetto NuGet  ``Comunity Toolkit Maui''\cite{ComTolkit}.
 \section{Deployment}
 La scelta degli ambienti di sviluppo prima citati, porta a dover considerare il deployment dell'applicativo.
-L'applicativo verrà installato in locale su ogni dispositivo, sia esso desktop o mobile, e si connetterà al database centrale.
+L'applicativo verrà installato in locale su ogni dispositivo, sia esso desktop o mobile,
+e si connetterà al database centrale.
 All'interno dell'azienda è presente un dominio \ac{AD} dove ogni Oggetto del dominio ha un \ac{IP} statico.
 Con questa configurazione, la connessione al database, risiedente in un server all'interdo del dominio, 
 è facilmente raggiungibile.
@@ -41,38 +42,72 @@ Ristabilita la connessione, l'applicativo sincronizza i dati locali con quelli c
     \includegraphics[width=1\linewidth]{figures/Deployment.png}
     \caption{Diagramma dei deployment}\label{fig:Diagramma dei Deployment}
 \end{figure}
+Nella fase di sviluppo, per testare l'applicativo, si è scelto di utilizzare un database SQL Express\cite{SQLExpress},
+che permette di avere un database locale, senza dover essere connessi ai databse di produzione.
+SQL Express è un motore di database gratuito, sempre della famiglia SQL Server, che ne condivide le caratteristiche principali.
+Queste caratteristiche permettono di costruire query di test che siano compatibili con il database di produzione.
 
 \section{Package}
 La progettazione dell'applicativo ha portato a suddividerlo in tre Package con compiti ben distinti.
 \subsection{Interfaccia al database}
-Il package di interfaccia al database ha il compito di gestire tutti gli aspetti legati a quest'ultimo, come:
+Il package di interfaccia al database, denominato ``DatabaseManagementPackage'',
+ ha il compito di gestire tutti gli aspetti legati a quest'ultimo, come:
 \begin{itemize}
-    \item Gestire connesioni ai database.
+    \item Gestire connesioni vari database, come SQLite e SQL Server o, nel caso dei test SQL Express.
     \item Gestione delle transazioni.
+    \item Gestione dei permessi utente, bloccando le operazioni non consentite.
     \item Conversione, medinte \ac{ORM}, delle tabelle database in entity.
     \item Mappare entity in file neutri, proteggendo il database.
-    \item Implementare tutte le operazioni ``CRUD''.
-    \item Testare mediante classi di test le operazioni precedenti.
-          Questa suite di test è risultata fondamentale per far fronte all'evoluzione del database nel corso dell'implementazione.
+    \item Gestione di Repository per ogni entità, che espongono le operazioni CRUD.
+    \item Gestione di una suite di test per verificare le operazioni precedenti.
+          Questa suite è risultata fondamentale nell'evoluzione del database,
+           nel corso dell'implementazione ad ogni cambiamento si sono validati i risultati.
     \item Esporre al di fuori del package solo file neutri e classe di manager del database.
 \end{itemize}
-Questo modulo si appoggia a sua volta al pacchetto NuGet \ac{EF Core}\cite{MEF}, per quanto riguarda l'interazione col database,
-ed il package ``Mapster''\cite{Mapster} per la mappature delle entity in \ac{DTO}.
+Nella implementazione si è utilizzato il pacchetto NuGet \ac{EF Core}\cite{EFCore}.
+Questo modulo permette una gestione efficiente delle operazioni di accesso ai dati,
+consentendo di astrarre le query SQL in codice C\#.
+La mappatura delle entity in \ac{DTO}, proteggendo i dati, è stata realizzata mediante il package ``Mapster''\cite{Mapster},
+appartente a terze parti. La mappatuta entity-\ac{DTO} è stata realizzata in modo bidirezionale, in quanto in alcuni casi
+è necessario convertire un \ac{DTO} in entity per poterlo salvare nel database.
 \subsection{Libreria di componenti View}
-Si è scelto di racchiudere le fatory degli elementi grafici, e delle costanti del dimensionamento delle stesse,
- in un package dedicato.
-Il package è stato concepito a sé stante per favorire un suo impiego in altre applicazioni future.
-La libreria si appoggia a sua volta al package NutGet ``Comunity Toolkit Maui''  dedicato al disegno dei compoenenti view MAUI.
-Normalmente le interfacce MAUI sono scritte mediante codice XAML\cite{XAML},
- ma attraverso questo package si è potuto scriverle in ``C\#''.
+La creazione di interfacce grafiche è stata supportata dalla creazione di un package dedicato,
+che racchiude in sè factory di componenti, costanti e utilità.
+Il package, denominato ``ViewComponentLibrary'', è stato concepito a sé stante
+per favorire un suo impiego in implementazioni future, in quanto racchiude componenti generici e riutilizzabili.
+La libreria si appoggia a sua volta al package NutGet ``Comunity Toolkit Maui''\cite{ComTolkit}.
+Questo package permette di scrivere le interfacce grafiche in codice C\# Markup,
+ evitando quindi l'utilizzo del linguaggio XAML\cite{XAML}, standard di sviluppo per le interfacce MAUI.
 \subsection{Modulo Main e View}
-Il package principale ed il main del progetto è quello che racchiude la gestione MAUI e di conseguenza delle interfacce grafiche.
-Gli aspetti gestiti all'interno sono:
+Il package principale, ed il main del progetto, è quello dedicato all'orchestrazione dei componenti
+ e alla gestione dei flussi di lavoro.
+ Il package, denominato ``ConfiguratoreCommerciale'', ha numerosi compiti,
+  tra cui la gestione della Dependency Injection, la creazione delle view e dei rispettivi ViewModel.
+In questo package risiedono infatti i ViewModel, che si interpongono tra le view e i repository,
+esponendo i dati tramite "Observable Properties".
+Le Dependency Injection invece permettono di iniettare
+le dipendenze necessarie alle classi, come ad esempio i repository, classi di Logging o le view stesse se registrate.
+Le classi di view, prendendo i componenti dalla libreria prima costruita,
+ vengono reaizzate qui all'interno differenziando l'uso di un componente o un altro in base al dispositivo.
+ Questo aspetto è permesso dall'utilizzo di condizioni di compilazione,
+ che permettono di distinguere il codice da compilare in base alla piattaforma di destinazione.
+Un esempio di tale condizione è il seguente:
+\begin{lstlisting}[language=CSharp]
+#if ANDROID
+    // codice per piattaforma Android
+#elseif WINDOWS
+    // codice per piattaforma Windows
+#endif
+\end{lstlisting}
+Questa possibilità permette, inoltre di eseguire parti di codice in solo in fase di DEBUG.
+Gli aspetti generali gestiti possono essere riassunti in un elenco puntato, come segue:
 \begin{itemize}
     \item Creazione interfacce grafiche.
     \item Traduzione a compile time della conversione di codice "C\#" in XAML.
-    \item Gestione delle interfacce mediante ViewModel , che a loro volta tramite observable modificano la view in risposta ad eventi.
-    \item Gestione della navigazione tra le schermate.
+    \item Traduzione a compile time in elementi nativi per la piattaforma di destinazione.
+    \item Gestione delle interfacce mediante ViewModel,
+     che a loro volta tramite observable modificano la view in risposta ad eventi.
+    \item Gestione della navigazione tra le interfacce grafiche.
     \item Gestione dei permessi, mostrando solo i comandi che competono al ruolo dell'utente.
     \item Mediante la classe MauiProgram.cs gestione della Dependency Injection.
     \item In fase di avvio creazione di una cache in RAM di dati immutabili durante la sessione, come tabelle di lookup.
@@ -86,7 +121,7 @@ Gli aspetti gestiti all'interno sono:
 Osservando i requisiti si sono osservate delle problematiche relative all'attuale flusso aziendale del contratto.
 Si è quindi studiato di inserire una revisione tecnica, da parte di un utente specializzato, del venduto.
 Tale inserimento semplifica i flussi e facilita i reparti successivi.
-Determinare tali flussi è fondamentale nel progettare gli automatismi a cui sono soggettele notifiche intra reparto.
+È fondamentale determinare tali flussi nel progettare gli automatismi a cui sono soggette le notifiche intra reparto.
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/New Order flow.png}
