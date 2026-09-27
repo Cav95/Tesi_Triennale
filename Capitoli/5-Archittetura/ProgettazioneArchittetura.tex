@@ -22,19 +22,26 @@ Altra caratteristica fondamentale di MAUI è la possibilità di scrivere le inte
  evitando quindi l'utilizzo del linguaggio XAML\cite{XAML}. Questo aspetto
  è stato reso possibile mediante pacchetto NuGet  ``Comunity Toolkit Maui''\cite{ComTolkit}.
 \section{Deployment}
-La scelta degli ambienti di sviluppo prima citati, ha portato alla creazione di un sistema che verrà 
-installato ed eseguito in locale nelle singole workstation.
-All'interno dell'azienda è presente un dominio \ac{AD} dove ogni Oggetto \ac{AD} ha un \ac{IP} statico,
-La connessione al database, risiedente in un server all'interdo del dominio, avviene dunque mediante protocollo \ac{TCP}.
-Si è valutato per chi accede dall'esterno del dominio di utilizza la \ac{VPN},
+La scelta degli ambienti di sviluppo prima citati, porta a dover considerare il deployment dell'applicativo.
+L'applicativo verrà installato in locale su ogni dispositivo, sia esso desktop o mobile, e si connetterà al database centrale.
+All'interno dell'azienda è presente un dominio \ac{AD} dove ogni Oggetto del dominio ha un \ac{IP} statico.
+Con questa configurazione, la connessione al database, risiedente in un server all'interdo del dominio, 
+è facilmente raggiungibile.
+La condizione necessaria per l'accesso al database,
+ è che il dispositivo sia connesso all'intero della rete aziendale.
+ Lo scambio di dati tra l'applicativo e il database avviene mediante protocollo \ac{TCP/IP}.
+Si è valutato, per chi accede dall'esterno del dominio, di utilizzare la \ac{VPN},
 stabilendo una connessione virtuale come essere all'interno.
+Il database locale, in SQLite, viene creato in fase di primo avvio dell'applicativo
+e sincronizzato con il database centrale.
 In assenza di connessione, verificabile tramite ping, si accede al database locale.
-Una volta che si è ristabilita la connesione avviene la sincronizzazione con il database centrale.
+Ristabilita la connessione, l'applicativo sincronizza i dati locali con quelli centrali.
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/Deployment.png}
     \caption{Diagramma dei deployment}\label{fig:Diagramma dei Deployment}
 \end{figure}
+
 \section{Package}
 La progettazione dell'applicativo ha portato a suddividerlo in tre Package con compiti ben distinti.
 \subsection{Interfaccia al database}
