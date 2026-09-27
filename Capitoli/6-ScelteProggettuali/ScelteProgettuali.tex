@@ -1,27 +1,23 @@
 \chapter{Scelte progettuali}\label{chap:ScelteProgettuali}
 \section{Scelta modello di sviluppo}
 La scelta del modello progettuale è dipesa dalla necessità di prototipare e testare le funzioni
-nell'arco dello sviluppo con i richiedenti.
-La scelta è stata quindi di addottare un modello agile,
-supportato dalla creazione e test dei prototipi di funzioni.
-La progettazione è stata, soprattutto per il backend, test driven.
-Tutte le funzioni con il database sono state testate da apposite Unit Test che ne validassero il comportamento.
-I test sono stati fondamentali durante le fasi di aggiornamneti della struttura database.
-La view non è stata supportata da test, ma prototipata e validata da utenti scelti.
-Per quest'ultima si è seguito il pattern:
-\begin{enumerate}
-    \item Creazione del prototipo della funzione.
-    \item Creazione della view di riferimento.
-    \item Test e validazione da parte di un utente scelto.
-    \item Rifattorizzazione codice se necessario.
-\end{enumerate}
+nell'arco dell'intero sviluppo con gli utenti.
+Si è quindi deciso di adottare un modello agile,
+supportato dalla creazione e test dei prototipi di funzioni o interfacce.
+La progettazione, come da canone agile, è stata quindi iterativa e incrementale.
+Tutte le nuove funzioni implementate sul database sono state testate da apposite Unit Test che ne validassero il comportamento.
+Tali test di regressione sono stati fondamentali per validare le modifiche al database,
+ in quanto esso è stato soggetto a continue modifiche di perfezionamento.
+Le interfacce grafiche, al contrario, non sono state supportate da test, ma prototipate e validate da utenti scelti.
 La rifattorizzazione del codice è stata affrontata con regolarità seguendo il principio\ac{DRY}.
-Nel seguire il principio si sono create più factory unificando quanto più possibile il codice comune.
+Nel seguire il principio, si sono create più factory  e classi di utilità 
+che unificassero quanto più possibile il codice comune.
 \section{Suddivisione e contenuto dei rilasci}
 Le tempististiche dei rilasci sono state
-decise insieme ad un Project Management aziendale messomi a disposizione.
-Nel primo rilascio sono compresi almeno tutti i requisiti già presenti nel precedete applicativo.
-In questo rilascio, con consegna stimata gennaio 2027, sono presenti le seguenti funzionalità:
+decise insieme ad un Project Management aziendale che mi ha supportato nella stima dei tempi di sviluppo e nella
+conversione del database esistente nel nuovo.
+Nel primo rilascio, si è scelto di includere tutti i requisiti già presenti nel precedete applicativo.
+Tale rilascio, con consegna stimata gennaio 2027, sono presenti le seguenti funzionalità:
 \begin{itemize}
     \item Gestione utenti e permessi.
     \item Anagrafica clienti.
@@ -37,7 +33,7 @@ In questo rilascio, con consegna stimata gennaio 2027, sono presenti le seguenti
 Si è scelto di non includere la funzionalità offline,
 in quanto essa necessita di un database centrale stabile.
 La funzionalità offline verrà implementata nel secondo rilascio.
-In questa fase si stima vere il software sarà in produzione con un database pressochè stabile.
+Questa fase avverrà una volta che il software sarà in produzione, per poter contare con un database pressochè stabile.
 Nel secondo rilascio saranno presenti quindi:
 \begin{itemize}
     \item Gestione revisione tecnica e differenze con contratto firmato.
@@ -50,17 +46,17 @@ Nel secondo rilascio saranno presenti quindi:
 \section{Scelta Framework ORM}
 All'interno della sezione\ref{chap:architettura} ho citato la scelta del framework \ac{EF Core}.
 Questo framework ha permesso di mappare le tabelle mediante la tecnica \ac{ORM}.
-Questa tecnica consiste nel mappare ogn tabella del database in una classe
-e gestire tutti i legami mediante una classe context.
-\Ac{ORM} ha permesso, mediante script powershell e connessione al database,
+Questa tecnica consiste nel mappare ogn tabella del database in una classe che ne rappresenta l'entità. 
+I legami tra le entità sono gestiti mediante una classe context.
+\ac{ORM} ha permesso, mediante script powershell e connessione al database,
 di ricreare in modo dinamico tutte le entity a fronte di cambiamenti del database.
 Tale approccio può essere definito database first, in quanto la progettazione avviene principalmente sul database,
-il software successivamente.
+ed il software nel ereditare le modifiche.
 Le query mediante il framework \ac{EF Core} sono state scritte tramite \ac{LINQ} che ha permesso di scriverle in linguaggio ``C\#''.
 Queste funzioni sono inoltre utilizzabili anche con SQLite in ottica di offline.
 All'interno degli aspetti negativi era presente la lentezza in grandi volumi dovuti alla traduzione del codice in query.
 Si è valutato, in caso si presentino di ottimizare il database mediante indici in prima battuta
-e successivamente ottimizzando le songole query.
+e successivamente ottimizzando le singole query.
 
 \lstinputlisting[language=CSharp, caption={Esempio di query LINQ}]{listings/LINQ-example.cs}
 
