@@ -1,0 +1,46 @@
+\chapter{Creazione Model}\label{chap:Model}
+\section{Mapping delle classi}
+Il model dell'applicativo è suddiviso in parte nel package ``DatabaseManagementPackage'' e in parte, per
+le parti non legate al database, nel package di main.
+Il package di interfaccia al database è stato realizzato partendo, mediante \ac{EF Core},
+ dalle tabelle del database, generando le classi entity.
+Una volta generate le classi entity, si sono individuati gli oggetti fondamentali del dominio,
+ che sono stati mappati in classi \ac{DTO} mediante il package ``Mapster''.
+ Questi oggetti sono stati scelti in quanto rappresentano le entità principali del dominio,
+ come ad esempio le entità ``Cliente'', ``Prodotto'' e ``Documento''.
+ Le classi \ac{DTO} sono state realizzate partendo dalla struttura delle entity ed in
+ corrispondenza dei campi delle entit,y legate alle foreign key, sono stati addotati due approcci differenti.
+ Se il campo aveva una corrispondenza ad una \ac{DTO} si richiamava quest'ultima,
+ altrimenti si è deciso di mappare il campo \textit{Dictionary<int,string>}dove si salvava ID e Descrizione.
+ Il mapping è bidirezionale per poter riconvertire, quando necessario, un \ac{DTO} in entity per poterlo inserire nel database.
+\section{Struttura del package}
+Il package è stato strutturato in modo da separare le classi di test, i repository e le classi ed interfacce esposte.
+All'esterno del package oltre alle classi \ac{DTO} ed Enum relativi ad alcuni Lookup, è
+stata esposta una classe univoca che espone i vari repository, denominata ``DatabaseManager''.
+Questa soluzione permette di avere un unico punto di accesso ai repository, evitando di esporre le classi interne del package.
+Il vantaggio della classe singola si ha anche nella gestione della Dependency Injection, in quanto si può registrare un'unica classe
+per tutti i repository, evitando di registrare ogni singolo repository.
+Si è poi realizzatna una classe di Test per ogni Repository, che ne testasse le funzionalità di base.
+Nel package è stata inoltre predisposta una classe con compito di mantenere salvati i dati dell'utente loggato,
+ come ad esempio l'ID dell'utente, il nome e cognome, il ruolo e i permessi.
+ Questa classe, registrata come singleton, permette di avere un unico punto di accesso ai dati dell'utente loggato,
+  permettendo la gestione dei permessi in ogni parte dell'applicativo.
+\subsection{Classi di Test}
+Le classi di test realizzate sono state pensate con l'obbiettivo di funzionare anche in presenza dei dati reali.
+Per realizzare ciò si sono creati prima di ogni test dei savepoint del database, che permettessero di tornare allo stato iniziale.
+Successivamente, per ogni test, si creavano i dati di test fittizzi che potessero validare le funzionalità del repository senza 
+il rischio di prelevare dati reali.
+Questo approccio ha richiesto molto tempo per la ricostruzione dei test più complessi, ma 
+hanno permesso di testare piccoli cambiamenti senza dover ripristinare il database.
+\subsection{Repository}
+I repository sono stati divisi in base alle entità principali del dominio, come ad esempio ``Cliente'', ``Prodotto'' e ``Documento''.
+Ogni repository poteva a sua volta gestire più \ac{DTO}, come ad esempio \textit{ProdottoDTO} 
+e \textit{ProdottocomposizioneDTO} appartenenti allo stesso oggetto di dominio.
+Oltre alle operazioni CRUD, si è scelto per quanto riguarda le operazioni di ricerca, di utilizzare
+ dei metodi che permettessero di inserire molteplici criteri di ricerca.
+ All'interno sono poi stati usati i Queryable per costuire la query in esame.
+ \lstinputlisting[language=CSharp, caption={Esempio di query Queryable}]{listings/Queryable.cs}
+ Questo approccio ha permesso di costruire query complesse, senza dover scrivere molteplici metodi di ricerca.
+ Un'altra scelta che ha permesso di ridurre il codice ripetitivo
+ è stata quella di rimappare le nuove entità, create in \ac{DTO} da classi
+ di model del package principale, in classi di entity prive di Id che fossero pronte ad essere inserite nel database.
