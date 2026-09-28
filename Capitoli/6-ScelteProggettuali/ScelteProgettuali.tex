@@ -44,21 +44,26 @@ Nel secondo rilascio saranno presenti quindi:
     \item Implementazione database locale con logiche di sincronizzazione.
 \end{itemize}
 \section{Scelta Framework ORM}
-All'interno della sezione\ref{chap:architettura} ho citato la scelta del framework \ac{EF Core}.
+All'interno della sezione sull' architettura ho citato la scelta del framework \ac{EF Core}.\ref{chap:architettura}
 Questo framework ha permesso di mappare le tabelle mediante la tecnica \ac{ORM}.
-Questa tecnica consiste nel mappare ogn tabella del database in una classe che ne rappresenta l'entità. 
-I legami tra le entità sono gestiti mediante una classe context.
+Questa tecnica consiste nel mappare ogni tabella del database in una classe che ne rappresenta l'entità. 
+I legami tra le entità sono gestiti mediante la classe context.
 \ac{ORM} ha permesso, mediante script powershell e connessione al database,
-di ricreare in modo dinamico tutte le entity a fronte di cambiamenti del database.
+di ricreare in modo rapido tutte le entity, ed il context, a fronte di cambiamenti del database.
 Tale approccio può essere definito database first, in quanto la progettazione avviene principalmente sul database,
 ed il software nel ereditare le modifiche.
 Le query mediante il framework \ac{EF Core} sono state scritte tramite \ac{LINQ} che ha permesso di scriverle in linguaggio ``C\#''.
-Queste funzioni sono inoltre utilizzabili anche con SQLite in ottica di offline.
+\lstinputlisting[language=CSharp, caption={Esempio di query LINQ}]{listings/LINQ-example.cs}
+
+In ottica di Offline le query in \ac{LINQ}, sono compatibili con il database locale SQLite se si limitano
+le funzioni utilizzate a quelle supportate da esso.
+Le funzioni compatibili sono ad esempio: \textit{Where, Select, OrderBy, GroupBy, Join, Distinct}.
+
 All'interno degli aspetti negativi era presente la lentezza in grandi volumi dovuti alla traduzione del codice in query.
 Si è valutato, in caso si presentino di ottimizare il database mediante indici in prima battuta
 e successivamente ottimizzando le singole query.
 
-\lstinputlisting[language=CSharp, caption={Esempio di query LINQ}]{listings/LINQ-example.cs}
+
 
 \section{Scelta Framework grafico} % MAUI .NET
 Il framework grafico scelto doveva soddisfare il requisito della portabiltà e dell'offline.
