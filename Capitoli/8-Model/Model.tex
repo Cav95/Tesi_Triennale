@@ -27,13 +27,15 @@ Nel package è stata inoltre predisposta una classe con compito di mantenere sal
   permettendo la gestione dei permessi in ogni parte dell'applicativo.
 \subsection{Classi di Test}
 Le classi di test realizzate sono state pensate con l'obbiettivo di funzionare anche in presenza dei dati reali.
-Per realizzare ciò si sono creati prima di ogni test dei savepoint del database, che permettessero di tornare allo stato iniziale.
-Successivamente, per ogni test, si creavano i dati di test fittizzi che potessero validare le funzionalità del repository senza 
+Per realizzare ciò si sono creati prima di ogni test dei savepoint del database, 
+che permettessero di tornare allo stato iniziale.
+Successivamente, per ogni test, si creavano i dati di test fittizzi che potessero validare 
+le funzionalità del repository senza 
 il rischio di prelevare dati reali.
 Questo approccio ha richiesto molto tempo per la ricostruzione dei test più complessi, ma 
 hanno permesso di testare piccoli cambiamenti senza dover ripristinare il database.
 \subsection{Repository}
-I repository sono stati divisi in base alle entità principali del dominio, come ad esempio ``Cliente'', ``Prodotto'' e ``Documento''.
+I repository sono stati divisi in base alle entità principali del dominio, come ad esempio i Prodotti.
 Ogni repository poteva a sua volta gestire più \ac{DTO}, come ad esempio \textit{ProdottoDTO} 
 e \textit{ProdottocomposizioneDTO} appartenenti allo stesso oggetto di dominio.
 Oltre alle operazioni CRUD, si è scelto per quanto riguarda le operazioni di ricerca, di utilizzare
