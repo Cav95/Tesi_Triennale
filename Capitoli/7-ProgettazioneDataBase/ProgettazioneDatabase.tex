@@ -95,14 +95,17 @@ Capita infatti di avere ad esempio manuali in lingua inglese, ma etichette sui m
 \subsubsection{Creazione tabelle di Back Up}
 Si è scelto di gestire solo un ristretto numero di essenziali tabelle,
  come ad esempio le tabelle dei documenti e dei prodotti, delle righe dei documenti o dei prodotti.
-La gestione non è stata capillare su tutte le tabelle. Le tabelle di back up sono state create solo per
-le tabelle più critiche.
- Questo approccio serve a evitare di appesantire il database con tabelle e dati non necessari.
-Le tabelle di back up sono state create
- con la stessa struttura delle tabelle originali, ma senza vincoli per permettere di salvare più modifiche della stessa tupla.
+La gestione non è stata capillare su tutte le tabelle, in quanti si sono scelte solo
+le tabelle più centrali del dominio.
+ Questo approccio è volto ad evitare di appesantire il database con tabelle, dati e trigger non necessari.
+Le strutture delle tabelle di back up rispecchiano quelle delle tabelle originali,
+ ma senza vincoli ne chiavi primarie o secondarie, garantendo così la possibilità di salvare più modifiche della stessa tupla.
 Il popolamento avviene mediante dei trigger, essi scattano ad ogni operazione di Update eseguita sulla tabella originale.
 Tramite query ed il campo di audit \textit{data_modifica} si è quindi in grado di ricostruire
  lo storico dei dati, e di ripristinare eventuali errori.
+ Il trigger è marcato come "AFTER UPDATE", In cimbinazione al dato temporaneo "deleted"
+ permette di salvare il dato prima della modifica, garantendo la possibilità di ripristinare lo stato precedente.
+\lstinputlisting[language=SQL, caption={Esempio di trigger}]{listings/Trigger.sql}
  \subsubsection{Tabelle di utilità}
  Nel database sono state incluse delle tabelle di utilità, che non hanno un legame diretto con le altre tabelle,
  ma saranno utilizzate per la gestione e manutenzione del database.
