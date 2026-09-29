@@ -34,6 +34,18 @@ le funzionalità del repository senza
 il rischio di prelevare dati reali.
 Questo approccio ha richiesto molto tempo per la ricostruzione dei test più complessi, ma
 hanno permesso di testare piccoli cambiamenti senza dover ripristinare il database.
+A fronte del tempo impiegato prima si è utilizzata \ac{AI} generativa per creare le bozze dei test,
+ che successivamente sono state modificate ed, in alcuni casi riscritte completamente,
+per adattarle al contesto reale.
+Per realizzare ciò si è addottato un approccio dove:
+\begin{enumerate}
+    \item Si sono scritti i metodi del repository
+    \item Si sono generati i test sulla base dei metodi del repository
+    \item Si sono corretti i test per renderli accurati e validi
+    \item Si sono corretti i metodi del repository sulla base del risultato dei test.
+\end{enumerate}
+Questo approccio ha permesso di avere un ciclo di sviluppo più veloce,
+ riducendo il tempo di scrittura dei test..
 \subsection{Repository}
 I repository sono stati divisi in base alle entità principali del dominio, come ad esempio i Prodotti.
 Ogni repository poteva a sua volta gestire più \ac{DTO}, come ad esempio \textit{ProdottoDTO}
