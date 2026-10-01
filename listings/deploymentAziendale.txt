@@ -1,0 +1,43 @@
+@startuml
+skinparam componentStyle uml2
+
+cloud "Rete Esterna" as ext
+
+node "Perimetro di Sicurezza" <<device>> {
+    [Firewall / NAT] as fw
+    [VPN Gateway] as vpn
+}
+
+ext --> vpn : Tunnel VPN
+vpn --> fw
+
+node "Infrastruttura Interna (LAN)" {
+    
+    node "Domain Controller" <<executionEnvironment>> {
+        [Active Directory] as ad
+    }
+            node "PC Utente Reparto Vendite/Produzione" as vm_rep1 <<device>>
+            node "PC Utente Reparto Tecnico" as vm_rep2 <<device>>
+
+    node "Host Fisico" <<device>> {
+        node "Hypervisor" <<executionEnvironment>> {
+            
+
+            
+            node "VM Database Server Dedicato" <<executionEnvironment>> {
+                node "Microsoft SQL Server" <<executionEnvironment>> {
+                    database "Fusion (PLM)" as db_fusion <<database>>
+                    database "BombConfine (Staging/Ponte)" as db_bomb <<database>>
+                    database "AdHoc (ERP)" as db_adhoc <<database>>
+                }
+            }
+        }
+    }
+}
+
+fw --> ad : Autenticazione & Policy
+vm_rep2 ..> db_fusion : Gestione Disegni / Distinte
+db_fusion ..> db_bomb : Scrittura tabelle frontiera
+db_bomb ..> db_adhoc : Import distinte prodotto
+vm_rep1 ..> db_adhoc : Scrittura dati produttivi/amministrativi
+@enduml

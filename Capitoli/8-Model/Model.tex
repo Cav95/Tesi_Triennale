@@ -17,8 +17,10 @@ Il mapping è bidirezionale per poter riconvertire, quando necessario, un \ac{DT
 Il package è stato strutturato in modo da separare le classi di test, i repository e le classi ed interfacce esposte.
 All'esterno del package oltre alle classi \ac{DTO} ed Enum relativi ad alcuni Lookup, è
 stata esposta una classe univoca che espone i vari repository, denominata ``DatabaseManager''.
-Questa soluzione permette di avere un unico punto di accesso ai repository, evitando di esporre le classi interne del package.
-Il vantaggio della classe singola si ha anche nella gestione della Dependency Injection, in quanto si può registrare un'unica classe
+Questa soluzione permette di avere un unico punto di accesso ai repository, 
+evitando di esporre le classi interne del package.
+Il vantaggio della classe singola si ha anche nella gestione della Dependency Injection, 
+in quanto si può registrare un'unica classe
 per tutti i repository, evitando di registrare ogni singolo repository.
 Si è poi realizzatna una classe di Test per ogni Repository, che ne testasse le funzionalità di base.
 Nel package è stata inoltre predisposta una classe con compito di mantenere salvati i dati dell'utente loggato,

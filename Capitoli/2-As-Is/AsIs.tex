@@ -1,5 +1,4 @@
-% Capitoli/1-As-Is/AsIs.tex
-\chapter{Situazione As-Is}\label{chap:AsIs}
+\chapter{Situazione As-Is}\label{chapter:AsIs}
 \section{Premessa}
 La situazione infrastrutturale aziendale è stata studiata dal sottoscritto nel corso del tirocinio formativo.
 La raccolta dei dati è stata svolta mediante interviste e studio dell'attuale sistema informatico.
@@ -22,8 +21,14 @@ I principali database aziendali sono:
     \item \textbf{BombConfine:} database ponte tra i database esterni e quello dell'\ac{ERP}. All'interno sono presenti tabelle
     di frontiera scritte da programmi esterni e che il gestionale usa per importare i dati.
 \end{itemize}
-La sicurezza aziendale è sostenuta da \ac{NAT} e Firewall che impediscono l'accesso dall'esterno se non tramite \ac{VPN}. % fare acronimi
-
+La sicurezza aziendale è sostenuta da \ac{NAT} e Firewall che impediscono
+l'accesso dall'esterno se non tramite \ac{VPN}. % fare acronimi
+L'infrastruttura aziendale è visibile in figura~\ref{fig:Infrastruttura aziendale}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/InfrastrutturaAziendale.png}
+    \caption{Schema infrastruttura aziendale.}\label{fig:Infrastruttura aziendale}
+\end{figure}
 \section{Attuali software utilizzati}
 Nel capitolo precedente abbiamo fatto cenno ai database ed ai relativi programmi che gestiscono quanto concerne l'\ac{ERP}
 e il \ac{PLM}.
@@ -51,21 +56,24 @@ copiandolo in locale e sincronizzandolo una volta tornato in sede.
 Il flusso lavorativo è risultato non essere un aspetto secondario nello sviluppo richiesto.
 Esso si deve interporre tra il reparto commerciale, ovvero addetti alle vendite,
  i reparti progettuali e produttivi come uffici tecnici, logistica ed amministrazione.
- L'attuale flusso di lavoro analizzato pone il reparto commerciale come punto di partenza dell'intero flusso che arriva fino al post-vendita.
- Il contratto, creato da tale reparto, dopo essere stato stipulato viene inviato al reparto amministrativo che ne importa i dati 
+ L'attuale flusso di lavoro analizzato pone il reparto commerciale come punto di partenza 
+ dell'intero flusso che arriva fino al post-vendita.
+ Il contratto, creato da tale reparto, dopo essere stato stipulato viene inviato 
+ al reparto amministrativo che ne importa i dati 
  all'interno del gestionale.
  Simultaneamente esso viene mandato al reparto project manager che lo revisiona tecnicamente in 
  caso di errori progettuali.
  Dopo la revisione tecnica, il contratto viene spedito al reparto logistico che preventivamente verifica
  i dati di destinazione ed organizza le spedizioni sulla base del venduto.
+ Il flusso di lavoro può essere visto in figura~\ref{fig:Flusso di un contratto}.
 A causa del sistema obsoleto utilizzato ed il debito tecnico accumulato negli anni, l'attuale sistema è isolato
  rispetto ai programmi utilizzati dall'azienda.
  Quest'ultimo punto fa parte delle richieste imprescendibili da risolvere.
-L'integrazione nell'ecosistema infomatico passa prima di tutto dall'unificazione dei codici, ovvero quelli a listino con i prodotti a gestionale, ma anche creando
+L'integrazione nell'ecosistema infomatico passa prima di tutto dall'unificazione dei codici, 
+ovvero quelli a listino con i prodotti a gestionale, ma anche creando
  un flusso di notifiche tra i vari ambiti.
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=1.3\linewidth, angle=90]{figures/Order flow.png}
     \caption{Schema degli stati di una offerta commerciale}\label{fig:Flusso di un contratto}
 \end{figure}
- %Aggiungere immagine con flusso di lavoro

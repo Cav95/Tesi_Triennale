@@ -67,7 +67,7 @@ Il database originale gestiva i prodotti come oggetti atomici, senza la possibil
 Si è quindi deciso di gestire le distinte, si posta la tabella \textit{Prodotti} in auto join con cardinalità n ad n .
 Tale relazione a livello di schema logico è stata realizzata mediante la tabella \textit{Prodotti_composizioni}.
 La tabella in questione aggiunge, oltre alle chiavi
-dei prodotti, anche il quantitativo della riga stessa.
+dei prodotti, anche il quantitativo della riga stessa.\ref{fig:ERProdotti}
 La gestione così pensata permette di effettuare ricerche approfondite sui ricambi di un  determinato prodotto.
 Questo sistema, insieme ad appositi lookup, ha inoltre permesso la costruzione del modulo
  \ac{CPQ} per la configurazione di prodotto.\ref{chap:Configurazione}.
@@ -75,7 +75,7 @@ Questo sistema, insieme ad appositi lookup, ha inoltre permesso la costruzione d
  \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/ER_PRODOTTI.png}
-    \caption{Schema \ac{ER} dei prodotti}\label{fig:ER_Prodotti}
+    \caption{Schema \ac{ER} dei prodotti}\label{fig:ERProdotti}
 \end{figure}
 \subsubsection{Tabelle gestione lingue}
 Si è deciso di aggiungere delle apposite tabelle per la gestione delle traduzioni di campi del database.
@@ -86,6 +86,7 @@ La gestione così pensata permette di estendere le traduzioni a più lingue senz
 Si è anche aggiunta una apposita tabella per gestire le traduzioni nelle reportistiche dei documenti.
 Questa tabella mappa le tipologie di reportistica richiedibili dal cliente con le apposite lingue concordate.
 Capita infatti di avere ad esempio manuali in lingua inglese, ma etichette sui macchinari con la lingua del luogo.
+Il diagramma \ac{ER} delle lingue è visibile in figura~\ref{fig:ER_Lingue}.
 %Aggiungere immagine
  \begin{figure}[h]
     \centering
@@ -139,6 +140,7 @@ Tale struttura, ponendo la cardinalità n ad n tra prodotti e proprietà,
  tali dati sono ad esempio i clienti, tassi di cambio, ecc.
  Una volta in produzione verranno schedulate giornalmente garantendo la sincronizzazione dei dati.
  \subsection{Schema logico}
+ Lo schema logico risultante è visibile in figura~\ref{fig:SchemaLogico}.
  \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth, angle=90]{figures/Logical.png}

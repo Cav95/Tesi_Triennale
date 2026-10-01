@@ -1,4 +1,4 @@
-\chapter{Progettazione dell'architettura}\label{chap:architettura}
+\chapter{Progettazione dell'architettura}\label{chapter:architettura}
 \section{Preambolo sulle scelte architetturali}
 Le scelte archittetturali sono dipese in primo luogo dall'infrastruttura aziendale,
 e successivamente dalle richieste avanzate negli incontri.
@@ -37,6 +37,7 @@ Il database locale, in SQLite, viene creato in fase di primo avvio dell'applicat
 e sincronizzato con il database centrale.
 In assenza di connessione, verificabile tramite ping, si accede al database locale.
 Ristabilita la connessione, l'applicativo sincronizza i dati locali con quelli centrali.
+Il diagramma dei deployment è riassunto in figura~\ref{fig:Diagramma dei Deployment}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/Deployment.png}
@@ -112,6 +113,7 @@ Gli aspetti generali gestiti possono essere riassunti in un elenco puntato, come
     \item Mediante la classe MauiProgram.cs gestione della Dependency Injection.
     \item In fase di avvio creazione di una cache in RAM di dati immutabili durante la sessione, come tabelle di lookup.
 \end{itemize}
+Il diagramma dei package è riassunto in figura~\ref{fig:Diagramma dei package}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/DiagramnaPackage.png}
@@ -119,9 +121,10 @@ Gli aspetti generali gestiti possono essere riassunti in un elenco puntato, come
 \end{figure}
 \section{Flussi di lavoro}
 Osservando i requisiti si sono osservate delle problematiche relative all'attuale flusso aziendale del contratto.
-Si è quindi studiato di inserire una revisione tecnica, da parte di un utente specializzato, del venduto.
+Si è quindi studiato di inserire una revisione tecnica, da parte di un utente specializzato, del venduto.\ref{fig:Nuovo diagramma degli stati di un contratto.}
 Tale inserimento semplifica i flussi e facilita i reparti successivi.
-È fondamentale determinare tali flussi nel progettare gli automatismi a cui sono soggette le notifiche intra reparto.
+È fondamentale determinare tali flussi nel progettare gli automatismi
+a cui sono soggette le notifiche intra reparto.
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\linewidth]{figures/New Order flow.png}
