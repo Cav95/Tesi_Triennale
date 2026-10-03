@@ -45,7 +45,7 @@ oltre che la possibilita di ampliare le funzionalità dei componenti senza dover
 Ciò è stato possibile gestendo un notevole numero di valori nullable,
  che permettono di personalizzare i componenti in base alle esigenze.
 \section{Scelta delle classi di ViewModel}
-Interposti tra le view e i repository, secondo il pattern \ac{MVVM} consigliato da .NET,
+Interposti tra le view e i repository, secondo il pattern \ac{MVVM} consigliato da @.NET,
 si sono creati i ViewModel.
 Queste classi hanno il compito di esporre i dati alle view, tramite proprietà osservabili,
  e di gestire la logica di interazione con l'utente.
@@ -62,4 +62,5 @@ Queste classi hanno il compito di esporre i dati alle view, tramite proprietà o
 Nel processo di rifattorizzazione si è notato esserci dei comportamenti comuni tra i ViewModel, 
 come la gestione delle liste dedicate ai dropdown, la gestione dei filtri e la gestione dei popup di notifica.
 Si è quindi creato un ViewModel base, che espone metodi e proprietà comuni a tutti i ViewModel,
- e quest'ultimi estendono il ViewModel base, implementando le funzionalità specifiche.
+ e quest'ultimi a loro volta lo estendono. Alcuni dei metodi
+ esposti vengono sottoposti ad override nei ViewModel specifici, per gestire comportamenti particolari.
