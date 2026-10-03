@@ -35,8 +35,31 @@ Questo aspetto, unito all'utilizzo di \ac{IA} generativa,ha permesso la conversi
     \item \textbf{Colori:} Factory che espone i colori utilizzati nell'applicativo,
     permettendo di centralizzare la gestione dei colori.
     \item \textbf{Componenti:} Factory che espone i componenti grafici, come bottoni, etichette e caselle di testo.
-    \item \textbf{Dimensioni:} Factory che espone le dimensioni dei componenti grafici, come larghezza e altezza tipica dei componenti.
+    \item \textbf{Dimensioni:} Factory che espone le dimensioni dei componenti grafici, 
+    come larghezza e altezza tipica dei componenti.
     \item \textbf{PopUp di notifica:} Factory che espone i metodi per la creazione di popup di notifica,
      come messaggi di errore o di conferma.
 \end{itemize}
+L'utilizzo centralizzato ha permesso inoltre un amplio riutilizzo dei componenti,
+oltre che la possibilita di ampliare le funzionalità dei componenti senza dover modificare le view che li utilizzano.
+Ciò è stato possibile gestendo un notevole numero di valori nullable,
+ che permettono di personalizzare i componenti in base alle esigenze.
 \section{Scelta delle classi di ViewModel}
+Interposti tra le view e i repository, secondo il pattern \ac{MVVM} consigliato da .NET,
+si sono creati i ViewModel.
+Queste classi hanno il compito di esporre i dati alle view, tramite proprietà osservabili,
+ e di gestire la logica di interazione con l'utente.
+ All'interno dei ViewModel infatti sono racchiuse proprietà e liste osservabili,
+  che permettono di aggiornare automaticamente le view al variare dei dati.
+  Oltre a ciò, i ViewModel contengono metodi per la gestione degli eventi generati dalle view,
+  richiamando i repository per l'accesso ai dati e gestendo la logica di business.
+  I ViewModel creati non sono stati in rapporto uno a uno con le view,
+   ma piuttosto in base alla loro funzionalità e l'elemento del dominio da gestire.
+   Ad esempio nella gestione dei prodotti si sono creati due 
+   ViewModel, uno per gestione semplice dei prodotti ed uno specifico per la gestione delle distinte prodotto.
+   Questo approccio unito all'estendibilità della classi ha permesso di apliare il
+    numero di view senza dover creare nuovi ViewModel, ma estendendo quelli esistenti.
+Nel processo di rifattorizzazione si è notato esserci dei comportamenti comuni tra i ViewModel, 
+come la gestione delle liste dedicate ai dropdown, la gestione dei filtri e la gestione dei popup di notifica.
+Si è quindi creato un ViewModel base, che espone metodi e proprietà comuni a tutti i ViewModel,
+ e quest'ultimi estendono il ViewModel base, implementando le funzionalità specifiche.
