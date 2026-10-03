@@ -1,5 +1,67 @@
 \chapter{Modulo configurazione prodotto}\label{chapter:Configurazione}
 \section{Scopo del modulo}
+Il vero salto di qualità, rispetto all'attuale metodo di creazione delle offerte,
+è l'introduzione di un modulo di configurazione prodotto.
+Come ciatto nell'introsuzione\ref{chapter:introduction}, l'azienda ha un modello di bussiness
+di tipo \ac{ETO}. QUesto modello comporta la produzione di prodotti cuciti
+su misura per il ciente, utilizzando però compoennti stadardizzati.
+Si è docuto quindi cercare di realizzare una struttura ed un algoritmo che permettesse 
+di configurare un prodotto, senza sapere a priori nè da quali regole sia governato nè quali prodotti.
+è stato fondamentale anche lo studio di un sistema che guidasse l'utente alla scelta del modello da configurare.
 \section{Algoritmo di configurazione}
-\section{Realizzazione sul database}
+L'algoritmo implementato si suddivide in tre fasi principali:
+\begin{itemize}
+    \item \textbf{Fase di scelta del modello:} Mediante una scelta
+    a castata l'utente discende da concetti generali come scopo del compoenente alla tipologia di prodotto,
+     fino ad arrivare al modello specifico da configurare.
+     Questo modella ad albero guida l'utente.
+    \item \textbf{Fase di configurazione:} In questa fase vengono proposti all'utente delle
+    opzioni di configurazione per il modello scelto.
+    \item \textbf{Fase scelta componenti:} In base alle scelte prima
+    all'utente vengono proposti i componenti disponibili per la configurazione del prodotto.
+    Di questi è posibile in questa fase eliminare quelli non desiderati.
+    \item \textbf{Generazione codice:} Questa fase 
+    finale è la delicata dell'implementazione dell'algoritmo, in quanto in base ai codici scelti si hanno
+    due alternativi:
+    \begin{itemize}
+        \item \textbf{Configurazione esistente:} Si ricerca nel database se esiste già una configurazione
+        di quel prodotto con i codici scelti.
+         In caso positivo si propone all'utente di utilizzare quella configurazione.
+        \item \textbf{Configurazione inesistente:} In caso negativo, 
+        si genera un nuovo codice di configurazione per il prodotto, che viene salvato nel database.
+    \end{itemize}
+\end{itemize}
+\subsection{Scelta modello}
+La realizzazione dell'albero di scelta è stata fatta sfruttando
+le tabelle già presenti nel database, in particolare le tabelle prodotto, prodotti\_composizioni e di lookup.
+Si sono atribuiti tre nuovi tipi di prodotto ovvero: iniziale, mappa e macrogruppo.
+Il prodotto iniziale è la radice dell'albero, e rappresenta il concetto generale del prodotto.
+Si sono inseriti all'interno delle loro distinte i prodotti di tipo mappa, che rappresentano i concetti intermedi.
+Infine i prodotti di tipo macrogruppo rappresentano i prodotti finali, sono stati a loro volta inseriti
+ nelle distinte dei prodotti di tipo mappa.
+ Questa struttura permette la realizazione di un albero ampliamente scalabile,
+  in quanto è possibile aggiungere nuovi prodotti senza dover modificare l'algoritmo.
+L'albero in questione è osservabile in figura~\ref{fig:Albero di scelta prodotto}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/AlberoScelta.png}
+    \caption{Albero di scelta prodotto}\label{fig:Albero di scelta prodotto}
+\end{figure}
+\subsection{Implentazione regole}
+I macrogruppi contengono al loro interno tutti i componenti possibili per la configurazione del prodotto.
+Ad ogni componente sono state associate n regole che, se valide, determinano la sua disponibilità nella configurazione.
+Ad ogni regola a sua volta è associata una proprità di riferimento, un operatore logico e un valore di riferimento.
+L'interfaccia utente con le possibili domande di configurazione
+viene generata filtrando dinamicamente tutte le proprietà di riferimento delle regole, in base al macrogruppo scelto.
+In questo modo non si ha la necessità di conoscere a priori le regole che governano la configurazione del prodotto.
+In base alle scelte, come detto in precedenza, si propongono all'utente solo i componenti che rispettano le scelte effettuate.
+La realizzazione lato database è stata possibie introducendo due 
+nuove tabelle, una per le regole ed una di lookup per gli operatori logici.
+La struttura dinamica del database, impletata nelle prime fasi, ha permesso l'implementazione in modo agile.
+Di seguito nella figura~\ref{fig:ER configuratore} è possibile il modello \ac{ER} del modulo di configurazione prodotto.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/ER_Configuratore.png}
+    \caption{Modello ER configuratore}\label{fig:ER configuratore}
+\end{figure}
 \section{Interfaccia grafica lato utente ed amministratore}
