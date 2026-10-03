@@ -31,7 +31,7 @@ L'algoritmo implementato si suddivide in tre fasi principali:
         si genera un nuovo codice di configurazione per il prodotto, che viene salvato nel database.
     \end{itemize}
 \end{itemize}
-\subsection{Scelta modello}
+\subsection{Scelta macrogruppo da configurare}
 La realizzazione dell'albero di scelta è stata fatta sfruttando
 le tabelle già presenti nel database, in particolare le tabelle prodotto, prodotti\_composizioni e di lookup.
 Si sono atribuiti tre nuovi tipi di prodotto ovvero: iniziale, mappa e macrogruppo.
@@ -42,7 +42,7 @@ Infine i prodotti di tipo macrogruppo rappresentano i prodotti finali, sono stat
  Questa struttura permette la realizazione di un albero ampliamente scalabile,
   in quanto è possibile aggiungere nuovi prodotti senza dover modificare l'algoritmo.
 L'albero in questione è osservabile in figura~\ref{fig:Albero di scelta prodotto}.
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/AlberoScelta.png}
     \caption{Albero di scelta prodotto}\label{fig:Albero di scelta prodotto}
@@ -59,7 +59,7 @@ La realizzazione lato database è stata possibie introducendo due
 nuove tabelle, una per le regole ed una di lookup per gli operatori logici.
 La struttura dinamica del database, impletata nelle prime fasi, ha permesso l'implementazione in modo agile.
 Di seguito nella figura~\ref{fig:ER configuratore} è possibile il modello \ac{ER} del modulo di configurazione prodotto.
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/ER_Configuratore.png}
     \caption{Modello ER configuratore}\label{fig:ER configuratore}
@@ -68,7 +68,7 @@ Di seguito nella figura~\ref{fig:ER configuratore} è possibile il modello \ac{E
 Le intefacce lato utente ed amministratore sono profondamente diverse, in quanto per dare 
 all'untente una esperienza di configurazione semplice e guidata, 
 la complessità è stata spostata lato amministratore.
-\subsection{Lato Utente}
+\subsection{Lato utente}
 L'esperienza di configurazione lato uetnte è stata realizzato dopo
 un focus group con alcuni utenti, in cui si è cercato di capire quale potesse essere
 il flusso di lavoro più semplice e intuitivo.
@@ -76,14 +76,40 @@ Si è deciso di proporre le scelte successive solo dopo aver effettuato la scelt
  in modo da guidare l'utente.
  Si è partito dai concetti generali, come lo scopo del prodotto, fino ad arrivare al modello specifico da configurare.
  Nella figura~\ref{fig:Interfaccia lato utente} è possibile osservare l'interfaccia grafica lato utente.
- \begin{figure}
+ \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/ConfigurazioneLatoUtente.png}
     \caption{Configurazione lato utente}\label{fig:Configurazione lato utente}
  \end{figure}
- Il risulatto finale è visibile nella figura~\ref{fig:Risultato configurazione lato utente} sottostante.
-  \begin{figure}
+ Il risultato finale è visibile nella figura~\ref{fig:Risultato configurazione lato utente} sottostante.
+  \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/RisultatoConfigurazione.png}
     \caption{Risultato configurazione lato utente}\label{fig:Risultato configurazione lato utente}
  \end{figure}
+ Al termine il codice generato o raccolto dal database viene aggiunto ai prodotti dell'offerta,
+  e l'utente può proseguire con la creazione dell'offerta.
+\subsection{Lato amministratore}
+La creazione delle configurazioni passa dalla composizione dei macrogruppi.
+Dopo aver compilato con i compoenenti, a questo punto ad ognuno di essi possono venire assegnate una o più
+regole.
+L'assegnazione avviene aggiungenedo la proprietà di riferimento, l'operatore logico e il valore che deve
+ essere rispettato per rendere disponibile il componente.
+ Di seguito l'interfaccia di aggiunta delle regole ad un componente,
+  visibile in figura~\ref{fig:Interfaccia lato amministratore}.
+  Si può notare a detra la scelta delle proprietà mediante filtri, e a sinistra la lista delle
+  regole già assegnate al componente.
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/AggiuntaRegole.png}
+    \caption{Aggiunta regole}\label{fig:Aggiunta regole lato amministratore}
+  \end{figure}
+  Dal focus gruop con gli utenti che potrebbero gestire la crezione è emerso come
+  il testare le regole sia un aspetto fondamentale, in quanto permette di capire se le regole inserite
+  sono corrette e se il flusso di configurazione è coerente.
+  Si è quindi creata un'interfaccia di test delle regole, visibile in figura~\ref{fig:Test regole lato amministratore}.
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/TestConfigurazione.png}
+    \caption{Test regole lato amministratore}\label{fig:Test regole lato amministratore}
+    \end{figure}
