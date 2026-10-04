@@ -35,7 +35,7 @@ Il database locale, in SQLite, è strutturato come una copia del database centra
 I dati vengono sincronizzati tra i due database mediante un processo di sincronizzazione.
 In assenza di connessione, verificabile tramite ping, si accede al database locale e,
 una volta ristabilita la connessione, i dati vengono sincronizzati.
-Il diagramma dei deployment è riassunto in figura~\ref{fig:Diagramma dei Deployment}.
+Il diagramma dei deployment è riassunto in figura~\ref{fig:Diagramma dei deployment}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/Deployment.png}
@@ -84,7 +84,7 @@ Questo package permette di scrivere le interfacce grafiche in codice \csharp{} M
 evitando quindi l'utilizzo del linguaggio \xaml\cite{XAML}, standard di sviluppo per le interfacce MAUI.
 
 \subsection{Modulo Main e View}
-Il package principale del progetto è quello dedicato all'orchestrazione dei componenti
+Il package principale del progetto è dedicato all'orchestrazione dei componenti
 e alla gestione dei flussi di lavoro.
 Il package, denominato ``ConfiguratoreCommerciale'', ha numerosi compiti,
 tra cui la gestione della Dependency Injection, la creazione delle view e dei rispettivi ViewModel.
@@ -104,7 +104,7 @@ Un esempio di tale condizione è il seguente:
     // codice per piattaforma Windows
 #endif
 \end{lstlisting}
-Questa possibilità permette anche di eseguire parti di codice solo in fase di DEBUG.
+Questa possibilità permette anche di eseguire parti di codice solo in fase di DEBUG.\
 Gli aspetti generali gestiti dal package possono essere riassunti come segue:
 \begin{itemize}
     \item Creazione delle interfacce grafiche.
@@ -115,7 +115,7 @@ Gli aspetti generali gestiti dal package possono essere riassunti come segue:
     \item Gestione della navigazione tra le interfacce grafiche.
     \item Gestione dei permessi, mostrando solo i comandi che competono al ruolo dell'utente.
     \item Gestione della Dependency Injection mediante la classe MauiProgram.cs.
-    \item Creazione, in fase di avvio, di una cache in RAM di dati immutabili durante la sessione, come tabelle di lookup.
+    \item Creazione, in fase di avvio, di una cache in \ac{RAM} di dati immutabili durante la sessione, come tabelle di lookup.
 \end{itemize}
 Il diagramma dei package è riassunto in figura~\ref{fig:Diagramma dei package}.
 \begin{figure}[H]
