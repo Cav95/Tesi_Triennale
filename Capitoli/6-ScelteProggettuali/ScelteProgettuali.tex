@@ -1,24 +1,29 @@
 \chapter{Scelte progettuali}\label{chap:ScelteProgettuali}
 \section{Scelta modello di sviluppo}
-Il modello di sviluppo scelto è basato sulla necessità di prototipare e testare con gli utenti le funzioni
-nell'arco dell'intero sviluppo.
+Il modello di sviluppo scelto è basato sulla necessità di prototipare e testare 
+con gli utenti le funzioni nell'arco dell'intero sviluppo.
 Si è quindi deciso di adottare un modello agile,
 supportato dalla creazione di test delle funzioni e dei prototipi delle interfacce.
 La progettazione è stata iterativa e incrementale, seguendo i canoni dell'agilità.
-Tutti i metodi di interazione col database sono stati testati da appositi Unit Test che ne validassero il comportamento.
-I test di regressione hanno permesso di validare le modifiche apportate al database e di conseguenza al software.
-Le interfacce grafiche, al contrario, non sono state supportate da test, ma prototipate e validate da utenti scelti.
+Tutti i metodi di interazione col database sono stati testati da appositi Unit Test 
+che ne validassero il comportamento.
+I test di regressione hanno permesso di convalidare le modifiche apportate al database e di
+ conseguenza al software.
+Le interfacce grafiche, al contrario, non sono state supportate da test, ma prototipate e 
+approvate da utenti scelti.
 La rifattorizzazione del codice è stata affrontata con regolarità seguendo il principio \ac{DRY}.
 Nel seguire tale principio, si sono create più classi di Factory e classi di utilità
 che unificassero quanto più possibile il codice comune.
 
 \section{Suddivisione e contenuto dei rilasci}
 Le tempistiche dei rilasci sono state
-decise insieme al Project Management aziendale.
-Il collega mi ha supportato nella stima dei tempi di sviluppo e nella
-conversione del database esistente, guidandomi nelle tecniche professionali.
-Nel primo rilascio, si è scelto di includere tutti i requisiti già presenti nel precedente applicativo.
-In tale rilascio, con consegna stimata per gennaio 2027, sono presenti le seguenti funzionalità:
+decise insieme al Project Manager aziendale.
+Il collega è stato di supporto nella stima dei tempi di sviluppo e nella
+conversione del database esistente, guidando lo sviluppo attraverso le tecniche professionali.
+Nel primo rilascio, si è scelto di includere tutti i requisiti già 
+presenti nel precedente applicativo.
+In tale rilascio, con consegna stimata per gennaio 2027, sono presenti le 
+seguenti funzionalità:
 \begin{itemize}
     \item gestione utenti e permessi;
     \item anagrafica clienti;
@@ -37,27 +42,27 @@ La funzionalità offline verrà implementata nel secondo rilascio.
 Questa fase avverrà una volta che il software sarà in produzione, per poter contare su un database pressoché stabile.
 Nel secondo rilascio saranno quindi presenti:
 \begin{itemize}
-    \item Gestione revisione tecnica e differenze con contratto firmato.
-    \item Inserimento di calcoli automatici sulla base delle caratteristiche del venduto (es.\ potenza elettrica totale assorbita).
-    \item Gestione multi-valuta per ordini internazionali.
-    \item Apertura dei disegni \pdf{} dal server del \ac{PLM}.
-    \item Report avanzati.
-    \item Implementazione database locale con logiche di sincronizzazione.
+    \item gestione revisione tecnica e differenze con contratto firmato;
+    \item inserimento di calcoli automatici sulla base delle caratteristiche del venduto (es.\ potenza elettrica totale assorbita);
+    \item gestione multi-valuta per ordini internazionali;
+    \item apertura dei disegni \pdf{} dal server del \ac{PLM};
+    \item report avanzati;
+    \item implementazione database locale con logiche di sincronizzazione.
 \end{itemize}
 
-\section{Scelta Framework ORM}
-All'interno della sezione sull'architettura ho citato la scelta del framework \ac{EF Core}~\ref{chapter:architettura}.
+\section{Scelta framework ORM}
+All'interno della sezione sull'architettura, è stata citato la scelta del framework \ac{EF Core}~\ref{chapter:architettura}.
 Questo framework ha permesso di mappare le tabelle del database in classi mediante la tecnica \ac{ORM}.
-Questa tecnica consiste nel mappare ogni tabella del database in una classe che ne rappresenta l'entità.
+Questa tecnica consiste nel mappare ogni tabella del database in una classe che ne rappresenti l'entità.
 I legami tra le entità sono gestiti mediante la classe \texttt{Context}.
-L'\ac{ORM} ha permesso, mediante script PowerShell e connessione al database,
+L'\ac{ORM} ha permesso, con l'utilizzo di script PowerShell,
 di ricreare in modo rapido tutte le entity e il context a fronte di cambiamenti del database.
 Tale approccio può essere definito database-first, in quanto la progettazione avviene principalmente sul database
 e il software ne eredita le modifiche.
-Le query sono state scritte tramite le funzioni \ac{LINQ}, che hanno permesso di formularle in linguaggio \csharp{}.
+Le queries sono state scritte tramite le funzioni \ac{LINQ}, che hanno permesso di formularle in linguaggio \csharp{}.
 \lstinputlisting[language=CSharp, caption={Esempio di query LINQ}]{listings/LINQ-example.cs}
 
-In ottica di offline, le query in \ac{LINQ} sono compatibili con il database locale SQLite se si limitano
+In ottica di offline, le queries in \ac{LINQ} sono compatibili con il database locale \sqlite{} se si limitano
 le funzioni utilizzate a quelle supportate da esso.
 Le funzioni compatibili sono ad esempio: \textit{Where, Select, OrderBy, GroupBy, Join, Distinct}.
 
@@ -66,26 +71,25 @@ Lo svantaggio è dovuto alla traduzione del codice in query compatibili con SQL.
 Si è valutato però, in caso si presentino problemi di performance, 
 di ottimizzare il database mediante indici in prima battuta
 e, successivamente, ottimizzando le singole query.
-\ac{EF Core} permette di ottimizzare le query scrivendole in SQL puro, 
-bypassando la traduzione in \ac{LINQ}.
+\ac{EF Core} permette di ottimizzare le queries scrivendole in SQL puro, 
+bypassando la traduzione da \ac{LINQ}.
 
-\section{Scelta Framework grafico}
-Il framework grafico scelto doveva soddisfare il requisito della portabilità e dell'offline.
+\section{Scelta del framework grafico}
+Il framework grafico scelto aveva come obiettivo soddisfare il requisito della portabilità e dell'offline.
 Le scelte vagliate sono state:
 \begin{itemize}
-    \item Front-end web-based, con l'utilizzo di HTML, CSS e JavaScript e interrogazione del database centrale mediante \ac{API}.
-    \item Utilizzo del framework \maui{}, nativamente cross-platform e integrato perfettamente con il backend.
+    \item frontend web based, con l'utilizzo di HTML, CSS e JavaScript e interrogazione del database centrale mediante \ac{API};
+    \item utilizzo del framework \maui{}, nativamente cross-platform e integrato perfettamente con il backend.
 \end{itemize}
-L'interfaccia web, utile per avere viste che si adattano a dispositivi diversi,
-presentava tuttavia alcune criticità.
+L'opzione web based, con interfacce facilmente adattabili a qualsiasi dispositivo,
+ ha presentato due svantaggi principali.
 La difficoltà principale risiedeva nell'utilizzo in assenza di connessione.
 In questo scenario, per funzionare, richiedeva che i file e il database fossero presenti sul dispositivo.
 Questa caratteristica rende difficoltoso gestire gli aggiornamenti.
 Il secondo motivo, non trascurabile per le tempistiche,
 è l'utilizzo di più linguaggi di programmazione.
-L'utilizzo di più linguaggi di programmazione
-non massimizza l'esperienza acquisita con l'implementazione degli altri moduli.
-Il framework MAUI di \dotnet{} sopperisce a entrambi i problemi.
+Quest'ultimonon massimizza l'esperienza acquisita con l'implementazione degli altri moduli.
+Il framework \maui{} di \dotnet{} sopperisce a entrambi i problemi.
 Il programma è fisicamente installato sui dispositivi e il loro aggiornamento
 può essere gestito centralmente all'interno di uno store Microsoft.
 Essendo basato su \dotnet{} e avvalendosi del framework ``Community Toolkit Maui'',
