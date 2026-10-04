@@ -5,19 +5,20 @@ nell'arco dell'intero sviluppo.
 Si è quindi deciso di adottare un modello agile,
 supportato dalla creazione di test delle funzioni e dei prototipi delle interfacce.
 La progettazione è stata iterativa e incrementale, seguendo i canoni dell'agilità.
-Tutti i metodi di interazione col database, sono stati testati da appositi Unit Test che ne validassero il comportamento.
-I test di regressione hanno permesso di validare le modifiche apportate al database, e di conseguenza al software.
+Tutti i metodi di interazione col database sono stati testati da appositi Unit Test che ne validassero il comportamento.
+I test di regressione hanno permesso di validare le modifiche apportate al database e di conseguenza al software.
 Le interfacce grafiche, al contrario, non sono state supportate da test, ma prototipate e validate da utenti scelti.
 La rifattorizzazione del codice è stata affrontata con regolarità seguendo il principio \ac{DRY}.
-Nel seguire tale il principio, si sono create più classi  di Factory e classi di utilità
+Nel seguire tale principio, si sono create più classi di Factory e classi di utilità
 che unificassero quanto più possibile il codice comune.
+
 \section{Suddivisione e contenuto dei rilasci}
-Le tempististiche dei rilasci sono state
+Le tempistiche dei rilasci sono state
 decise insieme al Project Management aziendale.
 Il collega mi ha supportato nella stima dei tempi di sviluppo e nella
-conversione del database esistente, guidandomi alle tecniche professionali.
-Nel primo rilascio, si è scelto di includere tutti i requisiti già presenti nel precedete applicativo.
-Tale rilascio, con consegna stimata gennaio 2027, sono presenti le seguenti funzionalità:
+conversione del database esistente, guidandomi nelle tecniche professionali.
+Nel primo rilascio, si è scelto di includere tutti i requisiti già presenti nel precedente applicativo.
+In tale rilascio, con consegna stimata per gennaio 2027, sono presenti le seguenti funzionalità:
 \begin{itemize}
     \item Gestione utenti e permessi.
     \item Anagrafica clienti.
@@ -26,84 +27,86 @@ Tale rilascio, con consegna stimata gennaio 2027, sono presenti le seguenti funz
     \item Creazione ordini.
     \item Import ed export dati, da e verso altri database.
     \item Creazione reportistica.
-    \item Gestione multiligua interfaccia applicativa.
+    \item Gestione multilingua dell'interfaccia applicativa.
     \item Prototipo mobile.
     \item Modulo di configurazione prodotto.
 \end{itemize}
 Si è scelto di non includere la funzionalità offline,
 in quanto essa necessita di un database centrale stabile.
 La funzionalità offline verrà implementata nel secondo rilascio.
-Questa fase avverrà una volta che il software sarà in produzione, per poter contare con un database pressochè stabile.
-Nel secondo rilascio saranno presenti quindi:
+Questa fase avverrà una volta che il software sarà in produzione, per poter contare su un database pressoché stabile.
+Nel secondo rilascio saranno quindi presenti:
 \begin{itemize}
     \item Gestione revisione tecnica e differenze con contratto firmato.
-    \item Inserimento calcoli automatici sulla base delle caratteristiche del venduto (ES:potenza elettrica totale assorbita).
+    \item Inserimento di calcoli automatici sulla base delle caratteristiche del venduto (es. potenza elettrica totale assorbita).
     \item Gestione multi-valuta per ordini internazionali.
-    \item Apertura disegni \pdf{} dal server del \ac{PLM}.
+    \item Apertura dei disegni \pdf{} dal server del \ac{PLM}.
     \item Report avanzati.
     \item Implementazione database locale con logiche di sincronizzazione.
 \end{itemize}
+
 \section{Scelta Framework ORM}
-All'interno della sezione sull'architettura ho citato la scelta del framework \ac{EF Core}.\ref{chapter:architettura}
+All'interno della sezione sull'architettura ho citato la scelta del framework \ac{EF Core}~\ref{chapter:architettura}.
 Questo framework ha permesso di mappare le tabelle del database in classi mediante la tecnica \ac{ORM}.
 Questa tecnica consiste nel mappare ogni tabella del database in una classe che ne rappresenta l'entità.
 I legami tra le entità sono gestiti mediante la classe \texttt{Context}.
-\ac{ORM} ha permesso, mediante script powershell e connessione al database,
-di ricreare in modo rapido tutte le entity, ed il context, a fronte di cambiamenti del database.
-Tale approccio può essere definito database first, in quanto la progettazione avviene principalmente sul database,
-ed il software ne eredita le modifiche.
-Le query sono state scritte tramite le funzioni \ac{LINQ} che hanno permesso di scriverle in linguaggio \csharp{}.
+L'\ac{ORM} ha permesso, mediante script PowerShell e connessione al database,
+di ricreare in modo rapido tutte le entity e il context a fronte di cambiamenti del database.
+Tale approccio può essere definito database-first, in quanto la progettazione avviene principalmente sul database
+e il software ne eredita le modifiche.
+Le query sono state scritte tramite le funzioni \ac{LINQ}, che hanno permesso di formularle in linguaggio \csharp{}.
 \lstinputlisting[language=CSharp, caption={Esempio di query LINQ}]{listings/LINQ-example.cs}
 
-In ottica di Offline le query in \ac{LINQ}, sono compatibili con il database locale SQLite se si limitano
+In ottica di offline, le query in \ac{LINQ} sono compatibili con il database locale SQLite se si limitano
 le funzioni utilizzate a quelle supportate da esso.
 Le funzioni compatibili sono ad esempio: \textit{Where, Select, OrderBy, GroupBy, Join, Distinct}.
 
-Uno degli aspetti negativi di \ac{LINQ} è la lentezza in grandi volumi di dati.
+Uno degli aspetti negativi di \ac{LINQ} è la lentezza con grandi volumi di dati.
 Lo svantaggio è dovuto alla traduzione del codice in query compatibili con SQL.
 Si è valutato però, in caso si presentino problemi di performance, 
-di ottimizare il database mediante indici in prima battuta
-e successivamente ottimizzando le singole query.
+di ottimizzare il database mediante indici in prima battuta
+e, successivamente, ottimizzando le singole query.
 \ac{EF Core} permette di ottimizzare le query scrivendole in SQL puro, 
 bypassando la traduzione in \ac{LINQ}.
 
-\section{Scelta Framework grafico} % MAUI .NET
-Il framework grafico scelto doveva soddisfare il requisito della portabiltà e dell'offline.
+\section{Scelta Framework grafico}
+Il framework grafico scelto doveva soddisfare il requisito della portabilità e dell'offline.
 Le scelte vagliate sono state:
 \begin{itemize}
-    \item Front end web based, con utilizzo di htlm, css, javascript e mediante \ac{API} interrogare il database centrale.
-    \item Utilizzo del Framework MAUI, nativamemente cross-platform ed integrato perfettamente con Backend.
+    \item Front-end web-based, con l'utilizzo di HTML, CSS e JavaScript e interrogazione del database centrale mediante \ac{API}.
+    \item Utilizzo del framework MAUI, nativamente cross-platform e integrato perfettamente con il backend.
 \end{itemize}
-L'interfaccia web, utile per avere view che si addattano a dispositivi diversi,
-presentavano delle criticità.
+L'interfaccia web, utile per avere viste che si adattano a dispositivi diversi,
+presentava tuttavia alcune criticità.
 La difficoltà principale risiedeva nell'utilizzo in assenza di connessione.
-In questo scenario, per funzionare, richiedeva che i file ed il database fossero presenti sul dispositivo.
-Questa caratterista rende difficoltoso gestire gli aggiornamenti.
+In questo scenario, per funzionare, richiedeva che i file e il database fossero presenti sul dispositivo.
+Questa caratteristica rende difficoltoso gestire gli aggiornamenti.
 Il secondo motivo, non trascurabile per le tempistiche,
- è l'utilizzo di più linguaggi di programmazione.
- L'utilizzo di più linguaggi di programmazione
- non massimizzano l'esperienza acquisita con l'implementazione degli altri moduli.
-Il framework MAUI di \dotnet sopperisce ad entrambi i problemi.
-Il programma è fisicamente installato sui dispositivi ed il loro aggiornamneto
-può essere gestito centralmente all'intreno di uno store Microsoft.
-Essendo esso in base \dotnet e, mediante il framework ``Comunity Toolkit Maui'',
- le interfacce sono scritti in base \csharp.
-\section{Scelta del pattern di progettazione} % MVVM
-Insieme all'utilizzo di \texttt{MAUI} è suggerito, da Microsoft, l'utilizzo del pattern \ac{MVVM}.
+è l'utilizzo di più linguaggi di programmazione.
+L'utilizzo di più linguaggi di programmazione
+non massimizza l'esperienza acquisita con l'implementazione degli altri moduli.
+Il framework MAUI di \dotnet sopperisce a entrambi i problemi.
+Il programma è fisicamente installato sui dispositivi e il loro aggiornamento
+può essere gestito centralmente all'interno di uno store Microsoft.
+Essendo basato su \dotnet e avvalendosi del framework ``Community Toolkit Maui'',
+le interfacce sono scritte in \csharp.
+
+\section{Scelta del pattern di progettazione}
+Insieme a \texttt{MAUI}, Microsoft suggerisce l'utilizzo del pattern \ac{MVVM}.
 Il modello \sc{MVVM} consente di separare in modo pulito le logiche
- di business e le relative interfaccia utente.
-La gestione separata risolvere numerosi problemi quali la possibilità di ridisegnare
- le interfacce utente senza dover modificare le classi che le governano.
-Un secondo vantaggio è la possibilità di consentire agli sviluppatori ed
- ai progettisti dell'interfaccia utente di collaborare
+di business e le relative interfacce utente.
+La gestione separata risolve numerosi problemi, quali la possibilità di ridisegnare
+le interfacce utente senza dover modificare le classi che le governano.
+Un secondo vantaggio è la possibilità di consentire agli sviluppatori e
+ai progettisti dell'interfaccia utente di collaborare
 più facilmente durante lo sviluppo delle rispettive parti di un'app.\cite{MVVM}
-Il modello \ac{MVVM} è composto da tre elementi fonamentali che interagiscono
- come in figura~\ref{fig:Diagramma funzionamento MVVM.}:
+Il modello \ac{MVVM} è composto da tre elementi fondamentali che interagiscono
+come in figura~\ref{fig:Diagramma funzionamento MVVM.}:
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/mvvm-pattern.png}
     \caption{Diagramma funzionamento MVVM}\label{fig:Diagramma funzionamento MVVM.}
 \end{figure}
-Questa modello, separando la logica della view da quella di bussiness,
-ha permesso di protitipare le interfacce nei primi rilasci e in futuro riprogettarle
-migliorando l'accessibilità e \ac{UX}.
+Questo modello, separando la logica della view da quella di business,
+ha permesso di prototipare le interfacce nei primi rilasci e in futuro riprogettarle
+migliorando l'accessibilità e l'\ac{UX}.
