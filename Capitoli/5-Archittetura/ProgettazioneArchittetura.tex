@@ -10,18 +10,18 @@ escudendo quindi soluzioni web based.
 La scelta è quindi ricaduta sulla piattaforma \dotnet\cite{DotNet} con linguaggio 
 \csharp che, in quanto dell'ecosistema Microsoft,
 è perfettamente integrata con i database prima citati.
-La piattaforma \dotnet è espansibile mediante l'utilizzo di package NuGet\cite{NuGet},
+La piattaforma \dotnet è espansibile mediante l'utilizzo di package \nuget\cite{NuGet},
 che permettono di aggiungere funzionalità al progetto. Tali pacchetti sono sviluppati sia da Microsoft che da terze parti,
 e vengono aggiornati e supportati continuamente. Questo aspetto è fondamentale per evitare debiti tecnici futuri.
 Un altro aspetto fondamentale è la scelta di un framework multipiattaforma,
 in quanto come requisito è stato richiesto che l'applicativo fosse eseguibile sia su desktop che su mobile.
 Secondo le linee guida Microsoft, per lo sviluppo di applicazioni multipiattaforma,
-è consigliato l'utilizzo del package NuGet \dotnet \texttt{MAUI}\cite{MAUI}.
+è consigliato l'utilizzo del package \nuget \dotnet \texttt{MAUI}\cite{MAUI}.
 Essendo dell'ecosistema \dotnet, MAUI è nativamente multipiattaforma nella costruzione delle view.
 In fase di compilazione, il codice sorgente viene convertito in codice nativo per la piattaforma di destinazione.
-Altra caratteristica fondamentale di MAUI è la possibilità di scrivere le interfacce grafiche in codice C\#,
-evitando quindi l'utilizzo del linguaggio XAML\cite{XAML}. Questo aspetto
-è stato reso possibile mediante pacchetto NuGet  ``Comunity Toolkit Maui''\cite{ComTolkit}.
+Altra caratteristica fondamentale di MAUI è la possibilità di scrivere le interfacce grafiche in codice \csharp.
+evitando quindi l'utilizzo del linguaggio \xaml\cite{XAML}. Questo aspetto
+è stato reso possibile mediante pacchetto \nuget  ``Comunity Toolkit Maui''\cite{ComTolkit}.
 \section{Deployment}
 La scelta degli ambienti di sviluppo prima citati, porta a dover considerare il deployment dell'applicativo.
 L'applicativo verrà installato in locale su ogni dispositivo, sia esso desktop o mobile,
@@ -68,7 +68,7 @@ ha il compito di gestire tutti gli aspetti legati a quest'ultimo, come:
 \end{itemize}
 Nella implementazione si è utilizzato il pacchetto NuGet \ac{EF Core}\cite{EFCore}.
 Questo modulo permette una gestione efficiente delle operazioni di accesso ai dati,
-consentendo di astrarre le query SQL in codice C\#.
+consentendo di astrarre le query SQL in codice \csharp.
 La mappatura delle entity in \ac{DTO}, proteggendo i dati, è stata realizzata mediante il package ``Mapster''\cite{Mapster},
 appartente a terze parti. La mappatuta entity-\ac{DTO} è stata realizzata in modo bidirezionale, in quanto in alcuni casi
 è necessario convertire un \ac{DTO} in entity per poterlo salvare nel database.
@@ -77,9 +77,9 @@ La creazione di interfacce grafiche è stata supportata dalla creazione di un pa
 che racchiude in sè factory di componenti, costanti e utilità.
 Il package, denominato ``ViewComponentLibrary'', è stato concepito a sé stante
 per favorire un suo impiego in implementazioni future, in quanto racchiude componenti generici e riutilizzabili.
-La libreria si appoggia a sua volta al package NutGet ``Comunity Toolkit Maui''\cite{ComTolkit}.
-Questo package permette di scrivere le interfacce grafiche in codice C\# Markup,
-evitando quindi l'utilizzo del linguaggio XAML\cite{XAML}, standard di sviluppo per le interfacce MAUI.@
+La libreria si appoggia a sua volta al package \nuget ``Comunity Toolkit Maui''\cite{ComTolkit}.
+Questo package permette di scrivere le interfacce grafiche in codice \csharp Markup,
+evitando quindi l'utilizzo del linguaggio \xaml\cite{XAML}, standard di sviluppo per le interfacce MAUI.
 \subsection{Modulo Main e View}
 Il package principale, ed il main del progetto, è quello dedicato all'orchestrazione dei componenti
 e alla gestione dei flussi di lavoro.
@@ -105,7 +105,7 @@ Questa possibilità permette, inoltre di eseguire parti di codice in solo in fas
 Gli aspetti generali gestiti possono essere riassunti in un elenco puntato, come segue:
 \begin{itemize}
     \item Creazione interfacce grafiche.
-    \item Traduzione a compile time della conversione di codice ``C\#'' in XAML.@
+    \item Traduzione a compile time della conversione di codice \csharp in \xaml.
     \item Traduzione a compile time in elementi nativi per la piattaforma di destinazione.
     \item Gestione delle interfacce mediante ViewModel,
           che a loro volta tramite observable modificano la view in risposta ad eventi.
