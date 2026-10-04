@@ -26,8 +26,8 @@ La scelta degli ambienti di sviluppo prima citati, porta a dover considerare il 
 Il software verrà installato in locale su ogni dispositivo, sia esso desktop o mobile,
 e si connetterà al database centrale.
 All'interno dell'azienda è presente un dominio \ac{AD}, dove ogni Oggetto del dominio ha un \ac{IP} statico.
-Con questa configurazione, la connessione al database, risiedente in un server all'interdo del dominio,
-è facilmente raggiungibile tramite \ac{IP} se si è all'interno della \ac{LAN}.
+Questa configurazione permette la connessione al database, risiedente in un server all'interno del dominio,
+in modo agile tramite \ac{IP}, se si è connessi all'interno della \ac{LAN}.
 Lo scambio di dati tra il frontend e il backend avviene mediante protocollo \ac{TCP/IP}.
 Si è valutato, per chi accede dall'esterno del dominio, di utilizzare la rete \ac{VPN},
 stabilendo una connessione virtuale che permette di essere all'interno della \ac{LAN}.
@@ -48,33 +48,36 @@ SQL Express condivide con SQL Server tutte le caratteristiche principali,
  con il database di produzione.
 
 \section{Package}
-La progettazione dell'applicativo ha portato a suddividerlo in tre Package con compiti ben distinti.
+L'intero software è stato suddiviso in tre distinti package, con resposabilità diverse.
+Si è cercato di seguire il principio \ac{DRY} e la riusabilità degli stessi.
 \subsection{Interfaccia al database}
 Il package di interfaccia al database, denominato ``DatabaseManagementPackage'',
 ha il compito di gestire tutti gli aspetti legati a quest'ultimo, come:
 \begin{itemize}
-    \item Gestire connesioni vari database, come SQLite e SQL Server o, nel caso dei test SQL Express.
+    \item Gestione connesioni ai vari database, come SQLite e SQL Server o, nel caso dei test SQL Express.
     \item Gestione delle transazioni.
     \item Gestione dei permessi utente, bloccando le operazioni non consentite.
     \item Conversione, medinte \ac{ORM}, delle tabelle database in entity.
     \item Mappare entity in file neutri, proteggendo il database.
-    \item Gestione di Repository per ogni entità, che espongono le operazioni CRUD.@
+    \item Gestione di Repository per ogni entità, che espongono le operazioni \ac{CRUD}.
     \item Gestione di una suite di test per verificare le operazioni precedenti.
           Questa suite è risultata fondamentale nell'evoluzione del database,
-          nel corso dell'implementazione ad ogni cambiamento si sono validati i risultati.
+          validando i cambiamenti apporatti al database.
     \item Esporre al di fuori del package solo file neutri e classe di manager del database.
 \end{itemize}
-Nella implementazione si è utilizzato il pacchetto NuGet \ac{EF Core}\cite{EFCore}.
+Nella implementazione si è utilizzato il pacchetto \nuget \ac{EF Core}\cite{EFCore}.
 Questo modulo permette una gestione efficiente delle operazioni di accesso ai dati,
-consentendo di astrarre le query SQL in codice \csharp{}.
-La mappatura delle entity in \ac{DTO}, proteggendo i dati, è stata realizzata mediante il package ``Mapster''\cite{Mapster},
-appartente a terze parti. La mappatuta entity-\ac{DTO} è stata realizzata in modo bidirezionale, in quanto in alcuni casi
+consentendo di astrarre le tabelle del database in classi di entity.
+Le entity sono state a loro volta mappate in \ac{DTO}, proteggendo i dati.
+Questa seconda mappatura è stata realizzata mediante il package ``Mapster''\cite{Mapster},
+appartente a terze parti. 
+La mappatuta entity-\ac{DTO} è stata realizzata in modo bidirezionale in quanto, in alcuni casi,
 è necessario convertire un \ac{DTO} in entity per poterlo salvare nel database.
 \subsection{Libreria di componenti View}
 La creazione di interfacce grafiche è stata supportata dalla creazione di un package dedicato,
 che racchiude in sè factory di componenti, costanti e utilità.
 Il package, denominato ``ViewComponentLibrary'', è stato concepito a sé stante
-per favorire un suo impiego in implementazioni future, in quanto racchiude componenti generici e riutilizzabili.
+per favorire un suo impiego in implementazioni future.
 La libreria si appoggia a sua volta al package \nuget{} ``Comunity Toolkit Maui''\cite{ComTolkit}.
 Questo package permette di scrivere le interfacce grafiche in codice \csharp{} Markup,
 evitando quindi l'utilizzo del linguaggio \xaml\cite{XAML}, standard di sviluppo per le interfacce MAUI.
@@ -87,10 +90,10 @@ In questo package risiedono infatti i ViewModel, che si interpongono tra le view
 esponendo i dati tramite ``Observable Properties''.
 Le Dependency Injection invece permettono di iniettare
 le dipendenze necessarie alle classi, come ad esempio i repository, classi di Logging o le view stesse se registrate.
-Le classi di view, prendendo i componenti dalla libreria prima costruita,
-vengono reaizzate qui all'interno differenziando l'uso di un componente o un altro in base al dispositivo.
-Questo aspetto è permesso dall'utilizzo di condizioni di compilazione,
-che permettono di distinguere il codice da compilare in base alla piattaforma di destinazione.
+Le classi di view, utilizzando i componenti della libreria,
+vengono realizzate tenendo conto del dispositivo di destinazione.
+La differenziazione è permessa dall'utilizzo di compilazione condizionale,
+distinguendo il codice da compilare in base alla piattaforma di destinazione.
 Un esempio di tale condizione è il seguente:
 \begin{lstlisting}[language=CSharp]
 #if ANDROID
@@ -99,8 +102,8 @@ Un esempio di tale condizione è il seguente:
     // codice per piattaforma Windows
 #endif
 \end{lstlisting}
-Questa possibilità permette, inoltre di eseguire parti di codice in solo in fase di DEBUG.@
-Gli aspetti generali gestiti possono essere riassunti in un elenco puntato, come segue:
+Questa possibilità permette anche di eseguire parti di codice in solo in fase di DEBUG.
+Gli aspetti generali gestiti dal package possono essere riassunti come segue:
 \begin{itemize}
     \item Creazione interfacce grafiche.
     \item Traduzione a compile time della conversione di codice \csharp{} in \xaml{}.
@@ -119,12 +122,13 @@ Il diagramma dei package è riassunto in figura~\ref{fig:Diagramma dei package}.
     \caption{Diagramma dei package}\label{fig:Diagramma dei package}
 \end{figure}
 \section{Flussi di lavoro}
-Osservando i requisiti si sono osservate delle problematiche relative all'attuale flusso aziendale del contratto.
+I flussi di lavoro citati nella figura\ref{fig:Flusso di un contratto} sono risulati complessi e poco efficienti.
 Si è quindi studiato di inserire una revisione tecnica, da parte di un utente specializzato,
- del venduto.\ref{fig:Nuovo diagramma degli stati di un contratto.}
-Tale inserimento semplifica i flussi e facilita i reparti successivi.
-È fondamentale determinare tali flussi nel progettare gli automatismi
-a cui sono soggette le notifiche intra reparto.
+ degli impianti venduti.
+ Il nuovo diagramma, in figura\ref{fig:Nuovo diagramma degli stati di un contratto.}, mostra
+ un flusso più lineare che porta a valle meno errori.
+Determinare i nuovi flussi lavorativi è fondamentale per progettare gli automatismi
+a cui sono soggette le notifiche intra-reparto.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/New Order flow.png}
