@@ -9,7 +9,7 @@ Tutte le nuove funzioni implementate sul database sono state testate da apposite
 Tali test di regressione sono stati fondamentali per validare le modifiche al database,
 in quanto esso è stato soggetto a continue modifiche di perfezionamento.
 Le interfacce grafiche, al contrario, non sono state supportate da test, ma prototipate e validate da utenti scelti.
-La rifattorizzazione del codice è stata affrontata con regolarità seguendo il principio\ac{DRY}.
+La rifattorizzazione del codice è stata affrontata con regolarità seguendo il principio \ac{DRY}.
 Nel seguire il principio, si sono create più factory  e classi di utilità
 che unificassero quanto più possibile il codice comune.
 \section{Suddivisione e contenuto dei rilasci}
@@ -39,7 +39,7 @@ Nel secondo rilascio saranno presenti quindi:
     \item Gestione revisione tecnica e differenze con contratto firmato.
     \item Inserimento calcoli automatici sulla base delle caratteristiche del venduto (ES:potenza elettrica totale assorbita).
     \item Gestione multi-valuta per ordini internazionali.
-    \item Apertura disegni @.pdf dal server del \ac{PLM}.
+    \item Apertura disegni \pdf dal server del \ac{PLM}.
     \item Report avanzati.
     \item Implementazione database locale con logiche di sincronizzazione.
 \end{itemize}
@@ -79,21 +79,23 @@ In assenza di connessione tutti i file ed il database locale devono essere prese
 Questa caratterista rende difficoltoso gestire gli aggiornamenti.
 Il secondo motivo è l'utilizzo di più linguaggi di programmazione che non massimizzano l'esperienza acquisita con altri moduli.
 In ottica di ridurre la tempistica nell'avere un primo test con gli utenti essa era considerata un malus.
-Il framework MAUI di @.NET sopperisce ad entrambi i problemi.
+Il framework MAUI di \dotnet sopperisce ad entrambi i problemi.
 Il programma è fisicamente installato sui dispositivi ed il loro aggiornamneto
 può essere gestito centralmente  all'intreno di uno store Microsoft.
-Essendo esso in base @.NET e, mediante il framework ``Comunity Toolkit Maui'', le interfacce sono scritti in base ``C\#''.
+Essendo esso in base \dotnet e, mediante il framework ``Comunity Toolkit Maui'',
+ le interfacce sono scritti in base \csharp.
 \section{Scelta del pattern di progettazione} % MVVM
 Insieme all'utilizzo di MAUI è suggerito da Microsoft il pattern \ac{MVVM}.
-Il modello MVVM consente di separare in modo pulito la logica di business e presentazione
+Il modello \sc{MVVM} consente di separare in modo pulito la logica di business e presentazione
 di un'applicazione dalla relativa interfaccia utente.
 La gestione di una separazione netta tra la logica dell'applicazione e
 l'interfaccia utente consente di risolvere numerosi problemi di sviluppo e semplifica il test,
 la gestione e l'evoluzione di un'applicazione. Può anche migliorare significativamente le opportunità
 di riutilizzo del codice e consente agli sviluppatori e ai progettisti dell'interfaccia utente di collaborare
 più facilmente durante lo sviluppo delle rispettive parti di un'app.\cite{MVVM}
-Il modello \ac{MVVM} è composto da tre elementi fonamentali che interagiscono come in figura~\ref{fig:Diagramma funzionamento MVVM.}:
-\begin{figure}[h]
+Il modello \ac{MVVM} è composto da tre elementi fonamentali che interagiscono
+ come in figura~\ref{fig:Diagramma funzionamento MVVM.}:
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/mvvm-pattern.png}
     \caption{Diagramma funzionamento MVVM}\label{fig:Diagramma funzionamento MVVM.}

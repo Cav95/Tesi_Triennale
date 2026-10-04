@@ -45,10 +45,14 @@ e per la gestione della sincronizzazione dei dati provenienti da altri database.
 La fase di studio dell'attuale database ha portato alla luce diverse ridondanze e dati non normalizzati.
 All'interno erano presenti più tabella con lo stesso contesto di utilizzo o tabelle non utilizzate.
 Si è quindi proceduto all'eliminazione di tali tabelle ed alla normalizzazione delle restanti in seconda forma normale.
-Un altra modifica sostanziale è stata l'unificazione di tabelle similari in una unica tabella, discriminate mediante campo tipo proveveniente da un lookup.
-Un esempio di questo contesto sono le tabelle \textit{Offerta} e \textit{Ordine}, dove una è la diretta evoluzione della precedente.
-Le due tabelle sono state unite sotto il cappello della tabella \textit{Documenti}, discriminata da un campo lookup che ne identifica il tipo.
-In queste tabelle in particolare era importante tenere traccia del legame Padre\-Figlio, si è aggiunto quindi un campo \text{doc\_documento_padre} che, mediante
+Un altra modifica sostanziale è stata l'unificazione di tabelle similari in una unica tabella,
+ discriminate mediante campo tipo proveveniente da un lookup.
+Un esempio di questo contesto sono le tabelle \textit{Offerta} e \textit{Ordine},
+ dove una è la diretta evoluzione della precedente.
+Le due tabelle sono state unite sotto il cappello della tabella \textit{Documenti}, 
+discriminata da un campo lookup che ne identifica il tipo.
+In queste tabelle in particolare era importante tenere traccia del legame Padre\-Figlio,
+ si è aggiunto quindi un campo \text{doc\_documento_padre} che, mediante
 chiave importata, permettessa mediante auto join di ricostruire il legame.
 Il metodo così pensato, in ottica di ampliamento, permette la gestione di ulteriori
 tipologie di documenti senza cambiare la struttura.
