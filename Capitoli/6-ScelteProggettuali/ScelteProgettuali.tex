@@ -20,16 +20,16 @@ conversione del database esistente, guidandomi nelle tecniche professionali.
 Nel primo rilascio, si è scelto di includere tutti i requisiti già presenti nel precedente applicativo.
 In tale rilascio, con consegna stimata per gennaio 2027, sono presenti le seguenti funzionalità:
 \begin{itemize}
-    \item Gestione utenti e permessi.
-    \item Anagrafica clienti.
-    \item Creazione delle offerte.
-    \item Versioning offerte.
-    \item Creazione ordini.
-    \item Import ed export dati, da e verso altri database.
-    \item Creazione reportistica.
-    \item Gestione multilingua dell'interfaccia applicativa.
-    \item Prototipo mobile.
-    \item Modulo di configurazione prodotto.
+    \item gestione utenti e permessi;
+    \item anagrafica clienti;
+    \item creazione delle offerte;
+    \item versioning offerte;
+    \item creazione ordini;
+    \item import ed export dati, da e verso altri database;
+    \item creazione reportistica;
+    \item gestione multilingua dell'interfaccia applicativa;
+    \item prototipo mobile;
+    \item modulo di configurazione prodotto.
 \end{itemize}
 Si è scelto di non includere la funzionalità offline,
 in quanto essa necessita di un database centrale stabile.
@@ -38,7 +38,7 @@ Questa fase avverrà una volta che il software sarà in produzione, per poter co
 Nel secondo rilascio saranno quindi presenti:
 \begin{itemize}
     \item Gestione revisione tecnica e differenze con contratto firmato.
-    \item Inserimento di calcoli automatici sulla base delle caratteristiche del venduto (es. potenza elettrica totale assorbita).
+    \item Inserimento di calcoli automatici sulla base delle caratteristiche del venduto (es.\ potenza elettrica totale assorbita).
     \item Gestione multi-valuta per ordini internazionali.
     \item Apertura dei disegni \pdf{} dal server del \ac{PLM}.
     \item Report avanzati.
@@ -62,7 +62,7 @@ le funzioni utilizzate a quelle supportate da esso.
 Le funzioni compatibili sono ad esempio: \textit{Where, Select, OrderBy, GroupBy, Join, Distinct}.
 
 Uno degli aspetti negativi di \ac{LINQ} è la lentezza con grandi volumi di dati.
-Lo svantaggio è dovuto alla traduzione del codice in query compatibili con SQL.
+Lo svantaggio è dovuto alla traduzione del codice in query compatibili con SQL.\
 Si è valutato però, in caso si presentino problemi di performance, 
 di ottimizzare il database mediante indici in prima battuta
 e, successivamente, ottimizzando le singole query.
@@ -74,7 +74,7 @@ Il framework grafico scelto doveva soddisfare il requisito della portabilità e 
 Le scelte vagliate sono state:
 \begin{itemize}
     \item Front-end web-based, con l'utilizzo di HTML, CSS e JavaScript e interrogazione del database centrale mediante \ac{API}.
-    \item Utilizzo del framework MAUI, nativamente cross-platform e integrato perfettamente con il backend.
+    \item Utilizzo del framework \maui{}, nativamente cross-platform e integrato perfettamente con il backend.
 \end{itemize}
 L'interfaccia web, utile per avere viste che si adattano a dispositivi diversi,
 presentava tuttavia alcune criticità.
@@ -92,7 +92,7 @@ Essendo basato su \dotnet{} e avvalendosi del framework ``Community Toolkit Maui
 le interfacce sono scritte in \csharp.
 
 \section{Scelta del pattern di progettazione}
-Insieme a \texttt{MAUI}, Microsoft suggerisce l'utilizzo del pattern \ac{MVVM}.
+Insieme a \maui{}, Microsoft suggerisce l'utilizzo del pattern \ac{MVVM}.
 Il modello \ac{MVVM} consente di separare in modo pulito le logiche
 di business e le relative interfacce utente.
 La gestione separata risolve numerosi problemi, quali la possibilità di ridisegnare

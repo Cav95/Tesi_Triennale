@@ -1,10 +1,12 @@
 \chapter{Progettazione dell'architettura}\label{chapter:architettura}
-\section{Preambolo sulle scelte architetturali}
+\section{Premessa sulle scelte architetturali}
 Le scelte architetturali sono dipese in primo luogo dall'infrastruttura aziendale,
-e successivamente dalle richieste durante gli incontri.
-L'utilizzo di SQLServer, come motore di database, è stato preso come base di tutte le scelte successive.
-Da questo caposaldo, si è proseguito con la ricerca di un framework che interagisse sia con SQLServer sia con SQLite.\cite{SQLite}.
-La necessità di operare offline ha guidato la ricerca di un sistema installabile in locale, escludendo così le soluzioni web-based.
+e successivamente dalle richieste degli utenti durante gli incontri.
+L'utilizzo di \sqlserver{}, come motore di database, è stato adottato come base di tutte le scelte successive.
+Da questo caposaldo, la ricerca si è indirizzata verso un framework che interagisse 
+sia con \sqlserver{} sia con SQLite.\cite{SQLite}.
+La necessità di operare offline ha guidato la ricerca di un sistema installabile in locale,
+ escludendo così le soluzioni web based.
 La scelta è quindi ricaduta sulla piattaforma \dotnet\cite{DotNet} con il linguaggio 
 \csharp{} che, in quanto parte dell'ecosistema Microsoft,
 è perfettamente integrata con i database prima citati.
@@ -13,27 +15,30 @@ che permette di aggiungere package e quindi funzionalità al progetto.
 I pacchetti sono sviluppati sia da Microsoft sia da terze parti,
 e vengono aggiornati e supportati continuamente.
 Questa manutenzione continua evita di incorrere in debiti tecnici futuri.
-L'ambiente \dotnet{} è nativamente multipiattaforma; questa proprietà soddisfa le necessità dei richiedenti.
+L'ambiente \dotnet{} è nativamente multipiattaforma
+ e questa proprietà soddisfa le necessità dei richiedenti.
 Secondo le linee guida Microsoft, per lo sviluppo delle view multipiattaforma,
-è consigliato l'utilizzo del package \nuget{} \dotnet{} \texttt{MAUI}\cite{MAUI}.
-In fase di compilazione, \texttt{MAUI} converte il codice sorgente in codice nativo per la piattaforma di destinazione.
-\texttt{MAUI}, integrato con il package \nuget{} ``Community Toolkit Maui''\cite{ComTolkit}, consente
+è consigliato l'utilizzo del package \nuget{} \dotnet{} \maui{}\cite{MAUI}.
+In fase di compilazione, \maui{} converte il codice sorgente in codice nativo per la piattaforma di destinazione.
+\maui{}, integrato con il package \nuget{} ``Community Toolkit Maui''\cite{ComTolkit}, consente
 di costruire le interfacce grafiche in codice \csharp.
-Nativamente \texttt{MAUI} supporta solo il linguaggio Markup \xaml\cite{XAML}.
+Nativamente \maui{} supporta solo il linguaggio Markup \xaml\cite{XAML}.
 
 \section{Deployment}
-La scelta degli ambienti di sviluppo precedentemente citati porta a dover considerare il deployment dell'applicativo.
+La scelta degli ambienti di sviluppo precedentemente citati porta 
+a dover considerare il deployment dell'applicativo.
 Il software verrà installato in locale su ogni dispositivo, sia esso desktop o mobile,
 e si connetterà al database centrale.
-All'interno dell'azienda è presente un dominio \ac{AD}, dove ogni oggetto del dominio ha un \ac{IP} statico.
+All'interno dell'azienda è presente un dominio \ac{AD}, dove ogni oggetto del 
+dominio ha un \ac{IP} statico.
 Questa configurazione permette la connessione al database, risiedente in un server all'interno del dominio,
 in modo agile tramite \ac{IP}, se si è connessi all'interno della \ac{LAN}.
 Lo scambio di dati tra il frontend e il backend avviene mediante protocollo \ac{TCP/IP}.
 Si è valutato, per chi accede dall'esterno del dominio, di utilizzare la rete \ac{VPN},
 stabilendo una connessione virtuale che permette di essere all'interno della \ac{LAN}.
 Il database locale, in SQLite, è strutturato come una copia del database centrale.
-I dati vengono sincronizzati tra i due database mediante un processo di sincronizzazione.
-In assenza di connessione, verificabile tramite ping, si accede al database locale e,
+I dati vengono allineati tra i due database mediante un processo di sincronizzazione.
+In assenza di connessione, verificabile tramite ping, si accede al database locale ed,
 una volta ristabilita la connessione, i dati vengono sincronizzati.
 Il diagramma dei deployment è riassunto in figura~\ref{fig:Diagramma dei deployment}.
 \begin{figure}[H]
@@ -42,9 +47,9 @@ Il diagramma dei deployment è riassunto in figura~\ref{fig:Diagramma dei deploy
     \caption{Diagramma dei deployment}\label{fig:Diagramma dei deployment}
 \end{figure}
 Nella fase di sviluppo, per testare la struttura del database,
-è stato scelto di utilizzare una versione di SQLServer locale, denominata SQL Express\cite{SQLExpress}.
-SQL Express condivide con SQL Server tutte le caratteristiche principali;
-questa proprietà ha permesso di costruire query e testare funzionalità localmente in modo compatibile
+è stato scelto di utilizzare una versione di \sqlserver{} locale, denominata SQL Express\cite{SQLExpress}.
+SQL Express condivide con \sqlserver{} tutte le caratteristiche principali.
+Questa proprietà ha permesso di costruire query e testare funzionalità localmente in modo compatibile
 con il database di produzione.
 
 \section{Package}
@@ -54,16 +59,16 @@ Si è cercato di seguire il principio \ac{DRY} e la riusabilità degli stessi.
 Il package di interfaccia al database, denominato ``DatabaseManagementPackage'',
 ha il compito di gestire tutti gli aspetti legati a quest'ultimo, come:
 \begin{itemize}
-    \item Gestione delle connessioni ai vari database, come SQLite e SQL Server o, nel caso dei test, SQL Express.
-    \item Gestione delle transazioni.
-    \item Gestione dei permessi utente, bloccando le operazioni non consentite.
-    \item Conversione, mediante \ac{ORM}, delle tabelle del database in entity.
-    \item Mappatura di entity in file neutri, proteggendo il database.
-    \item Gestione di Repository per ogni entità, che espongono le operazioni \ac{CRUD}.
-    \item Gestione di una suite di test per verificare le operazioni precedenti.
+    \item gestione delle connessioni ai vari database, come \sqlite{} e \sqlserver{} o nel caso dei test, SQL Express;
+    \item gestione delle transazioni;
+    \item gestione dei permessi utente, bloccando le operazioni non consentite;
+    \item conversione, mediante \ac{ORM}, delle tabelle del database in entity;
+    \item mappatura di entity in file neutri, proteggendo il database;
+    \item gestione di Repository per ogni entità, che espongono le operazioni \ac{CRUD};
+    \item gestione di una suite di test per verificare le operazioni precedenti.
           Questa suite è risultata fondamentale nell'evoluzione del database,
-          validando i cambiamenti apportati.
-    \item Esporre al di fuori del package solo file neutri e la classe manager del database.
+          validando i cambiamenti apportati;
+    \item esporre al di fuori del package solo file neutri e la classe manager del database.
 \end{itemize}
 Nell'implementazione si è utilizzato il pacchetto \nuget{} \ac{EF Core}\cite{EFCore}.
 Questo modulo permette una gestione efficiente delle operazioni di accesso ai dati,
@@ -74,18 +79,19 @@ appartenente a terze parti.
 La mappatura entity-\ac{DTO} è stata realizzata in modo bidirezionale in quanto, in alcuni casi,
 è necessario convertire un \ac{DTO} in entity per poterlo salvare nel database.
 
-\subsection{Libreria di componenti View}
+\subsection{Libreria di componenti view}
 La creazione di interfacce grafiche è stata supportata da un package dedicato,
 che racchiude in sé factory di componenti, costanti e utilità.
 Il package, denominato ``ViewComponentLibrary'', è stato concepito a sé stante
 per favorire un suo impiego in implementazioni future.
 La libreria si appoggia a sua volta al package \nuget{} ``Community Toolkit Maui''\cite{ComTolkit}.
 Questo package permette di scrivere le interfacce grafiche in codice \csharp{} Markup,
-evitando quindi l'utilizzo del linguaggio \xaml\cite{XAML}, standard di sviluppo per le interfacce MAUI.
+evitando quindi l'utilizzo del linguaggio \xaml\cite{XAML},
+ standard di sviluppo per le interfacce MAUI.\
 
-\subsection{Modulo Main e View}
-Il package principale del progetto è dedicato all'orchestrazione dei componenti
-e alla gestione dei flussi di lavoro.
+\subsection{Modulo main e view}
+Il package principale del progetto è dedicato alla gestione dei componenti
+e dei flussi di lavoro.
 Il package, denominato ``ConfiguratoreCommerciale'', ha numerosi compiti,
 tra cui la gestione della Dependency Injection, la creazione delle view e dei rispettivi ViewModel.
 In questo package risiedono infatti i ViewModel, che si interpongono tra le view e i repository,
@@ -94,7 +100,7 @@ La Dependency Injection, invece, permette di iniettare
 le dipendenze necessarie alle classi, come ad esempio i repository, le classi di logging o le view stesse se registrate.
 Le classi di view, utilizzando i componenti della libreria,
 vengono realizzate tenendo conto del dispositivo di destinazione.
-La differenziazione è permessa dall'utilizzo di compilazione condizionale,
+La differenziazione è permessa dall'utilizzo della compilazione condizionale,
 distinguendo il codice da compilare in base alla piattaforma di destinazione.
 Un esempio di tale condizione è il seguente:
 \begin{lstlisting}[language=CSharp]
@@ -107,15 +113,16 @@ Un esempio di tale condizione è il seguente:
 Questa possibilità permette anche di eseguire parti di codice solo in fase di DEBUG.\
 Gli aspetti generali gestiti dal package possono essere riassunti come segue:
 \begin{itemize}
-    \item Creazione delle interfacce grafiche.
-    \item Traduzione a compile time del codice \csharp{} in \xaml{}.
-    \item Traduzione a compile time in elementi nativi per la piattaforma di destinazione.
-    \item Gestione delle interfacce mediante ViewModel,
-          che a loro volta tramite proprietà osservabili modificano la view in risposta a eventi.
-    \item Gestione della navigazione tra le interfacce grafiche.
-    \item Gestione dei permessi, mostrando solo i comandi che competono al ruolo dell'utente.
-    \item Gestione della Dependency Injection mediante la classe MauiProgram.cs.
-    \item Creazione, in fase di avvio, di una cache in \ac{RAM} di dati immutabili durante la sessione, come tabelle di lookup.
+    \item creazione delle interfacce grafiche;
+    \item traduzione a compile time del codice \csharp{} in \xaml{};
+    \item traduzione a compile time in elementi nativi per la piattaforma di destinazione;
+    \item gestione delle interfacce mediante ViewModel,
+          che a loro volta tramite proprietà osservabili modificano la view in risposta ad eventi;
+    \item gestione della navigazione tra le interfacce grafiche;
+    \item gestione dei permessi, mostrando solo i comandi che competono al ruolo dell'utente;
+    \item gestione della Dependency Injection mediante la classe \textit{MauiProgram.cs};
+    \item creazione, in fase di avvio, di una cache in \ac{RAM} 
+    di dati immutabili durante la sessione, come tabelle di lookup.
 \end{itemize}
 Il diagramma dei package è riassunto in figura~\ref{fig:Diagramma dei package}.
 \begin{figure}[H]
