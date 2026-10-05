@@ -11,23 +11,23 @@ di configurare un prodotto, senza sapere a priori nè da quali regole sia govern
 \section{Algoritmo di configurazione}
 L'algoritmo implementato si suddivide in tre fasi principali:
 \begin{itemize}
-    \item \textbf{Fase di scelta del modello:} Mediante una scelta
+    \item \textbf{Fase di scelta del modello:} mediante una scelta
     a castata l'utente discende da concetti generali come scopo del compoenente alla tipologia di prodotto,
      fino ad arrivare al modello specifico da configurare.
      Questo modella ad albero guida l'utente.
-    \item \textbf{Fase di configurazione:} In questa fase vengono proposti all'utente delle
+    \item \textbf{Fase di configurazione:} in questa fase vengono proposti all'utente delle
     opzioni di configurazione per il modello scelto.
-    \item \textbf{Fase scelta componenti:} In base alle scelte prima
+    \item \textbf{Fase scelta componenti:} in base alle scelte prima
     all'utente vengono proposti i componenti disponibili per la configurazione del prodotto.
     Di questi è posibile in questa fase eliminare quelli non desiderati.
-    \item \textbf{Generazione codice:} Questa fase 
+    \item \textbf{Generazione codice:} questa fase 
     finale è la delicata dell'implementazione dell'algoritmo, in quanto in base ai codici scelti si hanno
     due alternativi:
     \begin{itemize}
-        \item \textbf{Configurazione esistente:} Si ricerca nel database se esiste già una configurazione
+        \item \textbf{Configurazione esistente:} si ricerca nel database se esiste già una configurazione
         di quel prodotto con i codici scelti.
          In caso positivo si propone all'utente di utilizzare quella configurazione.
-        \item \textbf{Configurazione inesistente:} In caso negativo, 
+        \item \textbf{Configurazione inesistente:} in caso negativo, 
         si genera un nuovo codice di configurazione per il prodotto, che viene salvato nel database.
     \end{itemize}
 \end{itemize}

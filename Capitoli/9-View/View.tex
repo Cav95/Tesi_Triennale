@@ -4,7 +4,7 @@ La prototipazione delle interfacce grafiche è stata realizzata mediante l'utili
 Figma è una web application che permette di disegnare interfacce grafiche, con la possibilità di creare prototipi interattivi.
 Un aspetto non secondario è la possibilità di esportare le interfacce sia in formato vettoriale che con codice \css.
 Questo aspetto, unito all'utilizzo di \ac{IA} generativa,ha permesso la conversione di interfacce grafiche in codice
- C\# Markup, con un notevole risparmio di tempo.
+ \csharp{} Markup, con un notevole risparmio di tempo.
  Si è scelto in un primo momento di prototipare solo le interfacce principali,
  quali la schermata di login, ricerca e dettagli di prodotti, clienti e preventivi.
  Cercandi di mantenere lo scopo progettuale rivolto alla cross-platform,
@@ -32,12 +32,12 @@ Questo aspetto, unito all'utilizzo di \ac{IA} generativa,ha permesso la conversi
   i metodi di creazione delle view, e permettendo di gestire le interfacce grafiche in un unico package.
   Le factory principali realizzate sono le seguenti:
 \begin{itemize}
-    \item \textbf{Colori:} Factory che espone i colori utilizzati nell'applicativo,
+    \item \textbf{Colori:} factory che espone i colori utilizzati nell'applicativo,
     permettendo di centralizzare la gestione dei colori.
-    \item \textbf{Componenti:} Factory che espone i componenti grafici, come bottoni, etichette e caselle di testo.
-    \item \textbf{Dimensioni:} Factory che espone le dimensioni dei componenti grafici, 
+    \item \textbf{Componenti:} factory che espone i componenti grafici, come bottoni, etichette e caselle di testo.
+    \item \textbf{Dimensioni:} factory che espone le dimensioni dei componenti grafici, 
     come larghezza e altezza tipica dei componenti.
-    \item \textbf{PopUp di notifica:} Factory che espone i metodi per la creazione di popup di notifica,
+    \item \textbf{PopUp di notifica:} factory che espone i metodi per la creazione di popup di notifica,
      come messaggi di errore o di conferma.
 \end{itemize}
 L'utilizzo centralizzato ha permesso inoltre un amplio riutilizzo dei componenti,
