@@ -2,27 +2,27 @@
 \section{Scopo del modulo}
 Il vero salto di qualità, rispetto all'attuale metodo di creazione delle offerte,
 è l'introduzione di un modulo di configurazione prodotto.
-Come ciatto nell'introsuzione\ref{chapter:introduction}, l'azienda ha un modello di bussiness
-di tipo \ac{ETO}. QUesto modello comporta la produzione di prodotti cuciti
-su misura per il ciente, utilizzando però compoennti stadardizzati.
-Si è docuto quindi cercare di realizzare una struttura ed un algoritmo che permettesse 
-di configurare un prodotto, senza sapere a priori nè da quali regole sia governato nè quali prodotti.
-è stato fondamentale anche lo studio di un sistema che guidasse l'utente alla scelta del modello da configurare.
+Come citato nell'introduzione~\ref{chapter:introduction}, l'azienda ha un modello di business
+di tipo \ac{ETO}. Questo modello comporta la produzione di prodotti realizzati
+su misura per il cliente, utilizzando però componenti standardizzati.
+Si è dovuto quindi cercare di realizzare una struttura e un algoritmo che permettessero
+di configurare un prodotto, senza sapere a priori né da quali regole sia governato né quali prodotti lo compongano.
+È stato fondamentale anche lo studio di un sistema che guidasse l'utente nella scelta del modello da configurare.
 \section{Algoritmo di configurazione}
 L'algoritmo implementato si suddivide in tre fasi principali:
 \begin{itemize}
     \item \textbf{Fase di scelta del modello:} mediante una scelta
-    a castata l'utente discende da concetti generali come scopo del compoenente alla tipologia di prodotto,
-     fino ad arrivare al modello specifico da configurare.
-     Questo modella ad albero guida l'utente.
+    a cascata l'utente discende da concetti generali, come lo scopo del componente, fino alla tipologia di prodotto,
+     per arrivare al modello specifico da configurare.
+     Questo modello ad albero guida l'utente.
     \item \textbf{Fase di configurazione:} in questa fase vengono proposti all'utente delle
     opzioni di configurazione per il modello scelto.
-    \item \textbf{Fase scelta componenti:} in base alle scelte prima
+    \item \textbf{Fase di scelta dei componenti:} in base alle scelte precedenti,
     all'utente vengono proposti i componenti disponibili per la configurazione del prodotto.
-    Di questi è posibile in questa fase eliminare quelli non desiderati.
+    In questa fase è possibile eliminare quelli non desiderati.
     \item \textbf{Generazione codice:} questa fase 
-    finale è la delicata dell'implementazione dell'algoritmo, in quanto in base ai codici scelti si hanno
-    due alternativi:
+    finale è la più delicata dell'implementazione dell'algoritmo, in quanto, in base ai codici scelti, si hanno
+    due alternative:
     \begin{itemize}
         \item \textbf{Configurazione esistente:} si ricerca nel database se esiste già una configurazione
         di quel prodotto con i codici scelti.
@@ -34,12 +34,12 @@ L'algoritmo implementato si suddivide in tre fasi principali:
 \subsection{Scelta macrogruppo da configurare}
 La realizzazione dell'albero di scelta è stata fatta sfruttando
 le tabelle già presenti nel database, in particolare le tabelle prodotto, prodotti\_composizioni e di lookup.
-Si sono atribuiti tre nuovi tipi di prodotto ovvero: iniziale, mappa e macrogruppo.
+Si sono attribuiti tre nuovi tipi di prodotto, ovvero: iniziale, mappa e macrogruppo.
 Il prodotto iniziale è la radice dell'albero, e rappresenta il concetto generale del prodotto.
 Si sono inseriti all'interno delle loro distinte i prodotti di tipo mappa, che rappresentano i concetti intermedi.
 Infine i prodotti di tipo macrogruppo rappresentano i prodotti finali, sono stati a loro volta inseriti
  nelle distinte dei prodotti di tipo mappa.
- Questa struttura permette la realizazione di un albero ampliamente scalabile,
+ Questa struttura permette la realizzazione di un albero ampiamente scalabile,
   in quanto è possibile aggiungere nuovi prodotti senza dover modificare l'algoritmo.
 L'albero in questione è osservabile in figura~\ref{fig:Albero di scelta prodotto}.
 \begin{figure}[H]
@@ -47,34 +47,34 @@ L'albero in questione è osservabile in figura~\ref{fig:Albero di scelta prodott
     \includegraphics[width=0.6\linewidth]{figures/AlberoScelta.png}
     \caption{Albero di scelta prodotto}\label{fig:Albero di scelta prodotto}
 \end{figure}
-\subsection{Implentazione regole}
+\subsection{Implementazione delle regole}
 I macrogruppi contengono al loro interno tutti i componenti possibili per la configurazione del prodotto.
-Ad ogni componente sono state associate n regole che, se valide, determinano la sua disponibilità nella configurazione.
-Ad ogni regola a sua volta è associata una proprità di riferimento, un operatore logico e un valore di riferimento.
+A ogni componente sono state associate n regole che, se valide, determinano la sua disponibilità nella configurazione.
+A ogni regola, a sua volta, è associata una proprietà di riferimento, un operatore logico e un valore di riferimento.
 L'interfaccia utente con le possibili domande di configurazione
 viene generata filtrando dinamicamente tutte le proprietà di riferimento delle regole, in base al macrogruppo scelto.
 In questo modo non si ha la necessità di conoscere a priori le regole che governano la configurazione del prodotto.
 In base alle scelte, come detto in precedenza, si propongono all'utente solo i componenti che rispettano le scelte effettuate.
-La realizzazione lato database è stata possibie introducendo due 
-nuove tabelle, una per le regole ed una di lookup per gli operatori logici.
-La struttura dinamica del database, impletata nelle prime fasi, ha permesso l'implementazione in modo agile.
-Di seguito nella figura~\ref{fig:ER configuratore} è possibile il modello \ac{ER} del modulo di configurazione prodotto.
+La realizzazione lato database è stata possibile introducendo due
+nuove tabelle, una per le regole e una di lookup per gli operatori logici.
+La struttura dinamica del database, implementata nelle prime fasi, ha permesso di realizzare l'implementazione in modo agile.
+Di seguito, nella figura~\ref{fig:ER configuratore}, è possibile osservare il modello \ac{ER} del modulo di configurazione prodotto.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/ER_Configuratore.png}
     \caption{Modello ER configuratore}\label{fig:ER configuratore}
 \end{figure}
 \section{Interfaccia grafica lato utente ed amministratore}
-Le intefacce lato utente ed amministratore sono profondamente diverse, in quanto per dare 
-all'untente una esperienza di configurazione semplice e guidata, 
+Le interfacce lato utente e amministratore sono profondamente diverse, in quanto, per offrire
+all'utente un'esperienza di configurazione semplice e guidata,
 la complessità è stata spostata lato amministratore.
 \subsection{Lato utente}
-L'esperienza di configurazione lato uetnte è stata realizzato dopo
+L'esperienza di configurazione lato utente è stata realizzata dopo
 un focus group con alcuni utenti, in cui si è cercato di capire quale potesse essere
 il flusso di lavoro più semplice e intuitivo.
 Si è deciso di proporre le scelte successive solo dopo aver effettuato la scelta precedente,
  in modo da guidare l'utente.
- Si è partito dai concetti generali, come lo scopo del prodotto, fino ad arrivare al modello specifico da configurare.
+ Si è partiti dai concetti generali, come lo scopo del prodotto, fino ad arrivare al modello specifico da configurare.
  Nella figura~\ref{fig:Interfaccia lato utente} è possibile osservare l'interfaccia grafica lato utente.
  \begin{figure}[H]
     \centering
@@ -91,21 +91,21 @@ Si è deciso di proporre le scelte successive solo dopo aver effettuato la scelt
   e l'utente può proseguire con la creazione dell'offerta.
 \subsection{Lato amministratore}
 La creazione delle configurazioni passa dalla composizione dei macrogruppi.
-Dopo aver compilato con i compoenenti, a questo punto ad ognuno di essi possono venire assegnate una o più
+Dopo aver compilato i componenti, a ognuno di essi possono essere assegnate una o più
 regole.
-L'assegnazione avviene aggiungenedo la proprietà di riferimento, l'operatore logico e il valore che deve
+L'assegnazione avviene aggiungendo la proprietà di riferimento, l'operatore logico e il valore che deve
  essere rispettato per rendere disponibile il componente.
  Di seguito l'interfaccia di aggiunta delle regole ad un componente,
   visibile in figura~\ref{fig:Interfaccia lato amministratore}.
-  Si può notare a detra la scelta delle proprietà mediante filtri, e a sinistra la lista delle
+  Si può notare a destra la scelta delle proprietà mediante filtri e a sinistra la lista delle
   regole già assegnate al componente.
   \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/AggiuntaRegole.png}
     \caption{Aggiunta regole}\label{fig:Aggiunta regole lato amministratore}
   \end{figure}
-  Dal focus gruop con gli utenti che potrebbero gestire la crezione è emerso come
-  il testare le regole sia un aspetto fondamentale, in quanto permette di capire se le regole inserite
+  Dal focus group con gli utenti che potrebbero gestire la creazione è emerso che
+  testare le regole è un aspetto fondamentale, in quanto permette di capire se le regole inserite
   sono corrette e se il flusso di configurazione è coerente.
   Si è quindi creata un'interfaccia di test delle regole, visibile in figura~\ref{fig:Test regole lato amministratore}.
   \begin{figure}[H]
