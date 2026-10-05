@@ -1,20 +1,20 @@
 \chapter{Creazione View}\label{chapter:View}
-\section{Utilizzo di Figma per disegno interfacce}
+\section{Utilizzo di Figma per il disegno delle interfacce}
 La prototipazione delle interfacce grafiche è stata realizzata mediante l'utilizzo del software Figma\cite{Figma}.
 Figma è una web application che permette di disegnare interfacce grafiche, con la possibilità di creare prototipi interattivi.
 Un aspetto non secondario è la possibilità di esportare le interfacce sia in formato vettoriale che con codice \css.
-Questo aspetto, unito all'utilizzo di \ac{IA} generativa,ha permesso la conversione di interfacce grafiche in codice
+Questo aspetto, unito all'utilizzo dell'\ac{IA} generativa, ha permesso la conversione di interfacce grafiche in codice
  \csharp{} Markup, con un notevole risparmio di tempo.
- Si è scelto in un primo momento di prototipare solo le interfacce principali,
- quali la schermata di login, ricerca e dettagli di prodotti, clienti e preventivi.
- Cercandi di mantenere lo scopo progettuale rivolto alla cross-platform,
+ Si è scelto, in un primo momento, di prototipare solo le interfacce principali,
+ quali le schermate di login, ricerca e dettaglio di prodotti, clienti e preventivi.
+ Cercando di mantenere l'obiettivo progettuale orientato al cross-platform,
   si è deciso di realizzare le interfacce in modo da essere responsive,
- e con un layout mobile first. Si è quindi cercato di inserire tutti comandi escludendo
- l'utilizzzo della tastiera e mouse, in quanto non sempre disponibili su dispositivi mobile.
+ e con un layout mobile first. Si è quindi cercato di inserire tutti i comandi, escludendo
+ l'utilizzo della tastiera e del mouse, in quanto non sempre disponibili sui dispositivi mobili.
  Sfruttando la compilazione condizionale, si è cercato di adattare le interfacce grafiche alle diverse piattaforme.
- Alcuni filtri sono ad esempio colassati in un menu a tendina su mobile, mentre su desktop sono sempre visibili.
- Nelle immagini che seguono si può osservare l'evoluzione dal prototipo in figura\ref{fig:Prototipo Home Figma}, 
- alla realizzazione finale delle interfacce grafiche in figura\ref{fig:Interfaccia Desktop & Mobile}.
+ Alcuni filtri sono, ad esempio, collassati in un menu a tendina sui dispositivi mobili, mentre su desktop sono sempre visibili.
+ Nelle immagini che seguono si può osservare l'evoluzione dal prototipo in figura~\ref{fig:Prototipo Home Figma},
+ alla realizzazione finale delle interfacce grafiche in figura~\ref{fig:Interfaccia Desktop & Mobile}.
  \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\linewidth]{figures/Figma.png}
@@ -26,22 +26,22 @@ Questo aspetto, unito all'utilizzo di \ac{IA} generativa,ha permesso la conversi
     \caption{Interfaccia Desktop & Mobile}\label{fig:Interfaccia Desktop & Mobile}
 \end{figure}
  \section{Creazione delle Factory per le View}
- Dalla versione prototipale, si è deciso fin dall'inizio di realizzare
+ A partire dalla versione prototipale, si è deciso fin dall'inizio di realizzare
   le interfacce grafiche mediante l'utilizzo del pattern Factory.
   Questo approccio ha permesso di astrarre la creazione delle interfacce grafiche, unificando
-  i metodi di creazione delle view, e permettendo di gestire le interfacce grafiche in un unico package.
+  i metodi di creazione delle view e permettendo di gestire le interfacce grafiche in un unico package.
   Le factory principali realizzate sono le seguenti:
 \begin{itemize}
     \item \textbf{Colori:} factory che espone i colori utilizzati nell'applicativo,
     permettendo di centralizzare la gestione dei colori.
     \item \textbf{Componenti:} factory che espone i componenti grafici, come bottoni, etichette e caselle di testo.
     \item \textbf{Dimensioni:} factory che espone le dimensioni dei componenti grafici, 
-    come larghezza e altezza tipica dei componenti.
-    \item \textbf{PopUp di notifica:} factory che espone i metodi per la creazione di popup di notifica,
+    come la larghezza e l'altezza tipiche dei componenti.
+    \item \textbf{Popup di notifica:} factory che espone i metodi per la creazione di popup di notifica,
      come messaggi di errore o di conferma.
 \end{itemize}
-L'utilizzo centralizzato ha permesso inoltre un amplio riutilizzo dei componenti,
-oltre che la possibilita di ampliare le funzionalità dei componenti senza dover modificare le view che li utilizzano.
+L'utilizzo centralizzato ha permesso inoltre un ampio riutilizzo dei componenti,
+oltre alla possibilità di ampliarne le funzionalità senza dover modificare le view che li utilizzano.
 Ciò è stato possibile gestendo un notevole numero di valori nullable,
  che permettono di personalizzare i componenti in base alle esigenze.
 \section{Scelta delle classi di ViewModel}
@@ -49,18 +49,18 @@ Interposti tra le view e i repository, secondo il pattern \ac{MVVM} consigliato 
 si sono creati i ViewModel.
 Queste classi hanno il compito di esporre i dati alle view, tramite proprietà osservabili,
  e di gestire la logica di interazione con l'utente.
- All'interno dei ViewModel infatti sono racchiuse proprietà e liste osservabili,
+ All'interno dei ViewModel, infatti, sono racchiuse proprietà e liste osservabili,
   che permettono di aggiornare automaticamente le view al variare dei dati.
   Oltre a ciò, i ViewModel contengono metodi per la gestione degli eventi generati dalle view,
   richiamando i repository per l'accesso ai dati e gestendo la logica di business.
   I ViewModel creati non sono stati in rapporto uno a uno con le view,
-   ma piuttosto in base alla loro funzionalità e l'elemento del dominio da gestire.
-   Ad esempio nella gestione dei prodotti si sono creati due 
-   ViewModel, uno per gestione semplice dei prodotti ed uno specifico per la gestione delle distinte prodotto.
-   Questo approccio unito all'estendibilità della classi ha permesso di apliare il
+   ma piuttosto in base alla loro funzionalità e all'elemento del dominio da gestire.
+   Ad esempio, nella gestione dei prodotti sono stati creati due
+   ViewModel: uno per la gestione semplice dei prodotti e uno specifico per la gestione delle distinte prodotto.
+   Questo approccio, unito all'estendibilità delle classi, ha permesso di ampliare il
     numero di view senza dover creare nuovi ViewModel, ma estendendo quelli esistenti.
-Nel processo di rifattorizzazione si è notato esserci dei comportamenti comuni tra i ViewModel, 
+Nel processo di rifattorizzazione si è notata la presenza di comportamenti comuni tra i ViewModel,
 come la gestione delle liste dedicate ai dropdown, la gestione dei filtri e la gestione dei popup di notifica.
 Si è quindi creato un ViewModel base, che espone metodi e proprietà comuni a tutti i ViewModel,
- e quest'ultimi a loro volta lo estendono. Alcuni dei metodi
+ e questi ultimi, a loro volta, lo estendono. Alcuni dei metodi
  esposti vengono sottoposti ad override nei ViewModel specifici, per gestire comportamenti particolari.
