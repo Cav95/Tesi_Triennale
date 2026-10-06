@@ -16,9 +16,11 @@ L'algoritmo implementato si suddivide in tre fasi principali:
      per arrivare al modello specifico da configurare.
      Questo modello ad albero guida l'utente.
     \item \textbf{Fase di configurazione:} in questa fase vengono proposti all'utente delle
-    opzioni di configurazione per il modello scelto.
+    opzioni di configurazione per il modello scelto. Le opzioni
+    sono derminate dalle proprietà associate alle regole dei componenti del modello.
+    Si proporrà infatti solo proprietà appartenenti ai componenti disponibili per il modello scelto.
     \item \textbf{Fase di scelta dei componenti:} in base alle scelte precedenti,
-    all'utente vengono proposti i componenti disponibili per la configurazione del prodotto.
+    all'utente vengono proposti i componenti filtrati tra quelli disponibili per la configurazione del prodotto.
     In questa fase è possibile eliminare quelli non desiderati.
     \item \textbf{Generazione codice:} questa fase 
     finale è la più delicata dell'implementazione dell'algoritmo, in quanto, in base ai codici scelti, si hanno
@@ -33,12 +35,20 @@ L'algoritmo implementato si suddivide in tre fasi principali:
 \end{itemize}
 \subsection{Scelta macrogruppo da configurare}
 La realizzazione dell'albero di scelta è stata fatta sfruttando
-le tabelle già presenti nel database, in particolare le tabelle prodotto, prodotti\_composizioni e di lookup.
-Si sono attribuiti tre nuovi tipi di prodotto, ovvero: iniziale, mappa e macrogruppo.
-Il prodotto iniziale è la radice dell'albero, e rappresenta il concetto generale del prodotto.
-Si sono inseriti all'interno delle loro distinte i prodotti di tipo mappa, che rappresentano i concetti intermedi.
-Infine i prodotti di tipo macrogruppo rappresentano i prodotti finali, sono stati a loro volta inseriti
- nelle distinte dei prodotti di tipo mappa.
+le tabelle già presenti nel database, in particolare le tabelle \textit{prodotto}, \textit{prodotti\_composizioni} e la tabella
+di lookup \textit{tipi\_prodotto}.
+Si sono generate tre nuove tipologie di prodotto, ovvero:
+\begin{itemize}
+  \item \textbf{Iniziale:} rappresenta il concetto generale del prodotto,
+   e permette di guidare l'utente nella scelta del modello da configurare. Questo tipologia permette un punto di
+  partenza per l'algoritmo di configurazione.
+  \item \textbf{Mappa:} rappresenta un concetto intermedio, e permette di guidare l'utente nella scelta del modello da configurare.
+  Questi prodotti sono stati inseriti all'interno delle distinte dei prodotti di tipo iniziale.
+  A loro volta possono contenere prodotti di tipo mappa o macrogruppo, per continuare la discesa nell'albero di scelta.
+  \item \textbf{Macrogruppo:} rappresenta il contenitore dei componenti del modello da configurare.
+  Ad ogni prodotto del macrogruppo sono associate delle regole che ne determinano la disponibilità nella configurazione.
+   Questi prodotti sono stati inseriti all'interno delle distinte dei prodotti di tipo mappa.
+\end{itemize}
  Questa struttura permette la realizzazione di un albero ampiamente scalabile,
   in quanto è possibile aggiungere nuovi prodotti senza dover modificare l'algoritmo.
 L'albero in questione è osservabile in figura~\ref{fig:Albero di scelta prodotto}.
@@ -54,16 +64,28 @@ A ogni regola, a sua volta, è associata una proprietà di riferimento, un opera
 L'interfaccia utente con le possibili domande di configurazione
 viene generata filtrando dinamicamente tutte le proprietà di riferimento delle regole, in base al macrogruppo scelto.
 In questo modo non si ha la necessità di conoscere a priori le regole che governano la configurazione del prodotto.
-In base alle scelte, come detto in precedenza, si propongono all'utente solo i componenti che rispettano le scelte effettuate.
+In base alle scelte effettuate, come detto in precedenza, si propongono all'utente solo i componenti ne rispettano le regole.
 La realizzazione lato database è stata possibile introducendo due
-nuove tabelle, una per le regole e una di lookup per gli operatori logici.
-La struttura dinamica del database, implementata nelle prime fasi, ha permesso di realizzare l'implementazione in modo agile.
+nuove tabelle, la tabella \text{regole} e una di lookup \textit{operatorri\_logici}.
+La struttura dinamica del database, implementata nelle prime fasi,
+ ha permesso di realizzare l'implementazione in modo agile.
 Di seguito, nella figura~\ref{fig:ER configuratore}, è possibile osservare il modello \ac{ER} del modulo di configurazione prodotto.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/ER_Configuratore.png}
     \caption{Modello ER configuratore}\label{fig:ER configuratore}
 \end{figure}
+\subsection{Gestione del listino della configurazione}
+Il determinare un prezzo ad una configurazione dinamica è un aspetto non banale,
+ in quanto il prezzo finale può dipendere o dai compinenti scelti o da valori minimi di listino.
+ Si è deciso per risolvere il problema di introdurre all'interno del macrogruppo dei 
+ prodotti di tipologia \textit{listino}, che contengono le informazioni di prezzo minime per la configurazione.
+ Ogni prodotto listino è soggetto come gli altri componenti alle regole del macrogruppo,
+  e quindi può essere reso disponibile o meno in base alle scelte effettuate.
+  Questo apporccio rende possibile determinare se il prezzo della somma dei componenti scelti è inferiore al prezzo minimo di listino,
+   e in tal caso proporre all'utente il prezzo minimo.
+I componenti di tipo listino saranno invisibili all'utente finale,
+ in quanto non sono parte della configurazione, ma servono solo per determinare il prezzo minimo.
 \section{Interfaccia grafica lato utente ed amministratore}
 Le interfacce lato utente e amministratore sono profondamente diverse, in quanto, per offrire
 all'utente un'esperienza di configurazione semplice e guidata,
