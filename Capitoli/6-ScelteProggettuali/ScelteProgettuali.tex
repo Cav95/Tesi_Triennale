@@ -60,7 +60,12 @@ di ricreare in modo rapido tutte le entity e il context a fronte di cambiamenti 
 Tale approccio può essere definito database-first, in quanto la progettazione avviene principalmente sul database
 e il software ne eredita le modifiche.
 Le queries sono state scritte tramite le funzioni \ac{LINQ}, che hanno permesso di formularle in linguaggio \csharp{}.
-\lstinputlisting[language=CSharp, caption={Esempio di query LINQ}]{listings/LINQ-example.cs}
+Un esempio di query è riportato nella funzione~\ref{lst:esempio-query-linq}.
+\lstinputlisting[
+  language=CSharp,
+  caption={Esempio di query LINQ},
+  label={lst:esempio-query-linq}
+]{listings/LINQ-example.cs}
 
 In ottica di offline, le queries in \ac{LINQ} sono compatibili con il database locale \sqlite{} se si limitano
 le funzioni utilizzate a quelle supportate da esso.

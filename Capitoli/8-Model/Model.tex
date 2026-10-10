@@ -52,10 +52,14 @@ Questo approccio ha permesso di avere un ciclo di sviluppo più veloce,
 I repository sono stati divisi in base alle entità principali del dominio, come ad esempio i Prodotti.
 Ogni repository poteva a sua volta gestire più \ac{DTO}, come ad esempio \textit{ProdottoDTO}
 e \textit{ProdottocomposizioneDTO} appartenenti allo stesso oggetto di dominio.
-Oltre alle operazioni CRUD, si è scelto per quanto riguarda le operazioni di ricerca, di utilizzare
+Oltre alle operazioni \ac{CRUD}, si è scelto per quanto riguarda le operazioni di ricerca, di utilizzare
 dei metodi che permettessero di inserire molteplici criteri di ricerca.
 All'interno sono poi stati utilizzati i Queryable per costruire la query in esame.
-\lstinputlisting[language=CSharp, caption={Esempio di query Queryable}]{listings/Queryable.cs}
+\lstinputlisting[
+  language=CSharp,
+  caption={Esempio di query Queryable},
+  label={lst:esempio-query-queryable}
+]{listings/Queryable.cs}
 Questo approccio ha permesso di costruire query complesse, senza dover scrivere molteplici metodi di ricerca.
 Un'altra scelta che ha permesso di ridurre il codice ripetitivo
 è stata quella di rimappare le nuove entità, create in \ac{DTO} dalle classi
@@ -71,6 +75,8 @@ Questo approccio permette di non impegnare il database con dati parziali,
 ma, al contempo, una volta validati, la transazione si può considerare come avvenuta, senza dover gestire rollback o commit.
 All'interno dei repository, è stato aggiunto ai parametri passati ai metodi il ``CancellationToken''\cite{CancToken},
 che permette di interrompere l'esecuzione di una query in caso di timeout o di chiusura dell'applicativo.
+L'utilizzo del ``CancellationToken'' si può notare anche nella query di esempio~\ref{lst:esempio-query-linq},
+ dove viene passato come parametro al metodo \texttt{ToListAsync()}.
 Questa scelta è stata fatta per evitare di bloccare il database con query che non terminano,
 e per permettere all'utente di cambiare schermata anche se la query non è terminata,
 evitando di bloccare l'interfaccia grafica di destinazione.

@@ -110,7 +110,11 @@ Tramite query ed il campo di audit \textit{data\_modifica} si è quindi in grado
 lo storico dei dati e di ripristinare eventuali errori.
 Il trigger è marcato come ``AFTER UPDATE''. In combinazione con il dato temporaneo ``deleted''
 permette di salvare il dato prima della modifica, garantendo la possibilità di ripristinare lo stato precedente.
-\lstinputlisting[language=SQL, caption={Esempio di trigger}]{listings/Trigger.sql}
+\lstinputlisting[
+  language=SQL,
+  caption={Esempio di trigger},
+  label={lst:esempio-trigger}
+]{listings/Trigger.sql}
 \subsubsection{Tabelle di utilità}
 Nel database sono state incluse delle tabelle di utilità, che non hanno un legame diretto con le altre tabelle,
 ma saranno utilizzate per la gestione e manutenzione del database.
