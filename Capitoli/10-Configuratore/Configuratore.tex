@@ -5,23 +5,32 @@ Il vero salto di qualità, rispetto all'attuale metodo di creazione delle offert
 Come citato nell'introduzione~\ref{chapter:introduction}, l'azienda ha un modello di business
 di tipo \ac{ETO}. Questo modello comporta la produzione di prodotti realizzati
 su misura per il cliente, utilizzando però componenti standardizzati.
-Si è dovuto quindi cercare di realizzare una struttura e un algoritmo che permettessero
-di configurare un prodotto, senza sapere a priori né da quali regole sia governato né quali prodotti lo compongano.
-È stato fondamentale anche lo studio di un sistema che guidasse l'utente nella scelta del modello da configurare.
-\section{Algoritmo di configurazione}
+L'utilizzo di prodotti standardizzati permette di individuare e catalogare 
+le possibili varianti di prodotto; tali varianti vengono utilizzate per creare
+un sistema di configurazione che permetta di anticipare già in fase di vendita i prodotti necessari.
+Il numero di tipologie di prodotto e di varianti per ciascuna tipologia è molto elevato,
+e non è possibile conoscere a priori né le regole che governano la configurazione di un prodotto
+ né i componenti che lo compongono.
+Si è dovuto quindi cercare di realizzare una struttura ed un algoritmo che permettessero
+di configurare un prodotto all'interno del sistema. L'utente deve
+poter creare regole e combinarle in modo agile.
+Oltre allo studio della configurazione stessa, è stato
+necesario studiare un sistema che guidasse l'utente nella scelta del prodotto da configurare.
 L'algoritmo implementato si suddivide in tre fasi principali:
 \begin{itemize}
-    \item \textbf{Fase di scelta del modello:} mediante una scelta
-    a cascata l'utente discende da concetti generali, come lo scopo del componente, fino alla tipologia di prodotto,
-     per arrivare al modello specifico da configurare.
+    \item \textbf{Fase di scelta del modello:} mediante alberi di scelta
+    l'utente discende da concetti generali, come lo scopo del componente (es. "stoccaggio prodotti"),
+     fino alla tipologia di prodotto(es: silo in acciaio), per arrivare al modello specifico
+      da configurare(es: "forma quadrata").
      Questo modello ad albero guida l'utente.
     \item \textbf{Fase di configurazione:} in questa fase vengono proposti all'utente delle
-    opzioni di configurazione per il modello scelto. Le opzioni
-    sono derminate dalle proprietà associate alle regole dei componenti del modello.
-    Si proporrà infatti solo proprietà appartenenti ai componenti disponibili per il modello scelto.
-    \item \textbf{Fase di scelta dei componenti:} in base alle scelte precedenti,
-    all'utente vengono proposti i componenti filtrati tra quelli disponibili per la configurazione del prodotto.
-    In questa fase è possibile eliminare quelli non desiderati.
+    opzioni di scelta sottorma di dropdown  o testo libero.
+    Ogni dropdown o casella appartiene ad una sola tipologia di proprietà utilizzata nelle regole del prodotto. 
+    Il menù è generato dinamicamente filtratndo le proprietà  associate alle regole in base al macrogruppo scelto.
+    \item \textbf{Fase di scelta dei componenti:} compilate 
+    le scelte precedenti, i componenti del macrogruppo vengono sottoposti a filtro in base alle regole associate ad ognuno di essi.
+    In questo modo vengono proposti all'utente solo i componenti che rispettano le regole, e quindi disponibili per la configurazione.
+    I compoennti proposti a loro volta possono essere esclusi dall'utente.
     \item \textbf{Generazione codice:} questa fase 
     finale è la più delicata dell'implementazione dell'algoritmo, in quanto, in base ai codici scelti, si hanno
     due alternative:
@@ -61,23 +70,34 @@ L'albero in questione è osservabile in figura~\ref{fig:Albero di scelta prodott
 I macrogruppi contengono al loro interno tutti i componenti possibili per la configurazione del prodotto.
 A ogni componente sono state associate n regole che, se valide, determinano la sua disponibilità nella configurazione.
 A ogni regola, a sua volta, è associata una proprietà di riferimento, un operatore logico e un valore di riferimento.
+Le proprietà possono essere create dall'utente configuratore,
+e altre alla creazione di tali proprità l'utete può creare dei valori standard della stessa, che
+verranno proposti all'utente finale se compare tale proprietà nella configurazione.
+Gli operatori possono essere di tipo logico, come "uguale a", "maggiore di", "minore di" o di "LIKE".
+Solo l'operatore uguale avrà un dropdown con i valori standard della proprietà, 
+mentre gli altri operatori permetteranno all'utente di inserire un valore libero o scelta da quelli disponibili.
+\subsection{Generazione dell'interfaccia utente}
 L'interfaccia utente con le possibili domande di configurazione
 viene generata filtrando dinamicamente tutte le proprietà di riferimento delle regole, in base al macrogruppo scelto.
-In questo modo non si ha la necessità di conoscere a priori le regole che governano la configurazione del prodotto.
-In base alle scelte effettuate, come detto in precedenza, si propongono all'utente solo i componenti ne rispettano le regole.
+Viene messo in join i componenti, le regole e le proprietà, e successivamente prese solo questultime tramite un \textit{DISTINCT},
+ in modo da avere una lista di proprietà univocue.
+Questa query consente di ottenere tutte le proprietà univocue senza dover conoscere a priori 
+le regole che governano la configurazione del prodotto.
+\subsection{Struttura del database}
 La realizzazione lato database è stata possibile introducendo due
 nuove tabelle, la tabella \text{regole} e una di lookup \textit{operatorri\_logici}.
 La struttura dinamica del database, implementata nelle prime fasi,
  ha permesso di realizzare l'implementazione in modo agile.
-Di seguito, nella figura~\ref{fig:ER configuratore}, è possibile osservare il modello \ac{ER} del modulo di configurazione prodotto.
+Di seguito, nella figura~\ref{fig:ER configuratore}, è possibile osservare il modello \ac{ER}
+ del modulo di configurazione prodotto.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/ER_Configuratore.png}
     \caption{Modello ER configuratore}\label{fig:ER configuratore}
 \end{figure}
 \subsection{Gestione del listino della configurazione}
-Il determinare un prezzo ad una configurazione dinamica è un aspetto non banale,
- in quanto il prezzo finale può dipendere o dai compinenti scelti o da valori minimi di listino.
+Determinare il prezzo di una configurazione dinamica è un aspetto non banale,
+ in quanto esso può dipendere o dai componenti scelti o da valori minimi di listino.
  Si è deciso per risolvere il problema di introdurre all'interno del macrogruppo dei 
  prodotti di tipologia \textit{listino}, che contengono le informazioni di prezzo minime per la configurazione.
  Ogni prodotto listino è soggetto come gli altri componenti alle regole del macrogruppo,
