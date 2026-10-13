@@ -1,8 +1,8 @@
 \chapter{Progettazione del database}\label{chap:Database}
 \section{Esportazione vecchio database}
 La creazione della nuova base di dati è partita dall'esportazione e dallo studio dell'attuale database Access.
-L'esportazione è avvenuta per mezzo di \ac{SSMA},
-che ha permesso di esportare solo la struttura esistente in SQL Server.
+L'esportazione è avvenuta per mezzo di \ac{SSMA}\cite{SQLServerMigrationAssistant},
+che ha permesso di esportare solo la struttura esistente in \sqlserver{}.
 Una volta ricostruita la struttura, essa ha subito un processo di ristrutturazione
 che ha portato ad avere un database più leggibile, manutenibile e performante.
 \section{Denominazione tabelle e campi}
@@ -24,7 +24,7 @@ Infine, sempre come campo comune a tutte le tabelle,
 Questi campi comuni sono stati pensati per essere di supporto nella gestione dei dati, permettendo
 la gestione dei backup e delle modifiche senza cancellare mai fisicamente i dati.
 \section{Utilizzo di SSIS nel processo di migrazione}
-I successivi processi di modifica e popolamento del database sono stati gestiti tramite \ac{SSIS}.
+I successivi processi di modifica e popolamento del database sono stati gestiti tramite \ac{SSIS}.\cite{SQLServerIntegration}
 Questo strumento permette la creazione, anche mediante interfaccia grafica, di pacchetti di query
 eseguiti secondo un flusso preimpostato.
 Si è quindi creato un primo flusso di query che in ordine:
@@ -71,16 +71,16 @@ Il database originale gestiva i prodotti come oggetti atomici, senza la possibil
 Si è quindi deciso di gestire le distinte; si è posta la tabella \textit{Prodotti} in auto join con cardinalità n ad n.
 Tale relazione a livello di schema logico è stata realizzata mediante la tabella \textit{Prodotti\_composizioni}.
 La tabella in questione aggiunge, oltre alle chiavi
-dei prodotti, anche il quantitativo della riga stessa.\ref{fig:ERProdotti}
-La gestione così pensata permette di effettuare ricerche approfondite sui ricambi di un  determinato prodotto.
-Questo sistema, insieme ad appositi lookup, ha inoltre permesso la costruzione del modulo
-\ac{CPQ} per la configurazione di prodotto.\ref{chap:Configurazione}.
-%Aggiungere immagine
-\begin{figure}[h]
+dei prodotti, anche il quantitativo della riga stessa.
+Lo schema risultante è visibile in figura~\ref{fig:ERProdotti}.
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/ER_PRODOTTI.png}
     \caption{Schema \ac{ER} dei prodotti}\label{fig:ERProdotti}
 \end{figure}
+La gestione così pensata permette di effettuare ricerche approfondite sui ricambi di un  determinato prodotto.
+Questo sistema, insieme ad appositi lookup, ha inoltre permesso la costruzione del modulo
+\ac{CPQ} per la configurazione di prodotto.\ref{chap:Configurazione}.
 \subsubsection{Tabelle gestione lingue}
 Si è deciso di aggiungere delle apposite tabelle per la gestione delle traduzioni di campi del database.
 Le tabelle predisposte contengono al loro interno la chiave della tabella di riferimento,
@@ -92,7 +92,7 @@ Questa tabella mappa le tipologie di reportistica richieste dal cliente con le a
 Capita infatti di avere ad esempio manuali in lingua inglese, ma etichette sui macchinari con la lingua del luogo.
 Il diagramma \ac{ER} delle lingue è visibile in figura~\ref{fig:ER_Lingue}.
 %Aggiungere immagine
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/ER_LINGUE.png}
     \caption{Schema \ac{ER} delle lingue}\label{fig:ER_Lingue}
@@ -108,8 +108,9 @@ ma senza vincoli né chiavi primarie o secondarie, garantendo così la possibili
 Il popolamento avviene mediante dei trigger, essi scattano ad ogni operazione di Update eseguita sulla tabella originale.
 Tramite query ed il campo di audit \textit{data\_modifica} si è quindi in grado di ricostruire
 lo storico dei dati e di ripristinare eventuali errori.
-Il trigger è marcato come ``AFTER UPDATE''. In combinazione con il dato temporaneo ``deleted''
+Il trigger è marcato come \texttt{AFTER UPDATE}. In combinazione con il dato temporaneo \texttt{deleted}
 permette di salvare il dato prima della modifica, garantendo la possibilità di ripristinare lo stato precedente.
+Un esempio di trigger è visibile in listato~\ref{lst:esempio-trigger}.
 \lstinputlisting[
   language=SQL,
   caption={Esempio di trigger},
@@ -120,12 +121,17 @@ Nel database sono state incluse delle tabelle di utilità, che non hanno un lega
 ma saranno utilizzate per la gestione e manutenzione del database.
 Queste tabelle sono:
 \begin{itemize}
-    \item \textit{Tabelle}, questa tabella mappa per ogni tabella del database il livello di ruolo necessario per ogni operazione CRUD.
-          Tramite apposito lookup, a ogni utente è associato un ruolo, corrispondente al livello in ordine decrescente per importanza.
-          Si ha quindi 0 per l'Admin e il 6 per il visualizzatore.
-    \item \textit{Parametri}, questa tabella contiene solo la versione del database. Questo dato permette
-          di verificare la presenza di aggiornamenti del database locale prima dell'avvio del sistema.
-    \item \textit{Query}, questa tabella raccoglie le query necessarie per aggiornare la struttura del database
+    \item \textit{Tabelle}: questa tabella è dedicata alla gestione dei permessi utenti.
+                            Essa associa al nome di una tabella del database un valore corrispodente al 
+                            livello massimo di ruolo per eseguire lettura o scrittura su tale tabella.
+                            I ruoli sono definiti ed orinati dal più alto al più basso, all'interno della 
+                            tabella \textit{Tipi\_utente}.
+                            Si ha quindi 0 per l'Admin e 100 per il visualizzatore, dando modo in futuro 
+                            di aggiungere altri ruoli.
+    \item \textit{Parametri}: questa tabella contiene solo la versione del database corrente.
+     In caso di aggiornamenti del database centrale il software in locale si accorge della differenza ed si allinea alla versione più recente.
+     L'aggiornamento avverrà eseguendo le query presenti nella tabella \textit{Query}.
+    \item \textit{Query}:  questa tabella raccoglie le query necessarie per aggiornare la struttura del database
           locale con quella in remoto.
 \end{itemize}
 \subsection{Importazione dei dati e Stored Procedure}\label{section:importdata}
@@ -133,23 +139,25 @@ Come da analisi, è stato richiesto di prelevare e sincronizzare alcuni dati da 
 Prima della costruzione delle vere e proprie query di sincronizzazione, si sono
 studiate le tabelle di provenienza per ricostruire un ambiente similare, facilitando la costruzione delle query.
 In particolare, dal database Fusion, si è ricostruita la struttura di assegnazione dinamica delle proprietà a un prodotto.
-Tale struttura, ponendo la cardinalità n ad n tra prodotti e proprietà,
+Tale struttura, ponendo la cardinalità n ad n tra prodotti e proprietà con aggiunta del campo valore,
 permette l'assegnazione e la creazione di nuove proprietà senza modificare la struttura del database.
-Alla tabella \text{Proprietà} è associata la tabella \textit{Proprietà\_valori} per la gestione dei valori standard.\ref{fig:ER_Prodotti}
+Alla tabella \text{Proprietà} è associata la tabella \textit{Proprietà\_valori} 
+per la gestione dei valori standard.\ref{fig:ER_Prodotti}
 Una volta ricostruite le strutture si sono create le seguenti Stored Procedure:
 \begin{itemize}
     \item Da \ac{ERP}, importazione e aggiornamento delle anagrafiche dei prodotti.
+    \item Da \ac{ERP}, importazione e aggiornamento delle anagrafiche dei listini.
     \item Da \ac{ERP}, importazione delle distinte dei prodotti.
     \item Da \ac{PLM}, importazione e aggiornamento delle proprietà dei prodotti.
 \end{itemize}
-Tali stored procedure hanno al loro interno dei controlli che agiscono solo
+Tutte le stored procedure hanno al loro interno dei controlli che agiscono solo
 quando si verifica una discrepanza.
 Oltre a ciò saranno da prevedere altre Stored Procedure di importazione per la gestione di altri dati,
-tali dati sono ad esempio i clienti, tassi di cambio, ecc.
+come ad esempio i clienti, tassi di cambio, ecc.
 Una volta in produzione verranno schedulate giornalmente garantendo la sincronizzazione dei dati.
 \subsection{Schema logico}
 Lo schema logico risultante è visibile in figura~\ref{fig:SchemaLogico}.
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1.3\linewidth, angle=90]{figures/Logical.png}
     \caption{Schema logico del database}\label{fig:SchemaLogico}
