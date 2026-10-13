@@ -54,13 +54,15 @@ Ogni repository poteva a sua volta gestire più \ac{DTO}, come ad esempio \texti
 e \textit{ProdottocomposizioneDTO} appartenenti allo stesso oggetto di dominio.
 Oltre alle operazioni \ac{CRUD}, si è scelto per quanto riguarda le operazioni di ricerca, di utilizzare
 dei metodi che permettessero di inserire molteplici criteri di ricerca.
-All'interno sono poi stati utilizzati i Queryable per costruire la query in esame.
+All'interno sono poi stati utilizzati i \texttt{Queryable} per costruire la query in esame.
+I \texttt{Queryable} permettono di costruire pezzo per pezzo query complesse,
+senza dover scrivere molteplici metodi di ricerca.
+Un esempio di query costruita con \texttt{Queryable} è riportata nel listato~\ref{lst:esempio-query-queryable}.
 \lstinputlisting[
   language=CSharp,
   caption={Esempio di query Queryable},
   label={lst:esempio-query-queryable}
 ]{listings/Queryable.cs}
-Questo approccio ha permesso di costruire query complesse, senza dover scrivere molteplici metodi di ricerca.
 Un'altra scelta che ha permesso di ridurre il codice ripetitivo
 è stata quella di rimappare le nuove entità, create in \ac{DTO} dalle classi
 di model del package principale, in classi di entity prive di Id che fossero pronte ad essere inserite nel database.
