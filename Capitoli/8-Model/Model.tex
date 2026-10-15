@@ -78,7 +78,7 @@ ma, al contempo, una volta validati, la transazione si può considerare come avv
 All'interno dei repository, è stato aggiunto ai parametri passati ai metodi il \texttt{CancellationToken}\cite{CancToken},
 che permette di interrompere l'esecuzione di una query in caso di timeout o di chiusura dell'applicativo.
 L'utilizzo del \texttt{CancellationToken} si può notare anche nella query di esempio~\ref{lst:esempio-query-linq},
- dove viene passato come parametro al metodo \texttt{ToListAsync()}.
+ dove viene passato come parametro al metodo \texttt{FirstOrDefaultAsync()}.
 Questa scelta è stata fatta per evitare di bloccare il database con query che non terminano,
 e per permettere all'utente di cambiare schermata anche se la query non è terminata,
 evitando di bloccare l'interfaccia grafica di destinazione.
