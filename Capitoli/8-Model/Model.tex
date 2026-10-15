@@ -17,9 +17,9 @@ Il mapping è bidirezionale per poter riconvertire, quando necessario, un \ac{DT
 Il package è stato strutturato in modo da separare le classi di test, i repository e le classi e interfacce esposte.
 All'esterno del package oltre alle classi \ac{DTO} ed Enum relativi ad alcuni Lookup, è
 stata esposta una classe univoca che espone i vari repository, denominata ``DatabaseManager''.
-Questa soluzione permette di avere un unico punto di accesso ai repository, 
+Questa soluzione permette di avere un unico punto di accesso ai repository,
 evitando di esporre le classi interne del package.
-Il vantaggio della classe singola si ha anche nella gestione della Dependency Injection, 
+Il vantaggio della classe singola si ha anche nella gestione della Dependency Injection,
 in quanto si può registrare un'unica classe
 per tutti i repository, evitando di registrare ogni singolo repository.
 Si è poi realizzata una classe di test per ogni repository, che ne testasse le funzionalità di base.
@@ -37,17 +37,17 @@ il rischio di prelevare dati reali.
 Questo approccio ha richiesto molto tempo per la ricostruzione dei test più complessi, ma
 ha permesso di testare piccoli cambiamenti senza dover ripristinare il database.
 A fronte del tempo impiegato prima si è utilizzata \ac{AI} generativa per creare le bozze dei test,
- che successivamente sono state modificate e, in alcuni casi, riscritte completamente,
+che successivamente sono state modificate e, in alcuni casi, riscritte completamente,
 per adattarle al contesto reale.
 Per realizzare ciò si è adottato un approccio articolato come segue:
 \begin{enumerate}
-    \item Si sono scritti i metodi del repository.
-    \item Si sono generati i test sulla base dei metodi del repository.
-    \item Si sono corretti i test per renderli accurati e validi.
-    \item Si sono corretti i metodi del repository sulla base del risultato dei test.
+  \item Si sono scritti i metodi del repository.
+  \item Si sono generati i test sulla base dei metodi del repository.
+  \item Si sono corretti i test per renderli accurati e validi.
+  \item Si sono corretti i metodi del repository sulla base del risultato dei test.
 \end{enumerate}
 Questo approccio ha permesso di avere un ciclo di sviluppo più veloce,
- riducendo il tempo di scrittura dei test.
+riducendo il tempo di scrittura dei test.
 \subsection{Repository}
 I repository sono stati divisi in base alle entità principali del dominio, come ad esempio i Prodotti.
 Ogni repository poteva a sua volta gestire più \ac{DTO}, come ad esempio \textit{ProdottoDTO}
@@ -78,7 +78,7 @@ ma, al contempo, una volta validati, la transazione si può considerare come avv
 All'interno dei repository, è stato aggiunto ai parametri passati ai metodi il \texttt{CancellationToken}\cite{CancToken},
 che permette di interrompere l'esecuzione di una query in caso di timeout o di chiusura dell'applicativo.
 L'utilizzo del \texttt{CancellationToken} si può notare anche nella query di esempio~\ref{lst:esempio-query-linq},
- dove viene passato come parametro al metodo \texttt{FirstOrDefaultAsync()}.
+dove viene passato come parametro al metodo \texttt{FirstOrDefaultAsync()}.
 Questa scelta è stata fatta per evitare di bloccare il database con query che non terminano,
 e per permettere all'utente di cambiare schermata anche se la query non è terminata,
 evitando di bloccare l'interfaccia grafica di destinazione.

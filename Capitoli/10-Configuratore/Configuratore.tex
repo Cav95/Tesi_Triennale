@@ -5,7 +5,7 @@ risiede nell'introduzione di un modulo di configurazione del prodotto.
 Come anticipato nell'introduzione~\ref{chapter:introduction}, l'azienda adotta un modello di business
 di tipo \ac{ETO}. Tale modello prevede la realizzazione di prodotti su misura per il cliente
 mediante l'impiego di componenti standardizzati.
-L'utilizzo di componenti standardizzati consente di individuare e catalogare 
+L'utilizzo di componenti standardizzati consente di individuare e catalogare
 le possibili varianti di prodotto; tali varianti vengono impiegate per definire
 un sistema di configurazione in grado di anticipare, già in fase di vendita, i componenti necessari.
 Il numero di tipologie di prodotto e di varianti per ciascuna di esse è estremamente elevato,
@@ -18,27 +18,27 @@ un sistema che guidasse l'utente nella scelta del prodotto da configurare.
 L'algoritmo implementato si suddivide in quattro fasi principali:
 \begin{itemize}
     \item \textbf{Fase di scelta del modello:} mediante alberi decisionali
-    l'utente discende da concetti generali, come lo scopo del componente (es. ``stoccaggio prodotti''),
-    fino alla tipologia di prodotto (es. ``silo in acciaio''), per giungere al modello specifico
-    da configurare (es. ``forma quadrata'').
+          l'utente discende da concetti generali, come lo scopo del componente (es. ``stoccaggio prodotti''),
+          fino alla tipologia di prodotto (es. ``silo in acciaio''), per giungere al modello specifico
+          da configurare (es. ``forma quadrata'').
     \item \textbf{Fase di configurazione:} vengono proposte all'utente opzioni di scelta
-    sotto forma di menu a tendina o campi a testo libero.
-    Ogni selezione corrisponde a una specifica proprietà utilizzata nelle regole del prodotto. 
-    Il menu viene generato dinamicamente filtrando le proprietà associate alle regole in base al macrogruppo selezionato.
+          sotto forma di menu a tendina o campi a testo libero.
+          Ogni selezione corrisponde a una specifica proprietà utilizzata nelle regole del prodotto.
+          Il menu viene generato dinamicamente filtrando le proprietà associate alle regole in base al macrogruppo selezionato.
     \item \textbf{Fase di scelta dei componenti:} una volta compilate le scelte precedenti,
-    i componenti del macrogruppo vengono filtrati in base alle regole associate a ciascuno di essi.
-    In questo modo vengono proposti all'utente soltanto i componenti conformi alle regole,
-    quindi effettivamente disponibili per la configurazione. Tali componenti possono essere
-    ulteriormente esclusi manualmente dall'operatore.
+          i componenti del macrogruppo vengono filtrati in base alle regole associate a ciascuno di essi.
+          In questo modo vengono proposti all'utente soltanto i componenti conformi alle regole,
+          quindi effettivamente disponibili per la configurazione. Tali componenti possono essere
+          ulteriormente esclusi manualmente dall'operatore.
     \item \textbf{Generazione del codice:} questa fase finale rappresenta il passaggio più critico
-    dell'algoritmo. In base ai componenti selezionati, si aprono due alternative:
-    \begin{itemize}
-        \item \textbf{Configurazione esistente:} si verifica nel database se esiste già
-        una configurazione di quel prodotto con le caratteristiche selezionate.
-        In caso positivo, si propone all'utente di riutilizzarla.
-        \item \textbf{Configurazione inesistente:} in caso negativo, viene generato
-        un nuovo codice identificativo di configurazione per il prodotto, che viene contestualmente salvato a database.
-    \end{itemize}
+          dell'algoritmo. In base ai componenti selezionati, si aprono due alternative:
+          \begin{itemize}
+              \item \textbf{Configurazione esistente:} si verifica nel database se esiste già
+                    una configurazione di quel prodotto con le caratteristiche selezionate.
+                    In caso positivo, si propone all'utente di riutilizzarla.
+              \item \textbf{Configurazione inesistente:} in caso negativo, viene generato
+                    un nuovo codice identificativo di configurazione per il prodotto, che viene contestualmente salvato a database.
+          \end{itemize}
 \end{itemize}
 
 \subsection{Scelta del macrogruppo da configurare}
@@ -47,14 +47,14 @@ le tabelle già presenti nel database, in particolare le tabelle \textit{prodott
 e la tabella di lookup \textit{tipi\_prodotto}.
 Sono state introdotte tre nuove tipologie di prodotto:
 \begin{itemize}
-  \item \textbf{Iniziale:} rappresenta il concetto generale del prodotto e costituisce il punto di partenza
-  per l'algoritmo di configurazione, guidando l'utente verso la selezione del modello.
-  \item \textbf{Mappa:} rappresenta un livello intermedio dell'albero. Questi prodotti sono inseriti
-  all'interno delle distinte base dei prodotti di tipo iniziale e possono contenere a loro volta
-  altri nodi di tipo mappa o macrogruppo, consentendo la discesa gerarchica.
-  \item \textbf{Macrogruppo:} rappresenta il contenitore logico dei componenti del modello da configurare.
-  A ogni prodotto del macrogruppo sono associate regole che ne determinano l'effettiva disponibilità.
-  Questi elementi sono inseriti nelle distinte base dei prodotti di tipo mappa.
+    \item \textbf{Iniziale:} rappresenta il concetto generale del prodotto e costituisce il punto di partenza
+          per l'algoritmo di configurazione, guidando l'utente verso la selezione del modello.
+    \item \textbf{Mappa:} rappresenta un livello intermedio dell'albero. Questi prodotti sono inseriti
+          all'interno delle distinte base dei prodotti di tipo iniziale e possono contenere a loro volta
+          altri nodi di tipo mappa o macrogruppo, consentendo la discesa gerarchica.
+    \item \textbf{Macrogruppo:} rappresenta il contenitore logico dei componenti del modello da configurare.
+          A ogni prodotto del macrogruppo sono associate regole che ne determinano l'effettiva disponibilità.
+          Questi elementi sono inseriti nelle distinte base dei prodotti di tipo mappa.
 \end{itemize}
 Questa struttura assicura un'elevata scalabilità, poiché consente di censire nuovi prodotti
 senza dover intervenire sul codice dell'algoritmo.
@@ -67,7 +67,7 @@ L'albero in oggetto è illustrato in figura~\ref{fig:Albero di scelta prodotto}.
 
 \subsection{Implementazione delle regole}
 I macrogruppi contengono tutti i componenti potenzialmente impiegabili nella configurazione.
-A ogni componente sono associate $n$ regole che, se soddisfatte, ne determinano l'inclusione.
+A ogni componente sono associate n regole che, se soddisfatte, ne determinano l'inclusione.
 A ciascuna regola corrispondono una proprietà di riferimento, un operatore logico e un valore atteso.
 Le proprietà possono essere definite dall'utente configuratore; contestualmente, è possibile preimpostare
 dei valori standard che verranno suggeriti all'utente finale qualora la proprietà compaia nella procedura.
