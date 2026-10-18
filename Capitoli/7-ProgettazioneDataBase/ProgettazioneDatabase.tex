@@ -18,7 +18,7 @@ Le modifiche addottate sono state le seguenti:
 Insieme alle modifiche sopra citate, sono stati aggiunti dei campi di audit,
 come data ed utente di creazione, ma anche data e utente di modifica.
 Queste informazioni permettono di avere un tracciamento delle modifiche e di chi le ha effettuate.
-Unlteriore campo comune aggiunto è stato aggiunto il campo \textit{deleted},
+Un ulteriore campo comune aggiunto è \textit{deleted},
 booleano per la gestione della cancellazione logica.
 Si è deciso di non cancellare mai fisicamente i dati, ma di marcare le righe come cancellate
 per facilitare il ripristino dei dati in caso di errore.
@@ -28,10 +28,11 @@ e la manutenzione del database.
 I successivi processi di modifica e popolamento del database sono stati gestiti tramite \ac{SSIS}.~\cite{SQLServerIntegration}
 Questo strumento permette la creazione e l'esecuzione di pacchetti di query,
 che possono essere schedulati o eseguiti manualmente.
-Mediante interfaccia grafica è possibile creare flussi di query, con la possibilità di gestire
+Mediante interfaccia grafica è possibile creare flussi di query, con l'opportunità di gestire
 eccezioni, condizioni di esecuzione e logiche di flusso.
-Il principale utilizzo di \ac{SSIS} è stato quello di creare un flusso di query per la creazione e popolamento del database.
-Il primo flusso di creazione del database creato è il seguente:
+Il principale utilizzo di \ac{SSIS} è stato quello di organizzare
+ un flusso di query per la creazione e popolamento del database.
+Il primo flusso gestito è il seguente:
 \begin{enumerate}
     \item crea se non esiste il database;
     \item se presenti le tabelle, le elimina;
@@ -40,7 +41,7 @@ Il primo flusso di creazione del database creato è il seguente:
     \item popola le tabelle con dati del vecchio database;
     \item popola le tabelle restanti con dati di test.
 \end{enumerate}
-Tramite questo flusso è possibile creare un database pronto all'uso, con dati di test e dati reali;
+Tramite questo flusso è possibile creare un database pronto all'uso, con dati di test e dati reali,
 ricostruito con facilità in caso di errori o modifiche.
 Nelle fasi più avanzate, alle operazioni prima citate, sono state aggiunte
 quelle per la creazione delle tabelle e dei trigger di backup, per la gestione dello storico dei dati.
@@ -52,46 +53,46 @@ La fase di studio dell'attuale database ha portato alla luce diverse ridondanze 
 All'interno erano presenti più tabelle con lo stesso contesto di utilizzo o tabelle non utilizzate.
 Si è quindi proceduto all'eliminazione di tali tabelle ed alla normalizzazione delle restanti in seconda forma normale.
 Un'altra modifica sostanziale è stata l'unificazione di tabelle similari in un'unica tabella,
-discriminate mediante campo \text{prefTabella\_tipo} proveniente da un lookup dedicato.
-Un esempio di questo contesto sono le tabelle di ordigine \textit{Offerta} e \textit{Ordine},
-dove una è la diretta evoluzione della precedente e manteggono gli stessi dati.
-Le due tabelle sono state unite sotto il cappello della tabella \textit{Documenti},
-discriminata solo dal campo \text{prefTabella\_tipo}.
-In queste tabelle in particolare era importante tenere traccia del legame Padre\-Figlio,
-si è aggiunto quindi un campo \text{doc\_documento\_padre} che, mediante
-chiave importata, permettessimo di ricostruire il legame mediante auto join.
+discriminate mediante campo \textit{prefTabella\_tipo} proveniente da un lookup dedicato.
+Un esempio di questo contesto sono le tabelle di "Offerta" e "Ordine",
+dove una è la diretta evoluzione della precedente e mantengono gli stessi dati.
+Le due tabelle sono state unite sotto il cappello della tabella "Documenti",
+discriminata solo dal campo \textit{prefTabella\_tipo}.
+In queste tabelle, in particolare, era importante tenere traccia del legame Padre-Figlio.
+È stato aggiunto un campo \textit{doc\_documento\_padre} che, mediante
+chiave importata, permettesse di ricostruire il legame attraverso un auto join.
 Il metodo così pensato, in ottica di ampliamento, permette la gestione di ulteriori
 tipologie di documenti senza cambiare la struttura.
-Un esempio è l'aggiunta della tipologia di documento \textit{Tecnico},
-che sarà l'evoluzione del documento \text{Ordine} e conterrà la revisione tecnica della stessa.
+Un esempio è l'aggiunta della tipologia di documento "Tecnico",
+che sarà l'evoluzione del documento "Ordine" e conterrà la revisione tecnica della stessa.
 \subsection{Creazione tabelle di lookup}
 Come già prima accennato, le tabelle di lookup sono state create per discriminare le tipologie di dati.
 Tali tabelle sono state pensate per garantire una estedibilità futura e far fronte a modifiche non previste.
 Queste tabelle sono considerate fisse, e non possono essere modificate dall'utente finale,
 ma solo da un amministratore tramite query.
-Tali tabelle, con al più un campo descrittivo, rendono la gestione dei dati più semplice,
+Esse, con al più un campo descrittivo, rendono la gestione dei dati più semplice,
 potendo filtrare le informazioni in base al loro tipo.
-Un vantaggio, a livello di software, è il poterle richiamare internamente mediante classi di enumerazione,
-rendendo il codice più leggibile e manutenibile evitando non necessari join con le tabelle di lookup.
+Un vantaggio, a livello di software, è il poterle mappare in classi di enumerazione,
+rendendo il codice più leggibile ed evitando non necessari join nelle query.
 Un ultimo vantaggio, essendo appunto fisse, è il poterle
 caricare in memoria all'avvio dell'applicativo, evitando di interrogare il database per ogni richiesta.
 
 \subsection{Aggiunta tabelle non presenti}
 \subsubsection{Gestione dei prodotti}
-Il database originale gestiva i prodotti come oggetti atomici, senza la possibilità di gestire i loro componenti.
-Si è quindi deciso di gestire le distinte; si è posta la tabella \textit{Prodotti} in auto join con cardinalità n ad n.
+Il database originale utilizzava i prodotti come oggetti atomici, senza la possibilità di gestire i loro componenti.
+Si è quindi deciso di creare le distinte prodotto. La tabella \textit{Prodotti} è stata messa in auto join con cardinalità n ad n.
 Tale relazione a livello di schema logico è stata realizzata mediante la tabella \textit{Prodotti\_composizioni}.
 La tabella in questione aggiunge, oltre alle chiavi
-dei prodotti, anche il quantitativo della riga stessa, oltre che la posizione di apparizione.
-Lo schema risultante è visibile in figura~\ref{fig:ERP_Prodotti}.
+dei prodotti, anche il quantitativo della riga stessa e la posizione di apparizione.
+Lo schema relazionale risultante è visibile in figura~\ref{fig:ERProdotti}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/ER_PRODOTTI.png}
-    \caption{Schema \ac{ER} dei prodotti}\label{fig:ER_Prodotti}
+    \caption{Schema \ac{ER} dei prodotti}\label{fig:ERProdotti}
 \end{figure}
-La gestione così pensata permette di effettuare ricerche approfondite sui ricambi di un  determinato prodotto.
+La gestione, così pensata, permette di effettuare ricerche approfondite sui ricambi di un  determinato prodotto.
 Questo sistema, insieme ad appositi lookup, ha inoltre permesso la costruzione del modulo
-\ac{Configurazione} per la configurazione di prodotto.~\ref{chapter:Configurazione}.
+"Configuratore" per la configurazione di prodotto.~\ref{chapter:Configurazione}.
 \subsubsection{Tabelle gestione lingue}
 Si è deciso di aggiungere delle apposite tabelle per la gestione delle traduzioni di campi del database.
 Le tabelle predisposte contengono al loro interno la chiave della tabella di riferimento,
@@ -101,22 +102,22 @@ La gestione così pensata permette di estendere le traduzioni a più lingue senz
 Si è anche aggiunta una apposita tabella per gestire le traduzioni nelle reportistiche dei documenti.
 Questa tabella mappa le tipologie di reportistica richieste dal cliente con le apposite lingue concordate.
 Capita infatti di avere ad esempio manuali in lingua inglese, ma etichette sui macchinari con la lingua del luogo.
-Il diagramma \ac{ER} delle lingue è visibile in figura~\ref{fig:ER_Lingue}.
+Il diagramma \ac{ER} delle lingue è visibile in figura~\ref{fig:ERLingue}.
 %Aggiungere immagine
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/ER_LINGUE.png}
-    \caption{Schema \ac{ER} delle lingue}\label{fig:ER_Lingue}
+    \caption{Schema \ac{ER} delle lingue}\label{fig:ERLingue}
 \end{figure}
 \subsubsection{Creazione tabelle di backup}
 Si è scelto di gestire solo un ristretto numero di essenziali tabelle,
 come ad esempio quelle dei documenti, dei prodotti, delle righe sia dei documenti che dei prodotti.
 La gestione non è stata capillare su tutte le tabelle, in quanto si sono scelte solo
 le tabelle più centrali del dominio.
-Questo approccio è volto a evitare di appesantire il database con tabelle, dati e trigger non necessari.
+Questo approccio è volto ad evitare di appesantire il database con tabelle, dati e trigger non necessari.
 Le strutture delle tabelle di backup rispecchiano quelle delle tabelle originali,
 ma senza vincoli né chiavi primarie o secondarie, garantendo così la possibilità di salvare più modifiche della stessa tupla.
-Il popolamento avviene mediante dei trigger, essi scattano ad ogni operazione di \texttt{UPDATE} eseguita sulla tabella originale.
+Il popolamento avviene mediante trigger. Essi scattano ad ogni operazione di \texttt{UPDATE} eseguita sulla tabella originale.
 Tramite query ed il campo di audit \textit{data\_modifica} si è quindi in grado di ricostruire
 lo storico dei dati e di ripristinare eventuali errori.
 Il trigger è marcato come \texttt{AFTER UPDATE}. In combinazione con il dato temporaneo \texttt{deleted}
@@ -134,22 +135,22 @@ Queste tabelle sono:
 \begin{itemize}
     \item \textit{Parametri}: questa tabella contiene solo la versione del database corrente.
           In caso di aggiornamenti del database centrale il software in locale si accorge
-          della differenza ed si allinea alla versione più recente.
+          della differenza e si allinea alla versione più recente.
           L'aggiornamento avverrà eseguendo le query presenti nella tabella \textit{Query}.
     \item \textit{Query}:  questa tabella raccoglie le query necessarie per aggiornare la struttura del database
-          locale con quella in remoto.
+          locale con quella in remoto da una versione all'altra.
 \end{itemize}
 \subsubsection{Gestione dei permessi}
 La gestione dei permessi è stata realizzata mediante una tabella dedicata, denominata \textit{Tabelle}.
 Essa associa al nome di una tabella del database un valore corrispodente al
 livello massimo di ruolo per eseguire lettura o scrittura su tale tabella.
-I ruoli sono definiti ed orinati dal più alto al più basso, all'interno della
+I ruoli sono definiti ed ordinati dal più dominante al meno dominante, all'interno della
 tabella \textit{Tipi\_utente}.
 Si ha quindi 0 per l'Admin e 100 per il visualizzatore, dando modo in futuro
-di aggiungere altri ruoli.
+di aggiungere altri ruoli intermedi.
 Questo metodo rende flessibile la gestione dei permessi di accesso alle tabelle,
-potendole modificare ancge da apposita interfaccia grafica.
-In ottica offline, questa tabella permette di mappare solo che l'utente
+potendole modificare anche da apposita interfaccia grafica.
+In ottica offline, questa tabella permette di mappare, solo quello che l'utente
 può modificare in locale, evitando di eseguire query su tabelle non permesse offline.
 
 \subsection{Importazione dei dati e Stored Procedure}\label{section:importdata}
@@ -159,19 +160,19 @@ studiate le tabelle di provenienza per ricostruire un ambiente similare, facilit
 In particolare, dal database Fusion, si è ricostruita la struttura di assegnazione dinamica delle proprietà ad un prodotto.
 Tale struttura, ponendo la cardinalità n ad n tra prodotti e proprietà con aggiunta del campo valore,
 permette l'assegnazione e la creazione di nuove proprietà senza modificare la struttura del database.
-Alla tabella \text{Proprietà} è associata la tabella \textit{Proprietà\_valori}
+Alla tabella "Proprietà" è associata la tabella "Proprietà\_valori"
 per la gestione dei valori standard.
-Il diagramma ER è mostrato in figura~\ref{fig:ER_Prodotti}.
+Il diagramma ER è mostrato in figura~\ref{fig:ERProdotti}.
 Una volta ricostruite le strutture si sono create le seguenti Stored Procedure:
 \begin{itemize}
-    \item Da \ac{ERP}, importazione e aggiornamento delle anagrafiche dei prodotti.
-    \item Da \ac{ERP}, importazione e aggiornamento delle anagrafiche dei listini.
-    \item Da \ac{ERP}, importazione delle distinte dei prodotti.
-    \item Da \ac{PLM}, importazione e aggiornamento delle proprietà dei prodotti.
+    \item Da \ac{ERP} → importazione ed aggiornamento delle anagrafiche dei prodotti.
+    \item Da \ac{ERP} → importazione ed aggiornamento delle anagrafiche dei listini.
+    \item Da \ac{ERP} → importazione delle distinte dei prodotti.
+    \item Da \ac{PLM} → importazione ed aggiornamento delle proprietà dei prodotti.
 \end{itemize}
 Tutte le stored procedure hanno al loro interno dei controlli che permettono di 
-attuare le modifiche solo se presnti dei cambiamenti, evitando di sovraccaricare il database con operazioni non necessarie.
-Oltre a ciò saranno da prevedere altre Stored Procedure di importazione per la gestione di altri dati,
+attuare le modifiche solo se presenti dei cambiamenti, evitando di sovraccaricare il database con operazioni non necessarie.
+Oltre a ciò saranno da prevedere altre stored procedure di importazione per la gestione di altri dati,
 come ad esempio i clienti, tassi di cambio, ecc.
 Una volta in produzione verranno schedulate giornalmente garantendo la sincronizzazione dei dati.
 \subsection{Schema logico}
