@@ -3,6 +3,9 @@
             string? name = null, string? surname = null, string? email = null, int? userTypeId = null, bool? deleted = false,
             CancellationToken cancellationToken = default)
         {
+         await _permissionService.TryGetTablePermission(typeof(UtentiDTO), TypeOfOperation.READ,
+            _utils.GetCurrentUserRoleId()).ConfigureAwait(false);
+
             IQueryable<Utenti> query = db.Utentis
                 .Where(u => u.Deleted == deleted)
                 .Include(u => u.UteTipoNavigation)

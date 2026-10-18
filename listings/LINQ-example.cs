@@ -2,6 +2,9 @@
     public async Task<ClientiDTO?> GetCustomerDetailsById(int customerId,
         CancellationToken cancellationToken = default)
     {
+                await _permissionTable.TryGetTablePermission(typeof(ClientiDTO), TypeOfOperation.READ,
+            _utils.GetCurrentUserRoleId()).ConfigureAwait(false);
+            
         Clienti? customerDetails = await _db.Clientis
             .Where(c => c.CliId == customerId)
             .Include(c => c.ClientiDestinazionis.Where(cd => cd.Deleted == false))
