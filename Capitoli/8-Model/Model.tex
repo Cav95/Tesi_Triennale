@@ -1,37 +1,42 @@
 \chapter{Creazione Model}\label{chap:Model}
 \section{Mapping delle classi}
-Il model dell'applicativo è suddiviso in parte nel package ``DatabaseManagementPackage'' e in parte, per
-le parti non legate al database, nel package principale.
+Il model dell'applicativo è suddiviso in parte nel package ``DatabaseManagementPackage'' e in parte,
+all'interno del package principale.
 Il package di interfaccia al database è stato realizzato partendo, mediante \ac{EF Core},
-dalle tabelle del database, generando le classi entity.
+importando le tabelle del database sottoforma di classi entity.
 Una volta generate le classi entity, si sono individuati gli oggetti fondamentali del dominio,
 che sono stati mappati in classi \ac{DTO} mediante il package ``Mapster''.
+I \ac>{DTO} sono stati realizzati per essere utilizzati come oggetti neutri che non
+esponessero direttamente le classi entity, e quindi il database, all'esterno del package.
 Questi oggetti sono stati scelti in quanto rappresentano le entità principali del dominio,
-come ad esempio le entità ``Cliente'', ``Prodotto'' e ``Documento''.
-Le classi \ac{DTO} sono state realizzate partendo dalla struttura delle entity e, in
-corrispondenza dei campi delle entity legati alle foreign key, sono stati adottati due approcci differenti.
-Se il campo aveva una corrispondenza con una \ac{DTO}, si richiamava quest'ultima;
-altrimenti si è deciso di mappare il campo \textit{Dictionary<int,string>}, dove si salvavano l'\ac{ID} e la descrizione.
+come ad esempio ``Cliente'', ``Prodotto'' e ``Documento''.
+Le classi \ac{DTO} sono state realizzate partendo dalla struttura delle entity di riferimento e, in
+corrispondenza dei campi legati ad altre tabella mediante foreign key, sono stati adottati due approcci differenti.
+Se il campo aveva una corrispondenza con una classe mappata, si richiamava quest'ultima;
+altrimenti se diverso la  \texttt{Dictionary<int,string>}, dove si salvavano l'\ac{ID} e la descrizione.
 Il mapping è bidirezionale per poter riconvertire, quando necessario, un \ac{DTO} in entity per poterlo inserire nel database.
 \section{Struttura del package}
 Il package è stato strutturato in modo da separare le classi di test, i repository e le classi e interfacce esposte.
 All'esterno del package oltre alle classi \ac{DTO} ed Enum relativi ad alcuni Lookup, è
-stata esposta una classe univoca che espone i vari repository, denominata ``DatabaseManager''.
+stata costituita una classe univoca che espone i vari repository, denominata ``DatabaseManager''.
 Questa soluzione permette di avere un unico punto di accesso ai repository,
-evitando di esporre le classi interne del package.
-Il vantaggio della classe singola si ha anche nella gestione della Dependency Injection,
-in quanto si può registrare un'unica classe
-per tutti i repository, evitando di registrare ogni singolo repository.
-Si è poi realizzata una classe di test per ogni repository, che ne testasse le funzionalità di base.
-Nel package è stata inoltre predisposta una classe con compito di mantenere salvati i dati dell'utente loggato,
-come ad esempio l'\ac{ID} dell'utente, il nome e cognome, il ruolo e i permessi.
-Questa classe, registrata come singleton, permette di avere un unico punto di accesso ai dati dell'utente loggato,
-permettendo la gestione dei permessi in ogni parte dell'applicativo.
+evitando di esporre le classi interne del package e facilitando la Dependency Injection.
+Questa classe è stata registrata come singleton, e permettendo di essere
+ricgiamata ad ogni necessità di interazione con il database, senza dover istanziare ogni volta i repository dedicati.
+
+Ad ogni repository è stata associata una classe di test, che ne testasse in modo efficace i vari metodi.
+
+La gestione dei dati dell'utente loggato è stata affidata ad una classe dedicata, anchessa
+registrata come singleton, che mantenesse le infomazioni della sessione dell'utente.
+Tali informazioni includono, ad esempio l'\ac{ID} dell'utente, il nome e cognome, il ruolo e i permessi.
+La classe in questione, unita alla tabella \textit{Tabelle}, 
+permette di intercettare la tipologia di richiesta, il livello dell'utente e
+di conseguenza bloccare operazioni non permesse.
 \subsection{Classi di Test}
 Le classi di test realizzate sono state pensate con l'obiettivo di funzionare anche in presenza di dati reali.
 Per realizzare ciò si sono creati prima di ogni test dei savepoint del database,
 che permettessero di tornare allo stato iniziale.
-Successivamente, per ogni test, si creavano i dati di test fittizi che potessero validare
+Successivamente, per ogni test, si sono creati i dati di test fittizi che potessero validare
 le funzionalità del repository senza
 il rischio di prelevare dati reali.
 Questo approccio ha richiesto molto tempo per la ricostruzione dei test più complessi, ma
@@ -49,14 +54,13 @@ Per realizzare ciò si è adottato un approccio articolato come segue:
 Questo approccio ha permesso di avere un ciclo di sviluppo più veloce,
 riducendo il tempo di scrittura dei test.
 \subsection{Repository}
-I repository sono stati divisi in base alle entità principali del dominio, come ad esempio i Prodotti.
-Ogni repository poteva a sua volta gestire più \ac{DTO}, come ad esempio \textit{ProdottoDTO}
-e \textit{ProdottocomposizioneDTO} appartenenti allo stesso oggetto di dominio.
-Oltre alle operazioni \ac{CRUD}, si è scelto per quanto riguarda le operazioni di ricerca, di utilizzare
-dei metodi che permettessero di inserire molteplici criteri di ricerca.
+I repository sono stati divisi in base alle entità principali del dominio, come ad esempio i Prodotti, i Clienti e i Documenti.
+Oltre alle operazioni \ac{CRUD} principali si è scelto, per quanto riguarda le operazioni di ricerca, 
+di utilizzare dei metodi che permettessero di inserire molteplici criteri di ricerca.
 All'interno sono poi stati utilizzati i \texttt{Queryable} per costruire la query in esame.
-I \texttt{Queryable} permettono di costruire pezzo per pezzo query complesse,
-senza dover scrivere molteplici metodi di ricerca.
+I \texttt{Queryable} permettono la costruzione pezzo per pezzo query complesse,
+includendo solo i criteri necessari riducendo la coplessità delle query se non necessario.
+Con un unico metodo si possono costruire query complesse, evitando di scrivere molteplici metodi per ogni combinazione di criteri.
 Un esempio di query costruita con \texttt{Queryable} è riportata nel listato~\ref{lst:esempio-query-queryable}.
 \lstinputlisting[
   language=CSharp,
