@@ -31,7 +31,7 @@ che possono essere schedulati o eseguiti manualmente.
 Mediante interfaccia grafica è possibile creare flussi di query, con l'opportunità di gestire
 eccezioni, condizioni di esecuzione e logiche di flusso.
 Il principale utilizzo di \ac{SSIS} è stato quello di organizzare
- un flusso di query per la creazione e popolamento del database.
+un flusso di query per la creazione e popolamento del database.
 Il primo flusso gestito è il seguente:
 \begin{enumerate}
     \item crea se non esiste il database;
@@ -54,17 +54,17 @@ All'interno erano presenti più tabelle con lo stesso contesto di utilizzo o tab
 Si è quindi proceduto all'eliminazione di tali tabelle ed alla normalizzazione delle restanti in seconda forma normale.
 Un'altra modifica sostanziale è stata l'unificazione di tabelle similari in un'unica tabella,
 discriminate mediante campo \textit{prefTabella\_tipo} proveniente da un lookup dedicato.
-Un esempio di questo contesto sono le tabelle di "Offerta" e "Ordine",
+Un esempio di questo contesto sono le tabelle di ``Offerta'' e ``Ordine'',
 dove una è la diretta evoluzione della precedente e mantengono gli stessi dati.
-Le due tabelle sono state unite sotto il cappello della tabella "Documenti",
+Le due tabelle sono state unite sotto il cappello della tabella ``Documenti'',
 discriminata solo dal campo \textit{prefTabella\_tipo}.
 In queste tabelle, in particolare, era importante tenere traccia del legame Padre-Figlio.
 È stato aggiunto un campo \textit{doc\_documento\_padre} che, mediante
 chiave importata, permettesse di ricostruire il legame attraverso un auto join.
 Il metodo così pensato, in ottica di ampliamento, permette la gestione di ulteriori
 tipologie di documenti senza cambiare la struttura.
-Un esempio è l'aggiunta della tipologia di documento "Tecnico",
-che sarà l'evoluzione del documento "Ordine" e conterrà la revisione tecnica della stessa.
+Un esempio è l'aggiunta della tipologia di documento ``Tecnico'',
+che sarà l'evoluzione del documento ``Ordine'' e conterrà la revisione tecnica della stessa.
 \subsection{Creazione tabelle di lookup}
 Come già prima accennato, le tabelle di lookup sono state create per discriminare le tipologie di dati.
 Tali tabelle sono state pensate per garantire una estedibilità futura e far fronte a modifiche non previste.
@@ -92,11 +92,11 @@ Lo schema relazionale risultante è visibile in figura~\ref{fig:ERProdotti}.
 \end{figure}
 La gestione, così pensata, permette di effettuare ricerche approfondite sui ricambi di un  determinato prodotto.
 Questo sistema, insieme ad appositi lookup, ha inoltre permesso la costruzione del modulo
-"Configuratore" per la configurazione di prodotto.~\ref{chapter:Configurazione}.
+``Configuratore'' per la configurazione di prodotto.~\ref{chapter:Configurazione}.
 \subsubsection{Tabelle gestione lingue}
 Si è deciso di aggiungere delle apposite tabelle per la gestione delle traduzioni di campi del database.
 Le tabelle predisposte contengono al loro interno la chiave della tabella di riferimento,
-il campo da tradurre e la chiave importata dalla tabella delle "Lingue".
+il campo da tradurre e la chiave importata dalla tabella delle ``Lingue''.
 Quest'ultima tabella non era presente nella soluzione di partenza.
 La gestione così pensata permette di estendere le traduzioni a più lingue senza modificare la struttura del database.
 Si è anche aggiunta una apposita tabella per gestire le traduzioni nelle reportistiche dei documenti.
@@ -145,7 +145,7 @@ La gestione dei permessi è stata realizzata mediante una tabella dedicata, deno
 Essa associa al nome di una tabella del database un valore corrispodente al
 livello massimo di ruolo per eseguire lettura o scrittura su tale tabella.
 I ruoli sono definiti ed ordinati dal più dominante al meno dominante, all'interno della
-tabella \textit{Tipi\_utente}.
+tabella ``Tipi\_utente''.
 Si ha quindi 0 per l'Admin e 100 per il visualizzatore, dando modo in futuro
 di aggiungere altri ruoli intermedi.
 Questo metodo rende flessibile la gestione dei permessi di accesso alle tabelle,
@@ -160,7 +160,7 @@ studiate le tabelle di provenienza per ricostruire un ambiente similare, facilit
 In particolare, dal database Fusion, si è ricostruita la struttura di assegnazione dinamica delle proprietà ad un prodotto.
 Tale struttura, ponendo la cardinalità n ad n tra prodotti e proprietà con aggiunta del campo valore,
 permette l'assegnazione e la creazione di nuove proprietà senza modificare la struttura del database.
-Alla tabella "Proprietà" è associata la tabella "Proprietà\_valori"
+Alla tabella ``Proprietà'' è associata la tabella ``Proprietà\_valori''
 per la gestione dei valori standard.
 Il diagramma ER è mostrato in figura~\ref{fig:ERProdotti}.
 Una volta ricostruite le strutture si sono create le seguenti Stored Procedure:
@@ -170,7 +170,7 @@ Una volta ricostruite le strutture si sono create le seguenti Stored Procedure:
     \item Da \ac{ERP} → importazione delle distinte dei prodotti.
     \item Da \ac{PLM} → importazione ed aggiornamento delle proprietà dei prodotti.
 \end{itemize}
-Tutte le stored procedure hanno al loro interno dei controlli che permettono di 
+Tutte le stored procedure hanno al loro interno dei controlli che permettono di
 attuare le modifiche solo se presenti dei cambiamenti, evitando di sovraccaricare il database con operazioni non necessarie.
 Oltre a ciò saranno da prevedere altre stored procedure di importazione per la gestione di altri dati,
 come ad esempio i clienti, tassi di cambio, ecc.
