@@ -1,6 +1,12 @@
 \chapter{Analisi dei requisiti}\label{chap:AnalisiRequisiti}
 \section{Requisiti funzionali}
 Questa sezione è dedicata alla suddivisione dei dati raccolti in requisiti funzionali.
+In linea di massima, i requisiti possono emersi mirano a mantenere 
+la flessibilità del sistema, ma al contempo a garantire la sicurezza dei dati e la loro integrità.
+Sono emersi infatti, in molteplici punti, la necessità di evitare 
+duplicazioni di dati ed il mantenere un filo logico della vita di una offerta.
+La concretezza dei dati è da mantenere mediante logiche di controllo ed incrocio dei dati, segnalando 
+o bloccando l'utente in caso di incongruenze.
 La tabella, nella tabella~\ref{tab:RequisitiFunzionali} seguente, suddivide i requisiti per area del progetto.
 Insieme al requisito e alla sua descrizione è presente anche l'elenco dei ruoli a cui esso è rivolto.
 \newpage
@@ -11,6 +17,15 @@ Insieme al requisito e alla sua descrizione è presente anche l'elenco dei ruoli
 \end{table}
 \section{Requisiti non funzionali}
 Questa sezione, a differenza della precedente raccoglie i requisiti non funzionali.
+In linea di massima, i requisiti non funzionali mirano
+a migliorare l'attuale esperienza utente.
+Sono da attenzionare in particolare la fluidità del sistema,
+l'intuitività delle interfacce, e la velocità di esecuzione.
+Le interfacce devono essere predisposte per device mobili e
+ proporre all'utente solo ciò che il suo ruolo necessita.
+Tra i requisiti non funzionali, è emerso come sia necessario gestire la 
+raccolta dei dati da altri database, anche a runtime, per garantire la correttezza dei dati e la loro integrità.
+Un esempio sono le giacenze dei prodotti in magazzino.
 La tabella che seguirà, nella tabella~\ref{tab:RequisitiNonFunzionali}, 
 insieme al requisito stesso, raccoglie anche la sua categoria 
 e la sua priorità all'interno dell'implementazione.
