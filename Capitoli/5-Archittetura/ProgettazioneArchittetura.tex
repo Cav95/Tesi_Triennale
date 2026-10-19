@@ -3,6 +3,9 @@
 Le scelte architetturali sono dipese in primo luogo dall'infrastruttura aziendale,
 e successivamente dalle richieste degli utenti durante gli incontri.
 L'utilizzo di \sqlserver{}, come motore di database, è stato adottato come base di tutte le scelte successive.
+\sqlserver{} è stato scelto in quanto già presente in azienda, e quindi non richiede ulteriori investimenti.
+La seconda motivazione, non meno importante, è lo stesso in cui allocano i dati dell' \ac{ERP} aziendale e del \ac{PLM} di prodotto.
+Mantendendo lo stesso motore di database, si è potuto garantire la compatibilità dei dati e la loro integrità.
 Da questo caposaldo, la ricerca si è indirizzata verso un framework che interagisse 
 sia con \sqlserver{} sia con SQLite.\cite{SQLite}.
 La necessità di operare offline ha guidato la ricerca di un sistema installabile in locale,
@@ -47,7 +50,7 @@ Il diagramma dei deployment è riassunto in figura~\ref{fig:Diagramma dei deploy
     \caption{Diagramma dei deployment}\label{fig:Diagramma dei deployment}
 \end{figure}
 Nella fase di sviluppo, per testare la struttura del database,
-è stato scelto di utilizzare una versione di \sqlserver{} locale, denominata SQL Express\cite{SQLExpress}.
+è stato scelto di utilizzare una versione di \sqlserver{} locale, denominata SQL Express~\cite{SQLExpress}.
 SQL Express condivide con \sqlserver{} tutte le caratteristiche principali.
 Questa proprietà ha permesso di costruire query e testare funzionalità localmente in modo compatibile
 con il database di produzione.
@@ -55,6 +58,10 @@ con il database di produzione.
 \section{Package}
 L'intero software è stato suddiviso in tre distinti package, con responsabilità diverse.
 Si è cercato di seguire il principio \ac{DRY} e la riusabilità degli stessi.
+Il principio \ac{DRY} consiste nel non ripetere codice già scritto, ma di riutilizzarlo.
+Questo aproccio, favorito da contina rifattorizzazione del codice, porta ad avere componenti
+riutilizzabili nel codice.
+
 \subsection{Interfaccia al database}
 Il package di interfaccia al database, denominato ``DatabaseManagementPackage'',
 ha il compito di gestire tutti gli aspetti legati a quest'ultimo, come:
@@ -70,11 +77,19 @@ ha il compito di gestire tutti gli aspetti legati a quest'ultimo, come:
           validando i cambiamenti apportati;
     \item esporre al di fuori del package solo file neutri e la classe manager del database.
 \end{itemize}
-Nell'implementazione si è utilizzato il pacchetto \nuget{} \ac{EF Core}\cite{EFCore}.
+Nell'implementazione si è utilizzato il pacchetto \nuget{} \ac{EF Core}~\cite{EFCore}.
 Questo modulo permette una gestione efficiente delle operazioni di accesso ai dati,
 consentendo di astrarre le tabelle del database in classi di entity.
-Le entity sono state a loro volta mappate in \ac{DTO}, proteggendo i dati.
-Questa seconda mappatura è stata realizzata mediante il package ``Mapster''\cite{Mapster},
+Le entity sono state a loro volta mappate in \ac{DTO}.
+Un \ac{DTO} è un design pattern architetturale ideato 
+per ottimizzare lo scambio di informazioni tra diversi layer di un applicazione.
+ Opera come un aggregatore leggero che raggruppa i dati necessari 
+ per una specifica comunicazione (come il traffico client-server).
+  Privo di logica di business o comportamenti applicativi, il \ac{DTO}
+   espone esclusivamente le proprietà richieste dal caso d'uso:
+    questa semplificazione minimizza la dimensione del payload, 
+    riduce le chiamate di rete e la latenza complessiva, ottimizzando le prestazioni del sistema.~\cite{DTO}
+Questa seconda mappatura è stata realizzata mediante il package ``Mapster''~\cite{Mapster},
 appartenente a terze parti.
 La mappatura entity-\ac{DTO} è stata realizzata in modo bidirezionale in quanto, in alcuni casi,
 è necessario convertire un \ac{DTO} in entity per poterlo salvare nel database.
