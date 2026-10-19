@@ -49,7 +49,7 @@ post-vendita presenta diverse inefficienze dovute alla frammentazione degli
 strumenti e alla mancanza di dati strutturati.
 
 \begin{itemize}
-      \item \textbf{Input disorganizzato:} Le richieste dei clienti arrivano principalmente via email in formati non strutturati (testo libero, foto, "collage con Paint"),
+      \item \textbf{Input disorganizzato:} Le richieste dei clienti arrivano principalmente via email in formati non strutturati (testo libero, foto, ``collage con Paint''),
             spesso prive del numero di commessa, rendendo difficile l'identificazione dell'impianto e dei componenti.
             Attualmente esiste nel sito web un form per la richiesta ricambi ma non è utilizzato dai clienti abitualmente.
       \item \textbf{Identificazione cliente/impianto:} Spesso il cliente non fornisce il numero di commessa, obbligando l'operatore a cercare manualmente tra i clienti e gli impianti esistenti.
@@ -57,7 +57,7 @@ strumenti e alla mancanza di dati strutturati.
       \item \textbf{Template di partenza:} Attualmente non esiste un template di partenza, si parte quindi da vecchi ordini e, per individuare che siano delle assistenze, l'unico discriminante è l'autore.
             In questo caso Natalia in quanto è l'unica che si occupa delle assistenze. Questa pratica permette di portarsi dietri tutte le condizioni di vendita ,
             proprietà del cliente e risparmiare tempo nella compilazione (Attualmente molto oneroso in fatto di tempo).
-      \item \textbf{Ricerca ricambi manuale:} L'operatore deve consultare disegni tecnici (Fusion, PDF, cartacei) e database separati (Access, Ad Hoc, Excel , Server "Commesse" ) per identificare i codici dei ricambi.
+      \item \textbf{Ricerca ricambi manuale:} L'operatore deve consultare disegni tecnici (Fusion, PDF, cartacei) e database separati (Access, Ad Hoc, Excel , Server ``Commesse'' ) per identificare i codici dei ricambi.
       \item \textbf{Inserimento del componente:} Una volta individuato il componente , non essendo una corrispondeza univoca dei codici ,
             l'operatore deve trovare la corrispondenza in Access o creare un nuovo codice per il ricambio.
       \item \textbf{Creazione offerta complessa:} Non è facile ne la ricerca ne l'assegnazione di un prezzo se il componente è datato, la compilazione della offerta talvolta richiede calcoli manuali
@@ -82,7 +82,7 @@ Dall'intervista a Natalia Danielova sono emerse le seguenti criticità del siste
             Attualmente si consulta direttamente l'ufficio tecnico elettrico per un elenco dei componenti necessari da offrire.
       \item \textbf{Gestione obsolescenza:} È difficile sapere se un componente venduto anni fa è stato sostituito da una nuova versione o se è obsoleto, rischiando di vendere pezzi non più procurabili.
             Serve un sistema di tracciamento delle sostituzioni e obsolescenze (Es: Fusion).
-      \item \textbf{Discrepanza "As Built":} Le modifiche fatte in cantiere (RA di cantiere) o successive alla vendita non sono sempre tracciate in modo unitario, rendendo difficile conoscere la configurazione reale dell'impianto attuale.
+      \item \textbf{Discrepanza ``As Built'':} Le modifiche fatte in cantiere (RA di cantiere) o successive alla vendita non sono sempre tracciate in modo unitario, rendendo difficile conoscere la configurazione reale dell'impianto attuale.
             Punto fondamentale per una corretta assistenza senza errori.
       \item \textbf{Sistema di traduzione:} è fondamentale avere un sistema di traduzione integrato per le descrizioni dei componenti e delle offerte,
             attualmente si utilizzano servizi esterni (Google Translate) che richiedono tempo e possono introdurre errori.
@@ -112,9 +112,9 @@ Per migliorare l'integrazione dei dati e la gestione delle informazioni, il nuov
 \subsection{Ricerca e navigazione ricambi}
 Per facilitare la ricerca e la selezione dei ricambi, il sistema deve prevedere:
 \begin{itemize}
-      \item \textbf{Ricerca multicriterio:} Necessità di cercare per Numero di Commessa (fondamentale), Cliente, Stabilimento, e Tag Tecnici (es. "valvola a farfalla").
+      \item \textbf{Ricerca multicriterio:} Necessità di cercare per Numero di Commessa (fondamentale), Cliente, Stabilimento, e Tag Tecnici (es. ``valvola a farfalla'').
       \item \textbf{Struttura ad albero/gerarchica:} Possibilità di esplorare la distinta base (BOM) scendendo nei livelli (esplosione componenti) per individuare il singolo ricambio.
-      \item \textbf{Filtri per "Ricambi tipici":} Implementazione di filtri che mostrino, per una data famiglia di macchine (es. Lift, Vibrovaglio), solo i componenti tipicamente venduti come ricambi,
+      \item \textbf{Filtri per ``Ricambi tipici'':} Implementazione di filtri che mostrino, per una data famiglia di macchine (es. Lift, Vibrovaglio), solo i componenti tipicamente venduti come ricambi,
             i codici devono essere univoci con i codici tecnici rendendo dopo l'idividuazione del componente veloce l'assistenza.
 \end{itemize}
 
@@ -124,8 +124,8 @@ Per semplificare e velocizzare la creazione delle offerte di ricambi e assistenz
       \item \textbf{Automazione descrizioni e lingue:} Compilazione automatica delle descrizioni in lingua (traduzioni pre-caricate) senza dover usare traduttori esterni.
       \item \textbf{Calcolo prezzi automatizzato:} Il sistema deve pescare il costo industriale da Ad-Hoc e applicare le maggiorazioni o i listini specifici per cliente/settore.
       \item \textbf{Numero univoco offerta:} Mantenimento di un numero univoco che segue la pratica dalla richiesta iniziale all'ordine confermato, per evitare duplicazioni e facilitare la rintracciabilità.
-            Aggiunta di uno stato di avanzamento \textit{(es. "In Revisione", "Inviata", "Accettata", "Rifiutata")} facilitando l'interpretazione.
-      \item \textbf{Distinzione tipologie RA:} Gestione differenziata ma tracciabile per "Ricambi", "Ampliamenti" e "RA di Cantiere". Al momento le assistenze prima citate sono sotto un unico cappello del "VSS".
+            Aggiunta di uno stato di avanzamento \textit{(es. ``In Revisione'', ``Inviata'', ``Accettata'', ``Rifiutata'')} facilitando l'interpretazione.
+      \item \textbf{Distinzione tipologie RA:} Gestione differenziata ma tracciabile per ``Ricambi'', ``Ampliamenti'' e ``RA di Cantiere''. Al momento le assistenze prima citate sono sotto un unico cappello del ``VSS''.
 \end{itemize}
 
 \subsection{Funzionalità avanzate e UX}
@@ -134,7 +134,7 @@ Per migliorare l'esperienza utente e l'efficienza operativa, il sistema deve pre
       \item \textbf{Schermata offerta:} Importante riporatare tutte le infomazioni attuali del cliente (Indirizzo , Nome , Numero di commessa associata) in modo chiaro e visibile.
       \item \textbf{Scheramata dedicata allo storico:} Una sezione dove poter visualizzare tutte le offerte/ordini precedenti associati al cliente o alla commessa selezionata.
       \item \textbf{Schermata offerta intuitiva:} Interfaccia user-friendly che guidi l'utente passo-passo nella compilazione dell'offerta, minimizzando errori e omissioni.
-      \item \textbf{Visualizzazione dati completa:} Interfaccia che mostri tutte le informazioni rilevanti (es. dettagli tecnici completi come "filtrante/non filtrante") senza dover scorrere o aprire popup.
+      \item \textbf{Visualizzazione dati completa:} Interfaccia che mostri tutte le informazioni rilevanti (es. dettagli tecnici completi come ``filtrante/non filtrante'') senza dover scorrere o aprire popup.
 \end{itemize}
 
 \subsection{Integrazioni future e scalabilità}
