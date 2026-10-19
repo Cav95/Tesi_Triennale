@@ -1,0 +1,94 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+% Titolo e intestazione
+\title{Marco Ricci}
+\date{30-12-2025}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Ruolo} 
+Marco Ricci è direttore di produzione all'interno dell'azienda e si occupa di :
+\begin{itemize}
+    \item Pianificazione della produzione.
+    \item Coordinamento tra i reparti produttivi.
+    \item Gestione delle risorse umane e materiali.
+    \item Ottimizzazione dei processi produttivi.
+    \item Monitoraggio della qualità del prodotto finito.
+\end{itemize}
+
+\subsection{Utilizzo attuale di ACESS}
+\begin{itemize}
+    \item \textbf{Scopo principale:} Verifica del valore monetario della commessa o dell'RA (Richiesta Assistenza).
+    \item \textbf{Utilizzo secondario:} Controllo note tramite anteprima di stampa per l'Ufficio Tecnico (UT) quando mancano nel contratto principale.
+\end{itemize}
+
+\subsection{Proposte}
+\begin{itemize}
+    \item \textbf{Obiettivo:} Creare un dialogo univoco tra Ufficio Tecnico e Commerciale mediante codici univoci utili ed utilizzabili sia dal commerciale che dal tecnico( codici $\mathdollar$).
+    \item \textbf{Codici macro-modelli:} Sviluppo di macro-distinte "vuote" ma valorizzate economicamente in tempo reale, utilizzabili dai commerciali per le offerte e successivamente riempite dai tecnici.
+    \item \textbf{Gestione contratto impianti:} Creazione di capitoli specifici per le macchine e per le parti di impianto, con possibilità di aggiungere note tecniche dettagliate.
+    \item \textbf{Possibilità di notifiche:} Possibilità di gestire le notifiche quando un contratto passa di ufficio.
+\end{itemize}
+
+\subsection{Flusso di gestione dei contratti (Workflow)}
+\begin{itemize}
+    \item \textbf{Ricezione:} Il contratto arriva a Stefania per la registrazione e l'inserimento su Fusion.
+    \item \textbf{Smistamento:}
+    \begin{itemize}
+        \item \textbf{Ricambistica semplice:} Inviata direttamente al reparto dedicato.
+        \item \textbf{Commesse/Ampliamenti impegnative:} Gestite dal direttore di produzione.
+    \end{itemize}
+    \item \textbf{Pianificazione:}
+    \begin{itemize}
+        \item Utilizzo di un file Excel secondario condiviso con i commerciali per definire date di consegna realistiche prima dell'inserimento ufficiale.
+        \item Inserimento in "Stato Impianti" solo dopo la definizione delle date.
+        \item Assegnazione al reparto Project Manager.
+        \item Torna in ufficio produzione che verifica sia stata inserita in "Stato Impianti" correttamente.
+        \item Viene mandato all'ufficio tecnico per la creazione del progetto.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Criticità e miglioramenti necessari}
+\begin{itemize}
+    \item \textbf{Qualità del contratto:} 
+    \begin{itemize}
+        \item Evitare copia-incolla errati da vecchi contratti.
+        \item \textbf{Struttura logica:} Le informazioni devono seguire un flusso funzionale (non dati sparsi).
+        \item \textbf{Centralizzazione dati:} Unica sezione per date, tensioni, voltaggi e specifiche tecniche.
+    \end{itemize}
+    \item \textbf{Ricambistica:} Separazione netta dei flussi tra commesse complesse e ricambistica pura, in previsione di un ufficio ricambi dedicato futuro.
+\end{itemize}
+
+\subsection{Specifiche tecniche e normative}
+\begin{itemize}
+    \item \textbf{Sezione dedicata nel contratto:} Necessità di campi specifici per:
+    \begin{itemize}
+        \item Normative particolari (es. N1090, UL/CSA, UNI 5060).
+        \item Capitolati speciali.
+        \item Dettagli logistici (Montaggio, trasporto/Incoterms, FAT - Factory Acceptance Test).
+    \end{itemize}
+    \item \textbf{Gestione "Memoria" clienti:} Integrazione automatica delle specifiche ricorrenti per clienti abituali (es. verniciature o etichettature personalizzate) per evitare ricerche manuali su commesse vecchie.
+\end{itemize}
+
+\end{document}

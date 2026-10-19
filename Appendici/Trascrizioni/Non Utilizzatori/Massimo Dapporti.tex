@@ -1,0 +1,120 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+% Titolo e intestazione
+\title{Massimo Dapporti}
+\date{21-01-2026}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Ruolo} 
+Massimo Dapporti è il responsabile dell'ufficio tecnico elettrico con
+esperienza di più di 15 anni all'interno dell'azienda e si occupa di :
+\begin{itemize}
+      \item Supervisione e coordinamento del team tecnico elettrico.
+      \item Gestione dei progetti tecnici e delle specifiche elettriche.
+      \item Interfaccia con il reparto project management per la definizione tecnica dei
+            progetti.
+      \item Progettazione dei quadri ed impianti elettrici.
+\end{itemize}
+
+\section{Struttura del contratto e distinta base}
+\begin{itemize}
+      \item \textbf{Gestione per macro-codici:}
+            La vendita deve avvenire tramite ``Macro-codici'' (es. \textit{Macro-codice Quadro}, \textit{Macro-codice Pannello Operatore})
+            direttamente agganciati alla distinta base, evitando la gestione di singole righe disordinate nel contratto.
+
+      \item \textbf{Distinzione nuovo vs ampliamento:}
+            Il software deve operare una distinzione netta tra la vendita di un quadro nuovo e l'ampliamento di uno esistente.
+            \begin{itemize}
+                  \item \textbf{Requisito critico:} In caso di ampliamento, il sistema dovrebbe indicare la disponibilità di spazio fisico nel quadro esistente,
+                        riducendo la necessità di verifiche manuali. Questa cosa ridurebbe anche i costi legati a valutazione errate in fase di preventivo.
+            \end{itemize}
+
+      \item \textbf{Esplosione automatica dei componenti:}
+            L'inserimento di componenti meccanici \textit{(es. motori, vibratori)} deve generare automaticamente le voci elettriche correlate nel contratto tecnico.
+            \begin{itemize}
+                  \item \textbf{Caso inverter:} Devono essere logicamente integrati nel quadro o associati all'utenza specifica, non trattati come voci isolate.
+            \end{itemize}
+      \item \textbf{Contratto elettrico vs meccanico:}Ad oggi i componeneti sono mischiati all'interno del contratto.
+            È necessario mantenere una distinzione chiara tra le voci elettriche e meccaniche per facilitare la gestione e la lettura del contratto.
+            Creare due sezioni distinte per quanto intresiicamnete corelate.
+      \item \textbf{Voci importanti da includere:}
+            \begin{itemize}
+                  \item Paesi di destinazione , per gestire le normative specifiche.
+                  \item Tipologia di alimentazione elettrica \textit{(es. 230V 50hz, 400V 60hz ,
+                              DC/AC,ecc\dots)}.
+                  \item Tipologia di materiale quadro \textit{(es. inox, verniciato , ecc\dots)}.
+                  \item Tipologia di canaline \textit{(es. chiusa, forata , ecc\dots)}.
+                  \item Numero e tipologia di utenze \textit{(es. motori, riscaldatori, sensori,
+                              ecc\dots)}.
+                  \item Se presenti sezionatori bordo macchina.
+                  \item Tipologia di certificazione \textit{(es. UL/USA)}
+            \end{itemize}
+\end{itemize}
+
+\section{Configurazione tecnica guidata}
+\begin{itemize}
+      \item \textbf{Valutazione inserimento materiale:}
+            \begin{itemize}
+                  \item \textbf{Guida al corretto inserimento:}
+                        Il configuratore deve poter guidare l'utente nella scelta del materiale del quadro in base alle utenze già vendute precedentemnete \textit{(es. venduti 3 motori $\rightarrow$ suggerire Inverter della taglia corretta)}.
+                  \item \textbf{Suggerimenti:} Il sistema deve al termine porre domande per suggerire del materiale facoltativo ma consigliato \textit{(es. Sezionatore)}.
+            \end{itemize}
+      \item \textbf{Gestione standard e normative:}
+            \begin{itemize}
+                  \item \textbf{Sezionatori bordo macchina:} Inserimento automatico di default per ogni motore, conformemente allo standard attuale.
+                  \item \textbf{Certificazioni (UL/USA):} Gestione automatica delle varianti normative. La selezione del mercato di destinazione (es. USA)
+                        deve aggiornare automaticamente la componentistica e i costi relativi.
+            \end{itemize}
+\end{itemize}
+
+\section{Gestione Storico, Ricambi e Feedback}
+\begin{itemize}
+      \item \textbf{Tracciabilità delle versioni (Superamento codici generici):}
+            Il sistema deve garantire la rintracciabilità esatta del componente venduto (es. variante specifica di un \textit{WP104}).
+
+\end{itemize}
+\section{Calcolo Costi e Preventivazione}
+\begin{itemize}
+      \item \textbf{Integrazione logiche di calcolo:}
+            Il nuovo software deve internalizzare le logiche di dimensionamento e calcolo costi attualmente gestite su un file excel esterno \textbf{(QUAEL.xltm)} obsoleti,
+            centralizzando il know-how.
+
+      \item \textbf{Analisi costo ore:}
+            Il sistema di preventivazione deve quantificare l'impatto delle ore di lavorazione differenziate
+            (es. il costo ore per un ampliamento quadro è superiore a quello per una produzione standard in serie).
+      \item \textbf{Validazione preventivi:} Attualmente si chiede al commerciale di compilare un foglio excel \textbf{(PROGETTO CEPI - Scheda progetto r2.xlsx)}
+            esterno per verificare se sono state considerati
+            tutti gli aspetti elettrici . Questo foglio viene poi controllato dall'ufficio tecnico elettrico in fase progettuale.
+            Il nuovo software dovrebbe integrare queste logiche di validazione per ridurre gli errori e garantire la completezza del preventivo.
+\end{itemize}
+
+\section{Proposte migliorative:}
+Sono state proposte delle migliorie generali:
+\begin{itemize}
+      \item \textbf{Feedback Loop ``As Built'':}
+            Sarebbe utile avere un sistema di feedback che permetta di registrare le modifiche effettive apportate in fase di realizzazione rispetto al progetto iniziale.
+            Questo aiuterebbe a identificare discrepanze, ottimizzare i processi e migliorare la precisione delle future preventivazioni.
+\end{itemize}
+\end{document}

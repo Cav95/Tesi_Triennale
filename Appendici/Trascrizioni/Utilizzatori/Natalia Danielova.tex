@@ -1,0 +1,158 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+% Titolo e intestazione
+\title{Natalia Danielova}
+\date{08-01-2026}
+
+
+\begin{document}
+\maketitle
+
+\section{Ruolo}
+Natalia Danielova è una commerciale con esperienza di più di 5 anni all'interno
+dell'azienda e si occupa di :
+\begin{itemize}
+      \item Gestione delle richieste di ricambi e assistenza post-vendita.
+\end{itemize}
+
+\section{Operazioni comuni}
+Le operazioni più comuni svolte da Natalia all'interno dell'applicativo
+includono:
+\begin{itemize}
+      \item Creazione di offerte per ricambi e assistenza (RA).
+      \item Creazione degli ordini qualvolta volta un'offerta viene accettata.
+      \item Nella creazione delle offerte ricerca e copia di vecchie offerte simili.
+      \item Correzione delle traduzioni automatiche fornite da Access.
+\end{itemize}
+
+\section{Flusso di lavoro attuale}
+Il flusso di lavoro attuale per la gestione dei ricambi e dell'assistenza
+post-vendita presenta diverse inefficienze dovute alla frammentazione degli
+strumenti e alla mancanza di dati strutturati.
+
+\begin{itemize}
+      \item \textbf{Input disorganizzato:} Le richieste dei clienti arrivano principalmente via email in formati non strutturati (testo libero, foto, "collage con Paint"),
+            spesso prive del numero di commessa, rendendo difficile l'identificazione dell'impianto e dei componenti.
+            Attualmente esiste nel sito web un form per la richiesta ricambi ma non è utilizzato dai clienti abitualmente.
+      \item \textbf{Identificazione cliente/impianto:} Spesso il cliente non fornisce il numero di commessa, obbligando l'operatore a cercare manualmente tra i clienti e gli impianti esistenti.
+            Una alternativa è richiedre al cliente il numero della commessa impresso sulle etichette affisse nei componenti montati.
+      \item \textbf{Template di partenza:} Attualmente non esiste un template di partenza, si parte quindi da vecchi ordini e, per individuare che siano delle assistenze, l'unico discriminante è l'autore.
+            In questo caso Natalia in quanto è l'unica che si occupa delle assistenze. Questa pratica permette di portarsi dietri tutte le condizioni di vendita ,
+            proprietà del cliente e risparmiare tempo nella compilazione (Attualmente molto oneroso in fatto di tempo).
+      \item \textbf{Ricerca ricambi manuale:} L'operatore deve consultare disegni tecnici (Fusion, PDF, cartacei) e database separati (Access, Ad Hoc, Excel , Server "Commesse" ) per identificare i codici dei ricambi.
+      \item \textbf{Inserimento del componente:} Una volta individuato il componente , non essendo una corrispondeza univoca dei codici ,
+            l'operatore deve trovare la corrispondenza in Access o creare un nuovo codice per il ricambio.
+      \item \textbf{Creazione offerta complessa:} Non è facile ne la ricerca ne l'assegnazione di un prezzo se il componente è datato, la compilazione della offerta talvolta richiede calcoli manuali
+            (prezzi, pesi, volumi). Spesso si ricorre alla copia di vecchie offerte (RA) o commesse, pratica che trascina errori pregressi.
+\end{itemize}
+
+\section{Problemi attuali del sistema}
+Dall'intervista a Natalia Danielova sono emerse le seguenti criticità del sistema attuale:
+\begin{itemize}
+      \item \textbf{Lentezza e complessità:} L'intero processo di gestione delle richieste di ricambi è lento e laborioso, richiede molto tempo per completare un'offerta.
+            Questo è dovuto alla necessità di consultare molteplici fonti di dati non integrate. Il programma stesso utilizzato (Access) risulta lento e macchinoso con molti tempi morti.
+      \item \textbf{Disallineamento codici:} Esiste una discrepanza tra i codici commerciali e quelli tecnici/gestionali. Questo costringe a ricerche manuali
+            su schemi funzionali o database separati per identificare il pezzo corretto (Ad-Hoc , Fusion,  \dots).
+      \item \textbf{Mancanza di automazione nei calcoli:}
+            \begin{itemize}
+                  \item \textbf{Prezzi:} I costi e i prezzi di vendita devono essere spesso calcolati manualmente o verificati su Excel/Ad Hoc, specialmente per componenti su misura o obsoleti.
+                  \item \textbf{Logistica:} Non esiste un calcolo automatico di volumi e pesi per il trasporto; l'utente deve ipotizzare i dati basandosi su vecchi DDT o esperienza.
+                        Il costo è talvolta calcolato mediante sito di DHL.
+                  \item \textbf{Manodopera:} I tempi e i costi per gli interventi tecnici (es. sostituzione saccone) non sono standardizzati e richiedono consultazioni continue con i colleghi (es. Logistica).
+            \end{itemize}
+      \item \textbf{Componenti elettrici:} La gestione ed inserimento di materiale elettrico è molti difficile per la complessità e varietà di codici esistenti.
+            Attualmente si consulta direttamente l'ufficio tecnico elettrico per un elenco dei componenti necessari da offrire.
+      \item \textbf{Gestione obsolescenza:} È difficile sapere se un componente venduto anni fa è stato sostituito da una nuova versione o se è obsoleto, rischiando di vendere pezzi non più procurabili.
+            Serve un sistema di tracciamento delle sostituzioni e obsolescenze (Es: Fusion).
+      \item \textbf{Discrepanza "As Built":} Le modifiche fatte in cantiere (RA di cantiere) o successive alla vendita non sono sempre tracciate in modo unitario, rendendo difficile conoscere la configurazione reale dell'impianto attuale.
+            Punto fondamentale per una corretta assistenza senza errori.
+      \item \textbf{Sistema di traduzione:} è fondamentale avere un sistema di traduzione integrato per le descrizioni dei componenti e delle offerte,
+            attualmente si utilizzano servizi esterni (Google Translate) che richiedono tempo e possono introdurre errori.
+            Viene talvolta utilizzato il traduttore automatico di Access.
+\end{itemize}
+
+\section{Requisiti Funzionali per il Nuovo Software}
+
+\subsection{Database e integrazione}
+Per migliorare l'integrazione dei dati e la gestione delle informazioni, il nuovo sistema deve prevedere:
+\begin{itemize}
+      \item \textbf{Database unificato:} Il nuovo sistema deve integrare o dialogare con Ad-Hoc (gestionale), Fusion (Pdm) e l'archivio storico per garantire l'univocità del dato.
+      \item \textbf{Codifica condivisa:} Allineamento tra codici commerciali e tecnici. Il codice usato per l'offerta deve permettere di risalire automaticamente a costi, distinta base e disegni.
+      \item \textbf{Gestione revisioni:} Il sistema deve tracciare le revisioni dei clienti (cambi nome, stabilimento) e dei componenti (sostituzioni, obsolescenza).
+      \item \textbf{Codici presenti:} Il sistema deve già avere tutti i codici presenti , la volontà del commerciale è di non doverli inserire manualmente.
+            Pensare ad una manutenzione esterna per l'aggiunta e manutenzione di nuovi codici.
+      \item \textbf{Integrazione nel flusso dell'ordine:} Attualmente esistono 3 codici fodnamentali per la gestione dell'ordine :
+            \begin{itemize}
+                  \item \textbf{Codice offerta (RA):} Codice univoco dell'offerta commerciale.
+                  \item \textbf{Codice offerta (RA):} Codice univoco dell'offerta trasformata in ordine.
+                  \item \textbf{Codice distinta (RA):} Codice univoco della distinta base gestionale (Ad-Hoc) dell'ordine.
+            \end{itemize}
+            Il nuovo sistema deve integrare questi 3 codici in modo chiaro e visibile per l'operatore.
+            Facilitando le ricerche e la tracciabilità dell'ordine.
+\end{itemize}
+
+\subsection{Ricerca e navigazione ricambi}
+Per facilitare la ricerca e la selezione dei ricambi, il sistema deve prevedere:
+\begin{itemize}
+      \item \textbf{Ricerca multicriterio:} Necessità di cercare per Numero di Commessa (fondamentale), Cliente, Stabilimento, e Tag Tecnici (es. "valvola a farfalla").
+      \item \textbf{Struttura ad albero/gerarchica:} Possibilità di esplorare la distinta base (BOM) scendendo nei livelli (esplosione componenti) per individuare il singolo ricambio.
+      \item \textbf{Filtri per "Ricambi tipici":} Implementazione di filtri che mostrino, per una data famiglia di macchine (es. Lift, Vibrovaglio), solo i componenti tipicamente venduti come ricambi,
+            i codici devono essere univoci con i codici tecnici rendendo dopo l'idividuazione del componente veloce l'assistenza.
+\end{itemize}
+
+\subsection{Creazione e gestione offerte (RA)}
+Per semplificare e velocizzare la creazione delle offerte di ricambi e assistenza, il sistema deve prevedere:
+\begin{itemize}
+      \item \textbf{Automazione descrizioni e lingue:} Compilazione automatica delle descrizioni in lingua (traduzioni pre-caricate) senza dover usare traduttori esterni.
+      \item \textbf{Calcolo prezzi automatizzato:} Il sistema deve pescare il costo industriale da Ad-Hoc e applicare le maggiorazioni o i listini specifici per cliente/settore.
+      \item \textbf{Numero univoco offerta:} Mantenimento di un numero univoco che segue la pratica dalla richiesta iniziale all'ordine confermato, per evitare duplicazioni e facilitare la rintracciabilità.
+            Aggiunta di uno stato di avanzamento \textit{(es. "In Revisione", "Inviata", "Accettata", "Rifiutata")} facilitando l'interpretazione.
+      \item \textbf{Distinzione tipologie RA:} Gestione differenziata ma tracciabile per "Ricambi", "Ampliamenti" e "RA di Cantiere". Al momento le assistenze prima citate sono sotto un unico cappello del "VSS".
+\end{itemize}
+
+\subsection{Funzionalità avanzate e UX}
+Per migliorare l'esperienza utente e l'efficienza operativa, il sistema deve prevedere:
+\begin{itemize}
+      \item \textbf{Schermata offerta:} Importante riporatare tutte le infomazioni attuali del cliente (Indirizzo , Nome , Numero di commessa associata) in modo chiaro e visibile.
+      \item \textbf{Scheramata dedicata allo storico:} Una sezione dove poter visualizzare tutte le offerte/ordini precedenti associati al cliente o alla commessa selezionata.
+      \item \textbf{Schermata offerta intuitiva:} Interfaccia user-friendly che guidi l'utente passo-passo nella compilazione dell'offerta, minimizzando errori e omissioni.
+      \item \textbf{Visualizzazione dati completa:} Interfaccia che mostri tutte le informazioni rilevanti (es. dettagli tecnici completi come "filtrante/non filtrante") senza dover scorrere o aprire popup.
+\end{itemize}
+
+\subsection{Integrazioni future e scalabilità}
+Per garantire la scalabilità e l'integrazione con altri sistemi futuri, il sistema deve prevedere:
+\begin{itemize}
+      \item \textbf{Integrazione disegni/foto (Configuratore):} In prospettiva futura, un sistema visuale dove il cliente o l'operatore possa cliccare sul componente nel disegno 3D/2D per identificarlo univocamente,
+            riducendo l'uso di foto e interpretazioni manuali.
+      \item \textbf{Integrazione con gestionale produzione:} Il distema non è integrato con TWproject (gestionale produzione) ,
+            ma sarebbe utile avere un collegamento per verificare lo stato di avanzamento delle commesse.
+      \item \textbf{Integrazione Fusion:} Il sistema sarebbe utile essere integrato con Fusion per la visualizzazione dei disegni tecnici e la gestione delle modifiche.
+\end{itemize}
+
+\section{Numeri utili}
+Per capire gli attuali tempi di lavoro e il volume di offerte gestite da Natalia, si riportano i seguenti dati:
+\begin{itemize}
+      \item \textbf{Offerte VS Ordini} Attualmente natalia ha creato circa 57000 offerte (RA) di cui circa 41000 si sono trasformate in ordini effettivi.
+      \item \textbf{Tempo base per una semplice offerta:} Attualmente per una commessa tipo dove si conosce il numero di commessa e i codici da inserire
+            il tempo medio per la creazione di una offerta è di circa 15 minuti.
+            Il tempo sale notevolmente se sono da ricercare le informazioni mancanti.
+\end{itemize}
+\end{document}

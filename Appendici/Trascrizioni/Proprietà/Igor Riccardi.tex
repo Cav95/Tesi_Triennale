@@ -1,0 +1,130 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+% Titolo e intestazione
+\title{Igor Riccardi}
+\date{08-01-2026}
+
+
+\begin{document}
+\maketitle
+
+\section{Ruolo}
+Igor Riccardi è il responsabile dei commerciali e socio aziendale con esperienza di circa di più di 10 anni all'interno dell'azienda e si occupa di :
+\begin{itemize}
+    \item Supervisione delle attività del team commerciale.
+    \item Sviluppo di strategie di vendita.
+    \item Gestione delle relazioni con i clienti chiave.
+    \item Vendita di nuovi impianti con determinati clienti strategici.
+\end{itemize}
+
+\section{Utilizzo attuale di Access}
+Igor, in quanto anche commerciale, utilizza Access principalmente per:
+\begin{itemize}
+    \item Creare offerte commerciali per nuovi impianti.
+    \item Conferme d'ordine.
+    \item Aggiunta nuovo clienti.
+    \item Monitoraggio delle commesse aperte.
+\end{itemize}
+
+
+\section{Situazione attuale e problematiche}
+Attualmente l'ufficio commerciale utilizza un database MS Access, in uso da
+oltre 20 anni.
+\begin{itemize}
+    \item \textbf{Punti di forza:} Estrema velocità di inserimento per utenti esperti; personalizzazione storica delle stampe e delle logiche.
+    \item \textbf{Volume dati:} Circa 6 offerte/giorno per utente (commesse) e 18/giorno (ricambi/RA). Totale annuo stimato: $>2200$ offerte commesse.
+    \item \textbf{Limitazioni critiche:}
+          \begin{itemize}
+              \item Mancanza di integrazione con il gestionale ERP (Ad Hoc).
+              \item Necessità di reinserimento dati manuale da Offerta a Ordine (doppio lavoro).
+              \item Gestione prezzi manuale o basata su esperienza (non collegata al costo
+                    industriale aggiornato).
+          \end{itemize}
+\end{itemize}
+
+\section{Criticità rilevate}
+\subsection{Disallineamento tecnico-commerciale}
+Attualmente, una volta firmato il contratto commerciale, le modifiche tecniche (PM/Ufficio Tecnico)
+non vengono tracciate nel sistema di preventivazione.
+\begin{itemize}
+    \item \textbf{Conseguenza:} Per replicare un impianto o vendere ricambi corretti, il commerciale deve consultare gli schemi CAD/Tecnici e gestionale,
+          poiché l'offerta originale in Access è obsoleta/inaccurata già dopo l'emissione.
+    \item \textbf{Rischio:} Vendita di ricambi errati o incoerenze nelle offerte copiando vecchie offerte per recuperare infomazioni , condizioni e note.
+\end{itemize}
+
+\subsection{Inefficienza Gestione Ricambi (Spare Parts)}
+Il flusso per i ricambi è eccessivamente complesso rispetto al valore economico
+(spesso poche centinaia di euro).
+\begin{itemize}
+    \item \textbf{Situazione attuale:} L'Area Manager deve aprire una nuova offerta da zero o copiare vecchie offerte , richiedere
+          quotazioni interne se non già presenti, attendere risposte e infine emettere l'offerta. Dopo la conferma del cliente , trasformala in ordine.
+    \item \textbf{Collo di bottiglia:} Troppi passaggi (Natalia $\to$ Ufficio Tecnico $\to$ Pricing Luca $\to$ Offerta).
+    \item \textbf{Obiettivo:} Ridurre drasticamente i tempi (filosofia "One Click") per rendere profittevole la vendita proattiva, ad oggi non viene effettuata.
+\end{itemize}
+
+\section{Requisiti funzionali emersi}
+
+\subsection{Gestione Offerte e Configuratore}
+Il sistema deve guidare l'utente, specialmente se junior, nella composizione
+dell'impianto.
+\begin{itemize}
+    \item \textbf{Selezione guidata:} Selezionando un macro-componente (es. "Trasporto Pneumatico" o "STX"),
+          il sistema deve proporre in automatico gli accessori correlati (filtri, valvole, compressori) tramite menu a tendina.
+    \item \textbf{Alert di completezza:} Avvisi automatici in caso di macchine mancanti essenziali
+          (es. "Hai inserito il trasporto, ma manca il compressore").
+    \item \textbf{Template per applicazione:} Possibilità di richiamare configurazioni standard (Template di impianto)
+          basate sul prodotto finale del cliente (es. "Linea Pan di Spagna", "Linea Biscotti") e non solo sul nome cliente.
+\end{itemize}
+
+\subsection{Listini e pricing}
+\begin{itemize}
+    \item \textbf{Automazione costi:} Il prezzo di vendita deve scaturire automaticamente dal costo industriale aggiornato (integrazione con gestionale), applicando regole di ricarico predefinite.
+    \item \textbf{Eliminazione colli di bottiglia:} Il commerciale non deve dover chiedere quotazioni interne per componentistica standard.
+\end{itemize}
+
+\subsection{Gestione flusso obbligatorio ordine e revisioni}
+\begin{itemize}
+    \item \textbf{Integrazione ERP:} Passaggio automatico da "Offerta Confermata" a "Ordine Gestionale" senza re-inserimento dati.
+    \item \textbf{Doppio contratto (Versionamento):}
+          \begin{enumerate}
+              \item \textbf{Contratto commerciale:} La versione firmata dal cliente (congelata).
+              \item \textbf{Contratto tecnico ("As-Built"):} Una copia viva che viene modificata dai PM/Ufficio Tecnico durante la realizzazione.
+                    Questa diventerà la base per le future assistenze e ricambi.
+          \end{enumerate}
+\end{itemize} 
+
+\subsection{Distinzione flussi di lavoro}
+Il software deve distinguere a monte la tipologia di richiesta per instradare
+il lavoro:
+\begin{enumerate}
+    \item \textbf{Nuovi impianti / commesse:} Flusso standard completo.
+    \item \textbf{Ampliamenti:} Collegati a commesse esistenti ma gestiti dai commerciali.
+    \item \textbf{Ricambi (spare parts):} Flusso semplificato e rapido. Accesso allo storico installato.
+\end{enumerate}
+
+\section{Requisiti non funzionali}
+\begin{itemize}
+    \item \textbf{Modalità offline:} Fondamentale per gli Area Manager in viaggio in zone con scarsa connettività. Sincronizzazione al rientro o via VPN.
+    \item \textbf{Multilingua:} Gestione avanzata delle descrizioni (necessità di una via di mezzo tra descrizione "estesa" attuale troppo lunga e "breve" troppo criptica).
+    \item \textbf{Velocità:} L'interfaccia non deve rallentare.
+\end{itemize}
+
+\end{document}

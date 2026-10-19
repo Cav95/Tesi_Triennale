@@ -1,0 +1,191 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+\title{Alessandro Sassi}
+\date{09-01-2026}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Ruolo}
+Alessandro Sassi è un commerciale con esperienza di circa 6 mesi all'interno dell'azienda e si occupa di :
+\begin{itemize}
+      \item Creazione delle offerte all'interno di Access per conto di altri commerciali.
+      \item Creazione di preventivi di richieste di assistenza.
+\end{itemize}
+
+\section{Operazioni comuni}
+Le operazioni più comuni svolte da Alessandro all'interno dell'applicativo
+includono:
+\begin{itemize}
+      \item Creazione di offerte per ricambi e assistenza (RA).
+      \item Creazione delle offerte per nuovi impianti.
+      \item Creazione degli ordini qualvolta volta un'offerta viene accettata.
+      \item Nella creazione delle offerte ricerca e copia di vecchie offerte simili.
+\end{itemize}
+
+\section{Flusso di lavoro attaule}
+Il flusso di lavoro attuale per la creazione delle offerte prevede i seguenti
+passaggi:
+\begin{enumerate}
+      \item Arrivano dai commerciali più esperti o agenti degli schemi abbozzatti (anche
+            collage di immagini) di quello che il cliente richiede.
+      \item Viene aperto Access e si crea il cliente se manca.
+      \item Si apre la schermata di creazione diversa a seconda del tipo di offerta
+            (ricambi/assistenza o nuovi impianti).
+      \item Si crea una nuova offerta copiando un ultima fatta per lo stesso cliente.
+            \textcolor{red}{(Questo passaggio può portare errori in quanto la pagina non si
+                  ricarca e si rischia di modificare l'offerta copiata di partenza)}.
+      \item Si callenno a questo punto tutte le vecchie righe per partire a compilare da
+            zero.
+      \item Si inizia la compilazione dell'offerta:
+            \begin{itemize}
+                  \item Guardando lo schizzo del commerciale si inizia a cercare i componenti necessari
+                        all'interno di access.
+                  \item Si ricercano i codici solo in base alle descrizioni, ma l'unico modo per è
+                        l'esperienza e gli appunti cartacei personali.
+                  \item Certi componenti richiedendo obbligatoriamente la presenza di determinati
+                        accessori (es. Globosilo $\rightarrow$ antiscoppio, cepatic, sonde, filtri
+                        \dots) che vanno aggiunti manualmente. Questa infomazioni rimnagono
+                        all'eperinza del singolo.
+                  \item Alcuni componenti richiedono calcoli di costo esterni (es. pneumatici,
+                        elettrici, dimensionali) che vanno fatti su file excel esterni e i risultati
+                        inseriti manualmente.
+                        I calcoli sono salvati e mantenuti in una dyrectory della commessa.
+                  \item La proposta di un denterminata tipologia di silo è subbordinata all'utilizza ,
+                        un silo per lo zuchero ha caratteristiche e prezzi diversi rispetto a un silo
+                        per la farina. Qui dei template possono aiutare l'utente.
+                  \item Note sulla funzionalalita possono aiutare l'utente meno asperto ad orientarsi.
+                  Al momento esiste la schemarta "Prodotti".
+                  \item Nell'iserimento bisogna stare attenti a non proporre compoennti non più di utilizzo ,
+                  al momento non è presente un sistema che avverta di ciò a meno della presenza di "EX-" prima della descrizione.
+                  \item Inserimento condizioni di montaggio, pagamento e consegna.
+                  \item Inserimento dei costi e tempi di montaggio in base all'impianto ed il luogo di installazione.
+            \end{itemize}
+      \item Si compila riga per riga.
+      \item Si ricerca i codice di access in base alla descrizione , se il prezzo non p
+            rpesente ci si appoggia a file excel esterni.
+      \item Si salva l'offerta e si manda al commerciale richiedente.
+      \item Se l'offerta viene accettata si crea l'ordine in Access.
+      \item Si manda l'ordine all'amministrazione per la creazione in Ad Hoc.
+\end{enumerate}
+
+\section{Situazione attuale}
+
+\subsection{Criticità tecniche e interfaccia}
+Attualmente, Alessandro riscontra diverse problematiche tecniche e di
+interfaccia con l'applicativo Access:
+\begin{itemize}
+      \item \textbf{Obsolescenza della UI:} L'interfaccia attuale è percepita come ferma agli "anni '90", con un utilizzo inefficiente dello spazio a schermo e colori poco chiari .
+      \item \textbf{Bug funzionali:}
+            \begin{itemize}
+                  \item Il sistema si blocca frequentemente , richiedendo attese o riavvii .
+                  \item \textbf{Problema tastierino numerico:} Access disabilita il "Bloc Num" ogni volta che si aggiunge una riga o si stampa,
+                        causando frequenti errori di digitazione nelle offerte .
+            \end{itemize}
+      \item \textbf{Gestione versionamento:} Quando si crea una nuova offerta (es. ampliamento o modifica), il numero offerta non si aggiorna visivamente in tempo reale,
+            portando al rischio di modificare la versione precedente .
+\end{itemize}
+
+\subsection{Criticità operative}
+Durante la creazione delle offerte, Alessandro affronta diverse sfide operative:
+\begin{itemize}
+      \item \textbf{Eccessiva manualità:} La compilazione delle offerte richiede la scrittura manuale riga per riga di descrizioni e codici (fino a 200+ righe),
+            aumentando drasticamente i tempi e la possibilità di errore .
+      \item \textbf{Curva di apprendimento:} Non essendoci procedure guidate, l'apprendimento è basato sulla memoria e su appunti personali/cartacei ("cheat sheets").
+            Un junior impiega circa 4-6 mesi per diventare autonomo e ha ancora laucune sopperite dal cartaceo.
+      \item \textbf{Frammentazione degli strumenti:} L'utente deve alternare continuamente tra il gestionale e numerosi file Excel esterni per calcoli (pneumatici, elettrici, dimensionali) .
+      \item \textbf{Difficoltà di ricerca:} La ricerca dei componenti avviene solo per codice ed esperienza personale , nei ricambi se voglio un tipo preciso c'è margne di errore
+            (Fatto l'esempio di una richiesta dove richiesto "Tutto ciò che è filtrante").
+      \item \textbf{Compilazione manuale:} Molte riche di codice inserite manualmente senza allert o suggerimenti sono fonte di errrori.
+      Se l'errore viene rilevato dopo la firma del cliente è difficilmente recuperabile a livello economico.
+\end{itemize}
+
+\section{Requisiti per il nuovo applicativo}
+
+\subsection{Configurazione guidata}
+Nel nuovo sistema, Alessandro richiede una serie di funzionalità per facilitare la creazione delle offerte:
+\begin{itemize}
+      \item \textbf{Selezione per accessori:} Si richiede un sistema che, selezionato un componente principale (es. "Globo"),
+            proponga automaticamente gli accessori compatibili tramite checkbox o menu a tendina (es. sonde, filtri, valvole) .
+      \item \textbf{Valori di Default Intelligenti:} Il sistema dovrebbe precompilare i campi standard (es. tubi diametro 100 per silo dello zucchero),
+            riducendo l'input manuale .
+      \item \textbf{Flessibilità obbligatoria:} È fondamentale che l'utente possa sempre sovrascrivere manualmente qualsiasi proposta del sistema (prezzi, descrizioni, componenti)
+            per adattarsi a clienti o mercati specifici .
+      \item \textbf{Contratti cartacei:} Ottimizzare i contratti cartacei a seconda del reparto di utilizzo , al momento sono presenti
+            informazioni non utili e mancano altre utili (es. Dettagli di pagamento per reparti tecnici o dettagli tecnici per i reparti amministrativi).
+\end{itemize}
+
+\subsection{Integrazione e calcoli}
+L'integrazione con altri sistemi e l'automazione dei calcoli sono aspetti chiave per migliorare l'efficienza:
+\begin{itemize}
+      \item \textbf{Visualizzazione 3D/dimensionale:} Integrazione desiderata con strumenti CAD (SolidWorks/Fusion)
+            o logiche parametriche per fornire al cliente stime dimensionali preliminari in tempo reale durante la trattativa .
+      \item \textbf{Integrazione calcoli ingegneristici:}
+            \begin{itemize}
+                  \item \textit{Calcolo Pneumatico:} Digitalizzazione dei grafici e delle logiche attualmente su Excel/Siemens per suggerire soffianti
+                        e tubazioni in base alla portata e al batch .
+                  \item \textit{Quadro Elettrico:} Deduzione automatica dei componenti del quadro in base agli elementi meccanici inseriti nell'offerta (es. numero di motori/stellari) .
+                  \item \textit{Scale e Strutture:} Calcolo automatico del prezzo basato sui parametri del silo (altezza/diametro) .
+            \end{itemize}
+\end{itemize}
+
+\subsection{Ricerca e organizzazione dati}
+Per facilitare la selezione dei componenti, Alessandro propone le seguenti funzionalità:
+\begin{itemize}
+      \item \textbf{Ricerca per Tag/Argomento:} Implementazione di una ricerca semantica o per tag (es. "Safety") per raggruppare componenti correlati, oltre alla ricerca per codice .
+      \item \textbf{Doppia Vista (vendita vs ricambi):} Possibilità di filtrare i cataloghi in base allo scopo:
+            \begin{itemize}
+                  \item \textbf{Vista vendita:} Componenti e accessori destinati alla vendita iniziale del macchinario .
+                  \item \textbf{Vista ricambi:} Componenti di dettaglio per la manutenzione e la sostituzione post-vendita .
+            \end{itemize}
+      \item \textbf{Codifica unificata:} Necessità di allineare i codici tra gestionale, CAD (Fusion) e ERP (Ad Hoc) per facilitare il recupero delle informazioni .
+\end{itemize} 
+
+\section{Logiche di validazione e controllo}
+Per minimizzare gli errori durante la creazione delle offerte, Alessandro suggerisce:
+\begin{itemize}
+      \item \textbf{Soft Alerts (Checklist):} Introduzione di un sistema di controllo finale che segnali eventuali dimenticanze (es. "Manca il vibrovaglio"), ma che \textbf{non sia bloccante}.
+            L'utente deve poter confermare l'offerta anche in presenza di warning .
+      \item \textbf{Prevenzione errori:} Evitare che modifiche successive al contratto o dimenticanze (es. tubazioni mancanti) generino costi non recuperabili una volta firmato l'ordine .
+\end{itemize}
+
+\section{Note Varie e Specifiche}
+Alessandro ha evidenziato alcune esigenze specifiche da considerare:
+\begin{itemize}
+      \item \textbf{Incoterms:} Necessità di guidare la scelta tra i 19 Incoterms disponibili, fornendo descrizioni chiare per i commerciali meno esperti .
+      \item \textbf{Localizzazione:} Gestione di prezzi, descrizioni e lingue variabili in base al paese di destinazione, mantenendo però la possibilità di deroga manuale .
+      \item \textbf{Liquidi:} Necessità di digitalizzare le tabelle per la gestione dei componenti per liquidi (pompe, riscaldamento), attualmente gestite su vecchi supporti cartacei/Excel .
+\end{itemize}
+
+\section{Proposte future}
+Alessandro ha proposto alcune idee per migliorare ulteriormente il processo
+di vendita:
+\begin{itemize}
+      \item \textbf{Recoconto in tempo reale dei componenti suggeriti:} Un sistema che mostri in tempo reale il conteggio dei componenti
+            suggeriti in base a quelli già selezionati rispetto ai modelli standard per tipologia impianto, aiutando l'utente a tenere traccia degli accessori necessari.
+      \item \textbf{Divisione grafica per tipo di offerta:} Creare interfacce distinte per la creazione di offerte di ricambi/assistenza e nuovi impianti,
+            ottimizzando l'esperienza utente in base al contesto specifico.
+      \item \textbf{Visuliazzazione di modelli 3D:} Integrare un visualizzatore 3D all'interno dell'applicativo per permettere ai commerciali di
+            mostrare ai clienti una rappresentazione visiva del macchinario proposto. Al momonto non possibile.
+      \item \textbf{Proposte ricambistica:} Un sistema che suggerisca i ricambi comuni da proporre in base ai vecchi ordini.
+\end{itemize}
+\end{document}

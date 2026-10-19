@@ -1,0 +1,214 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+\title{Frida Lega}
+\date{27 Gennaio 2026}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Ruolo}
+Frida Lega è una commerciale con esperienza di più di 10 anni all'interno
+dell'azienda e si occupa di :
+\begin{itemize}
+      \item Supporto ai commerciali junior.
+      \item Creazione delle offerte Access per conto di Agenti o rivenditori esterni.
+      \item Creazione offerte per clienti diretti.
+      \item Formazione interna sull'uso di Access.
+      \item Organizzazione e gestione fiere di settore.
+\end{itemize}
+
+\section{Situazione attuale}
+\subsection{Problemi attuali del sistema}
+Dall'intervista a Frida Lega sono emerse le seguenti criticità del sistema
+attuale:
+\begin{itemize}
+      \item \textbf{Lentezza del sistema:} L'attuale database Access risulta lento e con frequenti blocchi.
+      \item \textbf{Interfaccia utente datata:} L'aspetto grafico e l'usabilità non sono al passo con le aspettative moderne.
+      \item \textbf{Disconnessioni VPN:} Perdita di dati o impossibilità di lavorare efficacemente da remoto a causa di instabilità della connessione.
+      \item \textbf{Storico in più database:} Difficoltà nell'accesso e gestione dello storico offerte, attualmente distribuito su più file, uno per anno.
+\end{itemize}
+
+\subsection{Funzioni da mantenere}
+Nonostante le criticità, Frida ha sottolineato l'importanza di mantenere alcune
+funzionalità chiave dell'attuale sistema:
+\begin{itemize}
+      \item \textbf{Proprietà legate al cliente:} Mantenere la possibilità di associare specifiche tecniche \textit{(es. voltaggio, normative)}
+            in base al paese di destinazione del cliente.
+      \item \textbf{Gestione clienti e destinazioni:} La struttura a tre livelli (Cliente, Utilizzatore, Destinazione) è considerata efficace.
+      \item \textbf{Creazione capitoli}: La struttura a capitoli per le offerte è considerata efficace.
+      \item \textbf{Gestione delle scontistiche:} La possibilità di applicare sconti a diversi livelli (singolo componente, capitolo, totale) è fondamentale.
+      \item \textbf{Calcoli integrati:} La presenza di calcolatori per potenza o aria pneumatica, anche se da migliorare, è vista come un elemento chiave da mantenere.
+            Attualmente viene sfruttata in parte, ma con necessità di interventi manuali di correzione.
+      \item \textbf{Traduzioni multilingua:} La capacità di generare offerte in diverse lingue è essenziale per il mercato internazionale.
+            Tenere aperta la possibilità di aggiungere ulteriori lingue in futuro \textit{(es. Arabo, Russo, \dots)}.
+      \item \textbf{Aggiunta di opzioni alle offerte:} Attualmente c'è la possibilità di gestire dei componenti opzionali che valuterà il cliente
+            se accettare senza obbligare l'inserimento forzato nel preventivo.
+      \item \textbf{Opzioni sulle stampe:} Possibilità attuale di mostrare o meno i prezzi per prodotto o solo per capitolo o finali.
+      \item \textbf{Riferimenti commerciali:} Mantenere la possibilità di compilare offerte per altri commerciali mantenendo traccia del referente originale.
+      \item \textbf{Agenti esterni:} Mantenere la possibilità di creare offerte per agenti o rivenditori esterni, loro possono avere solo la vista sulle proprie offerte.
+      \item \textbf{Scelta della banca di riferimento:} Attualmente è possibile scegliere la banca di appoggio di riferimento per il cliente. Valutare se può essere guidata nella scelta.
+      \item \textbf{Tasto aggiorna prezzi:} Mantenere la funzionalità di aggiornamento massivo dei prezzi in base ai listini caricati,
+            è utile mantenere i prezzi congelati al momento della creazione dell'ordine ed aggiornarli solo se richiesto.
+      \item \textbf{Campo tipologia offerta:} Mantenere il campo che distingue tra \textit{Ampliamento} e \textit{Ricambi} per facilitare la ricerca futura delle offerte.
+\end{itemize}
+
+\subsection{Attuale flusso di lavoro:}
+L'attuale processo di creazione delle offerte prevede i seguenti passaggi:
+\begin{enumerate}
+      \item \textbf{Raccolta requisiti:} Frida si interfaccia con il cliente per comprendere le
+            esigenze tecniche e commerciali.
+      \item \textbf{Ricerca e copiatura di una vecchia offerta:} Spesso si parte da un'offerta
+            precedente simile per velocizzare il processo.
+      \item \textbf{Selezione prodotti:} Aggiunta dei prodotti manualmente uno ad uno tramite descrizione.
+      \item \textbf{Configurazione offerta:} Creazione dell'offerta suddivisa in capitoli,
+            applicando sconti e calcoli necessari.
+      \item \textbf{Invio al cliente:} Generazione del documento finale in formato PDF o
+            cartaceo ed invio al cliente.
+      \item \textbf{Approvazione offerta:} In caso di accettazione, si procede con la
+            conferma d'ordine e la comunicazione all'ufficio produzione e l'ufficio amministrativo.
+\end{enumerate}
+
+\section{Requisiti funzionali}
+
+\subsection{Gestione offerta e prodotti}
+Frida ha evidenziato la necessità di un sistema che faciliti la creazione e
+gestione delle offerte commerciali, con particolare attenzione a:
+\begin{itemize}
+      \item \textbf{Configurazione guidata (Wizard):}
+            \begin{itemize}
+                  \item Selezione per macro-argomento/macchina \textit{(es. Silos STX)}.
+                  \item Apertura automatica di finestre per accessori compatibili (check-box).
+                  \item Proposta automatica di ricambi associati alla macro-categoria.
+                  \item Alert non bloccanti per componenti mancanti \textit{(es. "Hai messo la
+                              tramoggia farina, manca il vibratore")}.
+            \end{itemize}
+      \item \textbf{Gestione prezzi e sconti:}
+            \begin{itemize}
+                  \item Scontistica a tre livelli: Singolo componente, Capitolo, Totale offerta.
+                  \item Possibilità di visualizzare prezzi netti e di listino.
+                  \item Gestione rincari e costi accessori \textit{(es. trasporti, imballi)}.
+            \end{itemize}
+
+      \item \textbf{Gestione delle opzioni:}Attualmente è complicata la visualizzazione delle opzioni di vendita di una commessa, per tanto serve:
+            \begin{itemize}
+                  \item Una migliore gestione visuale delle opzioni.
+                  \item Possibilità di raggruppare le opzioni per capitoli.
+                  \item Gestione delle opzioni simile a quella della sezione offerta.
+            \end{itemize}
+      \item \textbf{Gestione sconti:}Possibilità di mantenere la possibilità attuale di applicare rincari o sconti , di questi ultimi si richiede:
+            \begin{itemize}
+                  \item Sconti a livello di singolo componente.
+                  \item Sconti a livello di capitolo.
+                  \item Sconti sul prezzo totale offerta senza manodopera.
+                  \item Sconto sul prezzo comprensivo di manodopera.
+            \end{itemize}
+      \item \textbf{Costificazione manodopera:} Attualmente per quantificare la manodopera si richiede direttamnete al reparto addetto una stima in ore,
+            da questa si calcola manualmente il costo totale. Frida sottolinea come sia difficile prevedere un sistema automatico in quanto uno stesso silo
+            montato in luoghi diversi può richiedere tempi di montaggio molto differenti.
+\end{itemize}
+
+\subsection{Dati tecnici e integrazioni}
+Il sistema deve integrare dati tecnici e documentazione in modo automatico per
+ridurre errori e tempi di inserimento:
+\begin{itemize}
+      \item \textbf{Codici prodotto:} Utilizzo dei codici del gestionale (Ad Hoc) per allineamento con magazzino e ufficio tecnico.
+      \item \textbf{Documentazione allegata:} Link automatico a disegni (Fusion), manuali e certificazioni \textit{(es. conformità, ATEX)} basato sul codice prodotto.
+      \item \textbf{Calcolatori integrati:}
+            Attualmente esiste un sistema di calcolo , ma non essendo i prodotti aggiornati il conto non è accurato.
+            Per migliorare questo aspetto, il nuovo sistema dovrebbe includere:
+            \begin{itemize}
+                  \item Calcolo automatico preliminare di: Pesi, Volumi, Potenza elettrica, Consumo
+                        aria compressa.
+                  \item Aggiornamento dinamico dei valori in base ai componenti selezionati.
+            \end{itemize}
+      \item \textbf{Integrazione calcoli Excel:} Possibilità di integrare calcoli complessi attualmente gestiti tramite file Excel esterni \textit{(es. scale, silos)}
+            direttamente all'interno, anche solo come link al file in questione.
+      \item \textbf{Stati articoli (EX):} Gestione stati prodotti: \textit{Obsoleto} (non usare), \textit{Sconsigliato} (non standard), \textit{Attivo}.
+      \item \textbf{Gestione incoterms:} Scelta guidata per l'inserimento degli incoterms, Frida ha confermato che l'attuale gestione manuale può portare a errori per i meno esperti.
+\end{itemize}
+
+\subsection{Gestione Clienti e Anagrafiche}
+Il sistema deve gestire una struttura gerarchica a tre livelli, separati ma
+collegabili:
+\begin{enumerate}
+      \item \textbf{Cliente:} Chi acquista/fattura \textit{(es. Italmarco)}.
+      \item \textbf{Utilizzatore:} Chi usa l'impianto \textit{(es. Stabilimento produttivo)}.
+      \item \textbf{Destinazione:} Luogo fisico di consegna (spesso coincide con l'utilizzatore).
+\end{enumerate}
+\textit{Requisito specifico:} Le proprietà tecniche \textit{(es. voltaggio, frequenza, normative UL/CSA/ATEX)} devono essere legate al paese di destinazione,
+ma sovrascrivibili a livello di singolo cliente.
+
+\section{Workflow e ciclo di vita dell'offerta}
+
+\subsection{Revisioni e storico}
+Gestione avanzata delle modifiche post-offerta:
+\begin{itemize}
+      \item Mantenimento dello stesso numero di offerta con gestione delle
+            \textbf{Revisioni} \textit{(es. Offerta 100 Rev. 01, Rev. 02)}.
+      \item Storico completo delle modifiche (versioning) per poter recuperare versioni
+            precedenti.
+      \item Accessibilità ai database storici (almeno ultimi 5-7 anni) per consultazione e
+            clonazione offerte.
+\end{itemize}
+
+\subsection{Contratto tecnico}
+Creazione di un ``doppio binario'' post-vendita:
+\begin{itemize}
+      \item \textbf{Contratto commerciale:} Quello firmato dal cliente (statico).
+      \item \textbf{Contratto tecnico:} Modificabile dai Project Manager per riflettere la realtà costruttiva.
+      \item \textbf{Confronto:} Visualizzazione del ``Delta'' (differenze di prezzo/componenti) tra commerciale e tecnico per valutare se emettere Revisione Ordine (RA)
+            o assorbire i costi.
+\end{itemize}
+
+\section{Requisiti tecnici e infrastrutturali}
+
+\subsection{Offline e sincronizzazione}
+Data la necessità di lavorare presso i clienti o in mobilità con connessioni
+instabili:
+\begin{itemize}
+      \item Adozione di un database locale (replica) che si sincronizza con il server (SQL
+            Server).
+      \item Meccanismo di switch automatico o manuale tra modalità Online/Offline.
+      \item Esistenza di un backup locale per evitare perdita dati in caso di caduta VPN.
+\end{itemize}
+
+\subsection{Integrazioni esterne}
+Il sistema deve avere la possibilità di integrarsi con le seguenti piattaforme
+esistenti:
+\begin{itemize}
+      \item \textbf{Ad Hoc (ERP):} Fonte primaria per anagrafiche articoli e codici.
+      \item \textbf{HubSpot (CRM):} Integrazione desiderata per anagrafiche clienti ed evitare doppio inserimento (attualmente l'adozione interna di HubSpot è parziale).
+      \item \textbf{File System:} Collegamento a cartelle di rete per recupero disegni tecnici.
+\end{itemize}
+
+\section{Note di implementazione}
+Frida ha fornito alcune indicazioni utili per la fase di implementazione:
+\begin{itemize}
+      \item \textbf{Campi obbligatori:} Rendere obbligatoria la distinzione tra ``Ampliamento'' e ``Ricambi'' (attualmente campo discrezionale spesso vuoto)
+            per migliorare la ricercabilità futura.
+      \item \textbf{Beta tester:} Si consiglia di iniziare la fase di test con figure tecniche/analitiche (Enrico, Thomas) e commerciali esperti (Frida, Natalia).
+      \item \textbf{Transizione:} Prevista una fase transitoria con utilizzo parallelo dei due sistemi;
+            necessaria migrazione o accessibilità facile ai dati storici.
+\end{itemize}
+
+\end{document}

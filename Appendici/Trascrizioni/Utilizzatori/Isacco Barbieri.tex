@@ -1,0 +1,201 @@
+\documentclass[12pt, a4paper]{article} % Classe: article, report o book [8]
+
+% --- Lingua e Codifica (Supporto Italiano) ---
+\usepackage[utf8]{inputenc}  % Codifica input
+\usepackage[T1]{fontenc}      % Codifica font
+\usepackage[italian]{babel}   % Lingua italiana [2]
+
+% --- Impaginazione e Margini ---
+\usepackage[margin=2.5cm]{geometry} % Imposta margini (2.5cm su tutti i lati)
+
+% --- Pacchetti Scientifici/Matematici ---
+\usepackage{amsmath, amssymb, amsfonts, amsthm} % Matematica avanzata [2]
+\usepackage{graphicx} % Per inserire immagini
+\usepackage{hyperref} % Per collegamenti ipertestuali
+\usepackage{booktabs} % Per tabelle professionali
+
+% --- Formattazione Testo e Altro ---
+\usepackage[document]{ragged2e}
+\usepackage{xcolor}    % Per usare i colori 
+
+
+\title{Isacco Barbieri}
+\date{27-01-2026}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Ruolo}
+Isacco Barbieri è un Agente esterno con esperienza di oltre 10 anni di
+collaborazione con l'azienda e si occupa di :
+\begin{itemize}
+      \item Creazione delle offerte Access per conto di clienti della sua zona di
+            competenza.
+      \item Gestione delle relazioni con i clienti.
+      \item Supporto post-vendita e assistenza ai clienti.
+\end{itemize}
+
+\section{Situazione attuale}
+\subsection{Attuale uso di Access}
+Isacco utilizza Access per:
+\begin{itemize}
+      \item Creare le offerte per i clienti.
+      \item Creazione delle offerte di assistenza e ampliamenti.
+      \item Aggiunta clienti e gestione anagrafiche.
+      \item Trasfomazione delle offerte in ordini se accettate.
+\end{itemize}
+
+\subsection{Attuale vista dati in Access}
+Isacco all'interno dell'attuale programma ha la possibilità di vedere:
+\begin{itemize}
+      \item Le offerte create da lui.
+      \item Le richieste di assistenza (RA) create da lui.
+      \item L'anagrafica clienti completa.
+      \item L'elenco articoli completo.
+      \item Le offerte e RA degli altri agenti non sono visibili.
+\end{itemize}
+
+\subsection{Gestione utenti e visibilità}
+Per quanto riguarda la gestione degli utenti e la visibilità dei dati, Isacco
+ha evidenziato i seguenti punti chiave:
+\begin{itemize}
+      \item \textbf{Segregazione dei dati:} È fondamentale mantenere la distinzione tra offerte e RA (Richieste assistenza/ricambi).
+            La distinzione tra i due tipi aiuta a evitare confusione e garantisce che le operazioni siano gestite correttamente.
+      \item \textbf{Privacy per autore:} Un agente esterno non deve vedere i progetti o le offerte degli altri agenti per evitare conflitti di interesse (Policy aziendale).
+      \item \textbf{Anagrafica clienti condivisa:} A differenza delle offerte, l'elenco clienti deve essere visibile a tutti,
+            può capitare di fare offerte per conto di altri commerciali.
+\end{itemize}
+
+\section{Requisiti emersi}
+\subsection{Accessibilità e modalità offline}
+È stato sollevato il problema legato alla connessione. Attualmente i commerciali esterni si collegano ad un computer interno tramite VPN per utilizzare Access.
+Tuttavia, in caso di perdita di connessione (ad esempio in mobilità), la connessione cade e serve ripristinarla . Il lavoro non viene perduto, ma l'operatività viene interrotta.
+è stato richiesto che :
+\begin{itemize}
+      \item Il nuovo sistema dovrebbe permettere di lavorare anche in assenza di
+            connessione Internet per una vendita o un'assistenza urgente.
+      \item Una volta ristabilita la connessione, il sistema dovrebbe sincronizzare
+            automaticamente i dati senza richiedere interventi manuali.
+\end{itemize}
+
+\subsection{Gestione articoli e codifica}
+Per quanto riguarda la parte di creazione offerte è emerso che:
+\begin{itemize}
+      \item \textbf{Codici generici:} Necessità di voci generiche per categorie (es. "Valvola generica", "Vibratore generico") per gestire articoli su misura
+            senza dover creare migliaia di codici specifici che "sporcano" il database. Questi articoli devono essere liberamente prezzati.
+      \item \textbf{Articoli "Ex" (Obsoleti):} Le voci obsolete non devono essere eliminate, in quanto potrebbero servire per la manutenzione di vecchi impianti o richieste
+            specifiche dei clienti. Devono essere però facilmente individuate per non incorre in errori.
+      \item \textbf{Clienti:} La gestione della creazione dei cliente deve essere ponderata per evitare duplicati o errori di inserimento.
+\end{itemize}
+
+\subsection{Workflow operativo: offerte e ordini}
+Sul flusso di lavoro operativo, Isacco ha evidenziato:
+\begin{itemize}
+      \item \textbf{Copia e template:}
+            \begin{itemize}
+                  \item \textbf{Funzionalità essenziale:} Possibilità di copiare interamente vecchie offerte o
+                        RA per risparmiare tempo su progetti simili.
+                  \item \textbf{Ipotesi template:} L'uso di template per la creazione o suggerimento componenti è benvenuto, ma la copia dello storico rimane prioritaria.
+            \end{itemize}
+      \item \textbf{Revisioni:} Necessità di gestire versioni multiple della stessa offerta (Revisione 1, 2, ecc.) mantenendo lo storico delle modifiche senza sovrascrivere l'originale.
+            In fase contrattuale capita frequentemnete di dover fare più offerte con lievi modifiche. Le varie versioni/revisioni devono matenere sempre lo stesso numero di offerta.
+      \item \textbf{Conferma commesse:} Gli esterni possono confermare le RA, ma per le commesse complesse rimane il vincolo della gestione fisica delle cartelle interne \textit{(Problema interno organizzativo)} per cui non possono direttamnete confermarle,
+            ma solo attraverso un commerciale interno. Questa procedure fa tempo e si accorcerebbero i tempi con un sistema diverso.
+      \item \textbf{Creazione Offerta per terzi:} Necessità di creare offerte per conto di altri commerciali in caso di assenza o supporto, mantenendo la tracciabilità dell'autore originale.
+            Questa possibilità deve esserci per tutti i tipi di commerciali sia interni che esterni.
+      \item \textbf{Automazione conferma RA:}
+            Attualmente il processo è manuale e frammentato \textit{(stampa PDF,
+                  salvataggio in cartelle, invio email manuale).}:
+            \begin{itemize}
+                  \item \textbf{Richiesta:} Un sistema automatizzato che, alla conferma dell'ordine, invii notifiche e documenti ai reparti competenti
+                        \textit{(Amministrazione, Ordini/Benazzi)} con la possibilità di allegare note e file.
+            \end{itemize}
+      \item \textbf{Infomazioni tecniche:} I clienti in fase di offerta richiedono a volte le potenze e il consumo di aria ,
+            serve manternere aggiurnate le infomazioni tecniche per dare la possibilità al commerciale di quantificarle  preliminarmente in questa fase.
+\end{itemize}
+
+\subsection{Gestione tecnica post-vendita}
+Alla proposta di una gestione dei contratti revisionati dai tecnici, isacco ha
+accolto positivamente l'idea:
+\paragraph{Contesto Attuale:}
+Attualmente la rilevazione delle modifiche tecniche non vengono fatte dai
+commerciali interni , ma quelli esterni richiedono espressamnete che venga
+valutata dal tecnico che invia tramite e-mail il materiale. Dopo la valutazione
+tecnica si decide se emettere una nuova offerta o preventivo di modifica.
+\paragraph{Richiesta:}
+\begin{itemize}
+      \item \textbf{Integrazione modifiche tecniche:} L'ufficio tecnico (PE) deve poter integrare le modifiche tecniche direttamente nel sistema gestionale,
+            creando una "copia tecnica" parallela al contratto di vendita.
+      \item \textbf{Aggiornamento offerta/contratto:} Il sistema deve pertmettere di confrontare facilmente la versione originale con quella modificata,
+            evidenziando le differenze e le aggiunte. Dato il confronto deve dare la possibilità al commerciale di generare una nuova offerta basata sulle
+            modifiche tecniche apportate come revisione dell'originale o come richeista di assistenza.
+      \item \textbf{Alert commerciale:} Al completamnento del contratto tecnico il commerciale di riferimento deve essere notificato per valutare le modifiche.
+\end{itemize}
+Questo sistema aiuterebbe a ridurre errori e discrepanze tra la vendita e la realizzazione portando vantaggi come:
+\begin{itemize}
+      \item Maggiore accuratezza nelle offerte e nei contratti successivi avendo degli
+            esempi corretti a livello tecnico.
+      \item Riduzione delle controversie con i clienti dovute a incomprensioni tecniche.
+      \item Migliore tracciabilità delle modifiche e delle decisioni prese durante il ciclo
+            di vita del contratto.
+      \item Margini di profitto più chiari e definiti grazie a una migliore gestione delle
+            variazioni tecniche.
+\end{itemize}
+
+\subsection{Integrazione strumenti esterni (Excel)}
+Ad oggi per il calcolo dei costi di determinati componenti (es. Silos, Scale,
+Quadri Elettrici) si utilizzano complessi fogli di calcolo Excel sviluppati
+dagli specialisti di prodotto. Isacco suggerisce che:
+\begin{itemize}
+      \item \textbf{Mantenimento File Excel:} I fogli di calcolo attuali (per Silos, Scale, Quadri Elettrici) sono molto complessi,
+            contengono logiche di verifica e vengono aggiornati frequentemente dagli specialisti.
+      \item \textbf{Decisione Progettuale:} Non conviene tentare di replicare questa logica complessa nel nuovo gestionale (costoso e rischioso).
+            È preferibile continuare a usare gli Excel e inserire nel gestionale solo il risultato finale (prezzo/descrizione).
+      \item \textbf{Vantaggi dei fogli attuali:}
+            I fogli di calcolo attuali hanno il vantaggio di:
+            \begin{itemize}
+                  \item \textbf{Flessibili:} Possono essere modificati rapidamente dagli specialisti senza dover coinvolgere il reparto IT.
+                  \item \textbf{Specializzati:} Contengono conoscenze specifiche di prodotto che sarebbero difficili da trasferire in un sistema gestionale generico.
+                  \item \textbf{Blocco Errori:} Hanno logiche di controllo e verifica che impediscono di vendere configurazioni non valide.
+            \end{itemize}
+\end{itemize}
+L'internalizzazione di questi calcolo all'interno del configuratore è stata suggerita di intraprenderla in una fase successiva, una volta che il sistema base sia
+stabile e funzionante.
+
+\subsection{Gestione sconti e ricarichi}
+Dare la possibilità di gestire sconti e ricarichi in modo flessibile:
+\begin{itemize}
+      \item Necessità di gestire sconti visibili al cliente e ricarichi "nascosti" (per
+            coprire costi extra).
+      \item Possibiltà di fare sconti solo su materiale e sconti comrpensivi di manodopera
+            di montaggio
+      \item Possibilità di imputare sconti al singolo articolo o all'intera offerta.
+      \item Attualmente è possibile imputare un prezzo concordato all'intera offerta e
+            questu'ultima si calcola gli sconti in modo automatico. Funzione da mantenere.
+      \item Possibilità di scontare anche i singoli capitoli dell'offerta.
+\end{itemize}
+
+\subsection{Condizioni di vendita predefinite}
+Alcuni clienti hanno delle condizioni di vendita fisse (es. sconto del 10\% su
+tutto il materiale) che possono essere suggerite automaticamente in fase di
+creazione offerta.
+\begin{itemize}
+      \item Possibilità di associare condizioni di vendita predefinite a clienti specifici
+            (es. Sconto del 10\% su tutto il materiale per il cliente X).
+      \item Durante la creazione dell'offerta, il sistema dovrebbe suggerire
+            automaticamente queste condizioni in base al cliente selezionato.
+      \item L'agente deve avere la possibilità di modificare o rimuovere queste condizioni
+            se necessario, ma con un avviso che indica che si sta discostando dalle
+            condizioni standard del cliente.
+\end{itemize}
+
+\subsection{Stampa offerte e layout personalizzati}
+\begin{itemize}
+      \item \textbf{Capitoli:} I clienti richiedono offerte con prezzi dettagliati per "Capitolo" \textit{(es. Totale Linea Silos)}, nascondendo i prezzi dei singoli componenti.
+            La scelta dei capitoli deve essere flessibile e personalizzabile.
+      \item \textbf{Layout di Stampa:} Flessibilità nel mostrare/nascondere descrizioni tecniche interne, prezzi unitari o totali a seconda della tipologia di documento (Offerta vs Lista Ricambi).
+\end{itemize}
+
+\end{document}
