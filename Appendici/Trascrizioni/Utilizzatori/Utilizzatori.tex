@@ -14,6 +14,21 @@ Le operazioni più comuni svolte all'interno dell'applicativo includono:
       \item Correzione delle traduzioni preimpostate fornite da Access.
 \end{itemize}
 
+\section{Gestione protezione dati e accessi}
+\subsection{Gestione utenti e visibilità degli agenti}
+Per quanto riguarda la gestione degli utenti e la visibilità dei dati, gli agenti
+hanno evidenziato i seguenti punti chiave:
+\begin{itemize}
+      \item \textbf{Segregazione dei dati:} È fondamentale mantenere la distinzione tra offerte e
+            RA (Richieste assistenza/ricambi).
+            La distinzione tra i due tipi aiuta a evitare confusione e garantisce che le operazioni
+            siano gestite correttamente.
+      \item \textbf{Privacy per autore:} Un agente esterno non deve vedere i progetti o le offerte
+            degli altri agenti per evitare conflitti di interesse (Policy aziendale).
+      \item \textbf{Anagrafica clienti condivisa:} A differenza delle offerte, l'elenco clienti deve
+            essere visibile a tutti, può capitare di fare offerte per conto di altri commerciali.
+\end{itemize}
+
 \section{Flussi di lavoro attuali}
 
 \subsection{Ricambi e assistenza post-vendita}
@@ -48,33 +63,49 @@ e alla mancanza di dati strutturati.
 \subsection{Impianti nuovi e ampliamenti}
 L'attuale processo di creazione delle offerte prevede i seguenti passaggi:
 \begin{enumerate}
-      \item \textbf{Raccolta requisiti:} Il commerciale si interfaccia con il cliente per comprendere le esigenze tecniche e commerciali.
-      \item \textbf{Ricerca e copiatura di una vecchia offerta:} Spesso si parte da un'offerta precedente simile per velocizzare il processo.
+      \item \textbf{Raccolta requisiti:} Il commerciale si interfaccia con il cliente per comprendere le
+            esigenze tecniche e commerciali.
+      \item \textbf{Ricerca e copiatura di una vecchia offerta:} Spesso si parte da un'offerta precedente simile
+            per velocizzare il processo.
       \item \textbf{Selezione prodotti:} Aggiunta manuale dei prodotti, uno a uno, tramite descrizione.
-      \item \textbf{Configurazione offerta:} Creazione dell'offerta suddivisa in capitoli, applicando gli sconti e i calcoli necessari.
+      \item \textbf{Configurazione offerta:} Creazione dell'offerta suddivisa in capitoli, applicando gli sconti
+            e i calcoli necessari.
       \item \textbf{Invio al cliente:} Generazione del documento finale in formato PDF o cartaceo e invio al cliente.
       \item \textbf{Approvazione offerta:} In caso di accettazione, si procede con la conferma d'ordine e
             la comunicazione all'ufficio produzione e all'ufficio amministrativo.
 \end{enumerate}
 
 \section{Problemi attuali del sistema}
-Dall'intervista a Natalia Danielova sono emerse le seguenti criticità del sistema attuale:
+Dall'intervista i commerciali hannofatto emergere le seguenti criticità del sistema attuale:
 \begin{itemize}
-      \item \textbf{Lentezza e complessità:} L'intero processo di gestione delle richieste di ricambi è lento e laborioso e richiede molto tempo per completare un'offerta. Questo è dovuto alla necessità di consultare molteplici fonti di dati non integrate. Il programma stesso utilizzato (Access) risulta lento e macchinoso, con molti tempi morti.
+      \item \textbf{Lentezza e complessità:} L'intero processo di gestione delle richieste di ricambi è lento e laborioso 
+      e richiede molto tempo per completare un'offerta. Questo è dovuto alla necessità di consultare molteplici fonti di 
+      dati non integrate. Il programma stesso utilizzato (Access) risulta lento e macchinoso, con molti tempi morti.
       \item \textbf{Disallineamento codici:} Esiste una discrepanza tra i codici commerciali e quelli tecnici/gestionali. Questo costringe a ricerche manuali su schemi funzionali o database separati per identificare il pezzo corretto (Ad-Hoc, Fusion, \dots).
       \item \textbf{Mancanza di automazione nei calcoli:}
             \begin{itemize}
-                  \item \textbf{Prezzi:} I costi e i prezzi di vendita devono essere spesso calcolati manualmente o verificati su Excel/Ad-Hoc, specialmente per componenti su misura o obsoleti.
-                  \item \textbf{Logistica:} Non esiste un calcolo automatico di volumi e pesi per il trasporto; l'utente deve ipotizzare i dati basandosi su vecchi DDT o sull'esperienza. Il costo è talvolta calcolato mediante il sito di DHL.
-                  \item \textbf{Manodopera:} I tempi e i costi per gli interventi tecnici (es. sostituzione saccone) non sono standardizzati e richiedono consultazioni continue con i colleghi (es. Logistica).
+                  \item \textbf{Prezzi:} I costi e i prezzi di vendita devono essere spesso calcolati manualmente o verificati 
+                  su Excel/Ad-Hoc, specialmente per componenti su misura o obsoleti.
+                  \item \textbf{Logistica:} Non esiste un calcolo automatico di volumi e pesi per il trasporto; l'utente deve
+                   ipotizzare i dati basandosi su vecchi DDT o sull'esperienza. Il costo è talvolta calcolato mediante il sito di DHL.
+                  \item \textbf{Manodopera:} I tempi e i costi per gli interventi tecnici (es. sostituzione saccone) non sono 
+                  standardizzati e richiedono consultazioni continue con i colleghi (es. Logistica).
             \end{itemize}
-      \item \textbf{Componenti elettrici:} La gestione e l'inserimento di materiale elettrico sono molto difficili per la complessità e la varietà di codici esistenti. Attualmente si consulta direttamente l'ufficio tecnico elettrico per avere un elenco dei componenti necessari da offrire.
-      \item \textbf{Gestione obsolescenza:} È difficile sapere se un componente venduto anni fa è stato sostituito da una nuova versione o se è obsoleto, rischiando di vendere pezzi non più procurabili. Serve un sistema di tracciamento delle sostituzioni e delle obsolescenze (es. Fusion).
-      \item \textbf{Discrepanza ``As Built'':} Le modifiche fatte in cantiere (RA di cantiere) o successive alla vendita non sono sempre tracciate in modo unitario, rendendo difficile conoscere la configurazione reale dell'impianto attuale, punto fondamentale per una corretta assistenza senza errori.
-      \item \textbf{Sistema di traduzione:} È fondamentale avere un sistema di traduzione integrato e affidabile per le descrizioni dei componenti e delle offerte; attualmente, oltre alle traduzioni preimpostate di Access (spesso da correggere), si utilizzano servizi esterni (Google Translate) che richiedono tempo e possono introdurre errori.
+      \item \textbf{Componenti elettrici:} La gestione e l'inserimento di materiale elettrico sono molto difficili per l
+      a complessità e la varietà di codici esistenti. Attualmente si consulta direttamente l'ufficio tecnico elettrico per
+       avere un elenco dei componenti necessari da offrire.
+      \item \textbf{Gestione obsolescenza:} È difficile sapere se un componente venduto anni fa è stato sostituito da una 
+      nuova versione o se è obsoleto, rischiando di vendere pezzi non più procurabili. Serve un sistema di tracciamento delle
+       sostituzioni e delle obsolescenze (es. Fusion).
+      \item \textbf{Discrepanza ``As Built'':} Le modifiche fatte in cantiere (RA di cantiere) o successive alla vendita non 
+      sono sempre tracciate in modo unitario, rendendo difficile conoscere la configurazione reale dell'impianto attuale, punto 
+      fondamentale per una corretta assistenza senza errori.
+      \item \textbf{Sistema di traduzione:} È fondamentale avere un sistema di traduzione integrato e affidabile per le descrizioni 
+      dei componenti e delle offerte; attualmente, oltre alle traduzioni preimpostate di Access (spesso da correggere), si utilizzano 
+      servizi esterni (Google Translate) che richiedono tempo e possono introdurre errori.
 \end{itemize}
 
-\section{Requisiti Funzionali per il Nuovo Software}
+\section{Requisiti Funzionali per il nuovo software}
 
 \subsection{Database e integrazione}
 Per migliorare l'integrazione dei dati e la gestione delle informazioni, il nuovo sistema deve prevedere:
@@ -102,9 +133,13 @@ Per migliorare l'integrazione dei dati e la gestione delle informazioni, il nuov
 \subsection{Ricerca e navigazione ricambi}
 Per facilitare la ricerca e la selezione dei ricambi, il sistema deve prevedere:
 \begin{itemize}
-      \item \textbf{Ricerca multicriterio:} Necessità di cercare per Numero di Commessa (fondamentale), Cliente, Stabilimento e Tag Tecnici (es. ``valvola a farfalla'').
-      \item \textbf{Struttura ad albero/gerarchica:} Possibilità di esplorare la distinta base \ac{BOM} scendendo nei livelli (esplosione componenti) per individuare il singolo ricambio.
-      \item \textbf{Filtri per ``Ricambi tipici'':} Implementazione di filtri che mostrino, per una data famiglia di macchine (es. Lift, Vibrovaglio), solo i componenti tipicamente venduti come ricambi; i codici devono essere allineati ai codici tecnici, velocizzando l'assistenza una volta individuato il componente.
+      \item \textbf{Ricerca multicriterio:} Necessità di cercare per Numero di Commessa (fondamentale),
+            Cliente, Stabilimento e Tag Tecnici (es. ``valvola a farfalla'').
+      \item \textbf{Struttura ad albero/gerarchica:} Possibilità di esplorare la distinta base \ac{BOM}
+            scendendo nei livelli (esplosione componenti) per individuare il singolo ricambio.
+      \item \textbf{Filtri per ``Ricambi tipici'':} Implementazione di filtri che mostrino, per una data
+            famiglia di macchine (es. Lift, Vibrovaglio), solo i componenti tipicamente venduti come ricambi;
+            i codici devono essere allineati ai codici tecnici, velocizzando l'assistenza una volta individuato il componente.
 \end{itemize}
 
 \subsection{Creazione e gestione offerte}
@@ -118,7 +153,9 @@ Per semplificare e velocizzare la creazione delle offerte di ricambi e assistenz
             la pratica dalla richiesta iniziale all'ordine confermato, per evitare duplicazioni e facilitare la
             rintracciabilità, affiancato da uno stato di avanzamento \textit{(es. ``In Revisione'', ``Inviata'', ``Accettata'',
                   ``Rifiutata'')} per facilitarne l'interpretazione.
-      \item \textbf{Distinzione tipologie RA:} Gestione differenziata ma tracciabile per ``Ricambi'', ``Ampliamenti'' e ``RA di Cantiere''. Al momento le assistenze sopra citate sono raggruppate sotto l'unico cappello del ``VSS''.
+      \item \textbf{Distinzione tipologie RA:} Gestione differenziata ma tracciabile per ``Ricambi'',
+            ``Ampliamenti'' e ``RA di Cantiere''. Al momento le assistenze sopra citate sono raggruppate sotto
+            l'unico cappello del ``VSS''.
 \end{itemize}
 
 \subsection{Funzionalità avanzate e UX}
@@ -137,7 +174,8 @@ Per migliorare l'esperienza utente e l'efficienza operativa, il sistema deve pre
             e sincronizzarsi automaticamente con il database centrale una volta ristabilita la connessione VPN.
       \item \textbf{Multi-finestra:} Possibilità di tenere aperte più schede o finestre di offerte diverse contemporaneamente.
             Utile la possibilita di un sistema multi-documento \textit{Es: AutoCAD}.
-      \item \textbf{Interfaccia mobile/tablet:} Ottimizzazione per l'uso su tablet (iPad) per la compilazione di dati preliminari e note durante il sopralluogo o in fiera.
+      \item \textbf{Interfaccia mobile/tablet:} Ottimizzazione per l'uso su tablet (iPad) per la compilazione
+            di dati preliminari e note durante il sopralluogo o in fiera.
 \end{itemize}
 
 \subsection{Integrazioni future e scalabilità}
