@@ -78,18 +78,18 @@ le funzioni utilizzate a quelle supportate da esso.
 Le funzioni compatibili sono ad esempio: \textit{Where, Select, OrderBy, GroupBy, Join, Distinct}.
 
 Uno degli aspetti negativi di \ac{LINQ} è la lentezza con grandi volumi di dati.
-Lo svantaggio è dovuto alla traduzione del codice in query compatibili con SQL.\
+Lo svantaggio è dovuto alla traduzione del codice in query compatibili con \ac{SQL}.
 Si è valutato però, in caso si presentino problemi di performance,
 di ottimizzare il database mediante indici in prima battuta
 e, successivamente, ottimizzando le singole query.
-\ac{EF Core} permette di ottimizzare le queries scrivendole in SQL puro,
+\ac{EF Core} permette di ottimizzare le queries scrivendole in \ac{SQL} puro,
 bypassando la traduzione da \ac{LINQ}.
 
 \section{Scelta del framework grafico}
 Il framework grafico scelto aveva come obiettivo soddisfare il requisito della portabilità e dell'offline.
 Le scelte vagliate sono state:
 \begin{itemize}
-    \item frontend web based, con l'utilizzo di HTML, CSS e JavaScript e interrogazione del database centrale mediante \ac{API};
+    \item frontend web based, con l'utilizzo di \ac{HTML}, \ac{CSS} e \ac{JS} e interrogazione del database centrale mediante \ac{API};
     \item utilizzo del framework \maui{}, nativamente cross-platform e integrato perfettamente con il backend.
 \end{itemize}
 L'opzione web based, con interfacce facilmente adattabili a qualsiasi dispositivo,
@@ -124,4 +124,6 @@ come in figura~\ref{fig:Diagramma funzionamento MVVM.}:
 \end{figure}
 Questo modello, separando la logica della view da quella di business,
 ha permesso di prototipare le interfacce nei primi rilasci e in futuro riprogettarle
-migliorando l'accessibilità e l'\ac{UX}.
+migliorando l'accessibilità, ovvero la capacità di un prodotto di essere utilizzato da persone con disabilità.
+Migliorarla vuol dire aggiungere valore e rimuovere le barriere che potrebbero impedire l'interazione con esso.
+Un altro aspetto migliorabile è l'\ac{UX}, ovvero l'esperienza dell'utente nell'interazione con il prodotto.

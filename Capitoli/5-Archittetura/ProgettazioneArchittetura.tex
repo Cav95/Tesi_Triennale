@@ -3,8 +3,9 @@
 Le scelte architetturali sono dipese in primo luogo dall'infrastruttura aziendale,
 e successivamente dalle richieste degli utenti durante gli incontri.
 L'utilizzo di \sqlserver{}, come motore di database, è stato adottato come base di tutte le scelte successive.
-\sqlserver{} è stato scelto in quanto già presente in azienda, e quindi non richiede ulteriori investimenti.
-La seconda motivazione, non meno importante, è lo stesso in cui allocano i dati dell' \ac{ERP} aziendale e del \ac{PLM} di prodotto.
+Tale decisione è stata presa in quanto esso è già presente in azienda, e quindi non richiede ulteriori investimenti.
+La seconda motivazione, non meno importante, è lo stesso in cui sono 
+memorizzati i dati dell' \ac{ERP} aziendale e del \ac{PLM} di prodotto.
 Mantendendo lo stesso motore di database, si è potuto garantire la compatibilità dei dati e la loro integrità.
 Da questo caposaldo, la ricerca si è indirizzata verso un framework che interagisse 
 sia con \sqlserver{} sia con SQLite.\cite{SQLite}.
@@ -88,7 +89,8 @@ per ottimizzare lo scambio di informazioni tra diversi layer di un applicazione.
   Privo di logica di business o comportamenti applicativi, il \ac{DTO}
    espone esclusivamente le proprietà richieste dal caso d'uso:
     questa semplificazione minimizza la dimensione del payload, 
-    riduce le chiamate di rete e la latenza complessiva, ottimizzando le prestazioni del sistema.~\cite{DTO}
+    riduce le chiamate di rete e la latenza complessiva, ottimizzando le prestazioni del sistema.
+    La traduzione da entity a \ac{DTO} protegge i dati del database, evitando che vengano esposti direttamente.~\cite{DTO}
 Questa seconda mappatura è stata realizzata mediante il package ``Mapster''~\cite{Mapster},
 appartenente a terze parti.
 La mappatura entity-\ac{DTO} è stata realizzata in modo bidirezionale in quanto, in alcuni casi,
