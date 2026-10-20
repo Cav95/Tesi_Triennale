@@ -1,0 +1,190 @@
+\chapter{Sintesi dei requisiti per tipologia di specifica}\label{app:risultati-interviste-non-utilizzatori}
+
+\section{Ruoli coinvolti e utilizzo attuale degli strumenti}
+I reparti tecnici, di gestione commessa e logistici interagiscono in modo indiretto o marginale con l'attuale database MS Access, basandosi prevalentemente su passaggi cartacei o file esterni:
+\begin{itemize}
+    \item \textbf{Ufficio Project Management e Project Engineering:} Coordinano le commesse tra commerciale
+          e reparti tecnici, definendo le specifiche e supervisionando installazione e post-vendita.
+          Non utilizzano Access; consultano i contratti in formato cartaceo o scansionato per revisionare le
+          specifiche tecniche e contattare i clienti.
+    \item \textbf{Ufficio Tecnico Meccanico:} Si occupa della progettazione meccanica e dei disegni costruttivi.
+          Non utilizza Access; recepisce le specifiche dal cartaceo tramite i Project Engineer (PE) per verificare revisioni,
+          limiti dei componenti e condizioni del sito di montaggio.
+    \item \textbf{Ufficio Tecnico Elettrico:} Gestisce la progettazione di quadri e impianti elettrici.
+          Attualmente sopperisce alle carenze del sistema utilizzando fogli Excel esterni per il dimensionamento/calcolo costi
+          (\textit{QUAEL.xltm}) e per la validazione tecnica dei preventivi (\textit{PROGETTO CEPI - Scheda progetto r2.xlsx}).
+    \item \textbf{Ufficio Logistica:} Gestisce spedizioni, dogane e trasporti. Utilizza Access solo marginalmente per verificare
+          le date di consegna o correggere a valle indirizzi, causali, dati di trasporto e Incoterms. L'operatività ruota attorno
+          a un
+          ``File Logistico'' in Excel centralizzato e alla gestione di copie cartacee nelle cartelle di rete.
+    \item \textbf{Ufficio Manualistica e Ufficio Acquisti:} La Manualistica redige manuali e certificazioni dei prodotti venduti;
+          l'Ufficio Acquisti gestisce gli ordini ai fornitori e controlla i contratti commerciali per verificare i ricambi in
+          assistenza ed eventuali discrepanze tecniche o commerciali.
+\end{itemize}
+
+\section{Criticità trasversali rilevate}
+
+\subsection{Frammentazione documentale e supporto cartaceo}
+\begin{itemize}
+    \item \textbf{Disallineamento delle informazioni:} L'utilizzo di copie cartacee multiple (distribuite tra Vendite,
+          Ufficio Tecnico, Elettrico e Logistica) e di annotazioni manuali sul cartaceo comporta la perdita di informazioni e
+          la circolazione di versioni obsolete.
+    \item \textbf{Duplicazione per tempistiche differenti:} Per le commesse miste (meccaniche ed elettriche),
+          la Logistica è costretta a duplicare fisicamente le copie tecniche delle RA per gestire le diverse 
+          tempistiche dei due
+          uffici.
+\end{itemize}
+
+\subsection{Disconnessione anagrafica ed errori di input}
+\begin{itemize}
+    \item \textbf{Disallineamento Access vs Ad Hoc:} Access presenta anagrafiche spesso non aggiornate e prive
+          di storicizzazione, mentre l'ERP Ad Hoc contiene i dati fiscali corretti (Sede Legale) ma risulta 
+          impreciso sulle
+          sedi operative o di spedizione.
+    \item \textbf{Propagazione degli errori:} La prassi commerciale di duplicare vecchie commesse/RA trascina errori
+          pregressi che devono essere corretti manualmente dalla Logistica a valle del processo.
+    \item \textbf{Omissione dati logistici:} Nelle offerte mancano quasi sempre informazioni essenziali per il
+          trasporto quali Incoterms, tipologia di imballo, pesi e volumi.
+\end{itemize}
+
+\subsection{Gestione post-vendita e disallineamento per le dogane}
+\begin{itemize}
+    \item \textbf{Variazioni non tracciate:} Il metodo attuale punta alla vendita rapida, 
+    ma non traccia in modo strutturato i componenti aggiunti o modificati in fase di progettazione e realizzazione.
+    \item \textbf{Criticità sulle Packing List doganali:} I commerciali vendono ``macro-codici'' (es. impianto completo),
+          ma le dogane (specialmente extra-UE) esigono il dettaglio di ogni singolo pallet. Poiché il sistema non
+          esplode i macro-codici nei colli fisici, l'associazione tra voci contrattuali, distinta tecnica e pallet preparati
+          dagli spedizionieri avviene manualmente, generando un alto rischio di errori doganali.
+\end{itemize}
+
+\section{Requisiti funzionali emersi}
+
+\subsection{Struttura del contratto, distinta base e codifica}
+\begin{itemize}
+    \item \textbf{Gestione per macro-codici e standardizzazione:}
+          \begin{itemize}
+              \item Utilizzo di ``macro-codici'' contenitore in fase di vendita (es. \textit{Macro-codice Quadro},
+                    \textit{Pannello Operatore}, \textit{TVB generico}) direttamente agganciati alla distinta base (completa al 90\%),
+                    che l'Ufficio Tecnico completerà poi con i disegni specifici.
+              \item Spinta verso la ``standardizzazione a catalogo'' tramite l'analisi statistica dei \textit{Best Sellers}
+                    (es. TVB standard, stellari taglie 1000/1500/2000), facendo coincidere il codice di vendita con quello di realizzazione
+                    e separando il flusso standard da quello ``fuori standard''.
+              \item Allineamento univoco dei codici articolo tra il nuovo configuratore e il gestionale Ad Hoc.
+          \end{itemize}
+    \item \textbf{Separazione ed esplosione delle voci (Meccanica vs Elettrica):}
+          \begin{itemize}
+              \item Creazione di due sezioni contrattuali ben distinte per i componenti meccanici e quelli elettrici,
+                    superando la confusione attuale.
+              \item Esplosione automatica: l'inserimento di utenze meccaniche (es. motori, vibratori) deve generare
+                    automaticamente le voci elettriche correlate nel contratto tecnico (es. gli inverter devono essere integrati
+                    nel quadro o associati all'utenza specifica, non trattati come voci isolate).
+          \end{itemize}
+    \item \textbf{Rintracciabilità e collegamento logistico:}
+          \begin{itemize}
+              \item Superamento dei codici generici per garantire la tracciabilità dell'esatta variante del
+                    componente venduto (es. variante specifica di un \textit{WP104}).
+              \item Collegamento nativo tra distinta commerciale e distinta tecnica (tramite Rif CC)
+                    fin dalla progettazione, per automatizzare l'associazione con i pallet fisici e la generazione delle Packing List.
+          \end{itemize}
+\end{itemize}
+
+\subsection{Configuratore tecnico, normativo e logistico}
+Il sistema deve guidare il commerciale attraverso vincoli all'ingresso (menu a tendina) e controlli automatici
+di completezza prima del salvataggio:
+\begin{itemize}
+    \item \textbf{Guida e vincoli per la parte elettrica:}
+          \begin{itemize}
+              \item Suggerimento automatico del materiale del quadro in base alle utenze inserite (es. taglia corretta
+                    dell'inverter in base ai motori venduti) e domande finali per proporre accessori consigliati.
+              \item Inserimento automatico di default dei sezionatori a bordo macchina per ogni motore.
+              \item Distinzione netta tra ``quadro nuovo'' e ``ampliamento'': in caso di ampliamento, il sistema deve
+                    indicare la disponibilità di spazio fisico nel quadro esistente per evitare errori di valutazione e costi imprevisti.
+              \item Campi tecnici obbligatori: Paese di destinazione, alimentazione (es. 230V 50Hz, 400V 60Hz, DC/AC),
+                    materiale del quadro (inox, verniciato), tipologia canaline (chiusa, forata), numero/tipologia utenze e
+                    certificazioni (es. UL/USA, la cui selezione deve aggiornare in automatico componenti e costi).
+          \end{itemize}
+    \item \textbf{Specifiche per manualistica, meccanica e acquisti:}
+          \begin{itemize}
+              \item Campi dedicati alle certificazioni richieste per i componenti venduti (CE, ATEX, FDA, ecc.)
+                    e alle norme di riferimento per i prodotti acquistati da terzi (ATEX, alimentari, ecc.).
+              \item Valorizzazione dettagliata delle caratteristiche tecniche (dati elettrici dei motori, dati
+                    meccanici, allestimenti, accessori) per agevolare la stesura dei manuali.
+              \item Verifica delle condizioni del luogo di montaggio per attivare controlli specifici sulle macchine
+                    (es. Globosilo esterni in zone sismiche), definire i trasporti e rilevare limitazioni d'uso dei componenti.
+          \end{itemize}
+    \item \textbf{Vincoli e alert logistici/doganali per Paese:}
+          \begin{itemize}
+              \item Compilazione obbligatoria e guidata di Incoterms (DAP, DDP, FCA, ecc.), tipologia di imballo, pesi e volumi.
+              \item Generazione di alert automatici all'inserimento dell'ordine in base al Paese di destinazione per requisiti
+                    di fumigazione/ISPM 15 sui pallet in legno (es. Brasile, Australia, Turchia), materiali proibiti
+                    (es. ancoranti chimici vietati) e necessità di permessi eccezionali o montaggi.
+          \end{itemize}
+\end{itemize}
+
+\subsection{Preventivazione, calcolo costi e varianti}
+\begin{itemize}
+    \item \textbf{Internalizzazione dei fogli di calcolo:} Integrazione nel software delle logiche di dimensionamento,
+          calcolo costi e validazione preventiva oggi gestite sui file Excel esterni (\textit{QUAEL.xltm} e \textit{Scheda progetto r2.xlsx})
+          .
+    \item \textbf{Analisi differenziata del costo ore:} Il preventivatore deve quantificare correttamente l'impatto della
+          manodopera in base alla tipologia di lavoro (es. il costo orario per l'ampliamento di un quadro è superiore rispetto
+          alla produzione standard in serie).
+    \item \textbf{Costificazione delle variazioni:} Possibilità per il Project Management di costificare le variazioni
+          tecniche in modo separato dal contratto commerciale, così da valutare il margine di manovra sulle modifiche in corso d'opera.
+\end{itemize}
+
+\subsection{Gestione contrattuale, revisioni e ``As-Built''}
+\begin{itemize}
+    \item \textbf{Doppio contratto (Commerciale vs Tecnico):} Poiché il contratto commerciale firmato e sdoganato ha
+          vincoli legali e non può essere alterato liberamente, il sistema deve gestire in parallelo un ``Contratto Tecnico''
+          (copia speculare).
+    \item \textbf{Allineamento Contratto vs Schema (P\&ID) e Feedback Loop:}
+          \begin{itemize}
+              \item Sostituzione di note esterne e file Word con una sezione dedicata che registri le discrepanze tra
+                    venduto commerciale ed eseguito tecnico (es. modifiche allo schema P\&ID, numero valvole, componenti extra),
+                    mantenendo allineati i dati tecnici ed economici.
+              \item Implementazione di un sistema di feedback \textit{``As-Built''} per registrare le
+                    modifiche effettive apportate durante la realizzazione, ottimizzando i processi e la precisione dei futuri preventivi.
+              \item Possibilità di riproporre al cliente il contratto tecnico aggiornato affinché diventi il documento ufficiale.
+          \end{itemize}
+\end{itemize}
+
+\subsection{Workflow, pianificazione temporale e notifiche}
+\begin{itemize}
+    \item \textbf{Monitoraggio date e colli di bottiglia:} Registrazione e confronto automatico tra la \textit{Data emissione ordine}
+          (conferma cliente) e la \textit{Data stampa/presa in carico} (ricezione interna), evidenziando eventuali ritardi.
+    \item \textbf{Pianificazione a ritroso (Back-Scheduling):} Calcolo automatico delle milestone intermedie a partire dalla
+          \textit{Data di evasione} (spedizione prevista) o dallo \textit{Start-up impianto} per garantire il rispetto delle tempistiche.
+    \item \textbf{Gestione stati e Alerting automatico:} Distinzione chiara degli stati della commessa
+          (es. da \textit{Pre-inserimento / Bozza commerciale} a \textit{Inserito in Impianti / Validato tecnicamente}).
+           Al cambio di stato, invio di notifiche automatiche (email o alert in-app) ai reparti a valle (es. Elettrico, Logistica), 
+           sostituendo il passaggio fisico del fascicolo cartaceo e le email manuali.
+\end{itemize}
+
+\section{Requisiti su anagrafiche, tracciabilità e governance}
+\begin{itemize}
+    \item \textbf{Tripla entità anagrafica e storicizzazione:}
+          \begin{itemize}
+              \item Distinzione obbligatoria in anagrafica tra tre soggetti: \textit{Intestatario} (Fiscale),
+                    \textit{Utilizzatore} (Fisico) e \textit{Destinatario Merce} (Logistico).
+              \item Storicizzazione dei dati anagrafici e introduzione di \textit{date di obsolescenza} per articoli
+                    e sedi: in caso di cambio sede o P.IVA del cliente, i documenti storici (es. DDT passati) devono conservare
+                    i dati validi all'epoca dell'emissione.
+          \end{itemize}
+    \item \textbf{Tracciabilità totale (Audit Log) e responsabilità:}
+          \begin{itemize}
+              \item Eliminazione delle annotazioni su carta a favore di una visibilità digitale in tempo reale per tutti i
+                    reparti autorizzati (Commerciale, UT, PM, Logistica, Magazzino).
+              \item Log completo delle modifiche ai dati di commessa che registri \textit{Chi} ha effettuato la variazione,
+                    \textit{Quando} (timestamp) e \textit{Cosa} è cambiato (valore precedente vs valore attuale).
+              \item Presenza di un campo ``Compilato da'' autocompilato con l'utente loggato, ma mantenuto editabile
+                    per gestire eventuali deleghe o correzioni di assegnazione.
+          \end{itemize}
+    \item \textbf{Governance Top-Down e formazione:}
+          \begin{itemize}
+              \item Impostazione rigida del database: divieto di popolamento libero da parte degli utenti e definizione
+                    delle regole a monte tramite un team ristretto per preservare l'integrità dei dati.
+              \item Formazione specifica per il reparto commerciale sull'utilizzo del nuovo sistema e sull'importanza
+                    della correttezza dei dati inseriti a monte.
+          \end{itemize}
+\end{itemize}
