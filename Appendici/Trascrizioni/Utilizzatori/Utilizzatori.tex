@@ -5,7 +5,7 @@ del sistema attuale, al fine di raccogliere i requisiti per il nuovo software.
 \section{Operazioni comuni}
 Le operazioni più comuni svolte all'interno dell'applicativo includono:
 \begin{itemize}
-      \item Creazione di offerte per ricambi e assistenza (RA).
+      \item Creazione di offerte per ricambi e assistenza (\ac{RA}).
       \item Creazione di offerte per clienti non diretti.
       \item Creazione delle offerte Access per conto di agenti o rivenditori esterni.
       \item Creazione di offerte per clienti diretti.
@@ -20,7 +20,7 @@ Per quanto riguarda la gestione degli utenti e la visibilità dei dati, gli agen
 hanno evidenziato i seguenti punti chiave:
 \begin{itemize}
       \item \textbf{Segregazione dei dati:} È fondamentale mantenere la distinzione tra offerte e
-            RA (Richieste assistenza/ricambi).
+            \ac{RA} (Richieste assistenza/ricambi).
             La distinzione tra i due tipi aiuta a evitare confusione e garantisce che le operazioni
             siano gestite correttamente.
       \item \textbf{Privacy per autore:} Un agente esterno non deve vedere i progetti o le offerte
@@ -37,24 +37,16 @@ post-vendita, presenta diverse inefficienze dovute alla frammentazione degli str
 e alla mancanza di dati strutturati.
 
 \begin{itemize}
-      \item \textbf{Input disorganizzato:} Le richieste dei clienti arrivano principalmente via email
-            in formati non strutturati (testo libero, foto, ``collage con Paint''), spesso prive del numero di commessa,
-            rendendo difficile l'identificazione dell'impianto e dei componenti. Attualmente esiste nel sito web un form
-            per la richiesta ricambi, ma non è utilizzato abitualmente dai clienti.
-      \item \textbf{Identificazione cliente/impianto:} Spesso il cliente non fornisce il numero di commessa,
-            obbligando l'operatore a cercare manualmente tra i clienti e gli impianti esistenti.
-            Un'alternativa è richiedere al cliente il numero della commessa impresso sulle etichette affisse
-            sui componenti montati.
       \item \textbf{Template di partenza:} Attualmente non esiste un template dedicato; si parte quindi
             da vecchi ordini e, per individuare quali siano le assistenze, l'unica discriminante è
-            l'autore .
+            l'autore.
             Questa pratica permette di ereditare tutte le condizioni di vendita e i dati del cliente,
             risparmiando tempo nella compilazione (operazione attualmente molto onerosa in termini di tempo).
       \item \textbf{Ricerca ricambi manuale:} L'operatore deve consultare disegni tecnici (Fusion, PDF, cartacei)
             e database separati (Access, Ad-Hoc, Excel, Server ``Commesse'') per identificare i codici dei ricambi.
       \item \textbf{Inserimento del componente:} Una volta individuato il componente, non essendoci una
-            corrispondenza univoca dei codici, l'operatore deve trovare la corrispondenza in Access o creare un nuovo codice per
-            il ricambio.
+            corrispondenza univoca dei codici, l'operatore deve trovare la corrispondenza in 
+            Access o creare un nuovo codice per il ricambio.
       \item \textbf{Creazione offerta complessa:} Non è facile né la ricerca né l'assegnazione di un prezzo
             se il componente è datato; la compilazione dell'offerta talvolta richiede calcoli manuali (prezzi, pesi, volumi).
             Spesso si ricorre alla copia di vecchie offerte \ac{RA} o commesse, pratica che trascina errori pregressi.
@@ -78,16 +70,17 @@ L'attuale processo di creazione delle offerte prevede i seguenti passaggi:
 \section{Problemi attuali del sistema}
 Dall'intervista i commerciali hannofatto emergere le seguenti criticità del sistema attuale:
 \begin{itemize}
-      \item \textbf{Lentezza e complessità:} L'intero processo di gestione delle richieste di ricambi è lento e laborioso 
+      \item \textbf{Lentezza e complessità:} L'intero processo di gestione è lento e laborioso 
       e richiede molto tempo per completare un'offerta. Questo è dovuto alla necessità di consultare molteplici fonti di 
       dati non integrate. Il programma stesso utilizzato (Access) risulta lento e macchinoso, con molti tempi morti.
-      \item \textbf{Disallineamento codici:} Esiste una discrepanza tra i codici commerciali e quelli tecnici/gestionali. Questo costringe a ricerche manuali su schemi funzionali o database separati per identificare il pezzo corretto (Ad-Hoc, Fusion, \dots).
+      \item \textbf{Disallineamento codici:} Esiste una discrepanza tra i codici commerciali e quelli tecnici/gestionali.
+       Questo costringe a ricerche manuali su schemi funzionali o database separati per identificare il pezzo corretto (Ad-Hoc, Fusion, \dots).
       \item \textbf{Mancanza di automazione nei calcoli:}
             \begin{itemize}
                   \item \textbf{Prezzi:} I costi e i prezzi di vendita devono essere spesso calcolati manualmente o verificati 
                   su Excel/Ad-Hoc, specialmente per componenti su misura o obsoleti.
                   \item \textbf{Logistica:} Non esiste un calcolo automatico di volumi e pesi per il trasporto; l'utente deve
-                   ipotizzare i dati basandosi su vecchi DDT o sull'esperienza. Il costo è talvolta calcolato mediante il sito di DHL.
+                   ipotizzare i dati basandosi su vecchi DDT o sull'esperienza. Il costo è talvolta calcolato mediante il sito di del corriere.
                   \item \textbf{Manodopera:} I tempi e i costi per gli interventi tecnici (es. sostituzione saccone) non sono 
                   standardizzati e richiedono consultazioni continue con i colleghi (es. Logistica).
             \end{itemize}
@@ -97,11 +90,13 @@ Dall'intervista i commerciali hannofatto emergere le seguenti criticità del sis
       \item \textbf{Gestione obsolescenza:} È difficile sapere se un componente venduto anni fa è stato sostituito da una 
       nuova versione o se è obsoleto, rischiando di vendere pezzi non più procurabili. Serve un sistema di tracciamento delle
        sostituzioni e delle obsolescenze (es. Fusion).
-      \item \textbf{Discrepanza ``As Built'':} Le modifiche fatte in cantiere (RA di cantiere) o successive alla vendita non 
+      \item \textbf{Discrepanza ``As Built'':} Le modifiche fatte in cantiere (\ac{RA} di cantiere) o successive alla vendita non 
       sono sempre tracciate in modo unitario, rendendo difficile conoscere la configurazione reale dell'impianto attuale, punto 
       fondamentale per una corretta assistenza senza errori.
-      \item \textbf{Sistema di traduzione:} È fondamentale avere un sistema di traduzione integrato e affidabile per le descrizioni 
-      dei componenti e delle offerte; attualmente, oltre alle traduzioni preimpostate di Access (spesso da correggere), si utilizzano 
+      \item \textbf{Sistema di traduzione:} È fondamentale avere un sistema di traduzione 
+      integrato e affidabile per le descrizioni 
+      dei componenti e delle offerte; attualmente, oltre alle traduzioni preimpostate di Access 
+      (spesso da correggere), si utilizzano 
       servizi esterni (Google Translate) che richiedono tempo e possono introdurre errori.
 \end{itemize}
 
@@ -178,19 +173,6 @@ Per migliorare l'esperienza utente e l'efficienza operativa, il sistema deve pre
             di dati preliminari e note durante il sopralluogo o in fiera.
 \end{itemize}
 
-\subsection{Integrazioni future e scalabilità}
-Per garantire la scalabilità e l'integrazione con altri sistemi futuri, il sistema deve prevedere:
-\begin{itemize}
-      \item \textbf{Integrazione disegni/foto (Configuratore):} In prospettiva futura, un sistema visuale
-            dove il cliente o l'operatore possa cliccare sul componente nel disegno 3D/2D per identificarlo univocamente,
-            riducendo l'uso di foto e interpretazioni manuali.
-      \item \textbf{Integrazione con gestionale produzione:} Attualmente il sistema non è integrato con TWproject
-            (gestionale produzione), ma nel nuovo software sarebbe utile avere un collegamento per verificare lo stato di
-            avanzamento delle commesse.
-      \item \textbf{Integrazione Fusion:} Sarebbe utile integrare il sistema con Fusion per la visualizzazione dei
-            disegni tecnici e la gestione delle modifiche.
-\end{itemize}
-
 \section{Note di implementazione}
 Gli utilizzatori hanno fornito alcune indicazioni utili per la fase di implementazione:
 \begin{itemize}
@@ -206,8 +188,8 @@ Gli utilizzatori hanno fornito alcune indicazioni utili per la fase di implement
 \section{Numeri utili}
 Per capire gli attuali tempi di lavoro e il volume storico di offerte gestite, si riportano i seguenti dati:
 \begin{itemize}
-      \item \textbf{Offerte VS Ordini:} Attualmente a sistema risultano create (o presenti nello storico RA)
-            circa 57.000 offerte (RA), di cui circa 41.000 si sono trasformate in ordini effettivi.
+      \item \textbf{Offerte VS Ordini:} Attualmente a sistema risultano create (o presenti nello storico \ac{RA})
+            circa 57.000 offerte (\ac{RA}), di cui circa 41.000 si sono trasformate in ordini effettivi.
       \item \textbf{Tempo base per una semplice offerta:} Attualmente, per una richiesta tipo di cui si conoscono già
             il numero di commessa e i codici da inserire, il tempo medio per la creazione di un'offerta è di circa 15 minuti.
             Il tempo sale notevolmente se devono essere ricercate le informazioni mancanti.

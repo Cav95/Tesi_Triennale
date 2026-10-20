@@ -1,20 +1,24 @@
 \chapter{Trascrizione non utilizzatori}\label{app:risultati-interviste-non-utilizzatori}
 
 \section{Ruoli coinvolti e utilizzo attuale degli strumenti}
-I reparti tecnici, di gestione commessa e logistici interagiscono in modo indiretto o marginale con l'attuale database MS Access, basandosi prevalentemente su passaggi cartacei o file esterni:
+I reparti tecnici, di gestione commessa e logistici interagiscono in modo indiretto 
+o marginale con l'attuale database Microsoft Access, basandosi prevalentemente su passaggi cartacei o file esterni:
 \begin{itemize}
     \item \textbf{Ufficio Project Management e Project Engineering:} Coordinano le commesse tra commerciale
           e reparti tecnici, definendo le specifiche e supervisionando installazione e post-vendita.
           Non utilizzano Access; consultano i contratti in formato cartaceo o scansionato per revisionare le
           specifiche tecniche e contattare i clienti.
     \item \textbf{Ufficio Tecnico Meccanico:} Si occupa della progettazione meccanica e dei disegni costruttivi.
-          Non utilizza Access; recepisce le specifiche dal cartaceo tramite i Project Engineer (PE) per verificare revisioni,
+          Non utilizza Access; recepisce le specifiche dal cartaceo tramite i \ac{PE} per verificare revisioni,
           limiti dei componenti e condizioni del sito di montaggio.
     \item \textbf{Ufficio Tecnico Elettrico:} Gestisce la progettazione di quadri e impianti elettrici.
-          Attualmente sopperisce alle carenze del sistema utilizzando fogli Excel esterni per il dimensionamento/calcolo costi
+          Attualmente sopperisce alle carenze del sistema utilizzando fogli Excel esterni 
+          per il dimensionamento/calcolo costi
           (\textit{QUAEL.xltm}) e per la validazione tecnica dei preventivi (\textit{PROGETTO CEPI - Scheda progetto r2.xlsx}).
-    \item \textbf{Ufficio Logistica:} Gestisce spedizioni, dogane e trasporti. Utilizza Access solo marginalmente per verificare
-          le date di consegna o correggere a valle indirizzi, causali, dati di trasporto e Incoterms. L'operatività ruota attorno
+    \item \textbf{Ufficio Logistica:} Gestisce spedizioni, dogane e trasporti. Utilizza Access solo marginalmente
+     per verificare
+          le date di consegna o correggere a valle indirizzi, causali, dati di trasporto e Incoterms.
+           L'operatività ruota attorno
           a un
           ``File Logistico'' in Excel centralizzato e alla gestione di copie cartacee nelle cartelle di rete.
     \item \textbf{Ufficio Manualistica e Ufficio Acquisti:} La Manualistica redige manuali e certificazioni dei prodotti venduti;
@@ -30,17 +34,15 @@ I reparti tecnici, di gestione commessa e logistici interagiscono in modo indire
           Ufficio Tecnico, Elettrico e Logistica) e di annotazioni manuali sul cartaceo comporta la perdita di informazioni e
           la circolazione di versioni obsolete.
     \item \textbf{Duplicazione per tempistiche differenti:} Per le commesse miste (meccaniche ed elettriche),
-          la Logistica è costretta a duplicare fisicamente le copie tecniche delle RA per gestire le diverse 
-          tempistiche dei due
-          uffici.
+          la Logistica è costretta a duplicare fisicamente le copie tecniche delle \ac{RA} per gestire le diverse 
+          tempistiche dei due uffici.
 \end{itemize}
 
 \subsection{Disconnessione anagrafica ed errori di input}
 \begin{itemize}
     \item \textbf{Disallineamento Access vs Ad Hoc:} Access presenta anagrafiche spesso non aggiornate e prive
           di storicizzazione, mentre l'ERP Ad Hoc contiene i dati fiscali corretti (Sede Legale) ma risulta 
-          impreciso sulle
-          sedi operative o di spedizione.
+          impreciso sulle sedi operative o di spedizione.
     \item \textbf{Propagazione degli errori:} La prassi commerciale di duplicare vecchie commesse/RA trascina errori
           pregressi che devono essere corretti manualmente dalla Logistica a valle del processo.
     \item \textbf{Omissione dati logistici:} Nelle offerte mancano quasi sempre informazioni essenziali per il
@@ -64,8 +66,8 @@ I reparti tecnici, di gestione commessa e logistici interagiscono in modo indire
     \item \textbf{Gestione per macro-codici e standardizzazione:}
           \begin{itemize}
               \item Utilizzo di ``macro-codici'' contenitore in fase di vendita (es. \textit{Macro-codice Quadro},
-                    \textit{Pannello Operatore}, \textit{TVB generico}) direttamente agganciati alla distinta base (completa al 90\%),
-                    che l'Ufficio Tecnico completerà poi con i disegni specifici.
+                    \textit{Pannello Operatore}, \textit{TVB generico}) direttamente agganciati alla distinta base
+                     (completa al 90\%), che l'Ufficio Tecnico completerà poi con i disegni specifici.
               \item Spinta verso la ``standardizzazione a catalogo'' tramite l'analisi statistica dei \textit{Best Sellers}
                     (es. TVB standard, stellari taglie 1000/1500/2000), facendo coincidere il codice di vendita con quello di realizzazione
                     e separando il flusso standard da quello ``fuori standard''.
@@ -124,11 +126,8 @@ di completezza prima del salvataggio:
 \subsection{Preventivazione, calcolo costi e varianti}
 \begin{itemize}
     \item \textbf{Internalizzazione dei fogli di calcolo:} Integrazione nel software delle logiche di dimensionamento,
-          calcolo costi e validazione preventiva oggi gestite sui file Excel esterni (\textit{QUAEL.xltm} e \textit{Scheda progetto r2.xlsx})
-          .
-    \item \textbf{Analisi differenziata del costo ore:} Il preventivatore deve quantificare correttamente l'impatto della
-          manodopera in base alla tipologia di lavoro (es. il costo orario per l'ampliamento di un quadro è superiore rispetto
-          alla produzione standard in serie).
+          calcolo costi e validazione preventiva oggi gestite sui file Excel esterni (\textit{QUAEL.xltm}
+           e \textit{Scheda progetto r2.xlsx}).
     \item \textbf{Costificazione delle variazioni:} Possibilità per il Project Management di costificare le variazioni
           tecniche in modo separato dal contratto commerciale, così da valutare il margine di manovra sulle modifiche in corso d'opera.
 \end{itemize}
@@ -145,16 +144,19 @@ di completezza prima del salvataggio:
                     mantenendo allineati i dati tecnici ed economici.
               \item Implementazione di un sistema di feedback \textit{``As-Built''} per registrare le
                     modifiche effettive apportate durante la realizzazione, ottimizzando i processi e la precisione dei futuri preventivi.
-              \item Possibilità di riproporre al cliente il contratto tecnico aggiornato affinché diventi il documento ufficiale.
+              \item Possibilità di riproporre al cliente il contratto tecnico aggiornato affinché diventi
+               il documento ufficiale.
           \end{itemize}
 \end{itemize}
 
 \subsection{Workflow, pianificazione temporale e notifiche}
 \begin{itemize}
-    \item \textbf{Monitoraggio date e colli di bottiglia:} Registrazione e confronto automatico tra la \textit{Data emissione ordine}
+    \item \textbf{Monitoraggio date e colli di bottiglia:} Registrazione e confronto automatico 
+    tra la \textit{Data emissione ordine}
           (conferma cliente) e la \textit{Data stampa/presa in carico} (ricezione interna), evidenziando eventuali ritardi.
     \item \textbf{Pianificazione a ritroso (Back-Scheduling):} Calcolo automatico delle milestone intermedie a partire dalla
-          \textit{Data di evasione} (spedizione prevista) o dallo \textit{Start-up impianto} per garantire il rispetto delle tempistiche.
+          \textit{Data di evasione} (spedizione prevista) o dallo \textit{Start-up impianto} 
+          per garantire il rispetto delle tempistiche.
     \item \textbf{Gestione stati e Alerting automatico:} Distinzione chiara degli stati della commessa
           (es. da \textit{Pre-inserimento / Bozza commerciale} a \textit{Inserito in Impianti / Validato tecnicamente}).
            Al cambio di stato, invio di notifiche automatiche (email o alert in-app) ai reparti a valle (es. Elettrico, Logistica), 
@@ -174,7 +176,7 @@ di completezza prima del salvataggio:
     \item \textbf{Tracciabilità totale (Audit Log) e responsabilità:}
           \begin{itemize}
               \item Eliminazione delle annotazioni su carta a favore di una visibilità digitale in tempo reale per tutti i
-                    reparti autorizzati (Commerciale, UT, PM, Logistica, Magazzino).
+                    reparti autorizzati (Commerciale, \ac{UT}, \ac{PM}, Logistica, Magazzino).
               \item Log completo delle modifiche ai dati di commessa che registri \textit{Chi} ha effettuato la variazione,
                     \textit{Quando} (timestamp) e \textit{Cosa} è cambiato (valore precedente vs valore attuale).
               \item Presenza di un campo ``Compilato da'' autocompilato con l'utente loggato, ma mantenuto editabile
