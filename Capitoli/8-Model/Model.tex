@@ -20,19 +20,20 @@ Il package è stato strutturato in modo da separare le classi di test, i reposit
 All'esterno del package oltre alle classi \ac{DTO} ed Enum relativi ad alcuni Lookup, è
 stata costituita una classe univoca che espone i vari repository, denominata ``DatabaseManager''.
 Questa soluzione permette di avere un unico punto di accesso ai repository,
-evitando di esporre le classi interne del package e facilitando la Dependency Injection.
-Questa classe è stata registrata come singleton, e permettendo di essere
-ricgiamata ad ogni necessità di interazione con il database, senza dover istanziare ogni volta i repository dedicati.
-
+evitando di esporre le classi interne del package e facilitando la \ac{DI}.
+La \ac{DI} è un design pattern che permette di iniettare le dipendenze necessarie ad una classe,
+senza doverle istanziare all'interno della stessa.
+Le classi iniettabili vengono registrate all'interno della classe che gestisce la \ac{DI}, talvolta come singleton,
+in modo da avere un'unica istanza della classe per tutta la durata dell'applicativo.
+Il ``DatabaseManager'' è stato registrato come singleton, mantenendo una sola instanza del database.
 Ad ogni repository è stata associata una classe di test, che ne testasse in modo efficace i vari metodi.
-
-La gestione dei dati dell'utente loggato è stata affidata ad una classe dedicata, anchessa
+La gestione dei dati dell'utente loggato è stata affidata ad una classe dedicata, anch'essa
 registrata come singleton, che mantenesse le infomazioni della sessione dell'utente.
 Tali informazioni includono, ad esempio l'\ac{ID} dell'utente, il nome e cognome, il ruolo e i permessi.
-La classe in questione, unita alla tabella \textit{Tabelle}, 
+La classe in questione, unita alla tabella \textit{Tabelle},
 permette di intercettare la tipologia di richiesta, il livello dell'utente e
 di conseguenza bloccare operazioni non permesse.
-\subsection{Classi di Test}
+\subsection{Classi di test}
 Le classi di test realizzate sono state pensate con l'obiettivo di funzionare anche in presenza di dati reali.
 Per realizzare ciò si sono creati prima di ogni test dei savepoint del database,
 che permettessero di tornare allo stato iniziale.
@@ -41,8 +42,8 @@ le funzionalità del repository senza
 il rischio di prelevare dati reali.
 Questo approccio ha richiesto molto tempo per la ricostruzione dei test più complessi, ma
 ha permesso di testare piccoli cambiamenti senza dover ripristinare il database.
-A fronte del tempo impiegato prima si è utilizzata \ac{AI} generativa per creare le bozze dei test,
-che successivamente sono state modificate e, in alcuni casi, riscritte completamente,
+A fronte del tempo impiegato prima si è utilizzata \ac{AI} generativa per creare le bozze dei test.
+Tali bozze sono state successivamente modificate e, in alcuni casi, riscritte completamente,
 per adattarle al contesto reale.
 Per realizzare ciò si è adottato un approccio articolato come segue:
 \begin{enumerate}
@@ -55,7 +56,7 @@ Questo approccio ha permesso di avere un ciclo di sviluppo più veloce,
 riducendo il tempo di scrittura dei test.
 \subsection{Repository}
 I repository sono stati divisi in base alle entità principali del dominio, come ad esempio i Prodotti, i Clienti e i Documenti.
-Oltre alle operazioni \ac{CRUD} principali si è scelto, per quanto riguarda le operazioni di ricerca, 
+Oltre alle operazioni \ac{CRUD} principali si è scelto, per quanto riguarda le operazioni di ricerca,
 di utilizzare dei metodi che permettessero di inserire molteplici criteri di ricerca.
 All'interno sono poi stati utilizzati i \texttt{Queryable} per costruire la query in esame.
 I \texttt{Queryable} permettono la costruzione pezzo per pezzo query complesse,
@@ -67,22 +68,21 @@ Un esempio di query costruita con \texttt{Queryable} è riportata nel listato~\r
   caption={Esempio di query Queryable},
   label={lst:esempio-query-queryable}
 ]{listings/Queryable.cs}
-Un'altra scelta che ha permesso di ridurre il codice ripetitivo
-è stata quella di rimappare le nuove entità, create in \ac{DTO} dalle classi
-di model del package principale, in classi di entity prive di Id che fossero pronte ad essere inserite nel database.
 Tutti i metodi all'interno dei repository sono stati realizzati come asincroni,
 per evitare di bloccare il thread principale dell'applicativo e, in particolare, l'interfaccia grafica.
 \section{Gestione dei dati e delle transazioni}
 Si è deciso di gestire le transazioni in modo atomico, considerandole come commit automatici,
 per evitare una perdita dei dati in caso di errori o eccezioni.
 I dati, prima dell'effettivo inserimento nel database,
-vengono gestiti in memoria e, solo al termine di tutte le operazioni, vengono salvati nel database.
+vengono gestiti in memoria \ac{RAM} e solo al termine di tutte le operazioni, vengono salvati nel database.
 Questo approccio permette di non impegnare il database con dati parziali,
 ma, al contempo, una volta validati, la transazione si può considerare come avvenuta, senza dover gestire rollback o commit.
 All'interno dei repository, è stato aggiunto ai parametri passati ai metodi il \texttt{CancellationToken}\cite{CancToken},
 che permette di interrompere l'esecuzione di una query in caso di timeout o di chiusura dell'applicativo.
-L'utilizzo del \texttt{CancellationToken} si può notare anche nella query di esempio~\ref{lst:esempio-query-linq},
+L'utilizzo del \texttt{CancellationToken} può essere osservato nella query di esempio~\ref{lst:esempio-query-linq},
 dove viene passato come parametro al metodo \texttt{FirstOrDefaultAsync()}.
-Questa scelta è stata fatta per evitare di bloccare il database con query che non terminano,
-e per permettere all'utente di cambiare schermata anche se la query non è terminata,
-evitando di bloccare l'interfaccia grafica di destinazione.
+La scelta di utilizzare il \texttt{CancellationToken} è stata fatta per evitare che, in caso di query lunghe o complesse,
+l'applicativo si bloccasse o andasse in timeout, permettendo all'utente di interrompere l'operazione e continuare a lavorare.
+L'apertura delle nuove interfacce, richiede quasi sempre una interrogazione al database.
+L'utilizzo del \texttt{CancellationToken} permette di cambiare
+interfaccia bloccando l'operazione sull'interfaccia precedente in favore della nuova.

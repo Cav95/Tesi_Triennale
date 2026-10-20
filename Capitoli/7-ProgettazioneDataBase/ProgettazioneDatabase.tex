@@ -1,8 +1,10 @@
 \chapter{Progettazione del database}\label{chap:Database}
 \section{Esportazione vecchio database}
 La creazione della nuova base di dati è partita dall'esportazione e dallo studio dell'attuale database Access.
-L'esportazione è avvenuta per mezzo di \ac{SSMA}~\cite{SQLServerMigrationAssistant},
+L'esportazione è avvenuta per mezzo di \ac{SSMA},
 che ha permesso di esportare solo la struttura esistente da Access in \sqlserver{}.
+\ac{SSMA} è uno strumento progettato per automatizzare la migrazione del database a SQL Server,
+da Microsoft Access, Db2, MySQL, Oracle e SAP ASE.~\cite{SQLServerMigrationAssistant}
 Ottenuta l'attuale struttura, essa ha subito un processo di ristrutturazione
 che ha portato ad avere un database più leggibile, manutenibile e performante.
 \section{Denominazione tabelle e campi}
@@ -11,7 +13,7 @@ Le modifiche addottate sono state le seguenti:
 \begin{itemize}
     \item Denominare le tabelle in minuscolo, separati da underscore, ad esempio: \textit{nome\_tabella}.
     \item Denominare i campi delle tabelle in minuscolo, separati da underscore,con
-          il prefisso della tabella per renderlo univoco. Un esempio di campo è: \textit{prefTabella\_nome\_campo}.
+          il prefisso della tabella per renderlo univoco. Un esempio di campo è: \textit{prefTabella\_nomeCampo}.
     \item Le chiavi primarie di ogni tabella sono degli indici progressivi, rendendo unica ogni riga.
           Il campo segue il pattern \textit{prefTabella\_id}.
 \end{itemize}
@@ -25,7 +27,8 @@ per facilitare il ripristino dei dati in caso di errore.
 Questi campi trasversali sono fondamentali per la gestione dei dati
 e la manutenzione del database.
 \section{Utilizzo di SSIS nel processo di migrazione}
-I successivi processi di modifica e popolamento del database sono stati gestiti tramite \ac{SSIS}.~\cite{SQLServerIntegration}
+I successivi processi di modifica e popolamento del database sono stati gestiti tramite
+\ac{SSIS}.~\cite{SQLServerIntegration}
 Questo strumento permette la creazione e l'esecuzione di pacchetti di query,
 che possono essere schedulati o eseguiti manualmente.
 Mediante interfaccia grafica è possibile creare flussi di query, con l'opportunità di gestire
@@ -51,7 +54,9 @@ l'importazione dei dati da altri database, come ad esempio \ac{ERP} e \ac{PLM}.
 \subsection{Eliminazione ridondanze e normalizzazione}
 La fase di studio dell'attuale database ha portato alla luce diverse ridondanze e dati non normalizzati.
 All'interno erano presenti più tabelle con lo stesso contesto di utilizzo o tabelle non utilizzate.
-Si è quindi proceduto all'eliminazione di tali tabelle ed alla normalizzazione delle restanti in seconda forma normale.
+Si è quindi proceduto all'eliminazione di tali tabelle ed alla normalizzazione delle restanti in \ac{2NF}.
+La \ac{2NF} è una forma di normalizzazione delle tabelle del database,
+che richiede che ogni attributo non chiave sia completamente dipendente dalla chiave primaria.
 Un'altra modifica sostanziale è stata l'unificazione di tabelle similari in un'unica tabella,
 discriminate mediante campo \textit{prefTabella\_tipo} proveniente da un lookup dedicato.
 Un esempio di questo contesto sono le tabelle di ``Offerta'' e ``Ordine'',
@@ -80,7 +85,8 @@ caricare in memoria all'avvio dell'applicativo, evitando di interrogare il datab
 \subsection{Aggiunta tabelle non presenti}
 \subsubsection{Gestione dei prodotti}
 Il database originale utilizzava i prodotti come oggetti atomici, senza la possibilità di gestire i loro componenti.
-Si è quindi deciso di creare le distinte prodotto. La tabella \textit{Prodotti} è stata messa in auto join con cardinalità n ad n.
+Si è quindi deciso di creare le distinte prodotto. La tabella \textit{Prodotti} è stata messa in auto
+join con cardinalità n ad n.
 Tale relazione a livello di schema logico è stata realizzata mediante la tabella \textit{Prodotti\_composizioni}.
 La tabella in questione aggiunge, oltre alle chiavi
 dei prodotti, anche il quantitativo della riga stessa e la posizione di apparizione.
@@ -150,6 +156,12 @@ Si ha quindi 0 per l'Admin e 100 per il visualizzatore, dando modo in futuro
 di aggiungere altri ruoli intermedi.
 Questo metodo rende flessibile la gestione dei permessi di accesso alle tabelle,
 potendole modificare anche da apposita interfaccia grafica.
+Un esempio della interfaccia è visibile in figura~\ref{fig:GestionePermessi}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/InterfacciaGestionePermessi.png}
+    \caption{Interfaccia di gestione dei permessi}\label{fig:GestionePermessi}
+\end{figure}
 In ottica offline, questa tabella permette di mappare, solo quello che l'utente
 può modificare in locale, evitando di eseguire query su tabelle non permesse offline.
 
@@ -169,9 +181,11 @@ Una volta ricostruite le strutture si sono create le seguenti Stored Procedure:
     \item Da \ac{ERP} → importazione ed aggiornamento delle anagrafiche dei listini.
     \item Da \ac{ERP} → importazione delle distinte dei prodotti.
     \item Da \ac{PLM} → importazione ed aggiornamento delle proprietà dei prodotti.
+    \item Da \ac{PLM} → importazione dei valori standard associati alle proprietà dei prodotti.
 \end{itemize}
 Tutte le stored procedure hanno al loro interno dei controlli che permettono di
-attuare le modifiche solo se presenti dei cambiamenti, evitando di sovraccaricare il database con operazioni non necessarie.
+attuare le modifiche solo se presenti dei cambiamenti, evitando di sovraccaricare
+il database con operazioni non necessarie.
 Oltre a ciò saranno da prevedere altre stored procedure di importazione per la gestione di altri dati,
 come ad esempio i clienti, tassi di cambio, ecc.
 Una volta in produzione verranno schedulate giornalmente garantendo la sincronizzazione dei dati.
