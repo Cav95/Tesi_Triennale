@@ -1,14 +1,17 @@
 \chapter{Analisi dei requisiti}\label{chap:AnalisiRequisiti}
 \section{Requisiti funzionali}
 Questa sezione è dedicata alla suddivisione dei dati raccolti in requisiti funzionali.
-In linea di massima, i requisiti possono emersi mirano a mantenere 
+In linea di massima, i requisiti possono emersi mirano a mantenere
 la flessibilità del sistema, ma al contempo a garantire la sicurezza dei dati e la loro integrità.
-Sono emersi infatti, in molteplici punti, la necessità di evitare 
+Sono emersi infatti, in molteplici punti, la necessità di evitare
 duplicazioni di dati ed il mantenere un filo logico della vita di una offerta.
-La concretezza dei dati è da mantenere mediante logiche di controllo ed incrocio dei dati, segnalando 
+La concretezza dei dati è da mantenere mediante logiche di controllo ed incrocio dei dati, segnalando
 o bloccando l'utente in caso di incongruenze.
+Tra i requisiti emersi, è stata riconosciuta la necessità di gestire i backup dei dati.
+Il loro scopo è sia per garantire la sicurezza dei dati stessi,
+sia per permettere un eventuale ripristino in caso di errori.
 La tabella~\ref{tab:RequisitiFunzionali} raccoglie il dettaglio dei requisiti funzionali raccolti,
- suddividendoli per area del progetto.
+suddividendoli per area del progetto.
 Insieme al requisito e alla sua descrizione è presente anche l'elenco dei ruoli a cui esso è rivolto.
 \newpage
 \begin{table}[H]
@@ -23,12 +26,12 @@ a migliorare l'attuale esperienza utente.
 Sono da attenzionare in particolare la fluidità del sistema,
 l'intuitività delle interfacce, e la velocità di esecuzione.
 Le interfacce devono essere predisposte per device mobili e
- proporre all'utente solo ciò che il suo ruolo necessita.
-Tra i requisiti non funzionali, è emerso come sia necessario gestire la 
+proporre all'utente solo ciò che il suo ruolo necessita.
+Tra i requisiti non funzionali, è emerso come sia necessario gestire la
 raccolta dei dati da altri database, anche a runtime, per garantire la correttezza dei dati e la loro integrità.
 Un esempio sono le giacenze dei prodotti in magazzino.
-La tabella~\ref{tab:RequisitiNonFunzionali} seguente, 
-insieme al requisito stesso, raccoglie anche la sua categoria 
+La tabella~\ref{tab:RequisitiNonFunzionali} seguente,
+insieme al requisito stesso, raccoglie anche la sua categoria
 e la sua priorità all'interno dell'implementazione.
 I requisiti sono ordinati per priorità.
 \begin{table}[H]
