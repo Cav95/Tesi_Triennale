@@ -3,9 +3,8 @@
 Le scelte architetturali sono dipese in primo luogo dall'infrastruttura aziendale,
 e successivamente dalle richieste degli utenti durante gli incontri.
 L'utilizzo di \sqlserver{}, come motore di database, è stato adottato come base di tutte le scelte successive.
-Tale decisione è stata presa in quanto esso è già presente in azienda, e quindi non richiede ulteriori investimenti.
-La seconda motivazione, non meno importante, è lo stesso in cui sono 
-memorizzati i dati dell' \ac{ERP} aziendale e del \ac{PLM} di prodotto.
+Tale decisione è stata presa in quanto esso è già presente in azienda, pertatanto non richiede ulteriori investimenti.
+Un'ulteriore motivazione è che tale motore contiene i dati dell' \ac{ERP} aziendale e del \ac{PLM} di prodotto.
 Mantendendo lo stesso motore di database, si è potuto garantire la compatibilità dei dati e la loro integrità.
 Da questo caposaldo, la ricerca si è indirizzata verso un framework che interagisse 
 sia con \sqlserver{} sia con SQLite.\cite{SQLite}.
@@ -60,8 +59,8 @@ con il database di produzione.
 L'intero software è stato suddiviso in tre distinti package, con responsabilità diverse.
 Si è cercato di seguire il principio \ac{DRY} e la riusabilità degli stessi.
 Il principio \ac{DRY} consiste nel non ripetere codice già scritto, ma di riutilizzarlo.
-Questo aproccio, favorito da contina rifattorizzazione del codice, porta ad avere componenti
-riutilizzabili nel codice.
+Questo aproccio permette di ridurre la complessità del software, facilitando la manutenzione e l'evoluzione futura.
+Il mantenimento del pricipio \ac{DRY} necessita di continua rifattorizzazione del codice.
 
 \subsection{Interfaccia al database}
 Il package di interfaccia al database, denominato ``DatabaseManagementPackage'',
