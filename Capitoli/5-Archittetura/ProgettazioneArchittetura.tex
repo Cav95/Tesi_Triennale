@@ -3,9 +3,9 @@
 Le scelte architetturali sono dipese in primo luogo dall'infrastruttura aziendale,
 e successivamente dalle richieste degli utenti durante gli incontri.
 L'utilizzo di \sqlserver{}, come motore di database, è stato adottato come base di tutte le scelte successive.
-Tale decisione è stata presa in quanto esso è già presente in azienda, pertatanto non richiede ulteriori investimenti.
+Tale decisione è stata presa in quanto esso è già presente in azienda, pertanto non richiede ulteriori investimenti.
 Un'ulteriore motivazione è che tale motore contiene i dati dell' \ac{ERP} aziendale e del \ac{PLM} di prodotto.
-Mantendendo lo stesso motore di database, si è potuto garantire la compatibilità dei dati e la loro integrità.
+Mantenendo lo stesso motore di database, si è potuto garantire la compatibilità dei dati e la loro integrità.
 Da questo caposaldo, la ricerca si è indirizzata verso un framework che interagisse
 sia con \sqlserver{} sia con SQLite.\cite{SQLite}.
 La necessità di operare offline ha guidato la ricerca di un sistema installabile in locale,
@@ -59,8 +59,8 @@ con il database di produzione.
 L'intero software è stato suddiviso in tre distinti package, con responsabilità diverse.
 Si è cercato di seguire il principio \ac{DRY} e la riusabilità degli stessi.
 Il principio \ac{DRY} consiste nel non ripetere codice già scritto, ma di riutilizzarlo.
-Questo aproccio permette di ridurre la complessità del software, facilitando la manutenzione e l'evoluzione futura.
-Il mantenimento del pricipio \ac{DRY} necessita di continua rifattorizzazione del codice.
+Questo approccio permette di ridurre la complessità del software, facilitando la manutenzione e l'evoluzione futura.
+Il mantenimento del principio \ac{DRY} necessita di continua rifattorizzazione del codice.
 
 \subsection{Interfaccia al database}
 Il package di interfaccia al database, denominato ``DatabaseManagementPackage'',
@@ -82,7 +82,7 @@ Questo modulo permette una gestione efficiente delle operazioni di accesso ai da
 consentendo di astrarre le tabelle del database in classi di entity.
 Le entity sono state a loro volta mappate in \ac{DTO}.
 Un \ac{DTO} è un design pattern architetturale ideato
-per ottimizzare lo scambio di informazioni tra diversi layer di un applicazione.
+per ottimizzare lo scambio di informazioni tra diversi layer di un'applicazione.
 Opera come un aggregatore leggero che raggruppa i dati necessari
 per una specifica comunicazione (come il traffico client-server).
 Privo di logica di business o comportamenti applicativi, il \ac{DTO}
