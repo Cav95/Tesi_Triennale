@@ -9,17 +9,17 @@ L'infrastruttura informatica aziendale si appoggia su server fisici allocati int
 I server fisici sono, a loro volta virtualizzati per gestire separatamente le memorie in base alla finalità
 garantendo isolamento delle informazioni e permessi di accesso.
 Ogni reparto ha accesso a determinati server virtuali in cui gestisce in autonomia i propri contenuti.
-I database dei principali programmi sono gestiti all'interno di un server dedicato dove è installato un motore 
+I database dei principali programmi sono gestiti all'interno di un server dedicato dove è installato un motore
 \sqlserver{}.\cite{SQLServer}.
 I principali database aziendali sono:
 \begin{itemize}
-    \item \textbf{Ad\-Hoc\cite{Ad-Hoc}:} l'\ac{ERP} aziendale, programma che gestisce le attività aziendali come gli approvvigionamenti e la movimentazione dei prodotti, 
-    le vendite, le fatturazioni nonché i cicli produttivi.
+    \item \textbf{Ad\-Hoc\cite{Ad-Hoc}:} l'\ac{ERP} aziendale, programma che gestisce le attività aziendali come gli approvvigionamenti e la movimentazione dei prodotti,
+          le vendite, le fatturazioni nonché i cicli produttivi.
     \item \textbf{Fusion\cite{Fusion}:} il \ac{PLM} aziendale, programma volto alla gestione dei prodotti meccanici, dalla loro creazione
-    all'archiviazione dei disegni con relative distinte dei componenti.
-    Altre funzioni applicate sui prodotti sono la gestione delle revisioni o versionamenti, ed infine la loro fine produzione.
+          all'archiviazione dei disegni con relative distinte dei componenti.
+          Altre funzioni applicate sui prodotti sono la gestione delle revisioni o versionamenti, ed infine la loro fine produzione.
     \item \textbf{BombConfine:} database ponte tra i database esterni e quello dell'\ac{ERP}. All'interno sono presenti tabelle
-    di frontiera scritte da programmi esterni e che il gestionale usa per importare i dati.
+          di frontiera scritte da programmi esterni e che il gestionale usa per importare i dati.
 \end{itemize}
 La sicurezza aziendale è sostenuta da \ac{NAT} e Firewall che impediscono
 l'accesso dall'esterno se non tramite \ac{VPN}. % fare acronimi
@@ -27,14 +27,14 @@ L'infrastruttura aziendale è visibile in figura~\ref{fig:Infrastruttura azienda
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/InfrastrutturaAziendale.png}
-    \caption{Schema infrastruttura aziendale.}\label{fig:Infrastruttura aziendale}
+    \caption{Schema infrastruttura aziendale}\label{fig:Infrastruttura aziendale}
 \end{figure}
 \section{Attuali software utilizzati}
 Nel capitolo precedente abbiamo fatto cenno ai database ed ai relativi programmi che gestiscono quanto concerne l'\ac{ERP}
 e il \ac{PLM}.
 Per quanto riguarda le vendite, punto focale dell'intervento richiesto, l'azienda utilizza attualmente
 un'applicazione sviluppata internamente. L'attuale sistema sviluppato in Access, programma della suite Microsoft Office,
-comprende al suo interno sia il frontend che il backend. 
+comprende al suo interno sia il frontend che il backend.
 Il software è stato implementato circa 30 anni fa ed ha subito numerosi aggiornamenti e
 modifiche nel tempo per adattarsi alle esigenze commerciali e all'evoluzione del
 mercato. L'applicazione consente di creare, modificare e gestire i contratti con i
@@ -55,23 +55,23 @@ copiandolo in locale e sincronizzandolo una volta tornato in sede.
 \section{Organizzazione aziendale e flussi di lavoro}
 Il flusso lavorativo è risultato non essere un aspetto secondario nello sviluppo richiesto.
 Esso si deve interporre tra il reparto commerciale, ovvero addetti alle vendite,
- i reparti progettuali e produttivi come uffici tecnici, logistica ed amministrazione.
- L'attuale flusso di lavoro analizzato pone il reparto commerciale come punto di partenza 
- dell'intero flusso che arriva fino al post-vendita.
- Il contratto, creato da tale reparto, dopo essere stato stipulato viene inviato 
- al reparto amministrativo che ne importa i dati 
- all'interno del gestionale.
- Simultaneamente esso viene mandato al reparto project manager che lo revisiona tecnicamente in 
- caso di errori progettuali.
- Dopo la revisione tecnica, il contratto viene spedito al reparto logistico che preventivamente verifica
- i dati di destinazione ed organizza le spedizioni sulla base del venduto.
- Il flusso di lavoro può essere visto in figura~\ref{fig:Flusso di un contratto}.
+i reparti progettuali e produttivi come uffici tecnici, logistica ed amministrazione.
+L'attuale flusso di lavoro analizzato pone il reparto commerciale come punto di partenza
+dell'intero flusso che arriva fino al post-vendita.
+Il contratto, creato da tale reparto, dopo essere stato stipulato viene inviato
+al reparto amministrativo che ne importa i dati
+all'interno del gestionale.
+Simultaneamente esso viene mandato al reparto project manager che lo revisiona tecnicamente in
+caso di errori progettuali.
+Dopo la revisione tecnica, il contratto viene spedito al reparto logistico che preventivamente verifica
+i dati di destinazione ed organizza le spedizioni sulla base del venduto.
+Il flusso di lavoro può essere visto in figura~\ref{fig:Flusso di un contratto}.
 A causa del sistema obsoleto utilizzato ed il debito tecnico accumulato negli anni, l'attuale sistema è isolato
- rispetto ai programmi utilizzati dall'azienda.
- Quest'ultimo punto fa parte delle richieste imprescendibili da risolvere.
-L'integrazione nell'ecosistema infomatico passa prima di tutto dall'unificazione dei codici, 
+rispetto ai programmi utilizzati dall'azienda.
+Quest'ultimo punto fa parte delle richieste imprescindibili da risolvere.
+L'integrazione nell'ecosistema informatico passa prima di tutto dall'unificazione dei codici,
 ovvero quelli a listino con i prodotti a gestionale, ma anche creando
- un flusso di notifiche tra i vari ambiti.
+un flusso di notifiche tra i vari ambiti.
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1.2\linewidth, angle=90]{figures/Order flow.png}

@@ -45,7 +45,7 @@ e alla mancanza di dati strutturati.
       \item \textbf{Ricerca ricambi manuale:} L'operatore deve consultare disegni tecnici (Fusion, PDF, cartacei)
             e database separati (Access, Ad-Hoc, Excel, Server ``Commesse'') per identificare i codici dei ricambi.
       \item \textbf{Inserimento del componente:} Una volta individuato il componente, non essendoci una
-            corrispondenza univoca dei codici, l'operatore deve trovare la corrispondenza in 
+            corrispondenza univoca dei codici, l'operatore deve trovare la corrispondenza in
             Access o creare un nuovo codice per il ricambio.
       \item \textbf{Creazione offerta complessa:} Non è facile né la ricerca né l'assegnazione di un prezzo
             se il componente è datato; la compilazione dell'offerta talvolta richiede calcoli manuali (prezzi, pesi, volumi).
@@ -70,34 +70,34 @@ L'attuale processo di creazione delle offerte prevede i seguenti passaggi:
 \section{Problemi attuali del sistema}
 Dall'intervista i commerciali hannofatto emergere le seguenti criticità del sistema attuale:
 \begin{itemize}
-      \item \textbf{Lentezza e complessità:} L'intero processo di gestione è lento e laborioso 
-      e richiede molto tempo per completare un'offerta. Questo è dovuto alla necessità di consultare molteplici fonti di 
-      dati non integrate. Il programma stesso utilizzato (Access) risulta lento e macchinoso, con molti tempi morti.
+      \item \textbf{Lentezza e complessità:} L'intero processo di gestione è lento e laborioso
+            e richiede molto tempo per completare un'offerta. Questo è dovuto alla necessità di consultare molteplici fonti di
+            dati non integrate. Il programma stesso utilizzato (Access) risulta lento e macchinoso, con molti tempi morti.
       \item \textbf{Disallineamento codici:} Esiste una discrepanza tra i codici commerciali e quelli tecnici/gestionali.
-       Questo costringe a ricerche manuali su schemi funzionali o database separati per identificare il pezzo corretto (Ad-Hoc, Fusion, \dots).
+            Questo costringe a ricerche manuali su schemi funzionali o database separati per identificare il pezzo corretto (Ad-Hoc, Fusion, \dots).
       \item \textbf{Mancanza di automazione nei calcoli:}
             \begin{itemize}
-                  \item \textbf{Prezzi:} I costi e i prezzi di vendita devono essere spesso calcolati manualmente o verificati 
-                  su Excel/Ad-Hoc, specialmente per componenti su misura o obsoleti.
+                  \item \textbf{Prezzi:} I costi e i prezzi di vendita devono essere spesso calcolati manualmente o verificati
+                        su Excel/Ad-Hoc, specialmente per componenti su misura o obsoleti.
                   \item \textbf{Logistica:} Non esiste un calcolo automatico di volumi e pesi per il trasporto; l'utente deve
-                   ipotizzare i dati basandosi su vecchi DDT o sull'esperienza. Il costo è talvolta calcolato mediante il sito di del corriere.
-                  \item \textbf{Manodopera:} I tempi e i costi per gli interventi tecnici (es. sostituzione saccone) non sono 
-                  standardizzati e richiedono consultazioni continue con i colleghi (es. Logistica).
+                        ipotizzare i dati basandosi su vecchi DDT o sull'esperienza. Il costo è talvolta calcolato mediante il sito di del corriere.
+                  \item \textbf{Manodopera:} I tempi e i costi per gli interventi tecnici (es. sostituzione saccone) non sono
+                        standardizzati e richiedono consultazioni continue con i colleghi (es. Logistica).
             \end{itemize}
       \item \textbf{Componenti elettrici:} La gestione e l'inserimento di materiale elettrico sono molto difficili per l
-      a complessità e la varietà di codici esistenti. Attualmente si consulta direttamente l'ufficio tecnico elettrico per
-       avere un elenco dei componenti necessari da offrire.
-      \item \textbf{Gestione obsolescenza:} È difficile sapere se un componente venduto anni fa è stato sostituito da una 
-      nuova versione o se è obsoleto, rischiando di vendere pezzi non più procurabili. Serve un sistema di tracciamento delle
-       sostituzioni e delle obsolescenze (es. Fusion).
-      \item \textbf{Discrepanza ``As Built'':} Le modifiche fatte in cantiere (\ac{RA} di cantiere) o successive alla vendita non 
-      sono sempre tracciate in modo unitario, rendendo difficile conoscere la configurazione reale dell'impianto attuale, punto 
-      fondamentale per una corretta assistenza senza errori.
-      \item \textbf{Sistema di traduzione:} È fondamentale avere un sistema di traduzione 
-      integrato e affidabile per le descrizioni 
-      dei componenti e delle offerte; attualmente, oltre alle traduzioni preimpostate di Access 
-      (spesso da correggere), si utilizzano 
-      servizi esterni (Google Translate) che richiedono tempo e possono introdurre errori.
+            a complessità e la varietà di codici esistenti. Attualmente si consulta direttamente l'ufficio tecnico elettrico per
+            avere un elenco dei componenti necessari da offrire.
+      \item \textbf{Gestione obsolescenza:} È difficile sapere se un componente venduto anni fa è stato sostituito da una
+            nuova versione o se è obsoleto, rischiando di vendere pezzi non più procurabili. Serve un sistema di tracciamento delle
+            sostituzioni e delle obsolescenze (es. Fusion).
+      \item \textbf{Discrepanza ``As Built'':} Le modifiche fatte in cantiere (\ac{RA} di cantiere) o successive alla vendita non
+            sono sempre tracciate in modo unitario, rendendo difficile conoscere la configurazione reale dell'impianto attuale, punto
+            fondamentale per una corretta assistenza senza errori.
+      \item \textbf{Sistema di traduzione:} È fondamentale avere un sistema di traduzione
+            integrato e affidabile per le descrizioni
+            dei componenti e delle offerte; attualmente, oltre alle traduzioni preimpostate di Access
+            (spesso da correggere), si utilizzano
+            servizi esterni (Google Translate) che richiedono tempo e possono introdurre errori.
 \end{itemize}
 
 \section{Requisiti Funzionali per il nuovo software}
