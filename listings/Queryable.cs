@@ -3,9 +3,11 @@
             string? name = null, string? surname = null, string? email = null, int? userTypeId = null, bool? deleted = false,
             CancellationToken cancellationToken = default)
         {
-         await _permissionService.TryGetTablePermission(typeof(UtentiDTO), TypeOfOperation.READ,
+            // Check if the user has permission to read UtentiDTO
+            await _permissionService.TryGetTablePermission(typeof(UtentiDTO), TypeOfOperation.READ,
             _utils.GetCurrentUserRoleId()).ConfigureAwait(false);
 
+// Build the query to filter users based on the provided parameters
             IQueryable<Utenti> query = db.Utentis
                 .Where(u => u.Deleted == deleted)
                 .Include(u => u.UteTipoNavigation)
@@ -33,10 +35,12 @@
                 query = query.Where(u => u.UteTipo == userTypeId.Value);
             }
 
+// Execute the query and retrieve the filtered list of users
             List<Utenti> entities = await query
                 .OrderBy(u => u.UteNome)
                 .ToListAsync(cancellationToken);
 
+// Map the retrieved list of users to a list of UtentiDTO objects and return it
             return _mapper.Map<List<UtentiDTO>>(entities);
         }
         }

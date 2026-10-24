@@ -2,6 +2,7 @@
     public async Task<ClientiDTO?> GetCustomerDetailsById(int customerId,
         CancellationToken cancellationToken = default)
     {
+        // Check if the user has permission to read ClientiDTO
                 await _permissionTable.TryGetTablePermission(typeof(ClientiDTO), TypeOfOperation.READ,
             _utils.GetCurrentUserRoleId()).ConfigureAwait(false);
             
@@ -22,6 +23,7 @@
             .FirstOrDefaultAsync(cancellationToken)
             .ConfigureAwait(false);
 
+// Map the retrieved customer details to a ClientiDTO object and return it
         return _mapper.Map<ClientiDTO?>(customerDetails!);
     }
         }
