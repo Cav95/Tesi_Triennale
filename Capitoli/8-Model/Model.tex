@@ -4,21 +4,24 @@ Il model dell'applicativo è suddiviso in parte nel package ``DatabaseManagement
 all'interno del package principale.
 Il package di interfaccia al database è stato realizzato partendo, mediante \ac{EF Core},
 importando le tabelle del database sottoforma di classi entity.
+Le classi entity sono una rapprosentazione delle tabelle del database, dove ogni classe rappresenta una tabella 
+ed ogni proprietà della classe rappresenta un campo della tabella.
 Una volta generate le classi entity, si sono individuati gli oggetti fondamentali del dominio,
 che sono stati mappati in classi \ac{DTO} mediante il package ``Mapster''.
 I \ac{DTO} sono stati realizzati per essere utilizzati come oggetti neutri che non
 esponessero direttamente le classi entity, e quindi il database, all'esterno del package.
 Questi oggetti sono stati scelti in quanto rappresentano le entità principali del dominio,
 come ad esempio ``Cliente'', ``Prodotto'' e ``Documento''.
-Le classi \ac{DTO} sono state realizzate partendo dalla struttura delle entity di riferimento e, in
+Le classi \ac{DTO} sono state realizzate copiando la struttura delle entity di riferimento e, in
 corrispondenza dei campi legati ad altre tabella mediante foreign key, sono stati adottati due approcci differenti.
-Se il campo aveva una corrispondenza con una classe mappata, si richiamava quest'ultima;
-altrimenti se diverso la  \texttt{Dictionary<int,string>}, dove si salvavano l'\ac{ID} e la descrizione.
+Se il campo aveva un \ac{DTO} associato si richiamava quest'ultimo, 
+altrimenti sono stati mappati in oggetti \texttt{Dictionary<int,string>}, dove la chiave è l'\ac{ID} ed il valore è la descrizione.
 Il mapping è bidirezionale per poter riconvertire, quando necessario, un \ac{DTO} in entity per poterlo inserire nel database.
 \section{Struttura del package}
-Il package è stato strutturato in modo da separare le classi di test, i repository e le classi e interfacce esposte.
+Il package è stato strutturato in modo da separare gli ambienti di test da quelli di produzione.
 All'esterno del package oltre alle classi \ac{DTO} ed Enum relativi ad alcuni Lookup, è
 stata costituita una classe univoca che espone i vari repository, denominata ``DatabaseManager''.
+La classe ``DatabaseManager'', si occupa di gestire le connessioni al database, le transazioni e di esporre i vari repository.
 Questa soluzione permette di avere un unico punto di accesso ai repository,
 evitando di esporre le classi interne del package e facilitando la \ac{DI}.
 La \ac{DI} è un design pattern che permette di iniettare le dipendenze necessarie ad una classe,
@@ -29,12 +32,12 @@ Il ``DatabaseManager'' è stato registrato come singleton, mantenendo una sola i
 Ad ogni repository è stata associata una classe di test, che ne testasse in modo efficace i vari metodi.
 La gestione dei dati dell'utente loggato è stata affidata ad una classe dedicata, anch'essa
 registrata come singleton, che mantenesse le infomazioni della sessione dell'utente.
-Tali informazioni includono, ad esempio l'\ac{ID} dell'utente, il nome e cognome, il ruolo e i permessi.
+Tali informazioni includono, ad esempio l'\ac{ID} dell'utente, il nome e cognome, il ruolo per i permessi.
 La classe in questione, unita alla tabella \textit{Tabelle},
 permette di intercettare la tipologia di richiesta, il livello dell'utente e
 di conseguenza bloccare operazioni non permesse.
 \subsection{Classi di test}
-Le classi di test realizzate sono state pensate con l'obiettivo di funzionare anche in presenza di dati reali.
+Le classi di test sono state pensate con l'obiettivo di funzionare anche in presenza di dati reali.
 Per realizzare ciò si sono creati prima di ogni test dei savepoint del database,
 che permettessero di tornare allo stato iniziale.
 Successivamente, per ogni test, si sono creati i dati di test fittizi che potessero validare
@@ -42,8 +45,8 @@ le funzionalità del repository senza
 il rischio di prelevare dati reali.
 Questo approccio ha richiesto molto tempo per la ricostruzione dei test più complessi, ma
 ha permesso di testare piccoli cambiamenti senza dover ripristinare il database.
-A fronte del tempo impiegato prima si è utilizzata \ac{AI} generativa per creare le bozze dei test.
-Tali bozze sono state successivamente modificate e, in alcuni casi, riscritte completamente,
+A fronte del tempo impiegato prima si è utilizzata \ac{IA} generativa per creare le bozze dei test.
+Tali bozze sono state successivamente modificate ed, in alcuni casi, riscritte completamente,
 per adattarle al contesto reale.
 Per realizzare ciò si è adottato un approccio articolato come segue:
 \begin{enumerate}
@@ -55,13 +58,14 @@ Per realizzare ciò si è adottato un approccio articolato come segue:
 Questo approccio ha permesso di avere un ciclo di sviluppo più veloce,
 riducendo il tempo di scrittura dei test.
 \subsection{Repository}
-I repository sono stati divisi in base alle entità principali del dominio, come ad esempio i Prodotti, i Clienti e i Documenti.
+I repository sono stati divisi in base alle entità principali del dominio,
+ come ad esempio i Prodotti, i Clienti ed i Documenti.
 Oltre alle operazioni \ac{CRUD} principali si è scelto, per quanto riguarda le operazioni di ricerca,
 di utilizzare dei metodi che permettessero di inserire molteplici criteri di ricerca.
 All'interno sono poi stati utilizzati i \texttt{Queryable} per costruire la query in esame.
 I \texttt{Queryable} permettono la costruzione pezzo per pezzo query complesse,
-includendo solo i criteri necessari riducendo la coplessità delle query se non necessario.
-Con un unico metodo si possono costruire query complesse, evitando di scrivere molteplici metodi per ogni combinazione di criteri.
+includendo solo i criteri necessari e riducendo la complessità delle query.
+Con un unico metodo si possono  così costruire query complesse, evitando di scrivere molteplici metodi per ogni combinazione di criteri.
 Un esempio di query costruita con \texttt{Queryable} è riportata nel listato~\ref{lst:esempio-query-queryable}.
 \lstinputlisting[
   language=CSharp,
@@ -76,13 +80,15 @@ per evitare una perdita dei dati in caso di errori o eccezioni.
 I dati, prima dell'effettivo inserimento nel database,
 vengono gestiti in memoria \ac{RAM} e solo al termine di tutte le operazioni, vengono salvati nel database.
 Questo approccio permette di non impegnare il database con dati parziali,
-ma, al contempo, una volta validati, la transazione si può considerare come avvenuta, senza dover gestire rollback o commit.
-All'interno dei repository, è stato aggiunto ai parametri passati ai metodi il \texttt{CancellationToken}\cite{CancToken},
-che permette di interrompere l'esecuzione di una query in caso di timeout o di chiusura dell'applicativo.
+ e di conseguenza, di non dover gestire rollback in caso di errori.
+Ad ogni metodo dei repository è stato aggiunto il parametro \texttt{CancellationToken}\cite{CancToken},
+che permette di forzare l'interruzione dell'esecuzione di una query.
 L'utilizzo del \texttt{CancellationToken} può essere osservato nella query di esempio~\ref{lst:esempio-query-linq},
 dove viene passato come parametro al metodo \texttt{FirstOrDefaultAsync()}.
-La scelta di utilizzare il \texttt{CancellationToken} è stata fatta per evitare che, in caso di query lunghe o complesse,
-l'applicativo si bloccasse o andasse in timeout, permettendo all'utente di interrompere l'operazione e continuare a lavorare.
-L'apertura delle nuove interfacce, richiede quasi sempre una interrogazione al database.
+La scelta di utilizzare il \texttt{CancellationToken} è volta a permettere all'utente di interrompere
+un'operazione in caso di necessità.
+L'uso di questo parametro libera le risorse del database e lo rende disponibile per altre operazioni,
+ evitando di bloccare l'applicativo.
+L'apertura di nuove interfacce richiede quasi sempre una interrogazione al database.
 L'utilizzo del \texttt{CancellationToken} permette di cambiare
-interfaccia bloccando l'operazione sull'interfaccia precedente in favore della nuova.
+interfaccia bloccando l'operazione sulla precedente in favore della nuova.

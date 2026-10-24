@@ -8,7 +8,7 @@ da Microsoft Access, Db2, MySQL, Oracle e SAP ASE.~\cite{SQLServerMigrationAssis
 Ottenuta l'attuale struttura, essa ha subito un processo di ristrutturazione
 che ha portato ad avere un database più leggibile, manutenibile e performante.
 \section{Denominazione tabelle e campi}
-Il primo intervento effettuato è stato quello di rinominare le tabelle e i campi del database.
+Il primo intervento effettuato è stato quello di rinominare le tabelle ed i campi del database.
 Le modifiche addottate sono state le seguenti:
 \begin{itemize}
     \item Denominare le tabelle in minuscolo, separati da underscore, ad esempio: \textit{nome\_tabella}.
@@ -59,17 +59,17 @@ La \ac{2NF} è una forma di normalizzazione delle tabelle del database,
 che richiede che ogni attributo non chiave sia completamente dipendente dalla chiave primaria.
 Un'altra modifica sostanziale è stata l'unificazione di tabelle similari in un'unica tabella,
 discriminate mediante campo \textit{prefTabella\_tipo} proveniente da un lookup dedicato.
-Un esempio di questo contesto sono le tabelle di ``Offerta'' e ``Ordine'',
+Un esempio di questo contesto sono le tabelle di ``Offerta'' ed ``Ordine'',
 dove una è la diretta evoluzione della precedente e mantengono gli stessi dati.
 Le due tabelle sono state unite sotto il cappello della tabella ``Documenti'',
-discriminata solo dal campo \textit{prefTabella\_tipo}.
+discriminata solo dal campo \textit{doc\_tipo}.
 In queste tabelle, in particolare, era importante tenere traccia del legame Padre-Figlio.
 È stato aggiunto un campo \textit{doc\_documento\_padre} che, mediante
 chiave importata, permettesse di ricostruire il legame attraverso un auto join.
 Il metodo così pensato, in ottica di ampliamento, permette la gestione di ulteriori
 tipologie di documenti senza cambiare la struttura.
 Un esempio è l'aggiunta della tipologia di documento ``Tecnico'',
-che sarà l'evoluzione del documento ``Ordine'' e conterrà la revisione tecnica della stessa.
+che sarà l'evoluzione del documento ``Ordine'' e conterrà la revisione tecnica dell'ordine stesso.
 \subsection{Creazione tabelle di lookup}
 Come già prima accennato, le tabelle di lookup sono state create per discriminare le tipologie di dati.
 Tali tabelle sono state pensate per garantire una estedibilità futura e far fronte a modifiche non previste.
@@ -80,7 +80,7 @@ potendo filtrare le informazioni in base al loro tipo.
 Un vantaggio, a livello di software, è il poterle mappare in classi di enumerazione,
 rendendo il codice più leggibile ed evitando non necessari join nelle query.
 Un ultimo vantaggio, essendo appunto fisse, è il poterle
-caricare in memoria all'avvio dell'applicativo, evitando di interrogare il database per ogni richiesta.
+caricare in memoria all'avvio dell'applicativo, evitando di interrogare il database ad ogni richiesta.
 
 \subsection{Aggiunta tabelle non presenti}
 \subsubsection{Gestione dei prodotti}
@@ -96,16 +96,18 @@ Lo schema relazionale risultante è visibile in figura~\ref{fig:ERProdotti}.
     \includegraphics[width=1\linewidth]{figures/ER_PRODOTTI.png}
     \caption{Schema \ac{ER} dei prodotti}\label{fig:ERProdotti}
 \end{figure}
-La gestione, così pensata, permette di effettuare ricerche approfondite sui ricambi di un  determinato prodotto.
+La gestione, così pensata, permette di effettuare ricerche approfondite.
+Un esempio è quello della estrapolazione dei componenti di ricambio di un determinato prodotto, che possono
+risiedere anche a più livelli di profondità.
 Questo sistema, insieme ad appositi lookup, ha inoltre permesso la costruzione del modulo
 ``Configuratore'' per la configurazione di prodotto.~\ref{chapter:Configurazione}.
 \subsubsection{Tabelle gestione lingue}
 Si è deciso di aggiungere delle apposite tabelle per la gestione delle traduzioni di campi del database.
 Le tabelle predisposte contengono al loro interno la chiave della tabella di riferimento,
-il campo da tradurre e la chiave importata dalla tabella delle ``Lingue''.
+il campo da tradurre e la chiave importata dalla tabella ``Lingue''.
 Quest'ultima tabella non era presente nella soluzione di partenza.
-La gestione così pensata permette di estendere le traduzioni a più lingue senza modificare la struttura del database.
-Si è anche aggiunta una apposita tabella per gestire le traduzioni nelle reportistiche dei documenti.
+La gestione così pensata permette di estendere le traduzioni a più lingue.
+La gestione delle reportistiche dei documenti è gestita mediante una tabella dedicata.
 Questa tabella mappa le tipologie di reportistica richieste dal cliente con le apposite lingue concordate.
 Capita infatti di avere ad esempio manuali in lingua inglese, ma etichette sui macchinari con la lingua del luogo.
 Il diagramma \ac{ER} delle lingue è visibile in figura~\ref{fig:ERLingue}.
@@ -165,7 +167,7 @@ Un esempio della interfaccia è visibile in figura~\ref{fig:GestionePermessi}.
 In ottica offline, questa tabella permette di mappare, solo quello che l'utente
 può modificare in locale, evitando di eseguire query su tabelle non permesse offline.
 
-\subsection{Importazione dei dati e Stored Procedure}\label{section:importdata}
+\subsection{Importazione dei dati e stored procedure}\label{section:importdata}
 Come da analisi, è stato richiesto di prelevare e sincronizzare alcuni dati da altri database.
 Prima della costruzione delle vere e proprie query di sincronizzazione, si sono
 studiate le tabelle di provenienza per ricostruire un ambiente similare, facilitando la costruzione delle query.
@@ -175,7 +177,7 @@ permette l'assegnazione e la creazione di nuove proprietà senza modificare la s
 Alla tabella ``Proprietà'' è associata la tabella ``Proprietà\_valori''
 per la gestione dei valori standard.
 Il diagramma \ac{ER} è mostrato in figura~\ref{fig:ERProdotti}.
-Una volta ricostruite le strutture si sono create le seguenti Stored Procedure:
+Una volta ricostruite le strutture si sono create le seguenti stored procedure:
 \begin{itemize}
     \item Da \ac{ERP} → importazione ed aggiornamento delle anagrafiche dei prodotti.
     \item Da \ac{ERP} → importazione ed aggiornamento delle anagrafiche dei listini.
