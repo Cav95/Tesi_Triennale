@@ -56,7 +56,9 @@ La fase di studio dell'attuale database ha portato alla luce diverse ridondanze 
 All'interno erano presenti più tabelle con lo stesso contesto di utilizzo o tabelle non utilizzate.
 Si è quindi proceduto all'eliminazione di tali tabelle ed alla normalizzazione delle restanti in \ac{2NF}.
 La \ac{2NF} è una forma di normalizzazione delle tabelle del database,
-che richiede che ogni attributo non chiave sia completamente dipendente dalla chiave primaria.
+che richiede che ogni attributo non chiave sia completamente dipendente dalla chiave primaria, 
+oltre che rispettare la \ac{1NF}.
+La \ac{1NF} richiede che ogni attributo della tabella sia atomico, ovvero non divisibile in più parti.
 Un'altra modifica sostanziale è stata l'unificazione di tabelle similari in un'unica tabella,
 discriminate mediante campo \textit{prefTabella\_tipo} proveniente da un lookup dedicato.
 Un esempio di questo contesto sono le tabelle di ``Offerta'' ed ``Ordine'',
