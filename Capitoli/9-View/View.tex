@@ -1,20 +1,20 @@
 \chapter{Creazione View}\label{chapter:View}
 \section{Utilizzo di Figma per il disegno delle interfacce}
-La prototipazione delle interfacce grafiche è stata realizzata mediante l'utilizzo del software Figma\cite{Figma}.
+La prototipazione delle interfacce grafiche, è stata realizzata mediante l'utilizzo del software Figma\cite{Figma}.
 Figma è una web application che permette di disegnare layout interattivi.
 Un aspetto non secondario di Figma è la possibilità di esportare le interfacce sia in
- formato vettoriale che con codice \ac{CSS}.
-Questo aspetto, unito all'utilizzo dell'\ac{IA} generativa, ha permesso la conversione da 
-codice \ac{CSS} e vettoriale in codice
+ formato vettoriale \ac{SVG} che con codice \ac{CSS}.
+Questo aspetto, unito all'utilizzo dell'\ac{IA} generativa, ha permesso la conversione dei
+codici \ac{CSS} e \ac{SVG} in codice
 \csharp{} Markup, con un notevole risparmio di tempo.
-Si è scelto, in un primo momento, di prototipare solo le interfacce principali,
+Inizialmente si è deciso di prototipare solo le interfacce principali,
 quali le schermate di login, ricerca e dettaglio di prodotti, clienti e preventivi.
 Cercando di mantenere l'obiettivo progettuale orientato al cross-platform,
 si è deciso di realizzare le schermate in modo da essere responsive,
 e con un design mobile first. Si è quindi cercato di inserire tutti i comandi, escludendo
 l'utilizzo della tastiera e del mouse, in quanto non sempre disponibili sui dispositivi mobili.
 Sfruttando la compilazione condizionale, si è cercato di costruire dei layout specifici per alcuni dispositivi.
-Alcuni filtri sono, ad esempio, collassati in un menu a tendina sui dispositivi mobili, mentre su desktop sono sempre visibili.
+Alcuni filtri, sono ad esempio, collassati in un menù a tendina sui dispositivi mobili, mentre su desktop sono sempre visibili.
 Nelle immagini che seguono si può osservare l'evoluzione dal prototipo in figura~\ref{fig:Prototipo Home Figma},
 alla realizzazione finale delle interfacce grafiche in figura~\ref{fig:Interfaccia Desktop e Mobile}.
 \begin{figure}[H]
@@ -28,7 +28,7 @@ alla realizzazione finale delle interfacce grafiche in figura~\ref{fig:Interfacc
     \caption{Interfaccia Desktop e Mobile}\label{fig:Interfaccia Desktop e Mobile}
 \end{figure}
 \section{Creazione delle Factory per le View}
-A partire dalla versione prototipale, si è deciso fin dall'inizio di
+A partire dalla versione prototipale, si è stato stabilito fin dall'inizio di
 raccogliere i componenti grafici in classi factory, che ne permettessero la creazione in modo centralizzato.
 Il pattern Factory permette di astrarre la creazione delle view e di centralizzarne la logica di creazione.
 Le factory principali realizzate sono le seguenti:
