@@ -1,10 +1,10 @@
 \chapter{Creazione del model}\label{chap:Model}
 \section{Mapping delle classi}
-Il model dell'applicativo è suddiviso in parte nel package 
+Il model dell'applicativo è suddiviso in parte nel package
 ``DatabaseManagementPackage'' ed in parte, all'interno di quello principale.
 Il package di interfaccia al database è stato realizzato mediante \ac{EF Core},
 importando le tabelle del database sottoforma di classi entity.
-Le classi entity sono una rapprosentazione delle tabelle del database, dove ogni classe rappresenta una tabella 
+Le classi entity sono una rapprosentazione delle tabelle del database, dove ogni classe rappresenta una tabella
 ed ogni proprietà della classe rappresenta un campo della stessa.
 Una volta generate le classi entity, si sono individuati gli oggetti fondamentali del dominio,
 che sono stati mappati in classi \ac{DTO} mediante il package ``Mapster''.
@@ -14,26 +14,30 @@ Questi oggetti sono stati scelti in quanto rappresentano le entità principali d
 come ad esempio ``Cliente'', ``Prodotto'' e ``Documento''.
 Le classi \ac{DTO} sono state realizzate copiando la struttura delle entity di riferimento.
 In corrispondenza dei campi legati ad altre tabelle mediante foreign key, sono stati adottati due approcci differenti.
-Se il campo aveva un \ac{DTO} associato si richiamava quest'ultimo, 
+Se il campo aveva un \ac{DTO} associato si richiamava quest'ultimo,
 altrimenti sono stati mappati in oggetti \texttt{Dictionary<int,string>}, dove la chiave è l'\ac{ID} ed il valore è la descrizione.
 Il mapping è bidirezionale per poter riconvertire, quando necessario, un \ac{DTO} in entity ed inserirlo nel database.
 \section{Struttura del package}
 Il package è stato strutturato in modo da separare gli ambienti di test da quelli di produzione.
-All'esterno del package oltre alle classi \ac{DTO} ed Enum relativi ad alcuni Lookup, è
-stata costituita una classe univoca che espone i vari repository, denominata ``DatabaseManager''.
-La classe ``DatabaseManager'', si occupa di gestire le connessioni al database, le transazioni e di esporre i vari repository.
+All'esterno del package oltre alle classi \ac{DTO} e di Enumerazione relativi ad alcuni lookup, è
+stata costituita una classe che raccoglie ed espone i repository.
+La classe, denominata ``DatabaseManager'', si occupa di gestire le connessioni al database,
+le transazioni e di esporre i vari repository.
 Questa soluzione permette di avere un unico punto di accesso ai repository,
 evitando di esporre le classi interne del package e facilitando la \ac{DI}.
 La \ac{DI} è un design pattern che permette di iniettare le dipendenze necessarie ad una classe,
 senza doverle istanziare all'interno della stessa.
 Le classi iniettabili vengono registrate all'interno della classe che gestisce la \ac{DI}, talvolta come singleton,
 in modo da avere un'unica istanza della classe per tutta la durata dell'applicativo.
-Il ``DatabaseManager'' è stato registrato come singleton, mantenendo una sola instanza del database.
+Il singleton è un pattern creazionale che assicura l'esistenza di
+una sola istanza di una determinata classe e mette a disposizione
+un punto di accesso globale per utilizzarla.
+Il ``DatabaseManager'', per garatire un solo accesso ai repository, è stato registrato come singleton.
 Ad ogni repository è stata associata una classe di test, che ne verificasse in modo efficace i vari metodi.
 La gestione dei dati dell'utente loggato è stata affidata ad una classe dedicata, anch'essa
 registrata come singleton, che mantenesse le infomazioni della sessione dell'utente.
-Tali informazioni includono, ad esempio l'\ac{ID} dell'utente, il nome e cognome, il ruolo per i permessi.
-La classe in questione, unita alla tabella "Tabelle",
+Tali informazioni includono, ad esempio l'\ac{ID} dell'utente, ll'anagrafica dello stesso, il ruolo per i permessi.
+La classe in questione, unita alla tabella ``Tabelle'',
 permette di intercettare la tipologia di richiesta, il livello dell'utente e
 di conseguenza bloccare operazioni non permesse.
 \subsection{Classi di test}
@@ -59,13 +63,14 @@ Questo approccio ha permesso di avere un ciclo di sviluppo più veloce,
 riducendo il tempo di scrittura dei test.
 \subsection{Repository}
 I repository sono stati divisi in base alle entità principali del dominio,
- come ad esempio i Prodotti, i Clienti ed i Documenti.
+come ad esempio i Prodotti, i Clienti ed i Documenti.
 Oltre alle operazioni \ac{CRUD} principali è stato scelto, per quanto concerne le operazioni di ricerca,
 di utilizzare dei metodi che permettessero di inserire molteplici criteri di ricerca.
 All'interno sono poi stati utilizzati i \texttt{Queryable} per costruire la query in esame.
 I \texttt{Queryable} permettono la costruzione pezzo per pezzo query complesse,
 includendo solo i criteri necessari e riducendo la complessità delle stesse.
-Con un unico metodo si possono  così costruire query complesse, evitando di scrivere molteplici metodi per ogni combinazione di criteri.
+Con un unico metodo si possono  così costruire query complesse, evitando di scrivere molteplici
+metodi per ogni combinazione di criteri.
 Un esempio di query costruita con \texttt{Queryable} è riportata nel listato~\ref{lst:esempio-query-queryable}.
 \lstinputlisting[
   language=CSharp,
@@ -80,7 +85,7 @@ per evitare una perdita dei dati in caso di errori o eccezioni.
 I dati, prima dell'effettivo inserimento nel database,
 vengono gestiti in memoria \ac{RAM} e solo al termine di tutte le operazioni, vengono salvati nel database.
 Questo approccio permette di non impegnare il database con dati parziali,
- e di conseguenza, di non dover gestire rollback in caso di errori.
+e di conseguenza, di non dover gestire rollback in caso di errori.
 Ad ogni metodo dei repository è stato aggiunto il parametro \texttt{CancellationToken}\cite{CancToken},
 che permette di forzare l'interruzione dell'esecuzione di una query.
 L'utilizzo del \texttt{CancellationToken} può essere osservato nella query di esempio~\ref{lst:esempio-query-linq},
@@ -88,7 +93,7 @@ dove viene passato come parametro al metodo \texttt{FirstOrDefaultAsync()}.
 La scelta di utilizzare il \texttt{CancellationToken} è volta a permettere all'utente di interrompere
 un'operazione in caso di necessità.
 L'uso di questo parametro libera le risorse del database e lo rende disponibile per altre operazioni,
- evitando di bloccare l'applicativo.
+evitando di bloccare l'applicativo.
 L'apertura di nuove interfacce richiede quasi sempre una interrogazione al database.
 L'utilizzo del \texttt{CancellationToken} permette di cambiare
 interfaccia bloccando l'operazione sulla precedente in favore della nuova.
