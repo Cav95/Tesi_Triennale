@@ -17,7 +17,7 @@ o marginale con l'attuale database Microsoft Access, basandosi prevalentemente s
       \item \textbf{Ufficio Tecnico Elettrico:} Gestisce la progettazione di quadri e impianti elettrici.
             Attualmente sopperisce alle carenze del sistema utilizzando fogli Excel esterni
             per il dimensionamento/calcolo costi
-            (\textit{QUAEL.xltm}) e per la validazione tecnica dei preventivi (\textit{PROGETTO CEPI - Scheda progetto r2.xlsx}).
+            (\textit{QUAEL.xltm}) e per la validazione tecnica dei preventivi (\textit{PROGETTO CEPI-Scheda progetto r2.xlsx}).
       \item \textbf{Ufficio Logistica:} Gestisce spedizioni, dogane e trasporti. Utilizza Access solo marginalmente
             per verificare
             le date di consegna o correggere a valle indirizzi, causali, dati di trasporto e Incoterms.
@@ -56,7 +56,7 @@ o marginale con l'attuale database Microsoft Access, basandosi prevalentemente s
 \begin{itemize}
       \item \textbf{Variazioni non tracciate:} Il metodo attuale punta alla vendita rapida,
             ma non traccia in modo strutturato i componenti aggiunti o modificati in fase di progettazione e realizzazione.
-      \item \textbf{Criticità sulle Packing List doganali:} I commerciali vendono ``macro-codici'' (es. impianto completo),
+      \item \textbf{Criticità sulle Packing List doganali:} I commerciali vendono ``macro-codici'' (es: impianto completo),
             ma le dogane (specialmente extra-UE) esigono il dettaglio di ogni singolo pallet. Poiché il sistema non
             esplode i macro-codici nei colli fisici, l'associazione tra voci contrattuali, distinta tecnica e pallet preparati
             dagli spedizionieri avviene manualmente, generando un alto rischio di errori doganali.
@@ -80,14 +80,14 @@ o marginale con l'attuale database Microsoft Access, basandosi prevalentemente s
             \begin{itemize}
                   \item Creazione di due sezioni contrattuali ben distinte per i componenti meccanici e quelli elettrici,
                         superando la confusione attuale.
-                  \item Esplosione automatica: l'inserimento di utenze meccaniche (es. motori, vibratori) deve generare
-                        automaticamente le voci elettriche correlate nel contratto tecnico (es. gli inverter devono essere integrati
+                  \item Esplosione automatica: l'inserimento di utenze meccaniche (es: motori, vibratori) deve generare
+                        automaticamente le voci elettriche correlate nel contratto tecnico (es: gli inverter devono essere integrati
                         nel quadro o associati all'utenza specifica, non trattati come voci isolate).
             \end{itemize}
       \item \textbf{Rintracciabilità e collegamento logistico:}
             \begin{itemize}
                   \item Superamento dei codici generici per garantire la tracciabilità dell'esatta variante del
-                        componente venduto (es. variante specifica di un \textit{WP104}).
+                        componente venduto (es: variante specifica di un \textit{WP104}).
                   \item Collegamento nativo tra distinta commerciale e distinta tecnica (tramite Rif CC)
                         fin dalla progettazione, per automatizzare l'associazione con i pallet fisici e la generazione delle Packing List.
             \end{itemize}
@@ -99,7 +99,7 @@ di completezza prima del salvataggio:
 \begin{itemize}
       \item \textbf{Guida e vincoli per la parte elettrica:}
             \begin{itemize}
-                  \item Suggerimento automatico del materiale del quadro in base alle utenze inserite (es. taglia corretta
+                  \item Suggerimento automatico del materiale del quadro in base alle utenze inserite (es: taglia corretta
                         dell'inverter in base ai motori venduti) e domande finali per proporre accessori consigliati.
                   \item Inserimento automatico di default dei sezionatori a bordo macchina per ogni motore.
                   \item Distinzione netta tra ``quadro nuovo'' e ``ampliamento'': in caso di ampliamento, il sistema deve
@@ -121,8 +121,8 @@ di completezza prima del salvataggio:
             \begin{itemize}
                   \item Compilazione obbligatoria e guidata di Incoterms (DAP, DDP, FCA, ecc.), tipologia di imballo, pesi e volumi.
                   \item Generazione di alert automatici all'inserimento dell'ordine in base al Paese di destinazione per requisiti
-                        di fumigazione/ISPM 15 sui pallet in legno (es. Brasile, Australia, Turchia), materiali proibiti
-                        (es. ancoranti chimici vietati) e necessità di permessi eccezionali o montaggi.
+                        di fumigazione/ISPM 15 sui pallet in legno (es: Brasile, Australia, Turchia), materiali proibiti
+                        (es: ancoranti chimici vietati) e necessità di permessi eccezionali o montaggi.
             \end{itemize}
 \end{itemize}
 
@@ -143,7 +143,7 @@ di completezza prima del salvataggio:
       \item \textbf{Allineamento Contratto vs Schema (P\&ID) e Feedback Loop:}
             \begin{itemize}
                   \item Sostituzione di note esterne e file Word con una sezione dedicata che registri le discrepanze tra
-                        venduto commerciale ed eseguito tecnico (es. modifiche allo schema P\&ID, numero valvole, componenti extra),
+                        venduto commerciale ed eseguito tecnico (es: modifiche allo schema P\&ID, numero valvole, componenti extra),
                         mantenendo allineati i dati tecnici ed economici.
                   \item Implementazione di un sistema di feedback \textit{``As-Built''} per registrare le
                         modifiche effettive apportate durante la realizzazione, ottimizzando i processi e la precisione dei futuri preventivi.
@@ -161,7 +161,7 @@ di completezza prima del salvataggio:
             \textit{Data di evasione} (spedizione prevista) o dallo \textit{Start-up impianto}
             per garantire il rispetto delle tempistiche.
       \item \textbf{Gestione stati e Alerting automatico:} Distinzione chiara degli stati della commessa
-            (es. da \textit{Pre-inserimento / Bozza commerciale} a \textit{Inserito in Impianti / Validato tecnicamente}).
+            (es: da \textit{Pre-inserimento / Bozza commerciale} a \textit{Inserito in Impianti / Validato tecnicamente}).
             Al cambio di stato, invio di notifiche automatiche (email o alert in-app) ai reparti a valle (es. Elettrico, Logistica),
             sostituendo il passaggio fisico del fascicolo cartaceo e le email manuali.
 \end{itemize}

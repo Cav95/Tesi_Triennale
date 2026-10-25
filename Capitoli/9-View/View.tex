@@ -3,7 +3,7 @@
 La prototipazione delle interfacce grafiche, è stata realizzata mediante l'utilizzo del software Figma\cite{Figma}.
 Figma è una web application che permette di disegnare layout interattivi.
 Un aspetto non secondario di Figma è la possibilità di esportare le interfacce sia in
- formato vettoriale \ac{SVG} che con codice \ac{CSS}.
+formato vettoriale \ac{SVG} che con codice \ac{CSS}.
 Questo aspetto, unito all'utilizzo dell'\ac{IA} generativa, ha permesso la conversione dei
 codici \ac{CSS} e \ac{SVG} in codice
 \csharp{} Markup, con un notevole risparmio di tempo.
@@ -28,38 +28,38 @@ alla realizzazione finale delle interfacce grafiche in figura~\ref{fig:Interfacc
     \caption{Interfaccia Desktop e Mobile}\label{fig:Interfaccia Desktop e Mobile}
 \end{figure}
 \section{Creazione delle Factory per le View}
-A partire dalla versione prototipale, si è stato stabilito fin dall'inizio di
+A partire dalla versione prototipale, è stato stabilito fin dall'inizio di
 raccogliere i componenti grafici in classi factory, che ne permettessero la creazione in modo centralizzato.
 Il pattern Factory permette di astrarre la creazione delle view e di centralizzarne la logica di creazione.
 Le factory principali realizzate sono le seguenti:
 \begin{itemize}
     \item \textbf{Colori:} factory che espone i colori utilizzati nell'applicativo,
-          permettendo di centralizzare la gestione dei colori.
+          permettendo di centralizzarne la gestione.
     \item \textbf{Componenti:} factory che espone i componenti grafici, come bottoni, etichette e caselle di testo.
     \item \textbf{Dimensioni:} factory che espone le dimensioni dei componenti grafici,
-          come la larghezza e l'altezza tipiche dei componenti.
+          come la loro larghezza e l'altezza tipica.
     \item \textbf{Popup di notifica:} factory che espone i metodi per la creazione di popup di notifica,
           come messaggi di errore o di conferma.
 \end{itemize}
 La centralizzazione ha permesso un ampio riutilizzo dei componenti,
-oltre alla possibilità di ampliarne le funzionalità degli stessi senza dover modificare dove già implementati.
+oltre alla possibilità di ampliarne le funzionalità senza dover modificare dove già implementati.
 Ciò è stato possibile gestendo un notevole numero di valori nullable,
 che permettono di personalizzare i componenti in base alle esigenze.
 \section{Scelta delle classi di ViewModel}
-Interposti tra le view e i repository, secondo il pattern \ac{MVVM} consigliato da \dotnet,
+Interposti tra le view ed i repository, secondo il pattern \ac{MVVM} consigliato da \dotnet,
 si sono creati i ViewModel.
 Queste classi hanno il compito di prelevare i dati dai repository ed esporli alle view, tramite proprietà osservabili.
-Le proprietà osservabili permettono di aggiornare automaticamente le view al variare dei dati.
-All'interno dei ViewModel, infatti, sono racchiuse proprietà e liste osservabili,
-che permettono di aggiornare automaticamente le view al variare dei dati.
-I ViewModel creati non sono stati in rapporto uno a uno con le view,
-ma piuttosto in base alla loro funzionalità e all'elemento del dominio da gestire.
+Le proprietà osservabili permettono di aggiornare automaticamente le view al variare dei propri dati.
+All'interno dei ViewModel, infatti, sono racchiuse proprietà e liste osservabili dedicate al compito prima descritto.
+I ViewModel non sono stati creati in rapporto uno ad uno con le view,
+ma piuttosto seguendo criteri basati sulla loro funzionalità e sull'elemento del dominio da gestire.
 Ad esempio, nella gestione dei prodotti sono stati creati due
 ViewModel, uno per la gestione semplice dei prodotti ed uno delle relative distinte.
-Questo approccio, unito all'estendibilità delle classi, ha permesso di avere un numero limitato 
+Le view create che utilizzano tali ViewModel sono molte di più.
+Questo approccio, unito all'estendibilità delle classi, ha permesso di avere un numero limitato
 di ViewModel in rapporte alle view.
 Nel processo di rifattorizzazione si è notata la presenza di elementi comuni nei ViewModel.
-Un esempio di elementi comuni è la gestione delle liste dedicate ai dropdown,dei filtri e dei messaggi di notifica.
+Un esempio di elementi comuni è la gestione delle liste dedicate ai dropdown, dei filtri e dei messaggi di notifica.
 Si è quindi creato un ViewModel base, che racchiudesse i metodi e le proprietà comuni a tutti i ViewModel.
 Questi ultimi, a loro volta, estendono il base ed aggiungono le specificità necessarie.
 In alcuni casi, si è effettuato un override dei metodi base, gestendo comportamenti particolari.
