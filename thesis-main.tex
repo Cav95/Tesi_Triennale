@@ -8,6 +8,8 @@
 \usepackage{float}
 \usepackage{comment}
 
+\renewcommand{\lstlistlistingname}{Elenco dei listati}
+
 \raggedbottom{}
 \school{\unibo}
 \programme{Corso di Laurea in Ingegneria e Scienze Informatiche}
@@ -86,9 +88,8 @@
 
 \frontmatter\frontispiece{}
 
-\begin{abstract}
-    To be written.
-\end{abstract}
+%Abstract
+\input{Capitoli/1-Introduction/Abstract.tex}
 
 %\begin{dedication} % this is optional
 %Optional. Max a few lines.
@@ -97,7 +98,7 @@
 %----------------------------------------------------------------------------------------
 \tableofcontents
 \listoffigures     % (optional) comment if empty
-\lstlistoflistings{} % (optional) comment if empty
+\lstlistoflistings{}  % (optional) comment if empty
 \listoftables{}      % (optional) comment if empty
 %----------------------------------------------------------------------------------------
 
