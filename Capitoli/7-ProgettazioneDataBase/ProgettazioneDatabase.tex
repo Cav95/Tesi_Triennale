@@ -3,7 +3,7 @@
 La creazione della nuova base di dati è partita dall'esportazione e dallo studio dell'attuale database Access.
 L'esportazione è avvenuta per mezzo di \ac{SSMA},
 che ha permesso di esportare solo la struttura esistente da Access in \sqlserver{}.
-\ac{SSMA} è uno strumento progettato per automatizzare la migrazione del database a SQL Server,
+\ac{SSMA} è uno strumento progettato per automatizzare la migrazione del database a \sqlserver{},
 da Microsoft Access, Db2, MySQL, Oracle e SAP ASE.~\cite{SQLServerMigrationAssistant}
 Ottenuta l'attuale struttura, essa ha subito un processo di ristrutturazione
 che ha portato ad avere un database più leggibile, manutenibile e performante.
@@ -56,7 +56,7 @@ La fase di studio dell'attuale database ha portato alla luce diverse ridondanze 
 All'interno erano presenti più tabelle con lo stesso contesto di utilizzo o tabelle non utilizzate.
 Si è quindi proceduto all'eliminazione di tali tabelle ed alla normalizzazione delle restanti in \ac{2NF}.
 La \ac{2NF} è una forma di normalizzazione delle tabelle del database,
-che richiede che ogni attributo non chiave sia completamente dipendente dalla chiave primaria, 
+che richiede che ogni attributo non chiave sia completamente dipendente dalla chiave primaria,
 oltre che rispettare la \ac{1NF}.
 La \ac{1NF} richiede che ogni attributo della tabella sia atomico, ovvero non divisibile in più parti.
 Un'altra modifica sostanziale è stata l'unificazione di tabelle similari in un'unica tabella,
@@ -84,7 +84,7 @@ rendendo il codice più leggibile ed evitando non necessari join nelle query.
 Le classi di enumerazione sono una tipologia di classe che associa ad un insieme di costanti un valore.
 Il vantaggio è quindi per ogni valore di lookup, avere un nome leggibile evitando di interrogare il database.
 Un ultimo vantaggio, essendo appunto fisse, è il poterle
-caricare in memoria all'avvio dell'applicativo, evitando di interrogare il database ad ogni richiesta.
+caricare in memoria \ac{RAM} all'avvio dell'applicativo, evitando di interrogare il database ad ogni richiesta.
 
 \subsection{Aggiunta tabelle non presenti}
 \subsubsection{Gestione dei prodotti}
@@ -134,7 +134,7 @@ Tramite query ed il campo di audit \textit{data\_modifica} si è quindi in grado
 lo storico dei dati e di ripristinare eventuali errori.
 Il trigger è marcato come \texttt{AFTER UPDATE}. In combinazione con il dato temporaneo \texttt{deleted}
 permette di salvare il dato prima della modifica, garantendo la possibilità di ripristinare lo stato precedente.
-Un esempio di trigger è visibile in listato~\ref{lst:esempio-trigger}.
+Un esempio di trigger è visibile nel codice~\ref{lst:esempio-trigger}.
 \lstinputlisting[
     language=SQL,
     caption={Esempio di trigger},
@@ -145,15 +145,15 @@ Nel database sono state incluse delle tabelle di utilità, che non hanno un lega
 ma saranno utilizzate per la gestione e manutenzione del database.
 Queste tabelle sono:
 \begin{itemize}
-    \item \textit{Parametri}: questa tabella contiene solo la versione del database corrente.
+    \item \textbf{Parametri}: contiene solo la versione del database corrente.
           In caso di aggiornamenti del database centrale il software in locale si accorge
           della differenza e si allinea alla versione più recente.
-          L'aggiornamento avverrà eseguendo le query presenti nella tabella \textit{Query}.
-    \item \textit{Query}:  questa tabella raccoglie le query necessarie per aggiornare la struttura del database
+          L'aggiornamento avverrà eseguendo le query presenti nella tabella ``Query''.
+    \item \textbf{Query}:  raccoglie le query necessarie per aggiornare la struttura del database
           locale con quella in remoto da una versione all'altra.
 \end{itemize}
 \subsubsection{Gestione dei permessi}
-La gestione dei permessi è stata realizzata mediante una tabella dedicata, denominata \textit{Tabelle}.
+La gestione dei permessi è stata realizzata mediante una tabella dedicata, denominata ``Tabelle''.
 Essa associa al nome di una tabella del database un valore corrispodente al
 livello massimo di ruolo per eseguire lettura o scrittura su tale tabella.
 I ruoli sono definiti ed ordinati dal più dominante al meno dominante, all'interno della
@@ -179,7 +179,7 @@ In particolare, dal database Fusion, si è ricostruita la struttura di assegnazi
 Tale struttura, ponendo la cardinalità n ad n tra prodotti e proprietà con aggiunta del campo valore,
 permette l'assegnazione e la creazione di nuove proprietà senza modificare la struttura del database.
 Alla tabella ``Proprietà'' è associata la tabella ``Proprietà\_valori''
-per la gestione dei valori standard.
+per la gestione dei valori standard della stessa.
 Il diagramma \ac{ER} è mostrato in figura~\ref{fig:ERProdotti}.
 Una volta ricostruite le strutture si sono create le seguenti stored procedure:
 \begin{itemize}

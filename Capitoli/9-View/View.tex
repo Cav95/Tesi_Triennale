@@ -2,8 +2,10 @@
 \section{Utilizzo di Figma per il disegno delle interfacce}
 La prototipazione delle interfacce grafiche è stata realizzata mediante l'utilizzo del software Figma\cite{Figma}.
 Figma è una web application che permette di disegnare layout interattivi.
-Un aspetto non secondario di Figma è la possibilità di esportare le interfacce sia in formato vettoriale che con codice \ac{CSS}.
-Questo aspetto, unito all'utilizzo dell'\ac{IA} generativa, ha permesso la conversione da codice \ac{CSS} e vettoriale in codice
+Un aspetto non secondario di Figma è la possibilità di esportare le interfacce sia in
+ formato vettoriale che con codice \ac{CSS}.
+Questo aspetto, unito all'utilizzo dell'\ac{IA} generativa, ha permesso la conversione da 
+codice \ac{CSS} e vettoriale in codice
 \csharp{} Markup, con un notevole risparmio di tempo.
 Si è scelto, in un primo momento, di prototipare solo le interfacce principali,
 quali le schermate di login, ricerca e dettaglio di prodotti, clienti e preventivi.
@@ -54,7 +56,8 @@ I ViewModel creati non sono stati in rapporto uno a uno con le view,
 ma piuttosto in base alla loro funzionalità e all'elemento del dominio da gestire.
 Ad esempio, nella gestione dei prodotti sono stati creati due
 ViewModel, uno per la gestione semplice dei prodotti ed uno delle relative distinte.
-Questo approccio, unito all'estendibilità delle classi, ha permesso di avere un numero limitato di ViewModel in rapporte alle view.
+Questo approccio, unito all'estendibilità delle classi, ha permesso di avere un numero limitato 
+di ViewModel in rapporte alle view.
 Nel processo di rifattorizzazione si è notata la presenza di elementi comuni nei ViewModel.
 Un esempio di elementi comuni è la gestione delle liste dedicate ai dropdown,dei filtri e dei messaggi di notifica.
 Si è quindi creato un ViewModel base, che racchiudesse i metodi e le proprietà comuni a tutti i ViewModel.
