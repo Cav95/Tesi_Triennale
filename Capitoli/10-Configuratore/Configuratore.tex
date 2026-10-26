@@ -1,20 +1,26 @@
 \chapter{Modulo di configurazione prodotto}\label{chapter:Configurazione}
 \section{Scopo del modulo}
-Il vero salto di qualità rispetto all'attuale metodo di creazione delle offerte
+Il vero salto di qualità, rispetto all'attuale metodo di creazione delle offerte,
 risiede nell'introduzione di un modulo di configurazione del prodotto.
 Come anticipato nell'introduzione~\ref{chapter:introduction}, l'azienda adotta un modello di business
-di tipo \ac{ETO}. Tale modello prevede la realizzazione di prodotti su misura per il cliente
-mediante l'impiego di componenti standardizzati.
-L'utilizzo di componenti standardizzati consente di individuare e catalogare
-le possibili varianti di prodotto; tali varianti vengono impiegate per definire
-un sistema di configurazione in grado di anticipare, già in fase di vendita, i componenti necessari.
-Il numero di tipologie di prodotto e di varianti per ciascuna di esse è estremamente elevato,
-e non è possibile conoscere a priori né le regole che governano la configurazione di un prodotto,
-né i componenti di cui è costituito.
-È stato quindi necessario progettare una struttura e un algoritmo capaci di configurare
-un prodotto all'interno del sistema, permettendo all'utente di creare regole e combinarle agilmente.
-Oltre allo studio della logica di configurazione, è stato necessario predisporre
+di tipo \ac{ETO}. Tale modello prevede la realizzazione di prodotti su misura per il cliente, ma
+utilizzando componenti standardizzati.
+L'utilizzo di quest'ultimi consente di individuare e catalogare
+le possibili varianti di prodotto. Tali varianti vengono impiegate per definire
+un sistema di configurazione del prodotto che, già in fase di vendita, può proporre
+l'acquisto di determinati componenti.
+Le tipologie di macchine prodotte dall'azienda sono numerose e, per ciascuna di esse, esistono molteplici varianti.
+Non si può quindi pensare di gestire le configurazioni in maniera statica, ma è necessario
+predisporre un sistema dinamico.
+È stato quindi necessario progettare una struttura del database agile, modificabile dall'utente.
+Insieme ad essa, è stato progettato un algoritmo che desse all'utente la possibilità di creare regole e combinarle agilmente.
+Insieme allo studio della logica di configurazione, è stato necessario predisporre
 un sistema che guidasse l'utente nella scelta del prodotto da configurare.
+Prima di procedere, introduco cosa sia un macrogruppo, concetto cardine del modulo di configurazione.
+Il macrogruppo è un contenitore logico dei componenti del prodotto da configurare, al suo interno sono
+presenti tutti i componenti potenzialmente impiegabili nella configurazione. A ciascun componente sono associate
+una o più regole che ne determinano l'effettiva disponibilità.
+All'interno sono presenti anche elementi di tipologia \textit{listino}, che contengono i valori minimi di prezzo previsti.
 L'algoritmo implementato si suddivide in quattro fasi principali:
 \begin{itemize}
     \item \textbf{Fase di scelta del modello:} mediante alberi decisionali
@@ -22,9 +28,9 @@ L'algoritmo implementato si suddivide in quattro fasi principali:
           fino alla tipologia di prodotto (es: ``silo in acciaio''), per giungere al modello specifico
           da configurare (es: ``forma quadrata'').
     \item \textbf{Fase di configurazione:} vengono proposte all'utente opzioni di scelta
-          sotto forma di menu a tendina o campi a testo libero.
+          sotto forma di menù a tendina o campi a testo libero.
           Ogni selezione corrisponde a una specifica proprietà utilizzata nelle regole del prodotto.
-          Il menu viene generato dinamicamente filtrando le proprietà associate alle regole
+          Il menù viene generato dinamicamente filtrando le proprietà associate alle regole
           in base al macrogruppo selezionato.
           Ogni menù a sua volta propone all'utente soltanti i valori della proprietà
           effettivamente utilizzati nella configurazione del prodotto, evitando di mostrare opzioni non pertinenti.
@@ -42,14 +48,15 @@ L'algoritmo implementato si suddivide in quattro fasi principali:
                     una configurazione di quel prodotto con le caratteristiche selezionate.
                     In caso positivo, si propone all'utente di riutilizzarla.
               \item \textbf{Configurazione inesistente:} in caso negativo, viene generato
-                    un nuovo codice identificativo di configurazione per il prodotto, che viene contestualmente salvato a database.
+                    un nuovo codice identificativo di configurazione per il prodotto,
+                    che viene contestualmente salvato a database.
           \end{itemize}
 \end{itemize}
 
 \subsection{Scelta del macrogruppo da configurare}
 La realizzazione dell'albero di scelta è stata condotta sfruttando
-le tabelle già presenti nel database, in particolare le tabelle \textit{prodotto}, \textit{prodotti\_composizioni}
-e la tabella di lookup \textit{tipi\_prodotto}.
+le tabelle già presenti nel database, in particolare le tabelle ``prodotto'', ``prodotti\_composizioni''
+e la tabella di lookup ``tipi\_prodotto''.
 Sono state introdotte tre nuove tipologie di prodotto:
 \begin{itemize}
     \item \textbf{Iniziale:} rappresenta il concetto generale del prodotto e costituisce il punto di partenza
@@ -72,13 +79,13 @@ L'albero in oggetto è illustrato in figura~\ref{fig:Albero di scelta prodotto}.
 
 \subsection{Implementazione delle regole}
 I macrogruppi contengono tutti i componenti potenzialmente impiegabili nella configurazione.
-A ogni componente sono associate n regole che, se soddisfatte, ne determinano l'inclusione.
+Ad ogni componente sono associate n regole che, se soddisfatte, ne determinano l'inclusione.
 A ciascuna regola corrispondono una proprietà di riferimento, un operatore logico e un valore atteso.
 Le proprietà possono essere definite dall'utente configuratore; contestualmente, è possibile preimpostare
-dei valori standard che verranno suggeriti all'utente finale qualora la proprietà compaia nella procedura.
+dei valori standard che vengono proposti all'utente durante la creazione della regola.
 Gli operatori possono essere di confronto (ad esempio ``uguale a'', ``maggiore di'', ``minore di'')
 o di corrispondenza (come l'operatore \texttt{LIKE}).
-Nel caso dell'operatore di uguaglianza viene mostrato un menu a tendina popolato con i valori standard,
+Nel caso dell'operatore di uguaglianza viene mostrato un menù a tendina popolato con i valori standard,
 mentre gli altri operatori consentono l'inserimento di un valore libero o la selezione da una lista di valori ammessi.
 
 \subsection{Generazione dell'interfaccia utente}
@@ -88,11 +95,13 @@ Viene eseguita una clausola di \textit{JOIN} tra componenti, regole e proprietà
 tramite l'operatore \textit{DISTINCT}, in modo da ottenere un insieme di proprietà univoche.
 Questa query consente di ricavare le proprietà necessarie a runtime, senza vincolare il sistema
 a una conoscenza a priori delle regole che governano il prodotto.
+I valori proponibili per ciascuna proprietà, sono ricavati solo tra quelli
+effettivamente utilizzati nelle regole del macrogruppo, evitando di mostrare opzioni non pertinenti.
 
 \subsection{Struttura del database}
-L'architettura lato database è stata completata introducendo due nuove tabelle:
-la tabella \textit{regole} e la tabella di lookup \textit{operatori\_logici}.
-La modellazione dinamica adottata fin dalle prime fasi ha consentito un'integrazione agevole.
+L'architettura lato database è stata realizzata introducendo due nuove tabelle:
+la tabella "regole" e la tabella di lookup "operatori\_logici".
+La modellazione dinamica del database adottata, fin dalle prime fasi, ha consentito un'integrazione agevole.
 In figura~\ref{fig:ER configuratore} è riportato lo schema \ac{ER} del modulo di configurazione.
 \begin{figure}[H]
     \centering
@@ -102,12 +111,12 @@ In figura~\ref{fig:ER configuratore} è riportato lo schema \ac{ER} del modulo d
 
 \subsection{Gestione del listino della configurazione}
 Determinare il prezzo di una configurazione dinamica è un'operazione complessa,
-poiché l'importo finale può dipendere sia dalla distinta dei singoli componenti scelti, sia da soglie minime di listino.
+poiché l'importo finale può dipendere sia dal prezzo dei singoli componenti scelti, sia da soglie minime di listino.
 Per risolvere il problema, all'interno del macrogruppo sono stati introdotti elementi di tipologia \textit{listino},
 che contengono i valori minimi di prezzo previsti.
 Ciascun elemento di tipo listino è soggetto alle medesime regole degli altri componenti
 e viene quindi attivato in base alle scelte dell'utente.
-Questo approccio consente di verificare se la somma dei prezzi dei singoli componenti scelti risulti inferiore
+Questo approccio, consente di verificare se la somma dei prezzi dei singoli componenti scelti risulti inferiore
 al prezzo minimo di listino, applicando in tal caso la soglia minima garantita.
 I record di tipo listino restano invisibili all'utente finale, poiché non concorrono alla composizione fisica del prodotto.
 
@@ -118,9 +127,10 @@ la complessità di gestione è stata interamente demandata al pannello di ammini
 
 \subsection{Lato utente}
 Il flusso di configurazione lato utente è stato progettato a valle di una sessione di focus group,
-mirata a individuare il percorso operativo più intuitivo.
-Si è scelto di abilitare le scelte sequenzialmente solo dopo la conferma del passaggio precedente,
-procedendo dai concetti generali (lo scopo d'uso) fino al modello specifico.
+mirata ad individuare il percorso operativo più intuitivo.
+Si è scelto di abilitare le scelte sequenzialmente successiva, dell'abero di discesa,
+ solo dopo la conferma del passaggio precedente.
+In questo modo si procede dalla comprensione del problema (lo scopo d'uso) fino alla definizione del modello specifico.
 In figura~\ref{fig:Configurazione lato utente} è illustrata l'interfaccia presentata all'utente durante la selezione.
 \begin{figure}[H]
     \centering
@@ -137,20 +147,23 @@ Al termine, il codice prodotto generato (o recuperato dallo storico a database) 
 tra le righe dell'offerta commerciale.
 
 \subsection{Lato amministratore}
-La definizione delle configurazioni avviene attraverso la strutturazione dei macrogruppi.
+La definizione delle configurazioni avviene attraverso la composizione dei macrogruppi.
 Una volta associati i componenti al macrogruppo, a ciascuno di essi possono essere applicate una o più regole.
-L'assegnazione prevede la selezione della proprietà, dell'operatore logico e del valore di soglia
+L'assegnazione prevede la selezione della proprietà, dell'operatore logico e del valore
 richiesto per abilitare il componente.
 In figura~\ref{fig:Aggiunta regole lato amministratore} è riportata la schermata di gestione
 delle regole per singolo componente:
-sul lato destro è presente la selezione delle proprietà mediante filtri, mentre a sinistra è
-mostrato l'elenco delle regole attive.
+\begin{itemize}
+    \item sul lato destro è presente la selezione delle proprietà mediante filtri;
+    \item sul lato sinistro è presente l'elenco delle regole attive, ovvero quelle già impiegate nella configurazione
+    di almeno un altro componente del macrogruppo.
+\end{itemize}
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.9\linewidth]{figures/AggiuntaRegole.png}}
     \caption{Aggiunta regole lato amministratore}\label{fig:Aggiunta regole lato amministratore}
 \end{figure}
-Dai riscontri ottenuti durante il focus group con gli utenti amministratori è emersa l'esigenza critica
+Durante il focus group con gli utenti amministratori, è emersa l'esigenza
 di validare preventivamente le regole. È stata pertanto implementata un'interfaccia dedicata al collaudo
 della configurazione, illustrata in figura~\ref{fig:Test regole lato amministratore}.
 \begin{figure}[H]
