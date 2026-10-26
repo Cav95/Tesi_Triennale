@@ -100,7 +100,7 @@ effettivamente utilizzati nelle regole del macrogruppo, evitando di mostrare opz
 
 \subsection{Struttura del database}
 L'architettura lato database è stata realizzata introducendo due nuove tabelle:
-la tabella "regole" e la tabella di lookup "operatori\_logici".
+la tabella ``regole'' e la tabella di lookup ``operatori\_logici''.
 La modellazione dinamica del database adottata, fin dalle prime fasi, ha consentito un'integrazione agevole.
 In figura~\ref{fig:ER configuratore} è riportato lo schema \ac{ER} del modulo di configurazione.
 \begin{figure}[H]
@@ -119,7 +119,13 @@ e viene quindi attivato in base alle scelte dell'utente.
 Questo approccio, consente di verificare se la somma dei prezzi dei singoli componenti scelti risulti inferiore
 al prezzo minimo di listino, applicando in tal caso la soglia minima garantita.
 I record di tipo listino restano invisibili all'utente finale, poiché non concorrono alla composizione fisica del prodotto.
-
+Il flusso di assegnazione dei prezzi è illustrato in figura~\ref{fig:configuratore-listino}.
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[angle=90, width=0.55\linewidth]{figures/Flowcharts.png}}
+    \caption{Flusso di configurazione listino}
+    \label{fig:configuratore-listino}
+\end{figure}
 \section{Interfaccia grafica lato utente e amministratore}
 Le interfacce per l'utente e per l'amministratore presentano logiche profondamente differenti:
 al fine di garantire all'utente un'esperienza lineare e guidata,
@@ -129,7 +135,7 @@ la complessità di gestione è stata interamente demandata al pannello di ammini
 Il flusso di configurazione lato utente è stato progettato a valle di una sessione di focus group,
 mirata ad individuare il percorso operativo più intuitivo.
 Si è scelto di abilitare le scelte sequenzialmente successiva, dell'abero di discesa,
- solo dopo la conferma del passaggio precedente.
+solo dopo la conferma del passaggio precedente.
 In questo modo si procede dalla comprensione del problema (lo scopo d'uso) fino alla definizione del modello specifico.
 In figura~\ref{fig:Configurazione lato utente} è illustrata l'interfaccia presentata all'utente durante la selezione.
 \begin{figure}[H]
@@ -156,7 +162,7 @@ delle regole per singolo componente:
 \begin{itemize}
     \item sul lato destro è presente la selezione delle proprietà mediante filtri;
     \item sul lato sinistro è presente l'elenco delle regole attive, ovvero quelle già impiegate nella configurazione
-    di almeno un altro componente del macrogruppo.
+          di almeno un altro componente del macrogruppo.
 \end{itemize}
 \begin{figure}[H]
     \centering
