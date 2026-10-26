@@ -6,6 +6,7 @@
 6. Scelta dei framework, librerie e tecnologie utilizzate.
 7. Architettura del sistema, diagrammi e descrizione dei componenti principali.
 8. Progettazione del database, soluzioni adottate e motivazioni. Sistemi utilizzati come SSIS.
-9. Implementazione del model, view e controller, descrizione delle funzionalità principali. Sfide affrontate e soluzioni adottate.
-10. Modulo di configurazione prodotto, algoritmo di utilizzo e quotazione.
-11. Conclusioni.
+9. Implementazione del model, 
+10. view e viemodel, descrizione delle funzionalità principali. Sfide affrontate e soluzioni adottate.
+11. Modulo di configurazione prodotto, algoritmo di utilizzo e quotazione.
+12. Conclusioni.
