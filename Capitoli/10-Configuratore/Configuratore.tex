@@ -29,10 +29,10 @@ L'algoritmo implementato si suddivide in quattro fasi principali:
           da configurare (es: ``forma quadrata'').
     \item \textbf{Fase di configurazione:} vengono proposte all'utente opzioni di scelta
           sotto forma di menù a tendina o campi a testo libero.
-          Ogni selezione corrisponde a una specifica proprietà utilizzata nelle regole del prodotto.
+          Ogni selezione corrisponde ad una specifica proprietà utilizzata nelle regole del prodotto.
           Il menù viene generato dinamicamente filtrando le proprietà associate alle regole
           in base al macrogruppo selezionato.
-          Ogni menù a sua volta propone all'utente soltanti i valori della proprietà
+          Ogni menù a sua volta propone all'utente soltanto i valori della proprietà
           effettivamente utilizzati nella configurazione del prodotto, evitando di mostrare opzioni non pertinenti.
           Questa tecnica consente di guidare l'utente con un esiguo numero di scelte,
           evitando di esporlo a un numero eccessivo di opzioni non necessarie.
@@ -50,6 +50,7 @@ L'algoritmo implementato si suddivide in quattro fasi principali:
               \item \textbf{Configurazione inesistente:} in caso negativo, viene generato
                     un nuovo codice identificativo di configurazione per il prodotto,
                     che viene contestualmente salvato a database.
+                    Ad esso vengono associati tutti i componenti selezionati che lo compongono.
           \end{itemize}
 \end{itemize}
 
@@ -65,7 +66,7 @@ Sono state introdotte tre nuove tipologie di prodotto:
           all'interno delle distinte base dei prodotti di tipo iniziale e possono contenere a loro volta
           altri nodi di tipo mappa o macrogruppo, consentendo la discesa gerarchica.
     \item \textbf{Macrogruppo:} rappresenta il contenitore logico dei componenti del modello da configurare.
-          A ogni prodotto del macrogruppo sono associate regole che ne determinano l'effettiva disponibilità.
+          Ad ogni prodotto del macrogruppo sono associate regole che ne determinano l'effettiva disponibilità.
           Questi elementi sono inseriti nelle distinte base dei prodotti di tipo mappa.
 \end{itemize}
 Questa struttura assicura un'elevata scalabilità, poiché consente di censire nuovi prodotti
