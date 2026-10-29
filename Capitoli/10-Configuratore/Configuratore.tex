@@ -101,7 +101,9 @@ effettivamente utilizzati nelle regole del macrogruppo, evitando di mostrare opz
 
 \subsection{Struttura del database}
 L'architettura lato database è stata realizzata introducendo due nuove tabelle:
-la tabella ``regole'' e la tabella di lookup ``operatori\_logici''.
+la tabella ``Regole'' e la tabella di lookup ``Tipi\_operatori\_logici''.
+La prima associa ad una riga del componente una proprietà, un operatore logico ed un valore atteso.
+La seconda contiene l'elenco degli operatori logici ammessi.
 La modellazione dinamica del database adottata, fin dalle prime fasi, ha consentito un'integrazione agevole.
 In figura~\ref{fig:ER configuratore} è riportato lo schema \ac{ER} del modulo di configurazione.
 \begin{figure}[H]
