@@ -9,6 +9,11 @@
 \usepackage{comment}
 
 \renewcommand{\lstlistlistingname}{Elenco dei listati}
+\renewenvironment{acknowledgements}
+  {\chapter*{Ringraziamenti}}
+  {}
+
+
 
 \raggedbottom{}
 \school{\unibo}
@@ -130,42 +135,6 @@
 
 \input{Capitoli/9-View/View.tex}
 \input{Capitoli/10-Configuratore/Configuratore.tex}
-
-
-% --- Progettazione del database ---
-\begin{comment}
-\chapter{Progettazione del database}\label{chapter:Database}
-\section{Esportazione Vecchio Db}
-\section{Denominazione tabelle e campi}
-\section{Utilizzo di SSIS nel processo di migrazione}
-
-\section{Ristrutturazione database}
-\subsection{Eliminazione ridondanze e normalizzazione}
-\subsection{Creazione tabelle di lookup}
-\subsection{Aggiunta tabelle non presenti}
-\subsection{Creazione tabelle di Back Up}
-\subsection{Scelta di strutture Avanzate come Triggers e Stored Procedure}
-\section{Schema logico finale}
-
-% --- Creazione Model e View ---
-\chapter{Creazione Model}\label{chapter:Model}
-\section{Mapping delle classi}
-\section{Struttura del package}
-\subsection{Classi di Test}
-\subsection{Repository}
-\subsection{Classi ed Interfacce esposte}
-
-\chapter{Creazione View}
-\section{Utilizzo di Figma per disegno interfacce}
-\section{Creazione delle Factory per le View}
-\section{Scelta delle classi di ViewModel}
-
-\chapter{Modulo configurazione prodotto}
-\section{Scopo del modulo}
-\section{Algoritmo di configurazione}
-\section{Realizzazione sul database}
-\section{Interfaccia grafica lato utente ed amministratore}
-\end{comment}
 
 %----------------------------------------------------------------------------------------
 % BIBLIOGRAPHY
