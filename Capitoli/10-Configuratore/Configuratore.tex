@@ -1,11 +1,11 @@
 \chapter{Modulo di configurazione prodotto}\label{chapter:Configurazione}
 \section{Scopo del modulo}
 L'introduzione della configurazione di prodotto all'interno del sistema,
- ha come scopo quello di unire il processo di vendita con quello di produzione.
+ha come scopo quello di unire il processo di vendita con quello di produzione.
 Come anticipato nell'introduzione~\ref{chapter:introduction}, l'azienda adotta un modello di business
 di tipo \ac{ETO}. Tale modello prevede la realizzazione di prodotti su misura per il cliente, ma
 utilizzando componenti standardizzati.
-Quest'ultimi hanno un codice, delle giacenze a magazzino ed un prezzo 
+Quest'ultimi hanno un codice, delle giacenze a magazzino ed un prezzo
 di listino per la vendita o l'acquisto.
 L'utilizzo dei componenti consente di individuare e catalogare
 le possibili varianti di prodotto. Attraverso le configurazioni è possibile,
@@ -17,13 +17,13 @@ predisporre un sistema dinamico.
 che consentisse al lato utente di operare in maniera dinamica.
 È stato progettato un algoritmo che desse all'ammministratore la possibilità di creare regole e combinarle agilmente.
 Lo stesso algoritmo, in fase di configurazione, consente all'utente di comporre il prodotto
- filtrando le regole prima definite.
+filtrando le regole prima definite.
 Allo scopo di guidare l'operatore nella scelta del prodotto da configurare,
 è stato predisposto un sistema di alberi decisionali, che consente di scendere da concetti generali fino al modello specifico.
 Prima di procedere con l'esposizione dettagliata del modulo, è necessario introdurre il concetto di Macrogruppo.
 Esso è un contenitore logico di tutti i possibili componenti potenzialmente impiegabili nella configurazione.
 A ciascuno di essi sono associate una o più regole che ne determinano l'effettiva disponibilità.
-All'interno sono presenti anche elementi di tipologia "listino".
+All'interno sono presenti anche elementi di tipologia ``listino''.
 Questi componenti concorrono a definire il prezzo del prodotto.
 L'algoritmo implementato si suddivide in quattro fasi principali:
 \begin{itemize}
@@ -73,7 +73,7 @@ Sono state introdotte quattro nuove tipologie di prodotto:
           Ad ogni prodotto del Macrogruppo sono associate regole che ne determinano l'effettiva disponibilità.
           Questi elementi sono inseriti nelle distinte base dei prodotti di tipo mappa.
     \item \textbf{Listino:} rappresenta un elemento di prezzo minimo, che non concorre alla composizione fisica del prodotto.
-          Anch'esso è soggetto alle regole del Macrogruppo e viene attivato in base alle scelte dell'utente.        
+          Anch'esso è soggetto alle regole del Macrogruppo e viene attivato in base alle scelte dell'utente.
 \end{itemize}
 Questa struttura assicura un'elevata scalabilità, poiché consente di censire nuovi prodotti
 senza dover intervenire sul codice dell'algoritmo o sulla struttura del database.
@@ -92,11 +92,11 @@ Un esempio di regola è il seguente: ``Se la proprietà \textit{Altezza} è magg
 Un secondo esempio riguarda una specifica normativa elettrica che impone particolari certificazioni in determinati paesi.
 I due motori in questione potrebbero avere rispettivamente le seguenti regole:
 \begin{itemize}
-\item MOT1-MERCATO-AMERICANO: ``Se la proprietà \textit{Normativa Elettrica} è uguale a \textit{UL-CSA},
- allora il motore è disponibile''.
-\item MOT2-MERCATO-EUROPEO: ``Se la proprietà \textit{Normativa Elettrica} è uguale a \textit{ATEX},
- allora il motore è disponibile''.
-\end{itemize} 
+    \item MOT1-MERCATO-AMERICANO: ``Se la proprietà \textit{Normativa Elettrica} è uguale a \textit{UL-CSA},
+          allora il motore è disponibile''.
+    \item MOT2-MERCATO-EUROPEO: ``Se la proprietà \textit{Normativa Elettrica} è uguale a \textit{ATEX},
+          allora il motore è disponibile''.
+\end{itemize}
 Si nota come le due opzioni, in base al valore assegnato alla proprietà, risultino mutuamente esclusive.
 
 Le proprietà possono essere definite dall'utente configuratore; contestualmente, è possibile preimpostare
@@ -105,7 +105,7 @@ Gli operatori possono essere di confronto (ad esempio ``uguale a'', ``maggiore d
 o di corrispondenza (come l'operatore \texttt{LIKE}).
 Nel caso dell'operatore di uguaglianza viene mostrato un menù a tendina popolabile con solo i valori standard.
 Gli altri operatori, a differenza del precedente, consentono l'inserimento di un valore libero
- o la selezione da una lista di valori ammessi.
+o la selezione da una lista di valori ammessi.
 
 \subsection{Generazione dell'interfaccia utente}
 L'interfaccia con i parametri di configurazione, viene generata filtrando dinamicamente
@@ -134,7 +134,7 @@ In figura~\ref{fig:ER configuratore} è riportato lo schema \ac{ER} del modulo d
 \subsection{Gestione del listino della configurazione}
 Determinare il prezzo di una configurazione dinamica è un'operazione complessa,
 poiché l'importo finale può dipendere sia dal prezzo dei singoli componenti scelti,
- sia da soglie minime di listino.
+sia da soglie minime di listino.
 Il problema è stato risolto introducendo un nuovo tipo di elemento di tipologia \textit{listino},
 che contiene il prezzo minimo garantito per la configurazione.
 Ciascun elemento di tipo listino è soggetto alle medesime regole degli altri componenti
@@ -149,9 +149,9 @@ Il flusso di assegnazione dei prezzi è illustrato in figura~\ref{fig:configurat
     \caption{Flusso di configurazione listino}\label{fig:configuratore-listino}
 \end{figure}
 Nello schema si può notare come, a partire da una situazione iniziale, dove sono presenti tutte le tipologie di componenti,
- l'algoritmo filtri i componenti raccogliendo sia i componenti disponibili che le soglie minime di listino.
- In base al risultato ottenuto, viene calcolato il prezzo finale della configurazione scegliendo il 
- maggior valore tra la somma dei prezzi dei componenti e la soglia minima di listino.
+l'algoritmo filtri i componenti raccogliendo sia i componenti disponibili che le soglie minime di listino.
+In base al risultato ottenuto, viene calcolato il prezzo finale della configurazione scegliendo il
+maggior valore tra la somma dei prezzi dei componenti e la soglia minima di listino.
 
 \section{Interfaccia grafica lato utente ed amministratore}
 Le interfacce utente ed amministrativa presentano logiche profondamente differenti.
