@@ -90,7 +90,7 @@ caricare in memoria \ac{RAM} all'avvio dell'applicativo, evitando di interrogare
 \subsubsection{Gestione dei prodotti}
 Il database originale utilizzava i prodotti come oggetti atomici, senza la possibilità di gestire i loro componenti.
 Si è quindi deciso di creare le distinte prodotto. La tabella \textit{Prodotti} è stata messa in auto
-join con cardinalità n ad n.
+join con cardinalità N:M.
 Tale relazione a livello di schema logico è stata realizzata mediante la tabella \textit{Prodotti\_composizioni}.
 La tabella in questione aggiunge, oltre alle chiavi
 dei prodotti, anche il quantitativo della riga stessa e la posizione di apparizione.
