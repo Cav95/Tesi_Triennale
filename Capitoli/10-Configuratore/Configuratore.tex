@@ -88,6 +88,17 @@ L'albero in oggetto è illustrato in figura~\ref{fig:Albero di scelta prodotto}.
 I Macrogruppi contengono tutti i componenti potenzialmente impiegabili nella configurazione.
 Ad ogni componente sono associate n regole che, se soddisfatte, ne determinano l'inclusione.
 A ciascuna regola corrisponde una proprietà di riferimento, un operatore logico e un valore atteso.
+Un esempio di regola è il seguente: ``Se la proprietà \textit{Altezza} è maggiore di 1000, allora il componente \textit{Pannello di rinforzo} è disponibile''.
+Un secondo esempio riguarda una specifica normativa elettrica che impone particolari certificazioni in determinati paesi.
+I due motori in questione potrebbero avere rispettivamente le seguenti regole:
+\begin{itemize}
+\item MOT1-MERCATO-AMERICANO: ``Se la proprietà \textit{Normativa Elettrica} è uguale a \textit{UL-CSA},
+ allora il motore è disponibile''.
+\item MOT2-MERCATO-EUROPEO: ``Se la proprietà \textit{Normativa Elettrica} è uguale a \textit{ATEX},
+ allora il motore è disponibile''.
+\end{itemize} 
+Si nota come le due opzioni, in base al valore assegnato alla proprietà, risultino mutuamente esclusive.
+
 Le proprietà possono essere definite dall'utente configuratore; contestualmente, è possibile preimpostare
 dei valori standard che vengono proposti all'utente durante la creazione della regola.
 Gli operatori possono essere di confronto (ad esempio ``uguale a'', ``maggiore di'', ``minore di'')
@@ -137,6 +148,10 @@ Il flusso di assegnazione dei prezzi è illustrato in figura~\ref{fig:configurat
     \fbox{\includegraphics[angle=90, width=0.55\linewidth]{figures/Flowcharts.png}}
     \caption{Flusso di configurazione listino}\label{fig:configuratore-listino}
 \end{figure}
+Nello schema si può notare come, a partire da una situazione iniziale, dove sono presenti tutte le tipologie di componenti,
+ l'algoritmo filtri i componenti raccogliendo sia i componenti disponibili che le soglie minime di listino.
+ In base al risultato ottenuto, viene calcolato il prezzo finale della configurazione scegliendo il 
+ maggior valore tra la somma dei prezzi dei componenti e la soglia minima di listino.
 
 \section{Interfaccia grafica lato utente ed amministratore}
 Le interfacce utente ed amministrativa presentano logiche profondamente differenti.
