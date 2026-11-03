@@ -59,6 +59,12 @@ La \ac{2NF} è una forma di normalizzazione delle tabelle del database,
 che richiede che ogni attributo non chiave sia completamente dipendente dalla chiave primaria,
 oltre che rispettare la \ac{1NF}.
 La \ac{1NF} richiede che ogni attributo della tabella sia atomico, ovvero non divisibile in più parti.
+La \ac{3NF} non è stata presa in considerazione in quanto non è garantito il suo rispetto.
+Questa situazione è dovuta alla presenza di tabelle generalizzate,
+come quella dedicata ai documenti, che aggregano diverse tipologie di record
+in un'unica tabella. Questa struttura introduce infatti delle dipendenze transitive, poiché
+la pertinenza e la valorizzazione di specifici attributi dipendono funzionalmente dal campo discriminante
+``tipo\_documento'' anziché esclusivamente dalla chiave primaria.
 Un'altra modifica sostanziale è stata l'unificazione di tabelle similari in un'unica tabella,
 discriminate mediante campo \textit{prefTabella\_tipo} proveniente da un lookup dedicato.
 Un esempio di questo contesto sono le tabelle di ``Offerta'' ed ``Ordine'',
@@ -72,6 +78,7 @@ Il metodo così pensato, in ottica di ampliamento, permette la gestione di ulter
 tipologie di documenti senza cambiare la struttura.
 Un esempio è l'aggiunta della tipologia di documento ``Tecnico'',
 che sarà l'evoluzione del documento ``Ordine'' e conterrà la revisione tecnica dell'ordine stesso.
+
 \subsection{Creazione tabelle di lookup}
 Come già prima accennato, le tabelle di lookup sono state create per discriminare le tipologie di dati.
 Tali tabelle sono state pensate per garantire una estedibilità futura e far fronte a modifiche non previste.
