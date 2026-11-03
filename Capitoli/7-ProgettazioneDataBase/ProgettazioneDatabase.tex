@@ -1,6 +1,11 @@
 \chapter{Progettazione del database}\label{chap:Database}
 \section{Esportazione vecchio database}
 La creazione della nuova base di dati è partita dall'esportazione e dallo studio dell'attuale database Access.
+Il database originario presenta una struttura fortemente frammentata e priva di vincoli
+di integrità referenziale, senza chiavi primarie né chiavi esterne.
+Le relazioni tra i dati, vengono attualmente risolte dinamicamente tramite query eseguite in fase di transazione.
+Di conseguenza, la ricostruzione dello schema logico di partenza richiederebbe
+un'operazione completa di ricostruzione a posteriori.
 L'esportazione è avvenuta per mezzo di \ac{SSMA},
 che ha permesso di esportare solo la struttura esistente da Access in \sqlserver{}.
 \ac{SSMA} è uno strumento progettato per automatizzare la migrazione del database a \sqlserver{},
