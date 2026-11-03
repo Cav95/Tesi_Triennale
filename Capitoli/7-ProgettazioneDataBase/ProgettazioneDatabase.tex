@@ -94,26 +94,20 @@ join con cardinalità N:M.
 Tale relazione a livello di schema logico è stata realizzata mediante la tabella \textit{Prodotti\_composizioni}.
 La tabella in questione aggiunge, oltre alle chiavi
 dei prodotti, anche il quantitativo della riga stessa e la posizione di apparizione.
-Lo schema ER risultante è visibile in figura~\ref{fig:ERProdotti}, mentre lo schema logico
-è visibile in figura~\ref{fig:LOGProdotti}.
+Lo schema ER risultante è visibile in figura~\ref{fig:ERProdotti}.
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=1\linewidth]{figures/ER_PRODOTTI.png}}
     \caption{Schema \ac{ER} dei prodotti}\label{fig:ERProdotti}
 \end{figure}
-\begin{figure}[H]
-    \centering
-    \fbox{\includegraphics[width=1\linewidth]{figures/Logico_PRODOTTI.png}}
-    \caption{Schema logico dei prodotti}\label{fig:LOGProdotti}
-\end{figure}
-La tabella prodotti, ovvero i compoenenti base o aggregati, sono posti in auto join con se stessi.
-La relazione così composta permette di gestire multilivelli di profondità.
+La tabella ``Prodotti'', ovvero i compoenenti base o aggregati, sono posti in auto join.
+La relazione così composta permette di gestire più livelli di profondità.
 Ad ogni prodotto sono associate N proprietà, ed a sua volta, ad ogni proprietà sono associati N prodotti.
-La relazione che li lega raccoglie inoltre un valore dedicato del valore della proprietà.
-La tabella proprità\_valori messa in associazione 1:N con la tabella della proprietà, raccoglie
+La relazione che li lega raccoglie in sè, il valore della proprietà ad essa associata.
+La tabella ``proprietà\_valori'' messa in associazione 1:N con la tabella della proprietà, raccoglie
 i valori standard assegnabili a tale proprietà.
-I valori standard sono usati per compilira il campo Valore prima citato.
-La tabella tipi\_proprietà permette di raggruppare le proprietà in base alla loro finalità.
+I valori standard sono utilizati per compilira il campo ``Valore'' prima citato.
+La tabella ``tipi\_proprietà'' permette di raggruppare le proprietà in base alla loro finalità.
 Un esempio è la distinzione tra le proprietà meccaniche, elettriche e normative.
 
 La gestione, così pensata, permette di effettuare ricerche approfondite.
