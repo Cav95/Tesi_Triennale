@@ -80,9 +80,10 @@ Un esempio di query costruita con \texttt{Queryable} è riportata nel listato~\r
 Tutti i metodi all'interno dei repository sono stati realizzati come asincroni,
 per evitare di bloccare il thread principale dell'applicativo e, in particolare, l'interfaccia grafica.
 \section{Gestione dei dati e delle transazioni}
-Ogmi query al database è stata realizzata come transazione atomica,
-in modo da evitare di lasciare dati parziali in caso di errori.
-In questo modo ad ogni azione si apre e si chiude una transazione, eseguendo un commit automatico al termine della stessa.
+Ogni operazione sul database è stata implementata come una transazione atomica,
+al fine di garantire la consistenza dei dati ed evitare scritture parziali 
+in caso di errore. Per ciascuna operazione viene aperta una nuova transazione, 
+che viene conclusa con un commit automatico al termine dell'esecuzione.
 I dati, prima dell'effettivo inserimento nel database,
 vengono gestiti in memoria \ac{RAM} e solo al termine di tutte le operazioni, vengono salvati nel database.
 Questo approccio permette di non impegnare il database con dati parziali,
