@@ -98,7 +98,7 @@ Un primo esempio di regola è il seguente:
 il componente \textit{Pannello di rinforzo} è dispobile se la regola ``La proprietà \textit{Altezza} è maggiore di 1000'' è soddisfatta.
 Un secondo esempio, che sottolinea l'importanza delle regole, riguarda una specifica normativa elettrica.
 Le due certificazioni sono obbligatorie nei due paesi indicati,
- Atex per il mercato europeo ed UL-CSA per quello americano.\cite{ElettricCertifications}
+Atex per il mercato europeo ed UL-CSA per quello americano.\cite{ElettricCertifications}
 L'esempio di regole è il seguente:
 \begin{itemize}
       \item MOTORE-MERCATO-AMERICANO: ``Se la proprietà \textit{Certificazione Elettrica} è uguale ad \textit{UL-CSA},
@@ -157,10 +157,9 @@ Il flusso di assegnazione dei prezzi è illustrato in figura~\ref{fig:configurat
       \fbox{\includegraphics[angle=90, width=0.55\linewidth]{figures/Flowcharts.png}}
       \caption{Flusso di configurazione listino}\label{fig:configuratore-listino}
 \end{figure}
-Nello schema si può notare come, a partire da una situazione iniziale, dove sono presenti tutte le tipologie di componenti,
-l'algoritmo filtri i componenti raccogliendo sia i componenti disponibili che le soglie minime di listino.
-In base al risultato ottenuto, viene calcolato il prezzo finale della configurazione scegliendo il
-maggior valore tra la somma dei prezzi dei componenti e la soglia minima di listino.
+Dallo schema si nota come da una situazione iniziale, dove
+sono presenti tutti i componenti del Macrogruppo, si arrivi ad una situazione finale dove è
+possibile stabilire il prezzo in base alle scelte effettuate dall'utente.
 
 \section{Interfaccia grafica lato utente ed amministratore}
 Le interfacce utente ed amministrativa presentano logiche profondamente differenti.
