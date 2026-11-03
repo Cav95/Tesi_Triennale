@@ -9,16 +9,16 @@ un'operazione completa di ricostruzione a posteriori.
 L'esportazione è avvenuta per mezzo di \ac{SSMA},
 che ha permesso di esportare solo la struttura esistente da Access in \sqlserver{}.
 \ac{SSMA} è uno strumento progettato per automatizzare la migrazione del database a \sqlserver{},
-da Microsoft Access, Db2, MySQL, Oracle e SAP ASE.~\cite{SQLServerMigrationAssistant}
+da Microsoft Access, Db2, MySQL, Oracle e SAP ASE\cite{SQLServerMigrationAssistant}.
 Ottenuta l'attuale struttura, essa ha subito un processo di ristrutturazione
 che ha portato ad avere un database più leggibile, manutenibile e performante.
 \section{Denominazione tabelle e campi}
 Il primo intervento effettuato è stato quello di rinominare le tabelle ed i campi del database.
-Le modifiche addottate sono state le seguenti:
+Le modifiche adottate sono state le seguenti:
 \begin{itemize}
-    \item Denominare le tabelle in minuscolo, separati da underscore, ad esempio: \textit{nome\_tabella}.
-    \item Denominare i campi delle tabelle in minuscolo, separati da underscore,con
-          il prefisso della tabella per renderlo univoco. Un esempio di campo è: \textit{prefTabella\_nomeCampo}.
+          \item Denominare le tabelle in minuscolo, separate da underscore, ad esempio: \textit{nome\_tabella}.
+          \item Denominare i campi delle tabelle in minuscolo, separati da underscore, con
+          il prefisso della tabella per renderli univoci. Un esempio di campo è: \textit{prefTabella\_nomeCampo}.
     \item Le chiavi primarie di ogni tabella sono degli indici progressivi, rendendo unica ogni riga.
           Il campo segue il pattern \textit{prefTabella\_id}.
 \end{itemize}
@@ -33,7 +33,7 @@ Questi campi trasversali sono fondamentali per la gestione dei dati
 e la manutenzione del database.
 \section{Utilizzo di SSIS nel processo di migrazione}
 I successivi processi di modifica e popolamento del database sono stati gestiti tramite
-\ac{SSIS}.~\cite{SQLServerIntegration}
+\ac{SSIS}\cite{SQLServerIntegration}.
 Questo strumento permette la creazione e l'esecuzione di pacchetti di query,
 che possono essere schedulati o eseguiti manualmente.
 Mediante interfaccia grafica è possibile creare flussi di query, con l'opportunità di gestire
@@ -86,16 +86,16 @@ che sarà l'evoluzione del documento ``Ordine'' e conterrà la revisione tecnica
 
 \subsection{Creazione tabelle di lookup}
 Come già prima accennato, le tabelle di lookup sono state create per discriminare le tipologie di dati.
-Tali tabelle sono state pensate per garantire una estedibilità futura e far fronte a modifiche non previste.
+Tali tabelle sono state pensate per garantire un'estendibilità futura e far fronte a modifiche non previste.
 Queste tabelle sono considerate fisse, e non possono essere modificate dall'utente finale,
 ma solo da un amministratore tramite query.
 Esse, con al più un campo descrittivo, rendono la gestione dei dati più semplice,
 potendo filtrare le informazioni in base al loro tipo.
-Un vantaggio, a livello di software, è il poterle mappare in classi di enumerazione,
-rendendo il codice più leggibile ed evitando non necessari join nelle query.
+Un vantaggio, a livello di software, è poterle mappare in classi di enumerazione,
+rendendo il codice più leggibile ed evitando join non necessari nelle query.
 Le classi di enumerazione sono una tipologia di classe che associa ad un insieme di costanti un valore.
 Il vantaggio è quindi per ogni valore di lookup, avere un nome leggibile evitando di interrogare il database.
-Un ultimo vantaggio, essendo appunto fisse, è il poterle
+Un ultimo vantaggio, essendo appunto fisse, è poterle
 caricare in memoria \ac{RAM} all'avvio dell'applicativo, evitando di interrogare il database ad ogni richiesta.
 
 \subsection{Aggiunta tabelle non presenti}
@@ -115,7 +115,7 @@ Lo schema ER risultante è visibile in figura~\ref{fig:ERProdotti}.
 La tabella ``Prodotti'', ovvero i componenti base o aggregati, è posta in auto join con cardinalità N:M.
 La relazione così composta permette di gestire più livelli di profondità.
 Ad ogni prodotto sono associate N proprietà, ed a sua volta, ad ogni proprietà sono associati N prodotti.
-La relazione che li lega raccoglie in sè, il valore della proprietà ad essa associata.
+La relazione che li lega raccoglie in sé il valore della proprietà ad essa associata.
 La tabella ``proprietà\_valori'' messa in associazione 1:N con la tabella della proprietà, raccoglie
 i valori standard assegnabili a tale proprietà.
 I valori standard sono utilizzati per compilare il campo ``Valore'' prima citato.
@@ -126,7 +126,7 @@ La gestione, così pensata, permette di effettuare ricerche approfondite.
 Un esempio è quello della estrapolazione dei componenti di ricambio di un determinato prodotto, che possono
 risiedere anche a più livelli di profondità.
 Questo sistema, insieme ad appositi lookup, ha inoltre permesso la costruzione del modulo
-``Configuratore'' per la configurazione di prodotto.~\ref{chapter:Configurazione}.
+``Configuratore'' per la configurazione di prodotto.
 \subsubsection{Tabelle gestione lingue}
 Si è deciso di aggiungere delle apposite tabelle per la gestione delle traduzioni di campi del database.
 Le tabelle predisposte contengono al loro interno la chiave della tabella di riferimento,
@@ -144,7 +144,7 @@ Il diagramma \ac{ER} delle lingue è visibile in figura~\ref{fig:ERLingue}.
     \caption{Schema \ac{ER} delle lingue}\label{fig:ERLingue}
 \end{figure}
 \subsubsection{Creazione tabelle di backup}
-Si è scelto di gestire solo un ristretto numero di essenziali tabelle,
+Si è scelto di gestire solo un ristretto numero di tabelle essenziali,
 come ad esempio quelle dei documenti, dei prodotti, delle righe sia dei documenti che dei prodotti.
 La gestione non è stata capillare su tutte le tabelle, in quanto si sono scelte solo
 le tabelle più centrali del dominio.
@@ -176,7 +176,7 @@ Queste tabelle sono:
 \end{itemize}
 \subsubsection{Gestione dei permessi}
 La gestione dei permessi è stata realizzata mediante una tabella dedicata, denominata ``Tabelle''.
-Essa associa al nome di una tabella del database un valore corrispodente al
+Essa associa al nome di una tabella del database un valore corrispondente al
 livello massimo di ruolo per eseguire lettura o scrittura su tale tabella.
 I ruoli sono definiti ed ordinati dal più dominante al meno dominante, all'interno della
 tabella ``Tipi\_utente''.
@@ -184,13 +184,13 @@ Si ha quindi 0 per l'Admin e 100 per il visualizzatore, dando modo in futuro
 di aggiungere altri ruoli intermedi.
 Questo metodo rende flessibile la gestione dei permessi di accesso alle tabelle,
 potendole modificare anche da apposita interfaccia grafica.
-Un esempio della interfaccia è visibile in figura~\ref{fig:GestionePermessi}.
+Un esempio dell'interfaccia è visibile in figura~\ref{fig:GestionePermessi}.
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=0.8\linewidth]{figures/InterfacciaGestionePermessi.png}}
     \caption{Interfaccia di gestione dei permessi}\label{fig:GestionePermessi}
 \end{figure}
-In ottica offline, questa tabella permette di mappare, solo quello che l'utente
+In ottica offline, questa tabella permette di mappare solo quello che l'utente
 può modificare in locale, evitando di eseguire query su tabelle non permesse offline.
 
 \subsection{Importazione dei dati e stored procedure}\label{section:importdata}

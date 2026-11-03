@@ -2,20 +2,20 @@
 \section{Scopo del modulo}
 L'introduzione della configurazione di prodotto all'interno del sistema,
 ha come scopo quello di unire il processo di vendita con quello di produzione.
-Come anticipato nell'introduzione~\ref{chapter:introduction}, l'azienda adotta un modello di business
+Come anticipato nell'introduzione, l'azienda adotta un modello di business
 di tipo \ac{ETO}. Tale modello prevede la realizzazione di prodotti su misura per il cliente, ma
 utilizzando componenti standardizzati.
-Quest'ultimi hanno un codice, delle giacenze a magazzino ed un prezzo
+Questi ultimi hanno un codice, delle giacenze a magazzino e un prezzo
 di listino per la vendita o l'acquisto.
 L'utilizzo dei componenti consente di individuare e catalogare
-le possibili varianti di prodotto. Attraverso le configurazioni è possibile,
+le possibili varianti di prodotto. Attraverso le configurazioni è possibile
 suggerire una pianificazione di produzione.
-Le tipologie di macchine prodotte dall'azienda sono numerose e per ciascuna di esse, esistono molteplici varianti.
+Le tipologie di macchine prodotte dall'azienda sono numerose e per ciascuna di esse esistono molteplici varianti.
 Non si può quindi pensare di gestire le configurazioni in maniera statica, ma è necessario
 predisporre un sistema dinamico.
 È stato necessario progettare una struttura del database agile,
 che consentisse al lato utente di operare in maniera dinamica.
-È stato progettato un algoritmo che desse all'ammministratore la possibilità di creare regole e combinarle agilmente.
+È stato progettato un algoritmo che desse all'amministratore la possibilità di creare regole e combinarle agilmente.
 Lo stesso algoritmo, in fase di configurazione, consente all'utente di comporre il prodotto
 filtrando le regole prima definite.
 Allo scopo di guidare l'operatore nella scelta del prodotto da configurare,
@@ -36,7 +36,7 @@ L'algoritmo implementato si suddivide in quattro fasi principali:
             Ogni selezione corrisponde ad una specifica proprietà utilizzata nelle regole del prodotto.
             Il menù viene generato dinamicamente filtrando le proprietà associate alle regole
             in base al Macrogruppo selezionato.
-            Ogni menù a sua volta, propone all'utente soltanto i valori delle proprietà
+            Ogni menù, a sua volta, propone all'utente soltanto i valori delle proprietà
             effettivamente utilizzati nella configurazione del prodotto, evitando di mostrare opzioni non pertinenti.
             Questa tecnica consente di guidare l'utente con un esiguo numero di scelte,
             evitando di esporlo ad un numero eccessivo di opzioni non necessarie.
@@ -72,7 +72,7 @@ Sono state introdotte quattro nuove tipologie di prodotto:
 \begin{itemize}
       \item \textbf{Iniziale:} rappresenta il concetto generale del prodotto e costituisce il punto di partenza
             per l'algoritmo di configurazione, guidando l'utente verso la selezione del modello.
-      \item \textbf{Mappa:} rappresenta un livello intermedio dell'albero. Questi prodotti, sono inseriti
+      \item \textbf{Mappa:} rappresenta un livello intermedio dell'albero. Questi prodotti sono inseriti
             all'interno delle distinte base dei prodotti di tipo iniziale. Essi possono contenere a loro volta
             altri nodi di tipo mappa o Macrogruppo, consentendo la discesa gerarchica.
       \item \textbf{Macrogruppo:} rappresenta il contenitore logico dei componenti del modello da configurare.
@@ -95,7 +95,7 @@ I Macrogruppi contengono tutti i componenti potenzialmente impiegabili nella con
 Ad ogni componente sono associate n regole che, se soddisfatte, ne determinano l'inclusione.
 A ciascuna regola corrisponde una proprietà di riferimento, un operatore logico e un valore atteso.
 Un primo esempio di regola è il seguente:
-il componente \textit{Pannello di rinforzo} è dispobile se la regola ``La proprietà \textit{Altezza} è maggiore di 1000'' è soddisfatta.
+il componente \textit{Pannello di rinforzo} è disponibile se la regola ``La proprietà \textit{Altezza} è maggiore di 1000'' è soddisfatta.
 Un secondo esempio, che sottolinea l'importanza delle regole, riguarda una specifica normativa elettrica.
 Le due certificazioni sono obbligatorie nei due paesi indicati,
 Atex per il mercato europeo ed UL-CSA per quello americano.\cite{ElettricCertifications}
@@ -112,23 +112,23 @@ Le proprietà possono essere definite dall'utente configuratore; contestualmente
 dei valori standard che vengono proposti all'utente durante la creazione della regola.
 Gli operatori possono essere di confronto (ad esempio ``uguale a'', ``maggiore di'', ``minore di'')
 o di corrispondenza (come l'operatore \texttt{LIKE}).
-Nel caso dell'operatore di uguaglianza viene mostrato un menù a tendina popolabile con solo i valori standard.
+Nel caso dell'operatore di uguaglianza viene mostrato un menù a tendina popolabile con i soli valori standard.
 Gli altri operatori, a differenza del precedente, consentono l'inserimento di un valore libero
 o la selezione da una lista di valori ammessi.
 
 \subsection{Generazione dell'interfaccia utente}
-L'interfaccia con i parametri di configurazione, viene generata filtrando dinamicamente
+L'interfaccia con i parametri di configurazione viene generata filtrando dinamicamente
 tutte le proprietà di riferimento delle regole associate al Macrogruppo selezionato.
 Viene eseguita una clausola di \textit{JOIN} tra componenti, regole e proprietà, isolando poi queste ultime
 tramite l'operatore \textit{DISTINCT}, in modo da ottenere un insieme di proprietà univoche.
 Questa query consente di ricavare le proprietà necessarie a runtime, senza vincolare il sistema
 ad una conoscenza a priori delle regole che governano il prodotto.
-I valori proponibili per ciascuna proprietà, sono ricavati solo tra quelli
+I valori proponibili per ciascuna proprietà sono ricavati solo tra quelli
 effettivamente utilizzati nelle regole del Macrogruppo,
 evitando di mostrare opzioni non pertinenti.
 
 \subsection{Struttura del database}
-L'architettura lato database, è stata realizzata introducendo due nuove tabelle:
+L'architettura lato database è stata realizzata introducendo due nuove tabelle:
 la tabella ``Regole'' e la tabella di lookup ``Tipi\_operatori\_logici''.
 La prima associa ad una riga del componente una proprietà, un operatore logico ed un valore atteso.
 La seconda contiene l'elenco degli operatori logici ammessi.
@@ -148,7 +148,7 @@ Il problema è stato risolto introducendo un nuovo tipo di elemento di tipologia
 che contiene il prezzo minimo garantito per la configurazione.
 Ciascun elemento di tipo listino è soggetto alle medesime regole degli altri componenti
 e viene quindi attivato in base alle scelte dell'utente.
-Questo approccio, consente di verificare se la somma dei prezzi dei singoli componenti scelti risulti inferiore
+Questo approccio consente di verificare se la somma dei prezzi dei singoli componenti scelti risulti inferiore
 al prezzo minimo di listino, applicando in tal caso la soglia minima garantita.
 I record di tipo listino restano invisibili all'utente finale, poiché non concorrono alla composizione fisica del prodotto.
 Il flusso di assegnazione dei prezzi è illustrato in figura~\ref{fig:configuratore-listino}.
@@ -169,7 +169,7 @@ la complessità della gestione è stata interamente demandata all'ambiente di am
 \subsection{Lato utente}
 Il flusso di configurazione lato utente è stato progettato a valle di una sessione di focus group,
 mirata ad individuare il percorso operativo più intuitivo.
-Si è optato per abilitare la scelta sequenzialmente successiva, dell'abero di discesa,
+Si è optato per abilitare la scelta sequenzialmente successiva dell'albero di discesa,
 solo dopo la conferma del passaggio precedente.
 In questo modo si procede dalla comprensione del problema (lo scopo d'uso) fino alla definizione del modello specifico.
 In figura~\ref{fig:Configurazione lato utente} è illustrata l'interfaccia presentata all'utente durante la selezione.
@@ -198,7 +198,7 @@ delle regole per singolo componente:
       \item sul lato destro sono presenti le proprietà già impiegate nella configurazione
             di almeno un altro componente del Macrogruppo.
             Tali proprietà possono essere utilizzate per generare una regola.
-            Se necessario utilizare una proprietà non presente nell'elenco, è possibile crearne una nuova.
+            Se necessario utilizzare una proprietà non presente nell'elenco, è possibile crearne una nuova.
       \item sul lato sinistro sono presenti le regole associate al componente.
 \end{itemize}
 \begin{figure}[H]

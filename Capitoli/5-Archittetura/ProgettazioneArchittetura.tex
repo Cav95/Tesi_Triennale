@@ -41,7 +41,7 @@ Si è valutato, per chi accede dall'esterno del dominio, di utilizzare la rete \
 stabilendo una connessione virtuale che permette di essere all'interno della \ac{LAN}.
 Il database locale, in SQLite, è strutturato come una copia del database centrale.
 I dati vengono allineati tra i due database mediante un processo di sincronizzazione.
-In assenza di connessione, verificabile tramite ping, si accede al database locale ed,
+In assenza di connessione, verificabile tramite ping, si accede al database locale e,
 una volta ristabilita la connessione, i dati vengono sincronizzati.
 Il diagramma dei deployment è riassunto in figura~\ref{fig:Diagramma dei deployment}.
 \begin{figure}[H]
@@ -58,7 +58,7 @@ con il database di produzione.
 \section{Package}
 L'intero software è stato suddiviso in tre distinti package, con responsabilità diverse.
 Si è cercato di seguire il principio \ac{DRY} e la riusabilità degli stessi.
-Il principio \ac{DRY} consiste nel non ripetere codice già scritto, ma di riutilizzarlo.
+Il principio \ac{DRY} consiste nel non ripetere codice già scritto, ma nel riutilizzarlo.
 Questo approccio permette di ridurre la complessità del software, facilitando la manutenzione e l'evoluzione futura.
 Il mantenimento del principio \ac{DRY} necessita di continua rifattorizzazione del codice.
 
@@ -75,7 +75,7 @@ ha il compito di gestire tutti gli aspetti legati a quest'ultimo, come:
     \item gestione di una suite di test per verificare le operazioni precedenti.
           Questa suite è risultata fondamentale nell'evoluzione del database,
           validando i cambiamenti apportati;
-    \item esporre al di fuori del package solo file neutri e la classe manager del database.
+    \item esposizione al di fuori del package di soli file neutri e della classe manager del database.
 \end{itemize}
 Nell'implementazione si è utilizzato il pacchetto \nuget{} \ac{EF Core}~\cite{EFCore}.
 Questo modulo permette una gestione efficiente delle operazioni di accesso ai dati,
@@ -89,7 +89,7 @@ Privo di logica di business o comportamenti applicativi, il \ac{DTO}
 espone esclusivamente le proprietà richieste dal caso d'uso:
 questa semplificazione minimizza la dimensione del payload,
 riduce le chiamate di rete e la latenza complessiva, ottimizzando le prestazioni del sistema.
-La traduzione da entity a \ac{DTO} protegge i dati del database, evitando che vengano esposti direttamente.~\cite{DTO}
+La traduzione da entity a \ac{DTO} protegge i dati del database, evitando che vengano esposti direttamente\cite{DTO}.
 Questa seconda mappatura è stata realizzata mediante il package ``Mapster''~\cite{Mapster},
 appartenente a terze parti.
 La mappatura entity-\ac{DTO} è stata realizzata in modo bidirezionale in quanto, in alcuni casi,
@@ -122,7 +122,7 @@ Un esempio di tale condizione è il seguente:
 \begin{lstlisting}[language=CSharp]
 #if ANDROID
     // codice per piattaforma Android
-#elseif WINDOWS
+#elif WINDOWS
     // codice per piattaforma Windows
 #endif
 \end{lstlisting}

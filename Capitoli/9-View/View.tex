@@ -1,6 +1,6 @@
 \chapter{Creazione View}\label{chapter:View}
 \section{Utilizzo di Figma per il disegno delle interfacce}
-La prototipazione delle interfacce grafiche, è stata realizzata mediante l'utilizzo del software Figma\cite{Figma}.
+La prototipazione delle interfacce grafiche è stata realizzata mediante l'utilizzo del software Figma\cite{Figma}.
 Figma è una web application che permette di disegnare layout interattivi.
 Un aspetto non secondario di Figma è la possibilità di esportare le interfacce sia in
 formato vettoriale \ac{SVG} che con codice \ac{CSS}.
@@ -14,7 +14,7 @@ si è deciso di realizzare le schermate in modo da essere responsive,
 e con un design mobile first. Si è quindi cercato di inserire tutti i comandi, escludendo
 l'utilizzo della tastiera e del mouse, in quanto non sempre disponibili sui dispositivi mobili.
 Sfruttando la compilazione condizionale, si è cercato di costruire dei layout specifici per alcuni dispositivi.
-Alcuni filtri, sono ad esempio, collassati in un menù a tendina sui dispositivi mobili, mentre su desktop sono sempre visibili.
+Alcuni filtri sono, ad esempio, collassati in un menù a tendina sui dispositivi mobili, mentre su desktop sono sempre visibili.
 Nelle immagini che seguono si può osservare l'evoluzione dal prototipo in figura~\ref{fig:Prototipo Home Figma},
 alla realizzazione finale delle interfacce grafiche in figura~\ref{fig:Interfaccia Desktop e Mobile}.
 \begin{figure}[H]
@@ -57,7 +57,7 @@ Ad esempio, nella gestione dei prodotti sono stati creati due
 ViewModel, uno per la gestione semplice dei prodotti ed uno delle relative distinte.
 Le view create che utilizzano tali ViewModel sono molte di più.
 Questo approccio, unito all'estendibilità delle classi, ha permesso di avere un numero limitato
-di ViewModel in rapporte alle view.
+di ViewModel in rapporto alle view.
 Nel processo di rifattorizzazione si è notata la presenza di elementi comuni nei ViewModel.
 Un esempio di elementi comuni è la gestione delle liste dedicate ai dropdown, dei filtri e dei messaggi di notifica.
 Si è quindi creato un ViewModel base, che racchiudesse i metodi e le proprietà comuni a tutti i ViewModel.

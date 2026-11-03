@@ -51,7 +51,7 @@ Nel secondo rilascio saranno quindi presenti:
 \end{itemize}
 
 \section{Scelta framework ORM}
-All'interno della sezione sull'architettura, è stata citata la scelta del framework \ac{EF Core}~\ref{chapter:architettura}.
+All'interno della sezione sull'architettura, è stata citata la scelta del framework \ac{EF Core}.
 Questo framework ha permesso di mappare le tabelle del database in classi mediante la tecnica \ac{ORM}.
 La tecnica \ac{ORM} permette di gestire il database con un approccio \ac{OOP}, astraendo le tabelle in classi.
 Le mappature relazionali a oggetti \ac{ORM} collegano le applicazioni scritte in un linguaggio di programmazione
@@ -65,7 +65,7 @@ L'\ac{ORM} ha permesso, con l'utilizzo di script PowerShell,
 di ricreare in modo rapido tutte le entity e il context a fronte di cambiamenti del database.
 Tale approccio può essere definito database-first, in quanto la progettazione avviene principalmente sul database
 e il software ne eredita le modifiche.
-Le queries sono state scritte tramite le funzioni \ac{LINQ}, che hanno permesso di formularle in linguaggio \csharp{}.
+Le query sono state scritte tramite le funzioni \ac{LINQ}, che hanno permesso di formularle in linguaggio \csharp{}.
 Un esempio di query è riportato nella funzione~\ref{lst:esempio-query-linq}.
 \lstinputlisting[
     language=CSharp,
@@ -73,7 +73,7 @@ Un esempio di query è riportato nella funzione~\ref{lst:esempio-query-linq}.
     label={lst:esempio-query-linq}
 ]{listings/LINQ-example.cs}
 
-In ottica di offline, le queries in \ac{LINQ} sono compatibili con il database locale \sqlite{} se si limitano
+In ottica di offline, le query in \ac{LINQ} sono compatibili con il database locale \sqlite{} se si limitano
 le funzioni utilizzate a quelle supportate da esso.
 Le funzioni compatibili sono ad esempio: \textit{Where, Select, OrderBy, GroupBy, Join, Distinct}.
 
@@ -82,7 +82,7 @@ Lo svantaggio è dovuto alla traduzione del codice in query compatibili con \ac{
 Si è valutato però, in caso si presentino problemi di performance,
 di ottimizzare il database mediante indici in prima battuta
 e, successivamente, ottimizzando le singole query.
-\ac{EF Core} permette di ottimizzare le queries scrivendole in \ac{SQL} puro,
+\ac{EF Core} permette di ottimizzare le query scrivendole in \ac{SQL} puro,
 bypassando la traduzione da \ac{LINQ}.
 
 \section{Scelta del framework grafico}
@@ -108,14 +108,14 @@ Essendo basato su \dotnet{} e avvalendosi del framework ``Community Toolkit Maui
 le interfacce sono scritte in \csharp.
 
 \section{Scelta del pattern di progettazione}
-Insieme a \maui{}, Microsoft suggerisce l'utilizzo del pattern \ac{MVVM}.\cite{MVVM}
+Insieme a \maui{}, Microsoft suggerisce l'utilizzo del pattern \ac{MVVM}\cite{MVVM}.
 Il modello \ac{MVVM} consente di separare in modo pulito le logiche
 di business e le relative interfacce utente.
 La gestione separata risolve numerosi problemi, quali la possibilità di ridisegnare
 le interfacce utente senza dover modificare le classi che le governano.
 Un secondo vantaggio è la possibilità di consentire agli sviluppatori e
 ai progettisti dell'interfaccia utente di collaborare
-più facilmente durante lo sviluppo delle rispettive parti di un'app.\cite{MVVM}
+più facilmente durante lo sviluppo delle rispettive parti di un'app\cite{MVVM}.
 Il modello \ac{MVVM} è composto da tre elementi fondamentali che interagiscono
 come in figura~\ref{fig:Diagramma funzionamento MVVM}:
 \begin{figure}[H]

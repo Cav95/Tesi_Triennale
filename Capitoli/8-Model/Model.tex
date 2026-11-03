@@ -1,10 +1,10 @@
 \chapter{Creazione del model}\label{chap:Model}
 \section{Mapping delle classi}
 Il model dell'applicativo è suddiviso in parte nel package
-``DatabaseManagementPackage'' ed in parte, all'interno di quello principale.
+``DatabaseManagementPackage'' ed in parte all'interno di quello principale.
 Il package di interfaccia al database è stato realizzato mediante \ac{EF Core},
-importando le tabelle del database sottoforma di classi entity.
-Le classi entity sono una rapprosentazione delle tabelle del database, dove ogni classe rappresenta una tabella
+importando le tabelle del database sotto forma di classi entity.
+Le classi entity sono una rappresentazione delle tabelle del database, dove ogni classe rappresenta una tabella
 ed ogni proprietà della classe rappresenta un campo della stessa.
 Una volta generate le classi entity, si sono individuati gli oggetti fondamentali del dominio,
 che sono stati mappati in classi \ac{DTO} mediante il package ``Mapster''.
@@ -19,7 +19,7 @@ altrimenti sono stati mappati in oggetti \texttt{Dictionary<int,string>}, dove l
 Il mapping è bidirezionale per poter riconvertire, quando necessario, un \ac{DTO} in entity ed inserirlo nel database.
 \section{Struttura del package}
 Il package è stato strutturato in modo da separare gli ambienti di test da quelli di produzione.
-All'esterno del package oltre alle classi \ac{DTO} e di Enumerazione relativi ad alcuni lookup, è
+All'esterno del package, oltre alle classi \ac{DTO} e di Enumerazione relative ad alcuni lookup, è
 stata costituita una classe che raccoglie ed espone i repository.
 La classe, denominata ``DatabaseManager'', si occupa di gestire le connessioni al database,
 le transazioni e di esporre i vari repository.
@@ -32,11 +32,11 @@ in modo da avere un'unica istanza della classe per tutta la durata dell'applicat
 Il singleton è un pattern creazionale che assicura l'esistenza di
 una sola istanza di una determinata classe e mette a disposizione
 un punto di accesso globale per utilizzarla.
-Il ``DatabaseManager'', per garatire un solo accesso ai repository, è stato registrato come singleton.
+Il ``DatabaseManager'', per garantire un solo accesso ai repository, è stato registrato come singleton.
 Ad ogni repository è stata associata una classe di test, che ne verificasse in modo efficace i vari metodi.
 La gestione dei dati dell'utente loggato è stata affidata ad una classe dedicata, anch'essa
-registrata come singleton, che mantenesse le infomazioni della sessione dell'utente.
-Tali informazioni includono, ad esempio l'\ac{ID} dell'utente, ll'anagrafica dello stesso, il ruolo per i permessi.
+registrata come singleton, che mantenesse le informazioni della sessione dell'utente.
+Tali informazioni includono, ad esempio l'\ac{ID} dell'utente, l'anagrafica dello stesso, il ruolo per i permessi.
 La classe in questione, unita alla tabella ``Tabelle'',
 permette di intercettare la tipologia di richiesta, il livello dell'utente e
 di conseguenza bloccare operazioni non permesse.
@@ -50,7 +50,7 @@ il rischio di prelevare dati reali.
 Questo approccio ha richiesto molto tempo per la ricostruzione dei test più complessi, ma
 ha permesso di testare piccoli cambiamenti senza dover ripristinare il database.
 A fronte del tempo impiegato prima si è utilizzata \ac{IA} generativa per creare le bozze dei test.
-Tali bozze sono state successivamente modificate ed, in alcuni casi, riscritte completamente,
+Tali bozze sono state successivamente modificate e, in alcuni casi, riscritte completamente,
 per adattarle al contesto reale.
 Per realizzare ciò si è adottato un approccio articolato come segue:
 \begin{enumerate}
@@ -67,11 +67,11 @@ come ad esempio i Prodotti, i Clienti ed i Documenti.
 Oltre alle operazioni \ac{CRUD} principali è stato scelto, per quanto concerne le operazioni di ricerca,
 di utilizzare dei metodi che permettessero di inserire molteplici criteri di ricerca.
 All'interno sono poi stati utilizzati i \texttt{Queryable} per costruire la query in esame.
-I \texttt{Queryable} permettono la costruzione pezzo per pezzo query complesse,
+I \texttt{Queryable} permettono la costruzione pezzo per pezzo di query complesse,
 includendo solo i criteri necessari e riducendo la complessità delle stesse.
 Con un unico metodo si possono  così costruire query complesse, evitando di scrivere molteplici
 metodi per ogni combinazione di criteri.
-Un esempio di query costruita con \texttt{Queryable} è riportata nel listato~\ref{lst:esempio-query-queryable}.
+Un esempio di query costruita con \texttt{Queryable} è riportato nel listato~\ref{lst:esempio-query-queryable}.
 \lstinputlisting[
   language=CSharp,
   caption={Esempio di query Queryable},
@@ -85,7 +85,7 @@ al fine di garantire la consistenza dei dati ed evitare scritture parziali
 in caso di errore. Per ciascuna operazione viene aperta una nuova transazione, 
 che viene conclusa con un commit automatico al termine dell'esecuzione.
 I dati, prima dell'effettivo inserimento nel database,
-vengono gestiti in memoria \ac{RAM} e solo al termine di tutte le operazioni, vengono salvati nel database.
+vengono gestiti in memoria \ac{RAM} e solo al termine di tutte le operazioni vengono salvati nel database.
 Questo approccio permette di non impegnare il database con dati parziali,
 e di conseguenza, di non dover gestire rollback in caso di errori.
 Ad ogni metodo dei repository è stato aggiunto il parametro \texttt{CancellationToken}\cite{CancToken},
