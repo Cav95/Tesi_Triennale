@@ -1,9 +1,9 @@
 \chapter{Conclusioni}
-Il presente lavoro di tesi ha permesso di affrontare l'intero ciclo
+Il presente lavoro di tesi, ha permesso di affrontare l'intero ciclo
 di sviluppo del software. Sono stati curati tutti gli aspetti,
 dalla raccolta dei requisiti e dalla progettazione dell'architettura fino alla
-realizzazione del Model e delle View.
-L'obiettivo principale era creare un programma
+realizzazione del Model e della View.
+L'obiettivo principale è stato creare un programma
 di vendita che potesse sostituire l'attuale sistema. La raccolta dei requisiti è stata fondamentale per comprendere
 le necessità degli utenti e le funzionalità richieste, ma
 anche per definire cosa non fosse necessario implementare. La presenza dell'autore come 
@@ -12,10 +12,11 @@ significativo per il progetto, permettendo al contempo di sfruttare le conoscenz
 pregresse e di interfacciarsi direttamente con gli utenti finali.
 Quest'ultimo aspetto ha guidato la scelta della progettazione agile,
 che ha permesso di avanzare iterativamente e raccogliere feedback continui dagli utenti.
-Il comparto applicativo è stato sviluppato utilizzando il framework
-\dotnet{} in tutti gli strati dell'applicazione. Esso gestisce infatti, mediante \ac{EF Core},
-la logica di business e di accesso ai dati e, mediante \maui{},
-la presentazione grafica, offrendo inoltre la possibilità di creare applicazioni cross-platform.
+L'applicativo è stato sviluppato utilizzando il framework
+\dotnet{} in tutti gli strati della soluzione. Esso gestisce infatti, mediante \ac{EF Core},
+la logica di business e di accesso ai dati e mediante \maui{},
+la presentazione grafica.
+Tale sistema offre inoltre la possibilità di creare applicazioni cross-platform.
 Tra i vantaggi riscontrati nel mantenere un unico framework vi è la possibilità
 di condividere il codice tra i diversi strati dell'applicazione,
 semplificando lo sviluppo e la manutenzione del software. L'ambiente \dotnet{} ha offerto inoltre una vasta 
@@ -23,20 +24,20 @@ gamma di librerie e strumenti che,
 attraverso l'uso di \nuget{}, hanno permesso nelle ultime fasi progettuali di
 integrare moduli aggiuntivi come la generazione di report. La progettazione del database, attraverso l'utilizzo di \ac{SSIS},
 ha consentito di costruire la struttura dati con metodologie professionali,
-garantendo la possibilità di apportare modifiche in modo agile. Nel modulo di interfacciamento al database, la scrittura dei test unitari
+garantendo la possibilità di apportare modifiche in modo agile.
+Nel modulo di interfaccia al database, la scrittura degli Unit Test
 ha richiesto in una prima fase un notevole sforzo, ma ha permesso di individuare
 e correggere tempestivamente eventuali errori o incongruenze nel codice.
 Le modifiche al database sono state costantemente validate dai test, prima
 di procedere all'aggiornamento degli strati superiori, garantendo la stabilità e
 l'affidabilità del sistema. La realizzazione delle interfacce grafiche è stata
-facilitata dall'utilizzo
-del pattern Factory. Le classi di utilità per i componenti grafici
+facilitata dall'utilizzo del pattern Factory. Le classi di utilità per i componenti grafici,
 hanno permesso di sviluppare agevolmente nuovi ambienti,
 mantenendo la coerenza visiva e funzionale dell'applicazione.
 Parallelamente, l'adozione del pattern \ac{MVVM} ha consentito di separare
 la logica di presentazione dalla logica di business, migliorando la manutenibilità
-e la testabilità del codice e facilitando la gestione degli eventi attraverso
-il data binding. Allo stato attuale l'applicazione è prossima a un primo rilascio.
+e facilitando la gestione degli eventi attraverso il data binding.
+Allo stato attuale l'applicazione è prossima a un primo rilascio.
 Nella versione desktop è già possibile eseguire l'intero ciclo di vendita,
 consentendo all'utente finale di:
 \begin{enumerate}
