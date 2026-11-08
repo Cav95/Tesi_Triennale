@@ -19,7 +19,7 @@ altrimenti sono stati mappati in oggetti \texttt{Dictionary<int,string>}, dove l
 Il mapping è bidirezionale per poter riconvertire, quando necessario, un \ac{DTO} in entity ed inserirlo nel database.
 \section{Struttura del package}
 Il package è stato strutturato in modo da separare gli ambienti di test da quelli di produzione.
-All'esterno del package, oltre alle classi \ac{DTO} e di Enumerazione relative ad alcuni lookup, è
+All'esterno del package, oltre alle classi \ac{DTO} e di enumerazione relative ad alcuni lookup, è
 stata costituita una classe che raccoglie ed espone i repository.
 La classe, denominata ``DatabaseManager'', si occupa di gestire le connessioni al database,
 le transazioni e di esporre i vari repository.
@@ -50,7 +50,7 @@ il rischio di prelevare dati reali.
 Questo approccio ha richiesto molto tempo per la ricostruzione dei test più complessi, ma
 ha permesso di testare piccoli cambiamenti senza dover ripristinare il database.
 A fronte del tempo impiegato prima si è utilizzata \ac{IA} generativa per creare le bozze dei test.
-Tali bozze sono state successivamente modificate e, in alcuni casi, riscritte completamente,
+Tali bozze sono state successivamente modificate e in alcuni casi, riscritte completamente,
 per adattarle al contesto reale.
 Per realizzare ciò si è adottato un approccio articolato come segue:
 \begin{enumerate}
@@ -66,7 +66,7 @@ I repository sono stati divisi in base alle entità principali del dominio,
 come ad esempio i Prodotti, i Clienti ed i Documenti.
 Oltre alle operazioni \ac{CRUD} principali è stato scelto, per quanto concerne le operazioni di ricerca,
 di utilizzare dei metodi che permettessero di inserire molteplici criteri di ricerca.
-All'interno sono poi stati utilizzati i \texttt{Queryable} per costruire la query in esame.
+All'interno sono stati utilizzati i \texttt{Queryable} per costruire la query in esame.
 I \texttt{Queryable} permettono la costruzione pezzo per pezzo di query complesse,
 includendo solo i criteri necessari e riducendo la complessità delle stesse.
 Con un unico metodo si possono  così costruire query complesse, evitando di scrivere molteplici
@@ -78,7 +78,7 @@ Un esempio di query costruita con \texttt{Queryable} è riportato nel listato~\r
   label={lst:esempio-query-queryable}
 ]{listings/Queryable.cs}
 Tutti i metodi all'interno dei repository sono stati realizzati come asincroni,
-per evitare di bloccare il thread principale dell'applicativo e, in particolare, l'interfaccia grafica.
+per evitare di bloccare il thread principale dell'applicativo e in particolare, l'interfaccia grafica.
 \section{Gestione dei dati e delle transazioni}
 Ogni operazione sul database è stata implementata come una transazione atomica,
 al fine di garantire la consistenza dei dati ed evitare scritture parziali 

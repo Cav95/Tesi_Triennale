@@ -1,5 +1,5 @@
 \chapter{Scelte progettuali}\label{chap:ScelteProgettuali}
-\section{Scelta modello di sviluppo}
+\section{Scelta del modello di sviluppo}
 Il modello di sviluppo scelto è basato sulla necessità di prototipare e testare
 con gli utenti le funzioni nell'arco dell'intero sviluppo.
 Si è quindi deciso di adottare un modello agile,
@@ -81,7 +81,7 @@ Uno degli aspetti negativi di \ac{LINQ} è la lentezza con grandi volumi di dati
 Lo svantaggio è dovuto alla traduzione del codice in query compatibili con \ac{SQL}.
 Si è valutato però, in caso si presentino problemi di performance,
 di ottimizzare il database mediante indici in prima battuta
-e, successivamente, ottimizzando le singole query.
+e successivamente, ottimizzando le singole query.
 \ac{EF Core} permette di ottimizzare le query scrivendole in \ac{SQL} puro,
 bypassando la traduzione da \ac{LINQ}.
 
@@ -113,8 +113,8 @@ Il modello \ac{MVVM} consente di separare in modo pulito le logiche
 di business e le relative interfacce utente.
 La gestione separata risolve numerosi problemi, quali la possibilità di ridisegnare
 le interfacce utente senza dover modificare le classi che le governano.
-Un secondo vantaggio è la possibilità di consentire agli sviluppatori e
-ai progettisti dell'interfaccia utente di collaborare
+Un secondo vantaggio, è la possibilità di consentire agli sviluppatori e
+ai progettisti dell'interfaccia utente, di collaborare
 più facilmente durante lo sviluppo delle rispettive parti di un'app\cite{MVVM}.
 Il modello \ac{MVVM} è composto da tre elementi fondamentali che interagiscono
 come in figura~\ref{fig:Diagramma funzionamento MVVM}:

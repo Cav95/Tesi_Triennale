@@ -41,7 +41,7 @@ Si è valutato, per chi accede dall'esterno del dominio, di utilizzare la rete \
 stabilendo una connessione virtuale che permette di essere all'interno della \ac{LAN}.
 Il database locale, in SQLite, è strutturato come una copia del database centrale.
 I dati vengono allineati tra i due database mediante un processo di sincronizzazione.
-In assenza di connessione, verificabile tramite ping, si accede al database locale e,
+In assenza di connessione, verificabile tramite ping, si accede al database locale e
 una volta ristabilita la connessione, i dati vengono sincronizzati.
 Il diagramma dei deployment è riassunto in figura~\ref{fig:Diagramma dei deployment}.
 \begin{figure}[H]
@@ -58,7 +58,7 @@ con il database di produzione.
 \section{Package}
 L'intero software è stato suddiviso in tre distinti package, con responsabilità diverse.
 Si è cercato di seguire il principio \ac{DRY} e la riusabilità degli stessi.
-Il principio \ac{DRY} consiste nel non ripetere codice già scritto, ma nel riutilizzarlo.
+Il principio \ac{DRY} consiste nel non ripetere il codice già scritto, ma nel riutilizzarlo.
 Questo approccio permette di ridurre la complessità del software, facilitando la manutenzione e l'evoluzione futura.
 Il mantenimento del principio \ac{DRY} necessita di continua rifattorizzazione del codice.
 

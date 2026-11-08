@@ -5,8 +5,8 @@ La raccolta dei dati è stata svolta mediante interviste e studio dell'attuale s
 Nelle sezioni che seguono verrà introdotto brevemente l'As-Is.
 
 \section{Situazione infrastrutturale aziendale}
-L'infrastruttura informatica aziendale si appoggia su server fisici allocati internamente e gestiti mediante Active Directory.
-I server fisici sono, a loro volta, virtualizzati per gestire separatamente le memorie in base alla finalità
+L'infrastruttura informatica aziendale si appoggia su server fisici allocati internamente e gestiti mediante \ac{AD}
+I server fisici sono, a loro volta, virtualizzati per gestire separatamente le memorie in base alla finalità,
 garantendo isolamento delle informazioni e permessi di accesso.
 Ogni reparto ha accesso a determinati server virtuali in cui gestisce in autonomia i propri contenuti.
 I database dei principali programmi sono gestiti all'interno di un server dedicato dove è installato un motore
@@ -19,7 +19,7 @@ I principali database aziendali sono:
           all'archiviazione dei disegni con relative distinte dei componenti.
           Altre funzioni applicate sui prodotti sono la gestione delle revisioni o versionamenti, ed infine la loro fine produzione.
     \item \textbf{BombConfine:} database ponte tra i database esterni e quello dell'\ac{ERP}. All'interno sono presenti tabelle
-          di frontiera scritte da programmi esterni e che il gestionale usa per importare i dati.
+          di frontiera scritte da programmi esterni che il gestionale usa per importare i dati.
 \end{itemize}
 La sicurezza aziendale è sostenuta da \ac{NAT} e Firewall che impediscono
 l'accesso dall'esterno se non tramite \ac{VPN}. % fare acronimi

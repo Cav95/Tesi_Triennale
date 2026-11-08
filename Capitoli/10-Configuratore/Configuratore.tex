@@ -66,9 +66,9 @@ L'algoritmo descritto è visibile in figura~\ref{fig:Algoritmo configuratore}.
 
 \subsection{Scelta del Macrogruppo da configurare}
 La realizzazione dell'albero di scelta è stata condotta sfruttando
-le tabelle già presenti nel database, in particolare le tabelle ``prodotto'', ``prodotti\_composizioni''
-e la tabella di lookup ``tipi\_prodotto''.
-Sono state introdotte quattro nuove tipologie di prodotto:
+le tabelle già presenti nel database, in particolare le tabelle ``Prodotto'', ``Prodotti\_composizioni''
+e la tabella di lookup ``Tipi\_prodotto''.
+Sono state introdotte tre nuove tipologie di prodotto:
 \begin{itemize}
       \item \textbf{Iniziale:} rappresenta il concetto generale del prodotto e costituisce il punto di partenza
             per l'algoritmo di configurazione, guidando l'utente verso la selezione del modello.
@@ -78,8 +78,6 @@ Sono state introdotte quattro nuove tipologie di prodotto:
       \item \textbf{Macrogruppo:} rappresenta il contenitore logico dei componenti del modello da configurare.
             Ad ogni prodotto del Macrogruppo sono associate regole che ne determinano l'effettiva disponibilità.
             Questi elementi sono inseriti nelle distinte base dei prodotti di tipo mappa.
-      \item \textbf{Listino:} rappresenta un elemento di prezzo minimo, che non concorre alla composizione fisica del prodotto.
-            Anch'esso è soggetto alle regole del Macrogruppo e viene attivato in base alle scelte dell'utente.
 \end{itemize}
 Questa struttura assicura un'elevata scalabilità, poiché consente di censire nuovi prodotti
 senza dover intervenire sul codice dell'algoritmo o sulla struttura del database.
@@ -92,12 +90,12 @@ L'albero in oggetto è illustrato in figura~\ref{fig:Albero di scelta prodotto}.
 
 \subsection{Implementazione delle regole}
 I Macrogruppi contengono tutti i componenti potenzialmente impiegabili nella configurazione.
-Ad ogni componente sono associate n regole che, se soddisfatte, ne determinano l'inclusione.
+Ad ogni componente sono associate N regole che, se soddisfatte, ne determinano l'inclusione.
 A ciascuna regola corrisponde una proprietà di riferimento, un operatore logico e un valore atteso.
 Un primo esempio di regola è il seguente:
 il componente \textit{Pannello di rinforzo} è disponibile se la regola ``La proprietà \textit{Altezza} è maggiore di 1000'' è soddisfatta.
 Un secondo esempio, che sottolinea l'importanza delle regole, riguarda una specifica normativa elettrica.
-Le due certificazioni sono obbligatorie nei due paesi indicati,
+Le due certificazioni sono obbligatorie nei due Paesi indicati,
 Atex per il mercato europeo ed UL-CSA per quello americano.\cite{ElettricCertifications}
 L'esempio di regole è il seguente:
 \begin{itemize}
@@ -117,7 +115,7 @@ Gli altri operatori, a differenza del precedente, consentono l'inserimento di un
 o la selezione da una lista di valori ammessi.
 
 \subsection{Generazione dell'interfaccia utente}
-L'interfaccia con i parametri di configurazione viene generata filtrando dinamicamente
+L'interfaccia con i parametri di configurazione, viene generata filtrando dinamicamente
 tutte le proprietà di riferimento delle regole associate al Macrogruppo selezionato.
 Viene eseguita una clausola di \textit{JOIN} tra componenti, regole e proprietà, isolando poi queste ultime
 tramite l'operatore \textit{DISTINCT}, in modo da ottenere un insieme di proprietà univoche.
@@ -130,8 +128,8 @@ evitando di mostrare opzioni non pertinenti.
 \subsection{Struttura del database}
 L'architettura lato database è stata realizzata introducendo due nuove tabelle:
 la tabella ``Regole'' e la tabella di lookup ``Tipi\_operatori\_logici''.
-La prima associa ad una riga del componente una proprietà, un operatore logico ed un valore atteso.
-La seconda contiene l'elenco degli operatori logici ammessi.
+La prima, associa ad una riga del componente una proprietà, un operatore logico ed un valore atteso.
+La seconda, contiene l'elenco degli operatori logici ammessi.
 La modellazione dinamica del database adottata, fin dalle prime fasi, ha consentito un'integrazione agevole.
 In figura~\ref{fig:ER configuratore} è riportato lo schema \ac{ER} del modulo di configurazione.
 \begin{figure}[H]
@@ -144,11 +142,11 @@ In figura~\ref{fig:ER configuratore} è riportato lo schema \ac{ER} del modulo d
 Determinare il prezzo di una configurazione dinamica è un'operazione complessa,
 poiché l'importo finale può dipendere sia dal prezzo dei singoli componenti scelti,
 sia da soglie minime di listino.
-Il problema è stato risolto introducendo un nuovo tipo di elemento di tipologia \textit{listino},
+Il problema, è stato risolto introducendo un nuovo tipo di prodotto di tipologia \textit{listino},
 che contiene il prezzo minimo garantito per la configurazione.
 Ciascun elemento di tipo listino è soggetto alle medesime regole degli altri componenti
 e viene quindi attivato in base alle scelte dell'utente.
-Questo approccio consente di verificare se la somma dei prezzi dei singoli componenti scelti risulti inferiore
+Questo approccio, consente di verificare se la somma dei prezzi dei singoli componenti scelti, risulti inferiore
 al prezzo minimo di listino, applicando in tal caso la soglia minima garantita.
 I record di tipo listino restano invisibili all'utente finale, poiché non concorrono alla composizione fisica del prodotto.
 Il flusso di assegnazione dei prezzi è illustrato in figura~\ref{fig:configuratore-listino}.

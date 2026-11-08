@@ -16,8 +16,8 @@ che ha portato ad avere un database più leggibile, manutenibile e performante.
 Il primo intervento effettuato è stato quello di rinominare le tabelle ed i campi del database.
 Le modifiche adottate sono state le seguenti:
 \begin{itemize}
-          \item Denominare le tabelle in minuscolo, separate da underscore, ad esempio: \textit{nome\_tabella}.
-          \item Denominare i campi delle tabelle in minuscolo, separati da underscore, con
+    \item Denominare le tabelle in minuscolo, separate da underscore, ad esempio: \textit{nome\_tabella}.
+    \item Denominare i campi delle tabelle in minuscolo, separati da underscore, con
           il prefisso della tabella per renderli univoci. Un esempio di campo è: \textit{prefTabella\_nomeCampo}.
     \item Le chiavi primarie di ogni tabella sono degli indici progressivi, rendendo unica ogni riga.
           Il campo segue il pattern \textit{prefTabella\_id}.
@@ -70,7 +70,7 @@ come quella dedicata ai documenti, che aggregano diverse tipologie di record
 in un'unica tabella. Questa struttura introduce infatti delle dipendenze transitive, poiché
 la pertinenza e la valorizzazione di specifici attributi dipendono funzionalmente dal campo discriminante
 ``tipo\_documento'' anziché esclusivamente dalla chiave primaria.
-Un'altra modifica sostanziale è stata l'unificazione di tabelle similari in un'unica tabella,
+La situazione prima descritta, è stata guidata dalla necessità di unificare le tabelle similari in un'unica tabella,
 discriminate mediante campo \textit{prefTabella\_tipo} proveniente da un lookup dedicato.
 Un esempio di questo contesto sono le tabelle di ``Offerta'' ed ``Ordine'',
 dove una è la diretta evoluzione della precedente e mantengono gli stessi dati.
@@ -101,12 +101,12 @@ caricare in memoria \ac{RAM} all'avvio dell'applicativo, evitando di interrogare
 \subsection{Aggiunta tabelle non presenti}
 \subsubsection{Gestione dei prodotti}
 Il database originale utilizzava i prodotti come oggetti atomici, senza la possibilità di gestire i loro componenti.
-Si è quindi deciso di creare le distinte prodotto. La tabella \textit{Prodotti} è stata messa in auto
+Si è quindi deciso di creare le distinte prodotto. La tabella ``Prodotti'' è stata messa in auto
 join con cardinalità N:M.
-Tale relazione a livello di schema logico è stata realizzata mediante la tabella \textit{Prodotti\_composizioni}.
+Tale relazione a livello di schema logico è stata realizzata mediante la tabella ``Prodotti\_composizioni''.
 La tabella in questione aggiunge, oltre alle chiavi
 dei prodotti, anche il quantitativo della riga stessa e la posizione di apparizione.
-Lo schema ER risultante è visibile in figura~\ref{fig:ERProdotti}.
+Lo schema \ac{ER} risultante è visibile in figura~\ref{fig:ERProdotti}.
 \begin{figure}[H]
     \centering
     \fbox{\includegraphics[width=1\linewidth]{figures/ER_PRODOTTI.png}}
@@ -116,10 +116,10 @@ La tabella ``Prodotti'', ovvero i componenti base o aggregati, è posta in auto 
 La relazione così composta permette di gestire più livelli di profondità.
 Ad ogni prodotto sono associate N proprietà, ed a sua volta, ad ogni proprietà sono associati N prodotti.
 La relazione che li lega raccoglie in sé il valore della proprietà ad essa associata.
-La tabella ``proprietà\_valori'' messa in associazione 1:N con la tabella della proprietà, raccoglie
+La tabella ``Proprietà\_valori'' messa in associazione 1:N con la tabella della proprietà, raccoglie
 i valori standard assegnabili a tale proprietà.
 I valori standard sono utilizzati per compilare il campo ``Valore'' prima citato.
-La tabella ``tipi\_proprietà'' permette di raggruppare le proprietà in base alla loro finalità.
+La tabella ``Tipi\_proprietà'' permette di raggruppare le proprietà in base alla loro finalità.
 Un esempio è la distinzione tra le proprietà meccaniche, elettriche o normative.
 
 La gestione, così pensata, permette di effettuare ricerche approfondite.
