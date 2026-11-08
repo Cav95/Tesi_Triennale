@@ -80,6 +80,11 @@
 \acrodef{PM}{Project Manager}
 \acrodef{PE}{Project Engineer}
 
+%\let\cleardoublepage\clearpage
+
+\let\oldcleardoublepage\cleardoublepage
+ \let\cleardoublepage\clearpage
+
 \hypersetup{
     colorlinks=true,
     urlcolor=blue,
@@ -101,8 +106,9 @@
 \tableofcontents
 \listoffigures     % (optional) comment if empty
 \lstlistoflistings{}  % (optional) comment if empty
-\listoftables{}      % (optional) comment if empty
+\listoftables      % (optional) comment if empty
 %----------------------------------------------------------------------------------------
+\let\cleardoublepage\oldcleardoublepage
 
 \mainmatter{}
 
